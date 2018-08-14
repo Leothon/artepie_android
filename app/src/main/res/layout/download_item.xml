@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="3dp"
+    android:elevation="3dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/dividerColor"/>
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/download_page_img"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:riv_corner_radius="5dp"
+        android:src="@drawable/defalutimg"
+        android:scaleType="centerCrop"
+        android:padding="8dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <TextView
+            android:id="@+id/download_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="需要下载的课程名称"
+            android:padding="5dp"
+            android:textColor="@color/fontColor"
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/remote_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_refresh_black_24"
+            android:layout_toLeftOf="@+id/download_status"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:id="@+id/download_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下载中，点击查看详情"
+            android:textSize="@dimen/tipsSize"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:textColor="@color/fontColor"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/dividerColor"/>
+</LinearLayout>

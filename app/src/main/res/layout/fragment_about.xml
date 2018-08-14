@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Mvp.View.Fragment.AboutPage.AboutFragment"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/search_about"
+        layout="@layout/search"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp">
+                <com.leothon.cogito.View.ArcImageView
+                    android:id="@+id/backimg_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:src="@drawable/aboutbackground"
+                    app:arcHeight="60dp"
+                    android:scaleType="centerCrop"/>
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/usericon_about"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:riv_oval="true"
+                    app:riv_border_color="@color/white"
+                    app:riv_border_width="2dp"
+                    android:src="@drawable/musicdefalut"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="26dp"/>
+                <TextView
+                    android:id="@+id/username_about"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="陈独秀"
+                    android:textSize="@dimen/littleTitle"
+                    android:layout_marginBottom="3dp"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/signature_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我来自于神之殿堂——阿斯加德"
+                android:layout_gravity="center|bottom"
+                android:padding="5dp"
+                android:textSize="@dimen/contentSize"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/dividerColor"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <RelativeLayout
+                    android:id="@+id/fav_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/fav_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/fav"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:layout_below="@+id/fav_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="收藏"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/download_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/download_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/download"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_below="@+id/download_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="下载"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/histroy_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/history_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/history"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_below="@+id/history_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="播放历史"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/dividerColor"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:elevation="3dp">
+
+                <RelativeLayout
+                    android:id="@+id/wallet_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/wallet_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/bullet"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:layout_below="@+id/wallet_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="我的钱包"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/message_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/message_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/message"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/message_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="消息"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/settings_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/settings_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/settings"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/settings_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="设置"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/about_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/about_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/about"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/about_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="关于我们"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/dividerColor"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

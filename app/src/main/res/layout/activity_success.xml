@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
+
+    <include layout="@layout/toolbar"/>
+
+
+
+        <ImageView
+            android:id="@+id/success_img"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/checked"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="invisible"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_toLeftOf="@+id/success_title"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您已成功购买"
+                android:textColor="@color/fontColor"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:id="@+id/success_title"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程的名称"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/fontColor"/>
+
+            <TextView
+                android:id="@+id/success_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程"
+                android:textColor="@color/fontColor"
+                android:layout_toRightOf="@+id/success_title"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"/>
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/success_to_class"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/textviewbackground"
+            android:text="立即学习"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="20dp"/>
+
+
+
+
+
+</LinearLayout> 

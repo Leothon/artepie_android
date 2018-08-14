@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <include android:visibility="gone"
+        layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/back_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/defalutimg"
+            android:scaleType="centerCrop"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:translationY="-40dp"
+            android:layout_gravity="center">
+            <FrameLayout
+                android:layout_width="250dp"
+                android:layout_height="120dp"
+                android:background="@drawable/textviewbackground"
+                android:layout_gravity="center">
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="260dp"
+                android:layout_height="120dp"
+                android:background="@drawable/textviewbackground"
+                android:layout_gravity="center"
+                android:translationY="5dp">
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="270dp"
+                android:layout_height="120dp"
+                android:background="@drawable/textviewbackground"
+                android:layout_gravity="center"
+                android:translationY="10dp"
+                android:elevation="3dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="账户余额:"
+                    android:textSize="@dimen/littleTitle"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center|start"
+                    android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:id="@+id/account_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥150"
+                    android:textSize="@dimen/hugeTitle"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"/>
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple"
+            android:clickable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="艺币余额"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/contentSize"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/art_coin_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"
+                android:textSize="@dimen/largeTitle"
+                android:textColor="@color/black"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@+id/art_coin_detail"
+                android:layout_marginRight="20dp"/>
+            <RelativeLayout
+                android:id="@+id/art_coin_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:id="@+id/ask_coin"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/askartcoin"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"/>
+                <TextView
+                    android:layout_below="@+id/ask_coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="什么是艺币"
+                    android:textColor="@color/fontColor"
+                    android:textSize="@dimen/tipsSize"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"/>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/dividerview"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+            </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/recharge_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="充值"
+                    android:textColor="@color/white"
+                    android:background="@drawable/btnbackground"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="3dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点击充值，则表示您已阅读并同意"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/littleSize"/>
+                    <TextView
+                        android:id="@+id/protocol_recharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="《用户充值协议》"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/tipsSize"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

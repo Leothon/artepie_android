@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/dividerColor"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/ripple"
+        android:elevation="3dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/fav_img_fav"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/musicdefalut"
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
+            app:riv_corner_radius="5dp"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fav_title_fav"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="声乐的历史"
+                android:gravity="center|start"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/fontColor"/>
+            <TextView
+                android:id="@+id/fav_description_fav"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="声乐的出现过程"
+                android:gravity="center|start"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/fav_clear"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:src="@drawable/baseline_clear_black_24"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"/>
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

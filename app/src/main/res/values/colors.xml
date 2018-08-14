@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="white">#ffffff</color>
+    <color name="fontColor">#808080</color>
+    <color name="contentColor">#d2d2d2</color>
+    <color name="tintColor">#a7a7a7</color>
+    <color name="black">#000000</color>
+    <color name="dividerColor">#ededed</color>
+
+    <color name="pressColorPrimary">#CC008577</color>
+
+    <color name="pressColorAccent">#CCD81B60</color>
+</resources>

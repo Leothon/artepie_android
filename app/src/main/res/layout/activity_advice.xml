@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/toolbar"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/dividerColor"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_advice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:met_hideUnderline="true"
+        android:maxLines="20"
+        android:minLines="15"
+        app:met_floatingLabelText="请留下您的意见和建议"
+        app:met_floatingLabel="normal"
+        android:hint="请留下您的意见和建议"
+        android:textSize="@dimen/contentSize"
+        android:gravity="top|start"
+        android:padding="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/dividerColor">
+        <TextView
+            android:id="@+id/submit_advice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:background="@drawable/textviewbackground"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="30dp"/>
+    </LinearLayout>
+
+</LinearLayout> 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="140dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/dividerColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/ripple"
+        android:elevation="3dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/voice_img"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/defalutimg"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/voice_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="这个是每日一条的标题"
+                android:padding="5dp"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/fontColor"
+                android:gravity="center|left"/>
+            <TextView
+                android:id="@+id/voice_des"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="这个是描述"
+                android:padding="5dp"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

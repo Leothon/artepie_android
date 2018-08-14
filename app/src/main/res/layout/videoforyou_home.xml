@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="3dp"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white"
+    android:foreground="?android:attr/selectableItemBackground">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/foryou_iv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/defalutimg"
+            android:scaleType="centerCrop"
+            />
+        <ImageView
+            android:id="@+id/play_mark"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/baseline_play_circle_filled_black_48"
+            android:tint="@color/white"
+            android:scaleType="center" />
+        <TextView
+            android:id="@+id/foryou_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="这个地方显示视频的标题"
+            android:textSize="@dimen/tipsSize"
+            android:gravity="center|start"
+            android:layout_gravity="bottom"
+            android:maxLines="1"
+            android:layout_margin="5dp"
+            android:textColor="@color/fontColor"/>
+
+</android.support.v7.widget.CardView>

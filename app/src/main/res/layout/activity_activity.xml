@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/white">
+
+    <include
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/activity_bar"
+        android:visibility="gone"
+        layout="@layout/toolbar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+    <com.leothon.cogito.View.ObserveScrollView
+        android:id="@+id/obser_Scr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/activity_back_img"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:src="@drawable/activityback"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/activity_title_list"
+                android:gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="昆曲名家交流座谈会"
+                android:textColor="@color/black"
+                android:textSize="@dimen/largeTitle"
+                android:padding="10dp"/>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:background="@drawable/ripple"
+                android:clickable="true">
+
+                <TextView
+                    android:id="@+id/activity_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="时间：2018-5-25 14:00"
+                    android:gravity="center|start"/>
+
+                <TextView
+                    android:id="@+id/activity_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="地点：北京海淀区中关村中路95号"
+                    android:gravity="center|start"/>
+
+                <TextView
+                    android:id="@+id/activity_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="联系电话：13500713926"
+                    android:gravity="center|start"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/activity_content_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/acticontent"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+    </com.leothon.cogito.View.ObserveScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/ripple"
+        android:clickable="true">
+        <TextView
+            android:id="@+id/activity_buy_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="￥256"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/contentSize"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"/>
+
+        <Button
+            android:id="@+id/activity_buy_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btnbackground"
+            android:text="立即报名"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

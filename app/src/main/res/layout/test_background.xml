@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/test_back_img"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:src="@drawable/activityback"
+        android:scaleType="centerCrop"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:background="@drawable/ripple"
+        android:clickable="true">
+        <TextView
+            android:id="@+id/test_title_list"
+            android:gravity="center|left"
+            android:layout_width="wrap_content"
+            android:paddingRight="40dp"
+            android:layout_height="40dp"
+            android:text="摇滚"
+            android:textColor="@color/white"
+            android:textSize="@dimen/largeTitle"
+            android:translationY="-20dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/textborder" />
+    </LinearLayout>
+
+</LinearLayout>
