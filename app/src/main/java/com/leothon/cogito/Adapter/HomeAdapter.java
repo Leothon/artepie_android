@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Mvp.View.Activity.ActivityActivity.ActivityActivity;
@@ -82,7 +83,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike116%252C5%252C5%252C116%252C38%2Fsign%3Decbd88aa622762d09433acedc185639f%2Fbf096b63f6246b60496285fdeaf81a4c500fa2ce.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D787689764%2C3280717493%26fm%3D27%26gp%3D0.jpg"};
 
-    private String[] testesName = {"美声","民族","通俗","原生态","民谣","说唱","爵士"};
+    private String[] testesName = {"民族","美声","古典","戏曲","原生态","民谣","通俗","其他"};
 //    private int[] testesImg = {R.drawable.meisheng,R.drawable.minzu,R.drawable.tongsu,R.drawable.yuanshengtai,R.drawable.minyao,R.drawable.shuochang,R.drawable.jueshi};
 
     private String[] classesName = {"爱上钢琴","葫芦丝王子","男低音歌唱家","青年国粹传承人","作品欣赏课"};
@@ -223,7 +224,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             testholder.test8.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CommonUtils.makeText(CommonUtils.getContext(),"点击了更多曲目");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title",testesName[7]);
+                    bundle.putString("description","这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
                 }
             });
 
@@ -234,6 +238,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             testholder.test_title5.setText(testesName[4]);
             testholder.test_title6.setText(testesName[5]);
             testholder.test_title7.setText(testesName[6]);
+            testholder.test_title8.setText(testesName[7]);
 
         }else if (viewType == HEAD3){
 
@@ -621,21 +626,21 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     class testHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.test1)
-        FrameLayout test1;
+        RelativeLayout test1;
         @BindView(R.id.test2)
-        FrameLayout test2;
+        RelativeLayout test2;
         @BindView(R.id.test3)
-        FrameLayout test3;
+        RelativeLayout test3;
         @BindView(R.id.test4)
-        FrameLayout test4;
+        RelativeLayout test4;
         @BindView(R.id.test5)
-        FrameLayout test5;
+        RelativeLayout test5;
         @BindView(R.id.test6)
-        FrameLayout test6;
+        RelativeLayout test6;
         @BindView(R.id.test7)
-        FrameLayout test7;
+        RelativeLayout test7;
         @BindView(R.id.test8)
-        FrameLayout test8;
+        RelativeLayout test8;
 
         @BindView(R.id.test_title1)
         TextView test_title1;
@@ -651,21 +656,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView test_title6;
         @BindView(R.id.test_title7)
         TextView test_title7;
+        @BindView(R.id.test_title8)
+        TextView test_title8;
 
-        @BindView(R.id.test_img1)
-        RoundedImageView test_img1;
-        @BindView(R.id.test_img2)
-        RoundedImageView test_img2;
-//        @BindView(R.id.test_img3)
-//        CornerRadiusImageView test_img3;
-        @BindView(R.id.test_img4)
-        RoundedImageView test_img4;
-        @BindView(R.id.test_img5)
-        RoundedImageView test_img5;
-        @BindView(R.id.test_img6)
-        RoundedImageView test_img6;
-//        @BindView(R.id.test_img7)
-//        CornerRadiusImageView test_img7;
+
 
         public testHolder(View itemView){
             super(itemView);

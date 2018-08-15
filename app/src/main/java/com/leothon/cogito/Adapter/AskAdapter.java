@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.Ask;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -81,11 +83,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
         });
 
-        askViewHolder.contentAsk.setOnClickListener(new View.OnClickListener() {
+
+        askViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 跳转详情页面
-                CommonUtils.makeText(context,"详情");
+                IntentUtils.getInstence().intent(context, AskDetailActivity.class);
             }
         });
 
