@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class SettingsActivity extends BaseActivity {
 
     @BindView(R.id.log_out_settings)
     Button logout;
+
+    private Intent intent;
+    private Bundle bundle;
     @Override
     public int initLayout() {
         return R.layout.activity_settings;
@@ -46,8 +50,13 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void initview() {
+        intent = getIntent();
+        bundle = intent.getExtras();
         setToolbarTitle("设置");
         setToolbarSubTitle("");
+        if (!bundle.getBoolean("loginstatus")){
+            logout.setVisibility(View.GONE);
+        }
         switchNet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {

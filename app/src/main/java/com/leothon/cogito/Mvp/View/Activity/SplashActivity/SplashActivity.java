@@ -39,7 +39,9 @@ public class SplashActivity extends AppCompatActivity {
                 if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("password")){
                     String username = sharedPreferencesUtils.getParams("account","").toString();
                     String password = sharedPreferencesUtils.getParams("password","").toString();
-                    IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type","home");
+                    IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
                     Constants.loginStatus = 1;//表示登录成功
                     finish();
                     //使用账号密码进行登录操作

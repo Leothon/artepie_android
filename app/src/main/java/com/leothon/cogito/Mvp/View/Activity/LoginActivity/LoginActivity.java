@@ -115,7 +115,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
                 if (isLoginPage){
                     //TODO 跳转到未登录主页面
-                    IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type","home");
+                    IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class,bundle);
                     Constants.loginStatus = 0;
                     finish();
                 }else {
@@ -228,7 +230,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         Constants.loginStatus = 1;
         sharedPreferencesUtils.setParams("account",accountString);
         sharedPreferencesUtils.setParams("password",passwordString);
-        IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("type","home");
+        IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
         finish();
     }
 

@@ -22,6 +22,8 @@ import com.leothon.cogito.Weight.CommonDialog;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.leothon.cogito.Constants.isRefreshtruebagFragment;
+
 public class SuccessActivity extends BaseActivity {
 
 
@@ -115,7 +117,10 @@ public class SuccessActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        IntentUtils.getInstence().intent(SuccessActivity.this, HostActivity.class);
+        isRefreshtruebagFragment = true;
+        Bundle bundleto = new Bundle();
+        bundleto.putString("type","bag");
+        IntentUtils.getInstence().intent(SuccessActivity.this, HostActivity.class,bundleto);
         finish();
     }
 

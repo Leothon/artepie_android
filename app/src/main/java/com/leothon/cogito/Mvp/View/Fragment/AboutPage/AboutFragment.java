@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -17,7 +18,9 @@ import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
+import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
+import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.MessageActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.SettingsActivity;
 import com.leothon.cogito.Mvp.View.Activity.WalletActivity.WalletActivity;
 import com.leothon.cogito.R;
@@ -25,6 +28,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.View.ArcImageView;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -111,50 +115,59 @@ public class AboutFragment extends BaseFragment {
     @OnClick(R.id.username_about)
     public void userNameClick(View v){
 
-        IntentUtils.getInstence().intent(getMContext(), EditIndividualActivity.class);
+        toPersonPage();
         //TODO 个人主页
     }
     @OnClick(R.id.usericon_about)
     public void userIconClick(View v){
 
-        IntentUtils.getInstence().intent(getMContext(), EditIndividualActivity.class);
+        toPersonPage();
         //TODO 个人主页
     }
     @OnClick(R.id.signature_about)
     public void signatureClick(View v){
 
-        IntentUtils.getInstence().intent(getMContext(), EditIndividualActivity.class);
+        toPersonPage();
         //TODO 个人主页
     }
     @OnClick(R.id.fav_about)
     public void favClick(View v){
-        IntentUtils.getInstence().intent(getMContext(), FavActivity.class);
+        toFavPage();
         //TODO 收藏
     }
     @OnClick(R.id.download_about)
     public void downloadClick(View v){
-        IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
+       toDownloadPage();
         //TODO 下载
     }
     @OnClick(R.id.histroy_about)
     public void historyClick(View v){
-        IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
+        toHistoryPage();
         //TODO 历史
     }
     @OnClick(R.id.wallet_about)
     public void walletClick(View v){
-        IntentUtils.getInstence().intent(getMContext(), WalletActivity.class);
+        toWalletPage();
         //TODO 钱包
     }
     @OnClick(R.id.message_about)
     public void messageClick(View v){
-        IntentUtils.getInstence().intent(getMContext(), NoticeActivity.class);
+        toNoticePage();
         //TODO 信息
     }
     @OnClick(R.id.settings_about)
     public void settingsClick(View v){
         //TODO 设置
-        IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class);
+        if (Constants.loginStatus == 0){
+            Bundle bundleto = new Bundle();
+            bundleto.putBoolean("loginstatus",false);
+            IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
+        }else if (Constants.loginStatus == 1){
+            Bundle bundleto = new Bundle();
+            bundleto.putBoolean("loginstatus",true);
+            IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
+        }
+
     }
     @OnClick(R.id.about_about)
     public void aboutClick(View v){
@@ -165,6 +178,53 @@ public class AboutFragment extends BaseFragment {
     protected void initData() {
 
     }
+
+
+    private void toPersonPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), EditIndividualActivity.class);
+        }
+    }
+
+    private void toFavPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), FavActivity.class);
+        }
+    }
+
+    private void toDownloadPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
+        }
+    }
+    private void toHistoryPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
+        }
+    }
+    private void toWalletPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), WalletActivity.class);
+        }
+    }
+    private void toNoticePage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            IntentUtils.getInstence().intent(getMContext(), NoticeActivity.class);
+        }
+    }
+
 
     @Override
     public void hideLoading() {}

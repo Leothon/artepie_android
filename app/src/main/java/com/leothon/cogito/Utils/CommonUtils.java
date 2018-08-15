@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
+import com.leothon.cogito.Weight.CommonDialog;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -84,6 +86,31 @@ public class CommonUtils {
         int rebateprice = Integer.parseInt(rebate);
         int price = rebateprice/100;
         return Integer.toString(price);
+    }
+
+    public static void loadinglogin(final Context context){
+            final CommonDialog dialog = new CommonDialog(context);
+
+
+            dialog.setMessage("您尚未登录，是否登录？")
+                    .setTitle("登录提醒")
+                    .setSingle(false)
+                    .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            dialog.dismiss();
+                            IntentUtils.getInstence().intent(context, LoginActivity.class);
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {
+                            dialog.dismiss();
+
+                        }
+
+                    })
+                    .show();
+
     }
     /**
      * 将int数值转化为汉字显示

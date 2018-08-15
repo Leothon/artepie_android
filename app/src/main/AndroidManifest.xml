@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".Base.BaseApplication"
@@ -63,7 +64,9 @@
         <activity android:name=".Mvp.View.Activity.PayInfoActivity.PayInfoActivity" />
         <activity android:name=".Mvp.View.Activity.ActivityEnsure.ActivityEnsureActivity" />
         <activity android:name=".Mvp.View.Activity.PayActivity.PayActivity" />
-        <activity android:name=".Mvp.View.Activity.SuccessActivity.SuccessActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.SuccessActivity.SuccessActivity" />
+        <activity android:name=".Mvp.View.Activity.AskActivity.AskActivity" />
+        <activity android:name=".Mvp.View.Activity.AskDetailActivity.AskDetailActivity"></activity>
     </application>
 
 </manifest>

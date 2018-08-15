@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/ask_bar_ask"
+        layout="@layout/toolbar"/>
+
+
+    <RelativeLayout
+        android:id="@+id/ask_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"/>
+        <ImageView
+            android:id="@+id/ask_add_img"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ripple"
+            android:src="@drawable/baseline_add_photo_alternate_black_24"
+            android:tint="@color/askImg"
+            android:layout_centerInParent="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"/>
+
+        <ImageView
+            android:id="@+id/ask_add_sound"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ripple"
+            android:src="@drawable/sound"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/ask_add_img"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/ask_char_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
+            android:text="140"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/fontColor"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@+id/ask_bar_ask"
+        android:layout_above="@+id/ask_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/ask_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="30"
+                android:minLines="5"
+                app:met_hideUnderline="true"
+                android:hint="输入问题描述"
+                android:textSize="@dimen/contentSize"
+                android:padding="5dp"
+                android:gravity="start|top"/>
+
+            <LinearLayout
+                android:id="@+id/ask_img_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

@@ -55,7 +55,8 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    Manifest.permission.CALL_PHONE};
+    Manifest.permission.CALL_PHONE,
+    Manifest.permission.CAMERA};
     protected final String TAG = this.getClass().getSimpleName();
     //private Unbinder unbinder;
 

@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.HomeActivity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -63,6 +65,9 @@ public class HostActivity extends BaseActivity  {
     private static final String ABOUTPAGE = "aboutPage";
 
     private FragmentTransaction transaction;
+
+    private Intent intent;
+    private Bundle bundle;
     @Override
     public int initLayout() {
         return R.layout.activity_host;
@@ -72,7 +77,34 @@ public class HostActivity extends BaseActivity  {
     public void initview() {
         initBottomButton();
 
-        initFragment();
+        intent = getIntent();
+        bundle = intent.getExtras();
+        switch (bundle.getString("type")){
+            case "home":
+                focusOnHome();
+                switchFragment(HOMEPAGE);
+                break;
+            case "voice":
+                focusOnVoice();
+                switchFragment(VOICEPAGE);
+                break;
+            case "ask":
+                focusOnAsk();
+                switchFragment(ASKPAGE);
+                break;
+            case "bag":
+                focusOnBag();
+                switchFragment(BAGPAGE);
+                break;
+            case "about":
+                focusOnAbout();
+                switchFragment(ABOUTPAGE);
+                break;
+            default:
+                focusOnHome();
+                switchFragment(HOMEPAGE);
+                break;
+        }
     }
 
     /**
@@ -87,9 +119,6 @@ public class HostActivity extends BaseActivity  {
         focusOnHome();
     }
 
-    public void initFragment(){
-        switchFragment(HOMEPAGE);
-    }
 
 
 

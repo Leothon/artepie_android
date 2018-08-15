@@ -3,7 +3,8 @@
     <string name="app_slogan">这个地方写上app的slogan</string>
 
     <string name="hello_blank_fragment">一个新建的空fragment</string>
-
+    <string name="_cancel_action">取消</string>
+    <string name="options_choose">操作选择</string>
     <string name="register_contract">
        音符用户服务协议\n\n
 1 接受条款\n
