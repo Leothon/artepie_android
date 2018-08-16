@@ -15,6 +15,15 @@ public class User {
     private String u_lastLoginTime;
     private String u_headerImage;
     private String u_nlineTime;//累计登录时间
+    private String replayLoginPassword;
+
+    public String getReplayLoginPassword() {
+        return replayLoginPassword;
+    }
+
+    public void setReplayLoginPassword(String replayLoginPassword) {
+        this.replayLoginPassword = replayLoginPassword;
+    }
 
     public String getU_id() {
         return u_id;

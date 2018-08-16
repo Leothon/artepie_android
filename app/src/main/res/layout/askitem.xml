@@ -60,102 +60,26 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"/>
 
-            <LinearLayout
-                android:id="@+id/pic_layout_ask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/image_in_context1"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context2"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context3"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                </LinearLayout>
+        <LinearLayout
+            android:id="@+id/img_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/image_in_context4"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context5"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context6"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/image_in_context7"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context8"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                    <ImageView
-                        android:id="@+id/image_in_context9"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/defalutimg"
-                        android:visibility="visible"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="5dp"/>
-                </LinearLayout>
-            </LinearLayout>
+
+
+
+
     </LinearLayout>
 </LinearLayout>
 

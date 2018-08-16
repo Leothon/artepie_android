@@ -112,7 +112,7 @@ public class HostActivity extends BaseActivity  {
      */
     public void initBottomButton(){
         bottombtnHome.setTvAndIv("首页",R.drawable.baseline_music_note_black_24);
-        bottombtnVoice.setTvAndIv("一条",R.drawable.baseline_queue_music_black_24);
+        bottombtnVoice.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
         bottombtnAsk.setTvAndIv("问答",R.drawable.baseline_question_answer_black_24);
         bottombtnBag.setTvAndIv("小书包",R.drawable.baseline_class_black_24);
         bottombtnAbout.setTvAndIv("我的",R.drawable.baseline_perm_identity_black_24);

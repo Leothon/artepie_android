@@ -91,9 +91,13 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             ask.setUsername("张三丰");
             ask.setUserdes("我来自神之殿堂——武当山");
             ask.setContent("我叫张三丰，万万没想到，我没有学会乾坤大挪移，但我的太极闻名天下，也是蛮叼的");
-            ask.setContenturl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533725177427&di=720b0cd6306f55f54eda42a222ac9009&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201508%2F22%2F20150822124224_HQfc8.thumb.700_0.jpeg");
             ask.setLikecount("122");
             ask.setCommentcount("56");
+//            ArrayList<String> imgurl = new ArrayList<>();
+//            for (int j = 0;j<9;j++){
+//                imgurl.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534412481159%26di%3Dcbe98dc9bae7a5b0ac8050bc337bcaf3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0117e2571b8b246ac72538120dd8a4.jpg%25401280w_1l_2o_100sh.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D415293130%2C2419074865%26fm%3D27%26gp%3D0.jpg");
+//            }
+//            ask.setImgurl(imgurl);
             asks.add(ask);
         }
     }

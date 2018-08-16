@@ -1,6 +1,9 @@
 package com.leothon.cogito.Bean;
 
 import com.leothon.cogito.Http.BaseResponse;
+
+import java.util.ArrayList;
+
 /**
  * created by leothon on 2018.8.10
  */
@@ -10,9 +13,20 @@ public class Ask extends BaseResponse {
     private String username;
     private String userdes;
     private String content;
-    private String contenturl;
     private String commentcount;
     private String likecount;
+
+    private ArrayList<String> imgurl;
+
+
+    public ArrayList<String> getImgurl() {
+        return imgurl;
+    }
+
+    public void setImgurl(ArrayList<String> imgurl) {
+        this.imgurl = imgurl;
+    }
+
 
     public String getUsericonurl() {
         return usericonurl;
@@ -54,13 +68,6 @@ public class Ask extends BaseResponse {
         this.content = content;
     }
 
-    public String getContenturl() {
-        return contenturl;
-    }
-
-    public void setContenturl(String contenturl) {
-        this.contenturl = contenturl;
-    }
 
     public String getLikecount() {
         return likecount;

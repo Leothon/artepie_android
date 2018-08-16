@@ -10,4 +10,5 @@
     <dimen name="largeTitle">24sp</dimen>
     <dimen name="hugeTitle">36sp</dimen>
     <dimen name="tagNameabove">-15sp</dimen>
+    <dimen name="divider">2dp</dimen>
 </resources>

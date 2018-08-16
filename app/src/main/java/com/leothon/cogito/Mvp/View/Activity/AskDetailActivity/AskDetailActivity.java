@@ -1,14 +1,26 @@
 package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.leothon.cogito.Adapter.AskDetailAdapter;
+import com.leothon.cogito.Adapter.BaseAdapter;
+import com.leothon.cogito.Adapter.VideoCommentAdapter;
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.UserComment;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -29,15 +41,18 @@ public class AskDetailActivity extends BaseActivity {
 
     @BindView(R.id.rv_ask_detail)
     RecyclerView rvAskDetail;
-    @BindView(R.id.comment_to_detail_icon)
-    RoundedImageView commentIcon;
-    @BindView(R.id.comment_to_detail)
-    MaterialEditText comment;
-    @BindView(R.id.send_comment_detail)
-    ImageView sendComment;
-
+    @BindView(R.id.comment_in_detail)
+    CardView commentIn;
     private AskDetail askDetail;
     private AskDetailAdapter askDetailAdapter;
+
+    private View popview;
+    private PopupWindow popupWindow;
+
+    private MaterialEditText editComment;
+    private ImageView sendComment;
+    private View dismiss;
+    private ArrayList<UserComment> userComments;
     @Override
     public int initLayout() {
         return R.layout.activity_ask_detail;
@@ -49,7 +64,7 @@ public class AskDetailActivity extends BaseActivity {
         setToolbarTitle("");
         loadFalseData();
         initAdapter();
-        commentIcon.setImageResource(R.drawable.defalutimg);
+        initPopupWindow();
     }
 
     private void loadFalseData(){
@@ -59,7 +74,7 @@ public class AskDetailActivity extends BaseActivity {
         askDetail.setUserdes("汉昭烈帝刘玄德");
         askDetail.setContent("话说天下合久必分，分久必合，合久必分，分久必合，合久必分，分久必合，合久必分，分久必合");
         askDetail.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534356012658%26di%3Dcb53e7fcc3bcfa3d17500b6204f6bbdc%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fn9.cmsfile.pg0.cn%252Fgroup2%252FM00%252F21%252F58%252FCgqg2lj37g2ARnsOAACIU6n0Aoo911.jpg%253Fenable%253D%2526w%253D550%2526h%253D366%2526cut%253D&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2083899954%2C2860567755%26fm%3D27%26gp%3D0.jpg");
-        ArrayList<UserComment> userComments = new ArrayList<>();
+        userComments = new ArrayList<>();
         for (int i = 0;i < 20;i++){
             UserComment userComment = new UserComment();
             userComment.setUsername("曹操");
@@ -76,21 +91,81 @@ public class AskDetailActivity extends BaseActivity {
         rvAskDetail.setAdapter(askDetailAdapter);
 
     }
+
+    @OnClick(R.id.comment_in_detail)
+    public void commentTo(View view){
+        showPopWindow();
+        popupInputMethod();
+    }
     @Override
     public void initdata() {
 
     }
 
-    @OnClick(R.id.send_comment_detail)
-    public void sendComment(View view){
-        String commentContent = comment.getText().toString();
-        if (commentContent.equals("")){
-            CommonUtils.makeText(CommonUtils.getContext(),"请输入评论的内容");
-        }else {
-            //TODO 发送评论
-            CommonUtils.makeText(CommonUtils.getContext(),"已发送评论" + commentContent);
-        }
+    public void initPopupWindow(){
+        popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
+        popupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setAnimationStyle(R.style.popupWindow_anim_style);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        editComment = (MaterialEditText)popview.findViewById(R.id.edit_comment);
+
+        sendComment = (ImageView)popview.findViewById(R.id.send_comment);
+        dismiss = (View)popview.findViewById(R.id.dismiss);
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO 发送信息给评论
+                if (!editComment.getText().toString().equals("")){
+                    String comment = editComment.getText().toString();
+                    UserComment userComment = new UserComment();
+                    userComment.setUserIcon(R.drawable.defalutimg);
+                    userComment.setUsername("Leothon");
+                    userComment.setUsercomment(comment);
+                    userComments.add(0,userComment);
+                    askDetail.setUserComments(userComments);
+                    askDetailAdapter.notifyItemInserted(0);
+                    askDetailAdapter.notifyItemRangeChanged(0,userComments.size());
+                    rvAskDetail.scrollToPosition(0);
+                    popupWindow.dismiss();
+                    editComment.setText("");
+                }else {
+                    CommonUtils.makeText(CommonUtils.getContext(),"请输入评论内容");
+                }
+
+            }
+        });
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+
+            }
+        });
     }
+
+    private void popupInputMethod(){
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager inputMethodManager=(InputMethodManager) editComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(editComment, 0);
+            }
+        }, 0);
+    }
+
+    public void showPopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_player,null);
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+    }
+
+
 
 
     @Override

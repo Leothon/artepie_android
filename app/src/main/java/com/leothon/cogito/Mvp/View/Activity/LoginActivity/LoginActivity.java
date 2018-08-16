@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Base.BaseApplication;
@@ -29,6 +32,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * created by leothon on 2018.7.24
@@ -57,7 +61,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     //注册页面的控件绑定
     @BindView(R.id.register_page)
-    LinearLayout registerPage;
+    RelativeLayout registerPage;
     @BindView(R.id.phone_register)
     MaterialEditText phoneRegister;
     @BindView(R.id.account_register)
@@ -74,6 +78,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     TextView soundCode;
     @BindView(R.id.register_contract)
     TextView registerContract;
+    @BindView(R.id.password_register_re)
+    MaterialEditText passwordRegisterRe;
 
     @BindView(R.id.bar)
     CardView bar;
@@ -87,6 +93,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private String rephone;
     private String reUsername;
     private String repassword;
+    private String repasswordre;
 
     @Override
     public int initLayout() {
@@ -136,6 +143,20 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             }
         });
 
+        passwordRegisterRe.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().equals(passwordRegister.getText().toString()) && !passwordRegister.getText().toString().equals("")){
+                    passwordRegisterRe.setError("两次输入的密码不一致");
+                }
+            }
+        });
 
 
     }
@@ -196,10 +217,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 rephone = phoneRegister.getText().toString();
                 reUsername = accountRegister.getText().toString();
                 repassword = passwordRegister.getText().toString();
+                repasswordre = passwordRegisterRe.getText().toString();
                 User usere = new User();
                 usere.setU_phone(rephone);
                 usere.setU_name(reUsername);
                 usere.setU_password(repassword);
+                usere.setReplayLoginPassword(repasswordre);
                 loginPresenter.registerInfo(usere);
                 break;
             case R.id.register_contract:
@@ -256,7 +279,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void showRegisterFail() {
-
+        CommonUtils.makeText(this,"显示注册错误信息");
     }
 
     @Override

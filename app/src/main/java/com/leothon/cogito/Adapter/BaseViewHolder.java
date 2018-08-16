@@ -48,7 +48,7 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
      */
     public void setImageUrls(int id,String urls){
         ImageView img = (ImageView) convertView.findViewById(id);
-        ImageLoader.loadImageViewwithError(context,urls,img, R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(context,urls,img, R.drawable.defalutimg);
     }
 
     /**
@@ -57,7 +57,7 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param url
      */
     public void setViewImagebyUrl(ImageView view,String url){
-        ImageLoader.loadImageViewwithError(context,url,view, R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(context,url,view, R.drawable.defalutimg);
     }
 
     public void setImageUrlswiththumb(int id,String url){

@@ -45,6 +45,7 @@ public class LoginModel implements LoginContract.ILoginModel {
 
             //TODO 使用retrofit进行注册
             listener.onRegisterSuccess();
+
         }else if (!CommonUtils.isPhoneNumber(phonenumber)){
             listener.onPhoneIllegal();
         }else {

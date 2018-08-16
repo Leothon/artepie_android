@@ -76,13 +76,12 @@
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/fav_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/fav"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true"/>
 
                     <TextView
@@ -101,13 +100,12 @@
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/download_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/download"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true" />
 
                     <TextView
@@ -127,13 +125,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/history_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/history"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true" />
 
                     <TextView
@@ -166,13 +163,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/wallet_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/bullet"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true"/>
 
                     <TextView
@@ -192,13 +188,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/message_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/message"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true" />
 
                     <TextView
@@ -218,13 +213,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/settings_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/settings"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true" />
 
                     <TextView
@@ -244,13 +238,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
-                    <com.makeramen.roundedimageview.RoundedImageView
+                    <ImageView
                         android:id="@+id/about_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/about"
                         android:scaleType="centerCrop"
-                        app:riv_oval="true"
                         android:layout_centerInParent="true" />
 
                     <TextView

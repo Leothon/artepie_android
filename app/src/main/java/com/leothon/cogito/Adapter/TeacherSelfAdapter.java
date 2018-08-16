@@ -71,7 +71,7 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ClassItemHolder classItemHolder = (ClassItemHolder)holder;
             classItemHolder.classTitle.setText(teacherSelfs.getClassItems().get(realposition).getClasstitle());
             classItemHolder.classDescription.setText(teacherSelfs.getClassItems().get(realposition).getClassdescription());
-            ImageLoader.loadImageViewwithError(context,teacherSelfs.getClassItems().get(realposition).getClassurl(),classItemHolder.classImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,teacherSelfs.getClassItems().get(realposition).getClassurl(),classItemHolder.classImg,R.drawable.defalutimg);
             if (teacherSelfs.getClassItems().get(realposition).getClassprice().equals("0")){
                 classItemHolder.classPrice.setText("免费");
             }else {

@@ -39,7 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="佛教创始人"
-                android:textSize="@dimen/tipsSize"/>
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -55,7 +56,8 @@
             android:text="张三丰张三丰"
             android:textSize="@dimen/contentSize"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp"
+            android:textColor="@color/fontColor"/>
 
         <LinearLayout
             android:id="@+id/pic_layout_ask_detail"

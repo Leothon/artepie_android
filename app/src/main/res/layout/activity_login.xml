@@ -131,21 +131,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/register_page"
         android:layout_below="@+id/login_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:visibility="gone">
         <TextView
+            android:id="@+id/text_register"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             android:text="注册"
             android:textSize="@dimen/largeTitle"
             android:gravity="center"/>
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/text_register"
             android:id="@+id/phone_register"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="输入手机号"
@@ -154,13 +155,13 @@
             android:textSize="@dimen/contentSize"
             app:met_clearButton="true"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp"
             app:met_iconLeft="@drawable/baseline_phone_black_18"
             android:maxLength="11"/>
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/phone_register"
             android:id="@+id/account_register"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="输入用户名"
@@ -169,13 +170,13 @@
             android:textSize="@dimen/contentSize"
             app:met_clearButton="true"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp"
             app:met_iconLeft="@drawable/baseline_account_circle_black_18"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/account_register"
             android:id="@+id/password_register"
             app:met_floatingLabel="normal"
             app:met_floatingLabelText="输入密码"
@@ -184,16 +185,30 @@
             app:met_clearButton="true"
             android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
+            app:met_iconLeft="@drawable/baseline_lock_black_18"/>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/password_register"
+            android:id="@+id/password_register_re"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="重新输入密码"
+            android:hint="重新输入密码"
+            android:textSize="@dimen/contentSize"
+            app:met_clearButton="true"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp"
             app:met_iconLeft="@drawable/baseline_lock_black_18"/>
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/ver_layout"
+            android:layout_below="@+id/password_register_re"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp">
@@ -204,39 +219,35 @@
                 android:hint="验证码"
                 android:textSize="@dimen/contentSize"
                 app:met_clearButton="true"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:met_iconLeft="@drawable/baseline_verified_user_black_18"
                 android:inputType="number"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
             <Button
+                android:layout_alignParentEnd="true"
                 android:id="@+id/get_verify_code"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/contentColor"
                 android:text="获取验证码"
                 android:textColor="@color/white"
                 android:layout_margin="5dp" />
-        </LinearLayout>
+        </RelativeLayout>
         <Button
+            android:layout_below="@+id/ver_layout"
             android:id="@+id/register"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="注册"
             android:textColor="@color/white"
             android:background="@drawable/btnbackground"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp" />
         <RelativeLayout
+            android:id="@+id/con_layout"
+            android:layout_below="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -259,30 +270,26 @@
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
         <include
+            android:id="@+id/divider_re"
+            android:layout_below="@+id/con_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            layout="@layout/dividerview"/>
+            android:layout_height="25dp"
+            layout="@layout/dividerview" />
 
         <TextView
+            android:layout_below="@id/divider_re"
+            android:padding="5dp"
+            android:layout_centerInParent="true"
             android:id="@+id/sound_code"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:text="使用语音验证码"
             android:textSize="@dimen/littleTitle"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/textviewbackground"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:padding="20dp"
-            android:gravity="center|top">
 
-        </View>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -76,7 +76,7 @@ public class ImageLoader {
 
     //设置缩略图支持
     public static void loadImageViewThumbnailwitherror(Context mContext, String path, ImageView mImageView,int errorImageView) {
-        Glide.with(mContext).load(path).thumbnail(0.1f).error(errorImageView).into(mImageView);
+        Glide.with(mContext).load(path).asBitmap().thumbnail(0.1f).error(errorImageView).into(mImageView);
     }
 
     /**
