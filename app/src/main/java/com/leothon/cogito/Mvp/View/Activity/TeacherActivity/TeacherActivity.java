@@ -61,7 +61,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
             "假声的发声训练",
             "半声训练的方式方法",
             "高腔训练的男高音小结"};
-    private String[] price = {"0","0","0","0","0","99","179","179","359","459","399","469","269","329","599"};
+    private String[] price = {"0","0","369","189","459","99","179","179","359","459","399","469","269","329","599"};
 
     private LinearLayoutManager linearLayoutManager;
     @Override

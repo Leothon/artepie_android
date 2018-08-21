@@ -7,6 +7,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
 
+import com.leothon.cogito.Constants;
+import com.leothon.cogito.Utils.CommonUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ public class BaseApplication extends Application {
         builder.detectFileUriExposure();
 
     }
+
+
 
 
     public static Context getApplication(){
@@ -43,6 +48,14 @@ public class BaseApplication extends Application {
                 activity.finish();
             }
         }
+        //下面代码带更改
+
+        activityArrayList.clear();
     }
+
+    public int getCount(){
+        return activityArrayList.size();
+    }
+
 
 }

@@ -67,10 +67,9 @@
             android:visibility="visible">
             <ImageView
                 android:id="@+id/test_img_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/defalutimg"
-                android:scaleType="centerCrop"
                 android:layout_margin="10dp"/>
         </LinearLayout>
     </LinearLayout>

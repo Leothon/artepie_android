@@ -57,6 +57,10 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.signature_about)
     TextView signature;
 
+    @BindView(R.id.check_in)
+    TextView checkIn;
+
+    private boolean isCheck = false;
 
     public AboutFragment() {}
 
@@ -91,6 +95,21 @@ public class AboutFragment extends BaseFragment {
         }
     }
 
+
+    @OnClick(R.id.check_in)
+    public void checkIn(View view){
+        //TODO 签到
+        if (isCheck){
+            CommonUtils.makeText(getMContext(),"本日已签到");
+
+        }else {
+            checkIn.setBackgroundResource(R.drawable.checkback);
+            checkIn.setText("已签到");
+            CommonUtils.makeText(getMContext(),"签到成功，赠送艺币10");
+            isCheck = true;
+        }
+
+    }
     @OnClick(R.id.search)
     public void searchAbout(View view){
         CommonUtils.makeText(getMContext(),"点击了搜索");

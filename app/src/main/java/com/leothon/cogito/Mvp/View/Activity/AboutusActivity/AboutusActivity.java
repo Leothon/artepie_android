@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AboutusActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class AboutusActivity extends AppCompatActivity {
         aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.mipmap.icon)
-                .setDescription("音符平台联手国内各大知名艺术教育家推出线教育视屏学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
+                .setDescription("文艺邦联手国内各大知名艺术教育家推出线教育视屏学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
                 .addItem(new Element().setTitle("联系我们").setGravity(Gravity.CENTER))
                 .addGroup("客户服务")
                 .addEmail("CogitoTec@163.com")
@@ -45,7 +46,7 @@ public class AboutusActivity extends AppCompatActivity {
                 }))
                 .addItem(new Element().setTitle("客服提醒：为了更好更快的帮您解决问题，请在邮件中留下电话、音符账号、昵称、相关截图、详细问题等信息。").setIconDrawable(R.drawable.service))
                 .addGroup("课程合作")
-                .addItem(new Element().setTitle("如果您希望在音符上开设课程，请与我们联系。"))
+                .addItem(new Element().setTitle("如果您希望在文艺邦上开设课程，请与我们联系。"))
                 .addEmail("CogitoTec@163.com")
                 .addItem(new Element().setTitle("联系电话：18514791868").setIconDrawable(R.drawable.baseline_phone_black_24).setOnClickListener(new View.OnClickListener() {
                     @Override

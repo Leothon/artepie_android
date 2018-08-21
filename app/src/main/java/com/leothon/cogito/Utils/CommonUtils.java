@@ -466,6 +466,9 @@ public class CommonUtils {
         return time;
     }
 
+    public static long msTomin(long ms){
+        return (ms/1000)/60;
+    }
     /**
      * 判断是否存在sd卡
      *

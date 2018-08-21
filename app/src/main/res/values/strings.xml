@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">音符</string>
+    <string name="app_name">文艺邦</string>
     <string name="app_slogan">这个地方写上app的slogan</string>
 
     <string name="hello_blank_fragment">一个新建的空fragment</string>

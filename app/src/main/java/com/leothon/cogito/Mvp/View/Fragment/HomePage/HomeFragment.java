@@ -17,6 +17,7 @@ import com.leothon.cogito.Adapter.TeacherAdapter;
 import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
+import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -113,21 +114,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         initclass(homeAdapter);
         initvideoclass(homeAdapter);
         initdivider(homeAdapter);
-//        loadView();
-        //设置为您推荐多行显示
+
         rvHome.setLayoutManager(new GridLayoutManager(getMContext(), 2, GridLayoutManager.VERTICAL, false));
         rvHome.setAdapter(homeAdapter);
     }
 
-    public void loadView() {
-        initBanner(homeAdapter);
-        initTea(homeAdapter);
-        initTest(homeAdapter);
-        initActivity(homeAdapter);
-        initclass(homeAdapter);
-        initvideoclass(homeAdapter);
-        initdivider(homeAdapter);
-    }
 
     private void initBanner(HomeAdapter homeAdapter) {
         View bannerview = View.inflate(getMContext(), R.layout.banner_item, null);
@@ -264,8 +255,8 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     @OnClick(R.id.search)
     public void toSearch(View v) {
-        CommonUtils.makeText(getMContext(), "搜索");
         //TODO 跳转到搜索页面
+        IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
     }
 
     @Override

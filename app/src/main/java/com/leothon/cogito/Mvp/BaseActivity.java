@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
@@ -50,15 +51,12 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     private BaseActivity context;
     public P basePresenter;
     private String[] permissions = {Manifest.permission.READ_CONTACTS,
-                                    //Manifest.permission.WRITE_CONTACTS,
-                                    //Manifest.permission.CAMERA,
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    Manifest.permission.CALL_PHONE,
-    Manifest.permission.CAMERA};
+                                    Manifest.permission.CALL_PHONE,
+                                    Manifest.permission.CAMERA};
     protected final String TAG = this.getClass().getSimpleName();
-    //private Unbinder unbinder;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -67,6 +65,9 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     @BindView(R.id.toolbar_subtitle)
     TextView mToolbarSubTitle;
 
+
+    private static long startTime = 0;
+    private static long endTime = 0;
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +111,19 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         if (!CommonUtils.netIsConnected(this)){
             CommonUtils.makeText(this,"当前网络不可用");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startTime = CommonUtils.getSystemTime();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        endTime = CommonUtils.getSystemTime();
+        Constants.onlineTime = Constants.onlineTime + (endTime - startTime);
     }
 
     /**
@@ -186,13 +200,19 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
     @Override
     protected void onDestroy() {
+
+
         super.onDestroy();
+        if (baseApplication.getCount() == 0){
+            Log.e(TAG, "在线时长(全退出)"+CommonUtils.msTomin(Constants.onlineTime));
+        }
 //        if (unbinder != null && unbinder != Unbinder.EMPTY){
 //            unbinder.unbind();
 //        }
 //        this.unbinder = null;
 
 //        basePresenter.detachWindow();
+
 
 
     }
