@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.AskDetailAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
@@ -30,6 +31,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
 
@@ -73,7 +75,8 @@ public class AskDetailActivity extends BaseActivity {
         askDetail.setUsername("刘备");
         askDetail.setUserdes("汉昭烈帝刘玄德");
         askDetail.setContent("话说天下合久必分，分久必合，合久必分，分久必合，合久必分，分久必合，合久必分，分久必合");
-        askDetail.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534356012658%26di%3Dcb53e7fcc3bcfa3d17500b6204f6bbdc%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fn9.cmsfile.pg0.cn%252Fgroup2%252FM00%252F21%252F58%252FCgqg2lj37g2ARnsOAACIU6n0Aoo911.jpg%253Fenable%253D%2526w%253D550%2526h%253D366%2526cut%253D&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2083899954%2C2860567755%26fm%3D27%26gp%3D0.jpg");
+        askDetail.setCoverurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
+        askDetail.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
         userComments = new ArrayList<>();
         for (int i = 0;i < 20;i++){
             UserComment userComment = new UserComment();
@@ -87,9 +90,28 @@ public class AskDetailActivity extends BaseActivity {
 
     private void initAdapter(){
         askDetailAdapter = new AskDetailAdapter(askDetail,this);
-        rvAskDetail.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        rvAskDetail.setAdapter(askDetailAdapter);
+        final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
+        rvAskDetail.setLayoutManager(mlinearLayoutManager);
+        rvAskDetail.setAdapter(askDetailAdapter);
+        rvAskDetail.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int lastVisibleItem = mlinearLayoutManager.findLastVisibleItemPosition();
+                int firstVisibleItem = mlinearLayoutManager.findFirstVisibleItemPosition();
+                if (GSYVideoManager.instance().getPlayPosition() >= 0){
+                    int position = GSYVideoManager.instance().getPlayPosition();
+                    if (GSYVideoManager.instance().getPlayTag().equals(AskAdapter.TAG) && (position < firstVisibleItem || position > lastVisibleItem)){
+                        if (GSYVideoManager.isFullState(AskDetailActivity.this)){
+                            return;
+                        }
+
+                        GSYVideoManager.releaseAllVideos();
+                        askDetailAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.comment_in_detail)
@@ -165,6 +187,33 @@ public class AskDetailActivity extends BaseActivity {
         popupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(this)) {
+            return;
+        }
+        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GSYVideoManager.releaseAllVideos();
+    }
 
 
 

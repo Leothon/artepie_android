@@ -23,6 +23,9 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.ArrayList;
 
@@ -33,11 +36,23 @@ import butterknife.ButterKnife;
  * created by leothon on 2018.8.8
  */
 public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    public static final String TAG = "adapter";
     private Context context;
     private ArrayList<Ask> asks;
+
+    private StandardGSYVideoPlayer curPlayer;
+    protected OrientationUtils orientationUtils;
+
+    protected boolean isPlay;
+    private LayoutInflater inflater;
+    protected boolean isFull;
+
     public AskAdapter(Context context, ArrayList<Ask> asks){
         this.context = context;
         this.asks = asks;
+        inflater = LayoutInflater.from(context);
+
     }
 
     @Override
@@ -48,13 +63,32 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final Ask ask = asks.get(position);
-        AskViewHolder askViewHolder = (AskViewHolder) holder;
+        final AskViewHolder askViewHolder = (AskViewHolder) holder;
 
+        ImageView imageView = new ImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
         ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUsericonurl(),askViewHolder.userIcon,R.drawable.defalutimg);
         askViewHolder.userName.setText(ask.getUsername());
         askViewHolder.userDes.setText(ask.getUserdes());
         askViewHolder.contentAsk.setText(ask.getContent());
 
+
+        askViewHolder.gsyVideoPlayer.setThumbImageView(imageView);
+        askViewHolder.gsyVideoPlayer.setUpLazy(ask.getVideourl(),true,null,null,"标题");
+        askViewHolder.gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
+        askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+        askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
+        askViewHolder.gsyVideoPlayer.setPlayTag(TAG);
+        askViewHolder.gsyVideoPlayer.setPlayPosition(position);
+        //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
+        askViewHolder.gsyVideoPlayer.setAutoFullWithSize(true);
+        //音频焦点冲突时是否释放
+        askViewHolder.gsyVideoPlayer.setReleaseWhenLossAudio(false);
+        //全屏动画
+        askViewHolder.gsyVideoPlayer.setShowFullAnimation(true);
+        //小屏时不触摸滑动
+        askViewHolder.gsyVideoPlayer.setIsTouchWiget(false);
 
         askViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,148 +120,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
         });
 
-//        askViewHolder.rvImg.setLayoutManager(new GridLayoutManager(context,3,GridLayoutManager.VERTICAL,false));
-//
-//        askViewHolder.rvImg.setAdapter(new RecyclerView.Adapter() {
-//            @Override
-//            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//
-//                return new ImgViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.img_item,viewGroup,false));
-//            }
-//
-//            @Override
-//            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-//                ImgViewHolder imgViewHolder = (ImgViewHolder)viewHolder;
-//                ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),ask.getImgurl().get(i),imgViewHolder.imgin,R.drawable.defalutimg);
-//            }
-//
-//            @Override
-//            public int getItemCount() {
-//                return ask.getImgurl().size();
-//            }
-//
-//            class ImgViewHolder extends RecyclerView.ViewHolder{
-//
-//                @BindView(R.id.img_in)
-//                ImageView imgin;
-//                ImgViewHolder(View view){
-//                    super(view);
-//                    ButterKnife.bind(this,view);
-//                }
-//            }
-//        });
-
-//        switch (ask.getImgurl().size()){
-//            case 1:
-//                askViewHolder.imgLayout.setRowCount(1);
-//                askViewHolder.imgLayout.setColumnCount(1);
-//                break;
-//            case 2:
-//                askViewHolder.imgLayout.setRowCount(1);
-//                askViewHolder.imgLayout.setColumnCount(2);
-//                break;
-//            case 3:
-//                askViewHolder.imgLayout.setRowCount(1);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            case 4:
-//                askViewHolder.imgLayout.setRowCount(2);
-//                askViewHolder.imgLayout.setColumnCount(2);
-//                break;
-//            case 5:
-//                askViewHolder.imgLayout.setRowCount(2);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            case 6:
-//                askViewHolder.imgLayout.setRowCount(2);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            case 7:
-//                askViewHolder.imgLayout.setRowCount(3);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            case 8:
-//                askViewHolder.imgLayout.setRowCount(3);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            case 9:
-//                askViewHolder.imgLayout.setRowCount(3);
-//                askViewHolder.imgLayout.setColumnCount(3);
-//                break;
-//            default:
-//                break;
-//        }
-//        for (int i = 0;i < ask.getImgurl().size();i++){
-//            ImageView img = addImageView();
-//
-//            GridLayout.Spec row = GridLayout.spec(1);
-//            GridLayout.Spec column = GridLayout.spec(1);
-//            switch (i){
-//                case 0:
-//                     row = GridLayout.spec(1);
-//                     column = GridLayout.spec(1);
-//                    break;
-//                case 1:
-//                     row = GridLayout.spec(1);
-//                     column = GridLayout.spec(2);
-//                    break;
-//                case 2:
-//                     row = GridLayout.spec(1);
-//                     column = GridLayout.spec(3);
-//                    break;
-//                case 3:
-//                     row = GridLayout.spec(2);
-//                     column = GridLayout.spec(1);
-//                    break;
-//                case 4:
-//                     row = GridLayout.spec(2);
-//                     column = GridLayout.spec(2);
-//                    break;
-//                case 5:
-//                     row = GridLayout.spec(2);
-//                     column = GridLayout.spec(3);
-//                    break;
-//                case 6:
-//                     row = GridLayout.spec(3);
-//                     column = GridLayout.spec(1);
-//                    break;
-//                case 7:
-//                     row = GridLayout.spec(3);
-//                     column = GridLayout.spec(2);
-//                    break;
-//                case 8:
-//                     row = GridLayout.spec(3);
-//                     column = GridLayout.spec(3);
-//                    break;
-//                default:
-//                    break;
-//
-//            }
-//
-//            img.setLayoutParams(new GridLayout.LayoutParams(row,column));
-//            ImageLoader.loadImageViewThumbnailwitherror(context,ask.getImgurl().get(i),img,R.drawable.defalutimg);
-//            askViewHolder.imgLayout.addView(img);
-
-        //}
 
     }
 
-    public void loadBigImg(int position,int urlposition){
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
-        final AlertDialog dialog = new AlertDialog.Builder(context).create();
-        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        ImageLoader.loadImageViewwithError(context,asks.get(position).getImgurl().get(urlposition),img,R.drawable.defalutimg);
-        //img.setImageResource(R.drawable.defalutimg);
-        dialog.setView(imgEntryView); // 自定义dialog
-        dialog.show();
-        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
-        imgEntryView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View paramView) {
-                dialog.cancel();
-            }
-        });
-    }
+
 
     public ImageView addImageView(){
         ImageView imageView = new ImageView(context);
@@ -248,12 +144,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView userDes;
         @BindView(R.id.content_ask)
         TextView contentAsk;
-        @BindView(R.id.img_layout)
-        LinearLayout imgLayout;
 
-        @BindView(R.id.rv_img)
-        RecyclerView rvImg;
 
+
+        @BindView(R.id.video_item_player)
+        StandardGSYVideoPlayer gsyVideoPlayer;
         public AskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

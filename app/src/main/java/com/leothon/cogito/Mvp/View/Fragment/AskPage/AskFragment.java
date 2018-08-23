@@ -24,6 +24,7 @@ import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
 
@@ -93,6 +94,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             ask.setContent("我叫张三丰，万万没想到，我没有学会乾坤大挪移，但我的太极闻名天下，也是蛮叼的");
             ask.setLikecount("122");
             ask.setCommentcount("56");
+            ask.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
+            ask.setCoverurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
 //            ArrayList<String> imgurl = new ArrayList<>();
 //            for (int j = 0;j<9;j++){
 //                imgurl.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534412481159%26di%3Dcbe98dc9bae7a5b0ac8050bc337bcaf3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0117e2571b8b246ac72538120dd8a4.jpg%25401280w_1l_2o_100sh.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D415293130%2C2419074865%26fm%3D27%26gp%3D0.jpg");
@@ -105,10 +108,27 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
         askAdapter = new AskAdapter(getMContext(),asks);
-
-        rvAsk.setLayoutManager(new LinearLayoutManager(getMContext(),LinearLayoutManager.VERTICAL,false));
+        final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(getMContext(),LinearLayoutManager.VERTICAL,false);
+        rvAsk.setLayoutManager(mlinearLayoutManager);
         rvAsk.setAdapter(askAdapter);
+        rvAsk.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int lastVisibleItem = mlinearLayoutManager.findLastVisibleItemPosition();
+                int firstVisibleItem = mlinearLayoutManager.findFirstVisibleItemPosition();
+                if (GSYVideoManager.instance().getPlayPosition() >= 0){
+                    int position = GSYVideoManager.instance().getPlayPosition();
+                    if (GSYVideoManager.instance().getPlayTag().equals(AskAdapter.TAG) && (position < firstVisibleItem || position > lastVisibleItem)){
+                        if (GSYVideoManager.isFullState(getActivity())){
+                            return;
+                        }
 
+                        GSYVideoManager.releaseAllVideos();
+                        askAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.float_btn)
@@ -138,6 +158,10 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 //        askAdapter.notifyItemRangeChanged(0,asks.size());
 //        rvAsk.scrollToPosition(0);
 //    }
+
+
+
+
     @Override
     public void onRefresh() {
 

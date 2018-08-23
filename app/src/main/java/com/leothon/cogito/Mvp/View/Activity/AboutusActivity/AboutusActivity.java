@@ -44,7 +44,7 @@ public class AboutusActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }))
-                .addItem(new Element().setTitle("客服提醒：为了更好更快的帮您解决问题，请在邮件中留下电话、音符账号、昵称、相关截图、详细问题等信息。").setIconDrawable(R.drawable.service))
+                .addItem(new Element().setTitle("客服提醒：为了更好更快的帮您解决问题，请在邮件中留下电话、文艺邦账号、昵称、相关截图、详细问题等信息。").setIconDrawable(R.drawable.service))
                 .addGroup("课程合作")
                 .addItem(new Element().setTitle("如果您希望在文艺邦上开设课程，请与我们联系。"))
                 .addEmail("CogitoTec@163.com")

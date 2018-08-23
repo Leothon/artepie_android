@@ -21,7 +21,7 @@ import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.VoicePage.VoiceFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Weight.BottomButton;
-
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
 import butterknife.BindView;
@@ -275,6 +275,7 @@ public class HostActivity extends BaseActivity  {
      * 以下五个方法是用户点击所在的按钮，将底部色彩进行更新的操作
      */
     public void focusOnHome(){
+        GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.setIvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.focusOnButton();
@@ -293,6 +294,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     public void focusOnVoice(){
+        GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
@@ -311,6 +313,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     public void focusOnAsk(){
+        GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
@@ -329,6 +332,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     public void focusOnBag(){
+        GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
@@ -347,6 +351,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     public void focusOnAbout(){
+        GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
@@ -364,8 +369,32 @@ public class HostActivity extends BaseActivity  {
         bottombtnAbout.focusOnButton();
     }
 
+
     @Override
     public void onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(this)) {
+            return;
+        }
         removeAllActivity();
+
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GSYVideoManager.releaseAllVideos();
+    }
+
 }

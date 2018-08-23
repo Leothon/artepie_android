@@ -59,19 +59,12 @@
             android:layout_marginRight="8dp"
             android:textColor="@color/fontColor"/>
 
-        <LinearLayout
-            android:id="@+id/pic_layout_ask_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
-            <ImageView
-                android:id="@+id/test_img_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/defalutimg"
-                android:layout_margin="10dp"/>
-        </LinearLayout>
+        <!--<com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:id="@+id/video_item_player_detail"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/post_media_height"/>-->
     </LinearLayout>
 
     <View

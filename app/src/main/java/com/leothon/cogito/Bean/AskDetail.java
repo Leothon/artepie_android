@@ -10,7 +10,8 @@ public class AskDetail  {
     private String username;
     private String userdes;
     private String content;
-    private String imgurl;
+    private String coverurl;
+    private String videourl;
     private ArrayList<UserComment> userComments;
 
     public String getUsericon() {
@@ -45,12 +46,20 @@ public class AskDetail  {
         this.content = content;
     }
 
-    public String getImgurl() {
-        return imgurl;
+    public String getCoverurl() {
+        return coverurl;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+    public void setCoverurl(String coverurl) {
+        this.coverurl = coverurl;
+    }
+
+    public String getVideourl() {
+        return videourl;
+    }
+
+    public void setVideourl(String videourl) {
+        this.videourl = videourl;
     }
 
     public ArrayList<UserComment> getUserComments() {

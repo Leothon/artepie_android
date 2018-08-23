@@ -20,6 +20,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.ArrayList;
 
@@ -58,12 +59,31 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
         if (viewType == HEAD0 ) {
-            DetailViewHolder detailViewHolder = (DetailViewHolder)holder;
+            final DetailViewHolder detailViewHolder = (DetailViewHolder)holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getUsericon(),detailViewHolder.userIcon,R.drawable.defalutimg);
             detailViewHolder.userName.setText(askdetails.getUsername());
             detailViewHolder.userDes.setText(askdetails.getUserdes());
             detailViewHolder.contentDetail.setText(askdetails.getContent());
-            ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getImgurl(),detailViewHolder.testImg,R.drawable.defalutimg);
+//            ImageView imageView = new ImageView(context);
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
+//            detailViewHolder.videoPlayer.setThumbImageView(imageView);
+//            detailViewHolder.videoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
+//            detailViewHolder.videoPlayer.getTitleTextView().setVisibility(View.GONE);
+//            detailViewHolder.videoPlayer.getBackButton().setVisibility(View.GONE);
+//            detailViewHolder.videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    detailViewHolder.videoPlayer.startWindowFullscreen(context,false,true);
+//                }
+//            });
+//            detailViewHolder.videoPlayer.setAutoFullWithSize(true);
+//            //音频焦点冲突时是否释放
+//            detailViewHolder.videoPlayer.setReleaseWhenLossAudio(false);
+//            //全屏动画
+//            detailViewHolder.videoPlayer.setShowFullAnimation(true);
+//            //小屏时不触摸滑动
+//            detailViewHolder.videoPlayer.setIsTouchWiget(false);
         }else if(viewType == HEAD1){
             int position1 = position - 1;
 
@@ -117,10 +137,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView userDes;
         @BindView(R.id.content_ask_detail)
         TextView contentDetail;
-        @BindView(R.id.pic_layout_ask_detail)
-        LinearLayout picLayout;
-        @BindView(R.id.test_img_detail)
-        ImageView testImg;
+//        @BindView(R.id.video_item_player_detail)
+//        StandardGSYVideoPlayer gsyVideoPlayer;
         public DetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

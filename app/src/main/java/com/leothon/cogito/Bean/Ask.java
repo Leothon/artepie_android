@@ -16,17 +16,25 @@ public class Ask extends BaseResponse {
     private String commentcount;
     private String likecount;
 
-    private ArrayList<String> imgurl;
+    private String coverurl;
+    private String videourl;
 
 
-    public ArrayList<String> getImgurl() {
-        return imgurl;
+    public String getCoverurl() {
+        return coverurl;
     }
 
-    public void setImgurl(ArrayList<String> imgurl) {
-        this.imgurl = imgurl;
+    public void setCoverurl(String coverurl) {
+        this.coverurl = coverurl;
     }
 
+    public String getVideourl() {
+        return videourl;
+    }
+
+    public void setVideourl(String videourl) {
+        this.videourl = videourl;
+    }
 
     public String getUsericonurl() {
         return usericonurl;
