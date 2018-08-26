@@ -188,12 +188,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 break;
             case R.id.get_verify_code:
                 if (!phoneRegister.getText().toString().equals("") && CommonUtils.isPhoneNumber(phoneRegister.getText().toString())){
-                    CommonUtils.makeText(CommonUtils.getContext(),"已向" + phoneRegister.getText().toString() + "发送验证码");
+                    CommonUtils.makeText(LoginActivity.this,"已向" + phoneRegister.getText().toString() + "发送验证码");
                     //TODO 进行获取验证码操作
                 }else if (phoneRegister.getText().toString().equals("")){
-                    CommonUtils.makeText(CommonUtils.getContext(),"手机号码为空");
+                    CommonUtils.makeText(LoginActivity.this,"手机号码为空");
                 }else {
-                    CommonUtils.makeText(CommonUtils.getContext(),"手机号码不存在");
+                    CommonUtils.makeText(LoginActivity.this,"手机号码不存在");
                 }
                 break;
             case R.id.register_button:
@@ -205,13 +205,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 isLoginPage = false;
                 break;
             case R.id.sound_code:
-                CommonUtils.makeText(CommonUtils.getContext(),"暂未开启语音验证码，敬请期待");
+                CommonUtils.makeText(LoginActivity.this,"暂未开启语音验证码，敬请期待");
                 break;
             case R.id.qq_login:
-                CommonUtils.makeText(CommonUtils.getContext(),"暂未开放QQ登录");
+                CommonUtils.makeText(LoginActivity.this,"暂未开放QQ登录");
                 break;
             case R.id.wechat_login:
-                CommonUtils.makeText(CommonUtils.getContext(),"暂未开放微信登录");
+                CommonUtils.makeText(LoginActivity.this,"暂未开放微信登录");
                 break;
             case R.id.register:
                 rephone = phoneRegister.getText().toString();
@@ -243,7 +243,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @Override
     public void setUsernameORPassWordEmpty() {
         //设置为空显示的东西
-        CommonUtils.makeText(CommonUtils.getContext(),"账号或者密码不能为空");
+        CommonUtils.makeText(LoginActivity.this,"账号或者密码不能为空");
     }
 
     @Override
@@ -266,7 +266,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void setSomeEmpty() {
-        CommonUtils.makeText(CommonUtils.getContext(),"请填写完整信息");
+        CommonUtils.makeText(LoginActivity.this,"请填写完整信息");
     }
 
     @Override
@@ -284,7 +284,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void showphoneIllegal() {
-        CommonUtils.makeText(CommonUtils.getContext(),"请输入正确格式的手机号码");
+        CommonUtils.makeText(LoginActivity.this,"请输入正确格式的手机号码");
     }
 
     @Override

@@ -317,7 +317,7 @@ public class PlayerActivity extends BaseActivity {
                     videoPlayer.onVideoResume(true);
                     editComment.setText("");
                 }else {
-                    CommonUtils.makeText(CommonUtils.getContext(),"请输入评论内容");
+                    CommonUtils.makeText(PlayerActivity.this,"请输入评论内容");
                 }
 
             }
@@ -354,7 +354,7 @@ public class PlayerActivity extends BaseActivity {
             @Override
             public void onItemClickListner(View v, int position) {
                 //TODO 未来进行回复评论的操作
-                CommonUtils.makeText(CommonUtils.getContext(),"回复评论功能暂未开放");
+                CommonUtils.makeText(PlayerActivity.this,"回复评论功能暂未开放");
             }
         });
         videoCommentAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {

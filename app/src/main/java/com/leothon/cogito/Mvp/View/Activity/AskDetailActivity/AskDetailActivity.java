@@ -156,7 +156,7 @@ public class AskDetailActivity extends BaseActivity {
                     popupWindow.dismiss();
                     editComment.setText("");
                 }else {
-                    CommonUtils.makeText(CommonUtils.getContext(),"请输入评论内容");
+                    CommonUtils.makeText(AskDetailActivity.this,"请输入评论内容");
                 }
 
             }

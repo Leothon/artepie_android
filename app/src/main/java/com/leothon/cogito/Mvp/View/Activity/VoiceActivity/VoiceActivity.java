@@ -132,7 +132,7 @@ public class VoiceActivity extends BaseActivity {
     }
 
     public void loadAnim(){
-        operatingAnim = AnimationUtils.loadAnimation(CommonUtils.getContext(),R.anim.remote_img);
+        operatingAnim = AnimationUtils.loadAnimation(VoiceActivity.this,R.anim.remote_img);
         operatingAnim.setDuration(2000);
         linearInterpolator = new LinearInterpolator();
         operatingAnim.setInterpolator(linearInterpolator);

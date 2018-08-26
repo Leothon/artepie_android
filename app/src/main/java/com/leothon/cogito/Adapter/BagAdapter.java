@@ -73,7 +73,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         }else if(viewType == HEAD1){
             int position1 = position - 1;
             BuyClassHolder buyClassHolder = (BuyClassHolder)holder;
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),bagBuyclass.get(position1).getImgurl(),buyClassHolder.classbagImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,bagBuyclass.get(position1).getImgurl(),buyClassHolder.classbagImg,R.drawable.defalutimg);
             buyClassHolder.classbagTitle.setText(bagBuyclass.get(position1).getTitle());
             buyClassHolder.classbagDes.setText(bagBuyclass.get(position1).getDescription());
             buyClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         }else if (viewType == HEAD3){
             int position2 = position - (bagBuyclass.size() + 2);
             RecommentClassHolder recommentClassHolder = (RecommentClassHolder)holder;
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),recommendclass.get(position2).getImgurl(),recommentClassHolder.recommentImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,recommendclass.get(position2).getImgurl(),recommentClassHolder.recommentImg,R.drawable.defalutimg);
             recommentClassHolder.playMark.setVisibility(View.GONE);
             recommentClassHolder.recommentTv.setText(recommendclass.get(position2).getTitle());
             recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {

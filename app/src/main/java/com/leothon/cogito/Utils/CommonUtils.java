@@ -591,6 +591,7 @@ public class CommonUtils {
     /**
      * 获取上下文
      * @return
+     * 慎用，该方法直接获取全局的context，如果大量被持有，则会导致持有的对象无法被回收而导致内存溢出
      */
     public static Context getContext(){
         return BaseApplication.getApplication();

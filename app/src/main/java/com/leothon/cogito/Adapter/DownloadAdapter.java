@@ -97,7 +97,7 @@ public class DownloadAdapter extends RecyclerView.Adapter {
 
 
     public void loadAnim(){
-        operatingAnim = AnimationUtils.loadAnimation(CommonUtils.getContext(),R.anim.remote_img);
+        operatingAnim = AnimationUtils.loadAnimation(context,R.anim.remote_img);
         linearInterpolator = new LinearInterpolator();
         operatingAnim.setInterpolator(linearInterpolator);
     }

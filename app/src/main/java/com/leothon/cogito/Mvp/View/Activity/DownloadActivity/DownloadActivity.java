@@ -42,7 +42,7 @@ public class DownloadActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //TODO 点击进行编辑
-                CommonUtils.makeText(CommonUtils.getContext(),"点击编辑下载任务");
+                CommonUtils.makeText(DownloadActivity.this,"点击编辑下载任务");
             }
         });
     }

@@ -84,9 +84,9 @@ public class WalletActivity extends BaseActivity {
             public void onClick(View view) {
                 //TODO 充值操作
                 if (Constants.rechargeCount.equals("0") || Constants.rechargeCount.equals("")){
-                    CommonUtils.makeText(CommonUtils.getContext(),"请选择充值金额");
+                    CommonUtils.makeText(WalletActivity.this,"请选择充值金额");
                 }else {
-                    CommonUtils.makeText(CommonUtils.getContext(),"向账户充值" + Constants.rechargeCount + "元");
+                    CommonUtils.makeText(WalletActivity.this,"向账户充值" + Constants.rechargeCount + "元");
                 }
 
             }

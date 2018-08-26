@@ -97,7 +97,7 @@ public class SuccessActivity extends BaseActivity {
                     @Override
                     public void onPositiveClick() {
 
-                        CommonUtils.makeText(CommonUtils.getContext(),"已成功保存取票二维码");
+                        CommonUtils.makeText(SuccessActivity.this,"已成功保存取票二维码");
 
                         dialog.dismiss();
 

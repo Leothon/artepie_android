@@ -163,13 +163,13 @@ public class PayActivity extends BaseActivity {
             @Override
             public void run() {
                 if (payType == 0){
-                    CommonUtils.makeText(CommonUtils.getContext(),"使用账户支付");
+                    CommonUtils.makeText(PayActivity.this,"使用账户支付");
                     pay();
                 }else if (payType == 1){
-                    CommonUtils.makeText(CommonUtils.getContext(),"使用支付宝支付");
+                    CommonUtils.makeText(PayActivity.this,"使用支付宝支付");
                     pay();
                 }else if (payType == 2){
-                    CommonUtils.makeText(CommonUtils.getContext(),"使用微信支付");
+                    CommonUtils.makeText(PayActivity.this,"使用微信支付");
                     pay();
                 }
 

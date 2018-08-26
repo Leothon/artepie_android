@@ -22,6 +22,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Weight.LoadingDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -116,7 +117,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         askViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                
                 IntentUtils.getInstence().intent(context, AskDetailActivity.class);
+
             }
         });
 

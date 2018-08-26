@@ -308,11 +308,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             activityholder.activity5title.setText(activitiesName[4]);
 
             //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),activitiesImg[0],activityholder.activity1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),activitiesImg[1],activityholder.activity2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),activitiesImg[2],activityholder.activity3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),activitiesImg[3],activityholder.activity4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),activitiesImg[4],activityholder.activity5img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[0],activityholder.activity1img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[1],activityholder.activity2img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[2],activityholder.activity3img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[3],activityholder.activity4img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[4],activityholder.activity5img,R.drawable.defalutimg);
 
         }else if(viewType == HEAD4){
             classHolder classholder = (classHolder) holder;
@@ -383,11 +383,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             classholder.class5title.setText(classesName[4]);
 
             //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),classesImg[0],classholder.class1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),classesImg[1],classholder.class2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),classesImg[2],classholder.class3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),classesImg[3],classholder.class4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),classesImg[4],classholder.class5img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[0],classholder.class1img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[1],classholder.class2img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[2],classholder.class3img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[3],classholder.class4img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[4],classholder.class5img,R.drawable.defalutimg);
 
         }else if(viewType == HEAD5){
             videoclassHolder videoclassholder = (videoclassHolder) holder;
@@ -453,11 +453,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             videoclassholder.video5title.setText(videoName[4]);
 
             //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),videoImg[0],videoclassholder.video1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),videoImg[1],videoclassholder.video2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),videoImg[2],videoclassholder.video3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),videoImg[3],videoclassholder.video4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),videoImg[4],videoclassholder.video5img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[0],videoclassholder.video1img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[1],videoclassholder.video2img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[2],videoclassholder.video3img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[3],videoclassholder.video4img,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[4],videoclassholder.video5img,R.drawable.defalutimg);
         } else if (viewType == HEAD6){
             return;
         }else if (viewType == NORMAL){
@@ -471,14 +471,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     int pos = videoPosition;
-                    //以下的context来自于home Fragment调用构造方法时传入，fragment中context来自于basefragment，basefragment中context来自于getContext（）
+                    //以下的context来自于home Fragment调用构造方法时传入，fragment中context来自于basefragment
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",foryouVideo[videoPosition]);
                     bundle.putString("imgTitle",foryouvideotitle[videoPosition]);
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
-            ImageLoader.loadImageViewThumbnailwitherror(CommonUtils.getContext(),foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
 
 
         }

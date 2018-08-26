@@ -53,11 +53,11 @@ public class MessageActivity extends BaseActivity {
                 if (soundNotice.isChecked()){
                     soundNotice.setChecked(false);
                     //TODO 未选中
-                    CommonUtils.makeText(CommonUtils.getContext(),"未选中");
+                    CommonUtils.makeText(MessageActivity.this,"未选中");
                 }else {
                     soundNotice.setChecked(true);
                     //TODO 选中
-                    CommonUtils.makeText(CommonUtils.getContext(),"选中");
+                    CommonUtils.makeText(MessageActivity.this,"选中");
                 }
 
 
@@ -69,11 +69,11 @@ public class MessageActivity extends BaseActivity {
                if (askNotice.isChecked()){
                    askNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"未选中");
+                   CommonUtils.makeText(MessageActivity.this,"未选中");
                }else {
                    askNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"选中");
+                   CommonUtils.makeText(MessageActivity.this,"选中");
                }
            }
        });
@@ -84,11 +84,11 @@ public class MessageActivity extends BaseActivity {
                if (commentNotice.isChecked()){
                    commentNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"未选中");
+                   CommonUtils.makeText(MessageActivity.this,"未选中");
                }else {
                    commentNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"选中");
+                   CommonUtils.makeText(MessageActivity.this,"选中");
                }
            }
        });
@@ -98,11 +98,11 @@ public class MessageActivity extends BaseActivity {
                if (classNotice.isChecked()){
                    classNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"未选中");
+                   CommonUtils.makeText(MessageActivity.this,"未选中");
                }else {
                    classNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(CommonUtils.getContext(),"选中");
+                   CommonUtils.makeText(MessageActivity.this,"选中");
                }
            }
        });
