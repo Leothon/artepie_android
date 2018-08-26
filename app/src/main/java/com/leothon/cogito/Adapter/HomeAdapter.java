@@ -134,17 +134,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }else if(viewType == HEAD1){
             return new TeaHolder(headView1);
         }else if (viewType == HEAD2){
-            return new testHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.test_home,parent,false));
+            return new testHolder(LayoutInflater.from(context).inflate(R.layout.test_home,parent,false));
         }else if(viewType == HEAD3){
-            return new activityHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.tagcommon_home,parent,false));
+            return new activityHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
         }else if(viewType == HEAD4){
-            return new classHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.tagcommon_home,parent,false));
+            return new classHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
         }else if(viewType == HEAD5){
-            return new videoclassHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.tagcommon_home,parent,false));
+            return new videoclassHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
         }else if(viewType == HEAD6){
-            return new dividerHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.dividerview,parent,false));
+            return new dividerHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else {
-            return new foryouHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.videoforyou_home,parent,false));
+            return new foryouHolder(LayoutInflater.from(context).inflate(R.layout.videoforyou_home,parent,false));
         }
     }
 

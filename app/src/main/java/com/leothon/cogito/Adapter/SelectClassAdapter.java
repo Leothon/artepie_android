@@ -40,9 +40,9 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEAD){
-            return new SelectHeadHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.select_class_background,parent,false));
+            return new SelectHeadHolder(LayoutInflater.from(context).inflate(R.layout.select_class_background,parent,false));
         }else {
-            return new SelectClassHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.select_class_item,parent,false));
+            return new SelectClassHolder(LayoutInflater.from(context).inflate(R.layout.select_class_item,parent,false));
 
         }
     }

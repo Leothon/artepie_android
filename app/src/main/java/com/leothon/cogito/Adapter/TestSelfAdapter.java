@@ -40,11 +40,11 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEAD){
-            return new TestHeadHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.test_background,parent,false));
+            return new TestHeadHolder(LayoutInflater.from(context).inflate(R.layout.test_background,parent,false));
         }else if (viewType == DESCRIPTION){
-            return new TestDesHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.test_background_description,parent,false));
+            return new TestDesHolder(LayoutInflater.from(context).inflate(R.layout.test_background_description,parent,false));
         }else {
-            return new ClassItemHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.class_item,parent,false));
+            return new ClassItemHolder(LayoutInflater.from(context).inflate(R.layout.class_item,parent,false));
 
         }
     }

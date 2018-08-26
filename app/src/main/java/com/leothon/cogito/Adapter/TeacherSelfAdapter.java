@@ -47,11 +47,11 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEAD){
-            return new TeacherHeadHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.teacher_background,parent,false));
+            return new TeacherHeadHolder(LayoutInflater.from(context).inflate(R.layout.teacher_background,parent,false));
         }else if (viewType == DESCRIPTION){
-            return new TeacherDesHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.teacher_background_description,parent,false));
+            return new TeacherDesHolder(LayoutInflater.from(context).inflate(R.layout.teacher_background_description,parent,false));
         }else {
-            return new ClassItemHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.class_item,parent,false));
+            return new ClassItemHolder(LayoutInflater.from(context).inflate(R.layout.class_item,parent,false));
 
         }
     }

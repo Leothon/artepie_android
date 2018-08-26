@@ -53,13 +53,13 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         if (viewType == HEAD0) {
-            return new BuyClassTitleHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.dividerview,parent,false));
+            return new BuyClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else if(viewType == HEAD1){
-            return new BuyClassHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.voiceitem,parent,false));
+            return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.voiceitem,parent,false));
         }else if (viewType == HEAD2){
-            return new RecommentClassTitleHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.dividerview,parent,false));
+            return new RecommentClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else {
-            return new RecommentClassHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.videoforyou_home,parent,false));
+            return new RecommentClassHolder(LayoutInflater.from(context).inflate(R.layout.videoforyou_home,parent,false));
         }
     }
 

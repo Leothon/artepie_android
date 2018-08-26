@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/ripple"
+    android:clickable="true">
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
@@ -59,12 +61,13 @@
             android:layout_marginRight="8dp"
             android:textColor="@color/fontColor"/>
 
-        <!--<com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:id="@+id/video_item_player_detail"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/post_media_height"/>-->
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            android:id="@+id/detail_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+
+
     </LinearLayout>
 
     <View

@@ -24,6 +24,7 @@ import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.FitUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        FitUtils.autoFit(this,false);
         setContentView(initLayout());
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();

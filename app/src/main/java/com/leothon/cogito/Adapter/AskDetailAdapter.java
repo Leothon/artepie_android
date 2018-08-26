@@ -49,9 +49,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEAD0) {
-            return new DetailViewHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.ask_detail_head,parent,false));
+            return new DetailViewHolder(LayoutInflater.from(context).inflate(R.layout.ask_detail_head,parent,false));
         }else {
-            return new CommentViewHolder(LayoutInflater.from(CommonUtils.getContext()).inflate(R.layout.comment_item, parent, false));
+            return new CommentViewHolder(LayoutInflater.from(context).inflate(R.layout.comment_item, parent, false));
         }
     }
 
@@ -64,26 +64,26 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.userName.setText(askdetails.getUsername());
             detailViewHolder.userDes.setText(askdetails.getUserdes());
             detailViewHolder.contentDetail.setText(askdetails.getContent());
-//            ImageView imageView = new ImageView(context);
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
-//            detailViewHolder.videoPlayer.setThumbImageView(imageView);
-//            detailViewHolder.videoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
-//            detailViewHolder.videoPlayer.getTitleTextView().setVisibility(View.GONE);
-//            detailViewHolder.videoPlayer.getBackButton().setVisibility(View.GONE);
-//            detailViewHolder.videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    detailViewHolder.videoPlayer.startWindowFullscreen(context,false,true);
-//                }
-//            });
-//            detailViewHolder.videoPlayer.setAutoFullWithSize(true);
-//            //音频焦点冲突时是否释放
-//            detailViewHolder.videoPlayer.setReleaseWhenLossAudio(false);
-//            //全屏动画
-//            detailViewHolder.videoPlayer.setShowFullAnimation(true);
-//            //小屏时不触摸滑动
-//            detailViewHolder.videoPlayer.setIsTouchWiget(false);
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
+            detailViewHolder.VideoPlayer.setThumbImageView(imageView);
+            detailViewHolder.VideoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
+            detailViewHolder.VideoPlayer.getTitleTextView().setVisibility(View.GONE);
+            detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
+            detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    detailViewHolder.VideoPlayer.startWindowFullscreen(context,false,true);
+                }
+            });
+            detailViewHolder.VideoPlayer.setAutoFullWithSize(true);
+            //音频焦点冲突时是否释放
+            detailViewHolder.VideoPlayer.setReleaseWhenLossAudio(false);
+            //全屏动画
+            detailViewHolder.VideoPlayer.setShowFullAnimation(true);
+            //小屏时不触摸滑动
+            detailViewHolder.VideoPlayer.setIsTouchWiget(false);
         }else if(viewType == HEAD1){
             int position1 = position - 1;
 
@@ -137,8 +137,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView userDes;
         @BindView(R.id.content_ask_detail)
         TextView contentDetail;
-//        @BindView(R.id.video_item_player_detail)
-//        StandardGSYVideoPlayer gsyVideoPlayer;
+        @BindView(R.id.detail_video_player)
+        StandardGSYVideoPlayer VideoPlayer;
+
         public DetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
