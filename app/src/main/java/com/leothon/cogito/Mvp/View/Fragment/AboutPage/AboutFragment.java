@@ -22,6 +22,7 @@ import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.MessageActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.SettingsActivity;
+import com.leothon.cogito.Mvp.View.Activity.UploadActivity.UploadActivity;
 import com.leothon.cogito.Mvp.View.Activity.WalletActivity.WalletActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -159,6 +160,11 @@ public class AboutFragment extends BaseFragment {
        toDownloadPage();
         //TODO 下载
     }
+    @OnClick(R.id.my_upload)
+    public void uploadClick(View v){
+        toUploadPage();
+        //TODO 上传
+    }
     @OnClick(R.id.histroy_about)
     public void historyClick(View v){
         toHistoryPage();
@@ -220,6 +226,16 @@ public class AboutFragment extends BaseFragment {
             CommonUtils.loadinglogin(getMContext());
         }else if (Constants.loginStatus ==1){
             IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
+        }
+    }
+
+    private void toUploadPage(){
+        if (Constants.loginStatus == 0){
+            CommonUtils.loadinglogin(getMContext());
+        }else if (Constants.loginStatus ==1){
+            //TODO 进入我的发布页面，显示我发布过的内容
+
+            IntentUtils.getInstence().intent(getMContext(), UploadActivity.class);
         }
     }
     private void toHistoryPage(){

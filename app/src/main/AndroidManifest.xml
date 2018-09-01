@@ -30,9 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Mvp.View.Activity.HomeActivity.HostActivity"
+        <activity
+            android:name=".Mvp.View.Activity.HomeActivity.HostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".Mvp.View.Activity.LoginActivity.LoginActivity" />
         <activity
             android:name=".Mvp.View.Activity.PlayerActivity.PlayerActivity"
@@ -68,10 +69,12 @@
         <activity android:name=".Mvp.View.Activity.PayActivity.PayActivity" />
         <activity android:name=".Mvp.View.Activity.SuccessActivity.SuccessActivity" />
         <activity android:name=".Mvp.View.Activity.AskActivity.AskActivity" />
-        <activity android:name=".Mvp.View.Activity.AskDetailActivity.AskDetailActivity"
+        <activity
+            android:name=".Mvp.View.Activity.AskDetailActivity.AskDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Mvp.View.Activity.SearchActivity.SearchActivity"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Mvp.View.Activity.SearchActivity.SearchActivity" />
+        <activity android:name=".Mvp.View.Activity.UploadActivity.UploadActivity"></activity>
     </application>
 
 </manifest>

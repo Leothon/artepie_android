@@ -68,7 +68,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
+        imageView.setImageResource(R.drawable.activityback);
+        //ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
         ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUsericonurl(),askViewHolder.userIcon,R.drawable.defalutimg);
         askViewHolder.userName.setText(ask.getUsername());
         askViewHolder.userDes.setText(ask.getUserdes());
@@ -117,7 +118,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         askViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 IntentUtils.getInstence().intent(context, AskDetailActivity.class);
 
             }

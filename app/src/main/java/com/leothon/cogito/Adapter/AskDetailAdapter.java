@@ -66,7 +66,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.contentDetail.setText(askdetails.getContent());
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
+            imageView.setImageResource(R.drawable.activityback);
+            //ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
             detailViewHolder.VideoPlayer.setThumbImageView(imageView);
             detailViewHolder.VideoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
             detailViewHolder.VideoPlayer.getTitleTextView().setVisibility(View.GONE);

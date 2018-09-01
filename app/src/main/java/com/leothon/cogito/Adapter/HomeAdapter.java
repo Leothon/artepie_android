@@ -61,21 +61,21 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.suda.edu.cn%2Fupload%2Fimage%2F20141117%2F20141117144151385138.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D820220922%2C2846906271%26fm%3D27%26gp%3D0.jpg"};
     private String[] foryouvideotitle = {"道士燕赤霞道法高强，能让钱币弯腰认主",
-            "石原里美被曝与男友同居",
-            "一条《家宴》冯豆子骂人吐槽",
-            "彩色的记号荧光笔就是这样制造的",
-            "李健和吴秀波这次组合犹如李寻欢遇见了乔峰",
-            "台湾高中生眼中的大陆",
-            "印度小哥做了只10公斤的烤全羊",
-            "芒果我这样吃",
-            "都说撒娇的女人最好命",
-            "“亲吻”视频疯传后，这对沙特情侣被捕了",
-            "罗志祥是永远帅不过三秒的男人",
-            "《不念》张靓颖献唱",
-            "冯提莫直播时疑似走光，真敢玩",
-            "高圣远经纪人否认离婚",
-            "60元一块的战斧牛排，真的像战斧一般",
-            "刘老师爆笑解说《头号玩家》"};
+            "男中音的通病",
+            "歌手杨杰现场示范",
+            "男高音专场",
+            "包楞调对唱",
+            "海归歌唱家刘明",
+            "民族情歌对唱",
+            "亲爱的爸爸",
+            "王强教授现场教学",
+            "民族歌手刘硕示范",
+            "歌唱气息的支点",
+            "歌曲表达的意境",
+            "青歌赛海选现场",
+            "练声的误区",
+            "声音的穿透力",
+            "歌唱时的意识"};
     private String[] activitiesName = {"国际音乐节","草莓音乐节","“爱之声” 音乐会","国家大剧院专场","美声专场"};
     private String[] activitiesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fphotocdn.sohu.com%2F20130502%2FImg374568060.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D25528335%2C2202724169%26fm%3D27%26gp%3D0.jpg",
@@ -86,7 +86,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private String[] testesName = {"民族","美声","古典","戏曲","原生态","民谣","通俗","其他"};
 //    private int[] testesImg = {R.drawable.meisheng,R.drawable.minzu,R.drawable.tongsu,R.drawable.yuanshengtai,R.drawable.minyao,R.drawable.shuochang,R.drawable.jueshi};
 
-    private String[] classesName = {"爱上钢琴","葫芦丝王子","男低音歌唱家","青年国粹传承人","作品欣赏课"};
+    private String[] classesName = {"爱上钢琴","葫芦丝王子","男低音歌唱家","国粹传承人","作品欣赏课"};
     private String[] classesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fhimg2.huanqiu.com%2Fattachment2010%2F2015%2F1030%2F11%2F43%2F20151030114302175.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3483213455%2C1103428764%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.01ny.cn%2Fforum%2F201112%2F04%2F190722f3vkvdfv3khz30mt.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D524358622%2C2173211898%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fy0.ifengimg.com%2Fcmpp%2F2014%2F12%2F15%2F13%2F262b861a-31eb-44fc-b30d-d611d2d469fb.JPG&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D1989887561%2C4126741818%26fm%3D27%26gp%3D0.jpg",

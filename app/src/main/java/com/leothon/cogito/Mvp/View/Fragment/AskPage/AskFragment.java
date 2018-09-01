@@ -96,11 +96,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             ask.setCommentcount("56");
             ask.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
             ask.setCoverurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
-//            ArrayList<String> imgurl = new ArrayList<>();
-//            for (int j = 0;j<9;j++){
-//                imgurl.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534412481159%26di%3Dcbe98dc9bae7a5b0ac8050bc337bcaf3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0117e2571b8b246ac72538120dd8a4.jpg%25401280w_1l_2o_100sh.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D415293130%2C2419074865%26fm%3D27%26gp%3D0.jpg");
-//            }
-//            ask.setImgurl(imgurl);
+
             asks.add(ask);
         }
     }
