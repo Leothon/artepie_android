@@ -32,6 +32,8 @@
         android:background="@drawable/ripple">
 
     </com.leothon.cogito.Weight.BottomButton>
+
+
     <com.leothon.cogito.Weight.BottomButton
         android:id="@+id/bottom_btn_bag"
         android:layout_width="0dp"

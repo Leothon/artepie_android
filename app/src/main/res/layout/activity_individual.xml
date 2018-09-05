@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/toolbar"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:clipChildren="false">
+                <ImageView
+                    android:id="@+id/individual_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/backactivity"
+                    android:scaleType="centerCrop"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="105dp"
+                    android:layout_below="@+id/individual_back"
+                    android:background="@drawable/ripple"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/individual_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="望江亭"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/appBarSize"
+                            android:padding="8dp"/>
+                        <TextView
+                            android:id="@+id/age_individual"
+                            android:layout_toRightOf="@+id/individual_name"
+                            android:layout_above="@+id/individual_signal"
+                            android:text="34岁"
+                            android:textColor="@color/fontColor"
+                            android:textSize="@dimen/tipsSize"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:layout_height="match_parent" />
+                        <ImageView
+                            android:id="@+id/sex_individual"
+                            android:layout_toRightOf="@id/age_individual"
+                            android:layout_above="@id/individual_signal"
+                            android:layout_width="18dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/male"
+                            android:layout_marginLeft="8dp"/>
+                        <TextView
+                            android:layout_below="@+id/individual_name"
+                            android:id="@+id/individual_signal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="镜中望江亭，水上映明月"
+                            android:textSize="@dimen/tipsSize"
+                            android:padding="8dp"/>
+                        <TextView
+                            android:id="@+id/individual_location"
+                            android:layout_below="@+id/individual_signal"
+                            android:padding="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="北京"
+                            android:textSize="@dimen/tipsSize"
+                            android:drawableLeft="@drawable/baseline_location_on_black_18"/>
+
+
+                    </RelativeLayout>
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/individual_icon"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/defalutimg"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        app:riv_border_color="@color/white"
+                        app:riv_border_width="2dp"
+                        android:translationY="-24dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="end" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/dividerColor"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple"
+                android:clickable="true">
+                <TextView
+                    android:id="@+id/individual_follow_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关注 123"
+                    android:textColor="@color/fontColor"
+                    android:textSize="@dimen/tipsSize"
+                    android:layout_margin="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    />
+                <TextView
+                    android:layout_toRightOf="@+id/individual_follow_count"
+                    android:id="@+id/individual_fans_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="粉丝 8596"
+                    android:textColor="@color/fontColor"
+                    android:textSize="@dimen/tipsSize"
+                    android:layout_margin="15dp"
+                    android:layout_centerInParent="true"
+                    />
+
+                <TextView
+                    android:id="@+id/follow_btn"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="80dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="关注"
+                    android:background="@drawable/textviewbackground"
+                    android:padding="8dp"
+                    android:layout_margin="15dp"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/dividerColor"/>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/v_sure"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="认证个人或教师"
+                    android:background="@drawable/v_ensure"
+                    android:textColor="@color/white"
+
+                    android:gravity="center"
+                    android:layout_margin="5dp"/>
+                <TextView
+                    android:id="@+id/individual_content"
+                    android:text="我的发布内容"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/textviewbackground"
+                    android:gravity="center"
+                    android:layout_margin="5dp"
+                     />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout> 

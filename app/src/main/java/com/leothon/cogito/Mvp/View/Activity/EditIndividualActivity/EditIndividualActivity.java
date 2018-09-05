@@ -24,6 +24,7 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 
@@ -55,6 +56,11 @@ public class EditIndividualActivity extends BaseActivity {
     TextView userSex;
     @BindView(R.id.edit_user_birth)
     TextView userBirth;
+    @BindView(R.id.edit_user_signal)
+    TextView userSignal;
+    @BindView(R.id.edit_user_number)
+    TextView userNumber;
+
 
     private String path;
 
@@ -82,8 +88,10 @@ public class EditIndividualActivity extends BaseActivity {
         userName.setText("陈独秀");
         userSex.setText("男");
         userBirth.setText("1998-8-8");
-        phone = "1358569";
+        phone = "13500713926";
         signatrue = "我来自于神之殿堂";
+        userNumber.setText(phone);
+        userSignal.setText(signatrue);
         userIcon.setImageResource(R.drawable.wanghongwei);
         Calendar nowdate = Calendar.getInstance();
         mYear = nowdate.get(Calendar.YEAR);
@@ -138,7 +146,8 @@ public class EditIndividualActivity extends BaseActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString("type","about");
-        IntentUtils.getInstence().intent(EditIndividualActivity.this, HostActivity.class,bundle);
+        IntentUtils.getInstence().intent(EditIndividualActivity.this, IndividualActivity.class,bundle);
+        finish();
     }
 
 
@@ -270,6 +279,7 @@ public class EditIndividualActivity extends BaseActivity {
                                         // 获取edittext的内容,显示到textview
                                         if (!userInput.getText().toString().equals("")){
                                             phone = userInput.getText().toString();
+                                            userNumber.setText(phone);
                                             isEdit = true;
                                         }
 
@@ -295,6 +305,7 @@ public class EditIndividualActivity extends BaseActivity {
                                         // 获取edittext的内容,显示到textview
                                         if (!userInput.getText().toString().equals("")){
                                             signatrue = userInput.getText().toString();
+                                            userSignal.setText(signatrue);
                                             isEdit = true;
                                         }
 

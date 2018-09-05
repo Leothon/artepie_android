@@ -72,6 +72,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     @Override
     public void initview() {
         StatusBarUtils.transparencyBar(this);
+        teaBar.setRadius(CommonUtils.dip2px(this,5));
         intent = getIntent();
         bundle = intent.getExtras();
         loadFalseData();

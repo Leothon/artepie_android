@@ -16,7 +16,7 @@
         android:visibility="gone"
         layout="@layout/toolbar"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swp_tea"

@@ -18,6 +18,7 @@ import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.MessageActivity;
@@ -209,7 +210,9 @@ public class AboutFragment extends BaseFragment {
         if (Constants.loginStatus == 0){
             CommonUtils.loadinglogin(getMContext());
         }else if (Constants.loginStatus ==1){
-            IntentUtils.getInstence().intent(getMContext(), EditIndividualActivity.class);
+            Bundle bundleTo = new Bundle();
+            bundleTo.putString("type","individual");
+            IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleTo);
         }
     }
 

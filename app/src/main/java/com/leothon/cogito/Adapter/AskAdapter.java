@@ -2,6 +2,7 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayout;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -96,21 +98,27 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 //TODO 跳转个人主页
-                CommonUtils.makeText(context,"个人主页");
+                Bundle bundleto = new Bundle();
+                bundleto.putString("type","other");
+                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
         askViewHolder.userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO 跳转个人主页
-                CommonUtils.makeText(context,"个人主页");
+                Bundle bundleto = new Bundle();
+                bundleto.putString("type","other");
+                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
         askViewHolder.userDes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO 跳转个人主页
-                CommonUtils.makeText(context,"个人主页");
+                Bundle bundleto = new Bundle();
+                bundleto.putString("type","other");
+                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
 

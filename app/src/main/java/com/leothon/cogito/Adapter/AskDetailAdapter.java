@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.BagBuy;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -85,6 +86,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.VideoPlayer.setShowFullAnimation(true);
             //小屏时不触摸滑动
             detailViewHolder.VideoPlayer.setIsTouchWiget(false);
+            detailViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundleto = new Bundle();
+                    bundleto.putString("type","other");
+                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                }
+            });
+
         }else if(viewType == HEAD1){
             int position1 = position - 1;
 

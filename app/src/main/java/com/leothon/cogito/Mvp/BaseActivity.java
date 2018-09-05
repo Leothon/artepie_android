@@ -127,6 +127,12 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         Constants.onlineTime = Constants.onlineTime + (endTime - startTime);
     }
 
+    public abstract int initLayout();
+
+    public abstract void initview();
+
+    public abstract void initdata();
+
     /**
      * 封装状态栏
      */
@@ -218,11 +224,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
     }
 
-    public abstract int initLayout();
 
-    public abstract void initview();
-
-    public abstract void initdata();
 
 
     public void requestPermission(String[] permissions,int requestCode){

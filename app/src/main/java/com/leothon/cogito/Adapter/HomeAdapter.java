@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     //首页布局总数
-    private int LAYOUT_COUNT = 6;
+    private int LAYOUT_COUNT = 7;
     //需要在首页加载的一整条数据
     private List<String> allDatas;
 
@@ -44,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     /**
      * 以下数据均为假数据，在实际开发中，要把上面的alldatas进行解析
      */
-    private String[] foryouVideo = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fnews.changsha.cn%2Fupload%2Fdocument_news%2F354%2F20170910%2Fdocument_news_content_59b551029d6fc.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1787096163%2C445256203%26fm%3D27%26gp%3D0.jpg",
+    private String[] foryouVideo = {
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170623%2Fdd9e7bef3a564270a1da154003a123b3_th.png&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D909547022%2C674958986%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fmusic.jzxy.edu.cn%2Fimages%2F16%2F04%2F22%2F1cnf70gawx%2F56pz_image001.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2534055294%2C3045001537%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjxb.hbwgydx.com%2Fupfiles%2F20150330163612337.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D3027847697%2C1579758526%26fm%3D27%26gp%3D0.jpg",
@@ -58,9 +58,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2Fnews%2F2016%2F11%2F20161112173915.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D986374677%2C2301535002%26fm%3D11%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.7171515.com%2Fattached%2Fimage%2F20140226%2F20140226144729_9316.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2117409958%2C2733064645%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.suda.edu.cn%2Fupload%2Fimage%2F20141117%2F20141117144151385138.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D820220922%2C2846906271%26fm%3D27%26gp%3D0.jpg"};
-    private String[] foryouvideotitle = {"道士燕赤霞道法高强，能让钱币弯腰认主",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg"};
+    private String[] foryouvideotitle = {
             "男中音的通病",
             "歌手杨杰现场示范",
             "男高音专场",
@@ -74,8 +73,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "歌曲表达的意境",
             "青歌赛海选现场",
             "练声的误区",
-            "声音的穿透力",
-            "歌唱时的意识"};
+            "声音的穿透力"};
     private String[] activitiesName = {"国际音乐节","草莓音乐节","“爱之声” 音乐会","国家大剧院专场","美声专场"};
     private String[] activitiesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fphotocdn.sohu.com%2F20130502%2FImg374568060.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D25528335%2C2202724169%26fm%3D27%26gp%3D0.jpg",
@@ -93,12 +91,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fp0.qhimgs4.com%2Ft014537d45b7b3e5bbb.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2854303102%2C4251008079%26fm%3D11%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20180621%2F01c23db09b024dfebbc0d7f3c9319203.jpeg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4169152315%2C3808895887%26fm%3D11%26gp%3D0.jpg"};
 
-    private String[] videoName = {"《天堂》","蒋大为的歌曲","声音的共鸣","美声如何发音","课程集锦"};
-    private String[] videoImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.52fuqing.com%2Fupload%2Fnews%2F20180224%2F201802241130485019.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D4206511761%2C1971567880%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fvpic.video.qq.com%2F3388556%2Fu0326kofujb_ori_3.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D33290701%2C4103959810%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.sycm.com.cn%2Ffile%2Ffile_images%2Fmiddle%2F20150629083343181875.JPG&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1298413096%2C1752857152%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.nnjsx.cn%2Fuploads%2Fueditor%2Fimg%2F20160822%2F1471855304880262.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1826940172%2C343088080%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2FPhoto%2F2012%2F4%2F201204261058132115.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3691238471%2C1121997744%26fm%3D11%26gp%3D0.jpg"};
+//    private String[] videoName = {"《天堂》","蒋大为的歌曲","声音的共鸣","美声如何发音","课程集锦"};
+//    private String[] videoImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.52fuqing.com%2Fupload%2Fnews%2F20180224%2F201802241130485019.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D4206511761%2C1971567880%26fm%3D27%26gp%3D0.jpg",
+//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fvpic.video.qq.com%2F3388556%2Fu0326kofujb_ori_3.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D33290701%2C4103959810%26fm%3D27%26gp%3D0.jpg",
+//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.sycm.com.cn%2Ffile%2Ffile_images%2Fmiddle%2F20150629083343181875.JPG&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1298413096%2C1752857152%26fm%3D27%26gp%3D0.jpg",
+//            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.nnjsx.cn%2Fuploads%2Fueditor%2Fimg%2F20160822%2F1471855304880262.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1826940172%2C343088080%26fm%3D27%26gp%3D0.jpg",
+//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2FPhoto%2F2012%2F4%2F201204261058132115.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3691238471%2C1121997744%26fm%3D11%26gp%3D0.jpg"};
+//
     private Context context;
 
     public HomeAdapter(List<String> allDatas,Context context){
@@ -110,6 +109,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private int HEAD2 = 2;
     private int HEAD3 = 3;
     private int HEAD4 = 4;
+//    private int HEAD5 = 5;
     private int HEAD5 = 5;
     private int HEAD6 = 6;
     private int NORMAL = 100;
@@ -119,6 +119,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private View headView2;
     private View headView3;
     private View headView4;
+//    private View headView5;
     private View headView5;
     private View headView6;
 
@@ -140,12 +141,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }else if(viewType == HEAD4){
             return new classHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
         }else if(viewType == HEAD5){
-            return new videoclassHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
-        }else if(viewType == HEAD6){
             return new dividerHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else {
             return new foryouHolder(LayoutInflater.from(context).inflate(R.layout.videoforyou_home,parent,false));
         }
+
+        //if(viewType == HEAD5){
+        //            return new videoclassHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
+        //        }
     }
 
     @Override
@@ -389,76 +392,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[3],classholder.class4img,R.drawable.defalutimg);
             ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[4],classholder.class5img,R.drawable.defalutimg);
 
-        }else if(viewType == HEAD5){
-            videoclassHolder videoclassholder = (videoclassHolder) holder;
-            videoclassholder.tagnameInvideo.setText("精彩课时");
-            videoclassholder.video1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",videoImg[0]);
-                    bundle.putString("imgTitle",videoName[0]);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            videoclassholder.video2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",videoImg[1]);
-                    bundle.putString("imgTitle",videoName[1]);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            videoclassholder.video3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",videoImg[2]);
-                    bundle.putString("imgTitle",videoName[2]);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            videoclassholder.video4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",videoImg[3]);
-                    bundle.putString("imgTitle",videoName[3]);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            videoclassholder.video5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",videoImg[4]);
-                    bundle.putString("imgTitle",videoName[4]);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            videoclassholder.video6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title","更多精彩课时");
-                    IntentUtils.getInstence().intent(context, ActivityListActivity.class,bundle);
-                }
-            });
-
-            videoclassholder.video1title.setText(videoName[0]);
-            videoclassholder.video2title.setText(videoName[1]);
-            videoclassholder.video3title.setText(videoName[2]);
-            videoclassholder.video4title.setText(videoName[3]);
-            videoclassholder.video5title.setText(videoName[4]);
-
-            //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[0],videoclassholder.video1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[1],videoclassholder.video2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[2],videoclassholder.video3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[3],videoclassholder.video4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[4],videoclassholder.video5img,R.drawable.defalutimg);
-        } else if (viewType == HEAD6){
+        }else if (viewType == HEAD5){
             return;
         }else if (viewType == NORMAL){
             //TODO 增加更多的数据显示
@@ -480,6 +414,76 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             });
             ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
 
+//            else if(viewType == HEAD5){
+//                videoclassHolder videoclassholder = (videoclassHolder) holder;
+//                videoclassholder.tagnameInvideo.setText("精彩课时");
+//                videoclassholder.video1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("imgUrls",videoImg[0]);
+//                        bundle.putString("imgTitle",videoName[0]);
+//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    }
+//                });
+//                videoclassholder.video2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("imgUrls",videoImg[1]);
+//                        bundle.putString("imgTitle",videoName[1]);
+//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    }
+//                });
+//                videoclassholder.video3.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("imgUrls",videoImg[2]);
+//                        bundle.putString("imgTitle",videoName[2]);
+//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    }
+//                });
+//                videoclassholder.video4.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("imgUrls",videoImg[3]);
+//                        bundle.putString("imgTitle",videoName[3]);
+//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    }
+//                });
+//                videoclassholder.video5.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("imgUrls",videoImg[4]);
+//                        bundle.putString("imgTitle",videoName[4]);
+//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    }
+//                });
+//                videoclassholder.video6.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("title","更多精彩课时");
+//                        IntentUtils.getInstence().intent(context, ActivityListActivity.class,bundle);
+//                    }
+//                });
+//
+//                videoclassholder.video1title.setText(videoName[0]);
+//                videoclassholder.video2title.setText(videoName[1]);
+//                videoclassholder.video3title.setText(videoName[2]);
+//                videoclassholder.video4title.setText(videoName[3]);
+//                videoclassholder.video5title.setText(videoName[4]);
+//
+//                //加载图片
+//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[0],videoclassholder.video1img,R.drawable.defalutimg);
+//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[1],videoclassholder.video2img,R.drawable.defalutimg);
+//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[2],videoclassholder.video3img,R.drawable.defalutimg);
+//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[3],videoclassholder.video4img,R.drawable.defalutimg);
+//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[4],videoclassholder.video5img,R.drawable.defalutimg);
+//            }
 
         }
 
@@ -520,11 +524,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return HEAD4;
         }else if (position == 5 && headView5 != null){
             return HEAD5;
-        }else if (position == 6 && headView6 != null){
-            return HEAD6;
         }else {
             return NORMAL;
         }
+
+//        else if (position == 5 && headView5 != null){
+//            return HEAD5;
+//        }
     }
 
     @Override
@@ -547,11 +553,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void addHeadView4(View view){
         this.headView4 = view;
     }
+//    public void addHeadView5(View view){
+//        this.headView5 = view;
+//    }
     public void addHeadView5(View view){
         this.headView5 = view;
-    }
-    public void addHeadView6(View view){
-        this.headView6 = view;
     }
     @Override
     public void onClick(View view) {
@@ -709,48 +715,48 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ButterKnife.bind(this,itemView);
         }
     }
-    class videoclassHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.tag_name)
-        TextView tagnameInvideo;
-        @BindView(R.id.home1)
-        FrameLayout video1;
-        @BindView(R.id.home2)
-        FrameLayout video2;
-        @BindView(R.id.home3)
-        FrameLayout video3;
-        @BindView(R.id.home4)
-        FrameLayout video4;
-        @BindView(R.id.home5)
-        FrameLayout video5;
-        @BindView(R.id.home6)
-        FrameLayout video6;
-
-        @BindView(R.id.home_title1)
-        TextView video1title;
-        @BindView(R.id.home_title2)
-        TextView video2title;
-        @BindView(R.id.home_title3)
-        TextView video3title;
-        @BindView(R.id.home_title4)
-        TextView video4title;
-        @BindView(R.id.home_title5)
-        TextView video5title;
-
-        @BindView(R.id.home_img1)
-        RoundedImageView video1img;
-        @BindView(R.id.home_img2)
-        RoundedImageView video2img;
-        @BindView(R.id.home_img3)
-        RoundedImageView video3img;
-        @BindView(R.id.home_img4)
-        RoundedImageView video4img;
-        @BindView(R.id.home_img5)
-        RoundedImageView video5img;
-        public videoclassHolder(View itemView){
-            super(itemView);
-            ButterKnife.bind(this,itemView);
-        }
-    }
+//    class videoclassHolder extends RecyclerView.ViewHolder{
+//        @BindView(R.id.tag_name)
+//        TextView tagnameInvideo;
+//        @BindView(R.id.home1)
+//        FrameLayout video1;
+//        @BindView(R.id.home2)
+//        FrameLayout video2;
+//        @BindView(R.id.home3)
+//        FrameLayout video3;
+//        @BindView(R.id.home4)
+//        FrameLayout video4;
+//        @BindView(R.id.home5)
+//        FrameLayout video5;
+//        @BindView(R.id.home6)
+//        FrameLayout video6;
+//
+//        @BindView(R.id.home_title1)
+//        TextView video1title;
+//        @BindView(R.id.home_title2)
+//        TextView video2title;
+//        @BindView(R.id.home_title3)
+//        TextView video3title;
+//        @BindView(R.id.home_title4)
+//        TextView video4title;
+//        @BindView(R.id.home_title5)
+//        TextView video5title;
+//
+//        @BindView(R.id.home_img1)
+//        RoundedImageView video1img;
+//        @BindView(R.id.home_img2)
+//        RoundedImageView video2img;
+//        @BindView(R.id.home_img3)
+//        RoundedImageView video3img;
+//        @BindView(R.id.home_img4)
+//        RoundedImageView video4img;
+//        @BindView(R.id.home_img5)
+//        RoundedImageView video5img;
+//        public videoclassHolder(View itemView){
+//            super(itemView);
+//            ButterKnife.bind(this,itemView);
+//        }
+//    }
 
     class dividerHolder extends RecyclerView.ViewHolder{
 

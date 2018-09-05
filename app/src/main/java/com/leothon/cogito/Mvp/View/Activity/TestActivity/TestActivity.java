@@ -52,6 +52,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void initview() {
         StatusBarUtils.transparencyBar(this);
+        testBar.setRadius(CommonUtils.dip2px(this,5));
         intent = getIntent();
         bundle = intent.getExtras();
         LoadFalseData();

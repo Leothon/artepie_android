@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         initTest(homeAdapter);
         initActivity(homeAdapter);
         initclass(homeAdapter);
-        initvideoclass(homeAdapter);
+        //initvideoclass(homeAdapter);
         initdivider(homeAdapter);
 
         rvHome.setLayoutManager(new GridLayoutManager(getMContext(), 2, GridLayoutManager.VERTICAL, false));
@@ -212,14 +212,14 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
 
-    public void initvideoclass(HomeAdapter homeAdapter) {
-        View videoclassView = View.inflate(getMContext(), R.layout.tagcommon_home, null);
-        homeAdapter.addHeadView5(videoclassView);
-    }
+//    public void initvideoclass(HomeAdapter homeAdapter) {
+//        View videoclassView = View.inflate(getMContext(), R.layout.tagcommon_home, null);
+//        homeAdapter.addHeadView5(videoclassView);
+//    }
 
     public void initdivider(HomeAdapter homeAdapter) {
         View dividerView = View.inflate(getMContext(), R.layout.dividerview, null);
-        homeAdapter.addHeadView6(dividerView);
+        homeAdapter.addHeadView5(dividerView);
     }
 
     @Override

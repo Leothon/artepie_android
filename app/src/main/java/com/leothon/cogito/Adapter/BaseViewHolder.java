@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.ButterKnife;
 
@@ -49,6 +50,11 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
     public void setImageUrls(int id,String urls){
         ImageView img = (ImageView) convertView.findViewById(id);
         ImageLoader.loadImageViewThumbnailwitherror(context,urls,img, R.drawable.defalutimg);
+    }
+
+    public void setOvilImage(int id,String urls){
+        RoundedImageView img = (RoundedImageView)convertView.findViewById(id);
+        ImageLoader.loadImageViewThumbnailwitherror(context,urls,img,R.drawable.defalutimg);
     }
 
     /**
