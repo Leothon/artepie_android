@@ -68,7 +68,7 @@ public class VoiceFragment extends BaseFragment implements SwipeRefreshLayout.On
 
     @Override
     protected void initView() {
-        title.setText("艺条课堂+");
+        title.setText("艺条课堂");
         subtitle.setText("");
         loadFalseData();
         initAdapter();

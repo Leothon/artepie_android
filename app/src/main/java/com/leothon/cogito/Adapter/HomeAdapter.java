@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     //首页布局总数
-    private int LAYOUT_COUNT = 7;
+    private int LAYOUT_COUNT = 6;
     //需要在首页加载的一整条数据
     private List<String> allDatas;
 
