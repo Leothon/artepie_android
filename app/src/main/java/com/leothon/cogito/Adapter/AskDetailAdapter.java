@@ -65,32 +65,42 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.userName.setText(askdetails.getUsername());
             detailViewHolder.userDes.setText(askdetails.getUserdes());
             detailViewHolder.contentDetail.setText(askdetails.getContent());
-            ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageResource(R.drawable.activityback);
-            //ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
-            detailViewHolder.VideoPlayer.setThumbImageView(imageView);
-            detailViewHolder.VideoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
-            detailViewHolder.VideoPlayer.getTitleTextView().setVisibility(View.GONE);
-            detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
-            detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    detailViewHolder.VideoPlayer.startWindowFullscreen(context,false,true);
-                }
-            });
-            detailViewHolder.VideoPlayer.setAutoFullWithSize(true);
-            //音频焦点冲突时是否释放
-            detailViewHolder.VideoPlayer.setReleaseWhenLossAudio(false);
-            //全屏动画
-            detailViewHolder.VideoPlayer.setShowFullAnimation(true);
-            //小屏时不触摸滑动
-            detailViewHolder.VideoPlayer.setIsTouchWiget(false);
+
+            if (!askdetails.getVideourl().equals("")){
+                detailViewHolder.VideoPlayer.setVisibility(View.VISIBLE);
+                ImageView imageView = new ImageView(context);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                //imageView.setImageResource(R.drawable.activityback);
+                ImageLoader.loadImageViewThumbnailwitherror(context,askdetails.getCoverurl(),imageView,R.drawable.defalutimg);
+                detailViewHolder.VideoPlayer.setThumbImageView(imageView);
+                detailViewHolder.VideoPlayer.setUpLazy(askdetails.getVideourl(),true,null,null,"title");
+                detailViewHolder.VideoPlayer.getTitleTextView().setVisibility(View.GONE);
+                detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
+                detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        detailViewHolder.VideoPlayer.startWindowFullscreen(context,false,true);
+                    }
+                });
+                detailViewHolder.VideoPlayer.setAutoFullWithSize(true);
+                //音频焦点冲突时是否释放
+                detailViewHolder.VideoPlayer.setReleaseWhenLossAudio(false);
+                //全屏动画
+                detailViewHolder.VideoPlayer.setShowFullAnimation(true);
+                //小屏时不触摸滑动
+                detailViewHolder.VideoPlayer.setIsTouchWiget(false);
+            }else {
+                detailViewHolder.VideoPlayer.setVisibility(View.GONE);
+            }
+
             detailViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundleto = new Bundle();
                     bundleto.putString("type","other");
+                    bundleto.putString("icon",askdetails.getUsericon());
+                    bundleto.putString("name",askdetails.getUsername());
+                    bundleto.putString("desc",askdetails.getUserdes());
                     IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
                 }
             });

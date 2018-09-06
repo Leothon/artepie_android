@@ -176,7 +176,6 @@
                     android:text="认证个人或教师"
                     android:background="@drawable/v_ensure"
                     android:textColor="@color/white"
-
                     android:gravity="center"
                     android:layout_margin="5dp"/>
                 <TextView
@@ -186,8 +185,31 @@
                     android:layout_height="40dp"
                     android:background="@drawable/textviewbackground"
                     android:gravity="center"
-                    android:layout_margin="5dp"
-                     />
+                    android:layout_margin="5dp" />
+
+                <RelativeLayout
+                    android:id="@+id/make_upload_class"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/textviewbackground"
+                    android:layout_margin="5dp">
+                    <ImageView
+                        android:layout_toLeftOf="@+id/up"
+                        android:layout_centerInParent="true"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/baseline_backup_black_24"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="制作上传我的课程"
+                        android:textSize="@dimen/contentSize"
+                        android:textColor="@color/black"
+                        android:layout_centerInParent="true"/>
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
 

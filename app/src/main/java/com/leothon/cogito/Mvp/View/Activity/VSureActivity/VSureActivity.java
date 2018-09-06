@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -21,6 +22,7 @@ import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividua
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
@@ -67,6 +69,9 @@ public class VSureActivity extends BaseActivity {
     public void initview() {
         setToolbarSubTitle("");
         setToolbarTitle("认证身份");
+        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.iconurl,vSureIcon,R.drawable.defalutimg);
+        vSureName.setText("叶落知秋");
+        vSureSignal.setText("如鱼饮水，冷暖自知");
     }
 
     @OnClick(R.id.upload_img_v_sure)

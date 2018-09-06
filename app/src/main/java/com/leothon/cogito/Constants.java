@@ -18,6 +18,8 @@ public class Constants {
     public static boolean isRefreshtruebagFragment = false;
     public static boolean isRefreshtrueaboutFragment = false;
 
+    public static final String iconurl = "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F13%2F28%2F36%2F62f58PICRBq_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D651319201%2C4278459580%26fm%3D26%26gp%3D0.jpg";
+
     public static String[] teacherNameList = {"晁浩建","金铁霖","蒋大为","李谷一","王秀芬","孟玲","杨阳","黄华丽","王宏伟","腾格尔","查看更多"};
     public static int[] teacherIconList = {R.drawable.chaohaojian,R.drawable.jintielin,R.drawable.jiangdawei,R.drawable.liguyi,R.drawable.wangxiufen,R.drawable.mengling,R.drawable.yangyang,R.drawable.huanghuali,R.drawable.wanghongwei,R.drawable.tenger,R.drawable.baseline_keyboard_arrow_right_black_48};//本地的各位大佬的照片
 

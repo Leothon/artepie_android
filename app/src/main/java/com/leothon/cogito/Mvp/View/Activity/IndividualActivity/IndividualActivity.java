@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.FollowAFansAdapter;
@@ -18,6 +19,7 @@ import com.leothon.cogito.Mvp.View.Activity.UploadActivity.UploadActivity;
 import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -52,6 +54,8 @@ public class IndividualActivity extends BaseActivity {
     @BindView(R.id.individual_content)
     TextView individualContent;
 
+    @BindView(R.id.make_upload_class)
+    RelativeLayout makeUploadClass;
     private Bundle bundle;
     private Intent intent;
 
@@ -66,14 +70,22 @@ public class IndividualActivity extends BaseActivity {
     public void initview() {
         intent = getIntent();
         bundle = intent.getExtras();
-
+        ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("icon"),individualIcon,R.drawable.defalutimg);
+        individualName.setText(bundle.getString("name"));
+        individualSignal.setText(bundle.getString("desc"));
         if (bundle.getString("type").equals("other")){
             individualFollow.setVisibility(View.VISIBLE);
             setToolbarSubTitle("");
-            setToolbarTitle("望江亭");
+            setToolbarTitle(bundle.getString("name"));
             followBtn.setVisibility(View.VISIBLE);
             vSure.setVisibility(View.GONE);
+            makeUploadClass.setVisibility(View.GONE);
+            individualContent.setText("他发布的内容");
+
         }else {
+            followBtn.setVisibility(View.GONE);
+            vSure.setVisibility(View.VISIBLE);
+            makeUploadClass.setVisibility(View.VISIBLE);
             setToolbarSubTitle("编辑个人资料");
             setToolbarTitle("");
             getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
@@ -83,10 +95,18 @@ public class IndividualActivity extends BaseActivity {
                     finish();
                 }
             });
+            individualContent.setText("我发布的内容");
+
 
         }
 
 
+    }
+
+    @OnClick(R.id.make_upload_class)
+    public void makeUploadClass(View view){
+        //TODO 制作上传视频
+        CommonUtils.makeText(this,"您不是认证用户，请先认证。\n本平台只有认证用户方可制作上传课程");
     }
 
     @OnClick(R.id.follow_btn)

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Bean.Ask;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -55,14 +56,14 @@ public class UploadActivity extends BaseActivity {
         askArrayList = new ArrayList<>();
         for (int i = 0 ;i < 10;i++){
             Ask ask = new Ask();
-            ask.setUsericonurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
-            ask.setUsername("张自忠");
-            ask.setUserdes("抗日豪杰");
-            ask.setContent("生当作人杰，死亦为鬼雄");
+            ask.setUsericonurl(Constants.iconurl);
+            ask.setUsername("叶落知秋");
+            ask.setUserdes("如鱼饮水，冷暖自知");
+            ask.setContent("发布一条视频");
             ask.setLikecount("122");
             ask.setCommentcount("56");
             ask.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
-            ask.setCoverurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
+            ask.setCoverurl("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F25%2F26%2F79658PIC3vd_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2323192023%2C1521283642%26fm%3D26%26gp%3D0.jpg");
 
             askArrayList.add(ask);
         }

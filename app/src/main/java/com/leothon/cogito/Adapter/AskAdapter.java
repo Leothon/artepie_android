@@ -68,31 +68,36 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         final Ask ask = asks.get(position);
         final AskViewHolder askViewHolder = (AskViewHolder) holder;
 
-        ImageView imageView = new ImageView(context);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.drawable.activityback);
-        //ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
+
         ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUsericonurl(),askViewHolder.userIcon,R.drawable.defalutimg);
         askViewHolder.userName.setText(ask.getUsername());
         askViewHolder.userDes.setText(ask.getUserdes());
         askViewHolder.contentAsk.setText(ask.getContent());
+        if (!ask.getVideourl().equals("")){
+            askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //imageView.setImageResource(R.drawable.activityback);
+            ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
+            askViewHolder.gsyVideoPlayer.setThumbImageView(imageView);
+            askViewHolder.gsyVideoPlayer.setUpLazy(ask.getVideourl(),true,null,null,"标题");
+            askViewHolder.gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
+            askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+            askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
+            askViewHolder.gsyVideoPlayer.setPlayTag(TAG);
+            askViewHolder.gsyVideoPlayer.setPlayPosition(position);
+            //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
+            askViewHolder.gsyVideoPlayer.setAutoFullWithSize(true);
+            //音频焦点冲突时是否释放
+            askViewHolder.gsyVideoPlayer.setReleaseWhenLossAudio(false);
+            //全屏动画
+            askViewHolder.gsyVideoPlayer.setShowFullAnimation(true);
+            //小屏时不触摸滑动
+            askViewHolder.gsyVideoPlayer.setIsTouchWiget(false);
+        }else {
+            askViewHolder.gsyVideoPlayer.setVisibility(View.GONE);
+        }
 
-
-        askViewHolder.gsyVideoPlayer.setThumbImageView(imageView);
-        askViewHolder.gsyVideoPlayer.setUpLazy(ask.getVideourl(),true,null,null,"标题");
-        askViewHolder.gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
-        askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
-        askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
-        askViewHolder.gsyVideoPlayer.setPlayTag(TAG);
-        askViewHolder.gsyVideoPlayer.setPlayPosition(position);
-        //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
-        askViewHolder.gsyVideoPlayer.setAutoFullWithSize(true);
-        //音频焦点冲突时是否释放
-        askViewHolder.gsyVideoPlayer.setReleaseWhenLossAudio(false);
-        //全屏动画
-        askViewHolder.gsyVideoPlayer.setShowFullAnimation(true);
-        //小屏时不触摸滑动
-        askViewHolder.gsyVideoPlayer.setIsTouchWiget(false);
 
         askViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +105,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 //TODO 跳转个人主页
                 Bundle bundleto = new Bundle();
                 bundleto.putString("type","other");
+                bundleto.putString("icon",ask.getUsericonurl());
+                bundleto.putString("name",ask.getUsername());
+                bundleto.putString("desc",ask.getUserdes());
                 IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
@@ -109,6 +117,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 //TODO 跳转个人主页
                 Bundle bundleto = new Bundle();
                 bundleto.putString("type","other");
+                bundleto.putString("icon",ask.getUsericonurl());
+                bundleto.putString("name",ask.getUsername());
+                bundleto.putString("desc",ask.getUserdes());
                 IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
@@ -118,6 +129,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 //TODO 跳转个人主页
                 Bundle bundleto = new Bundle();
                 bundleto.putString("type","other");
+                bundleto.putString("icon",ask.getUsericonurl());
+                bundleto.putString("name",ask.getUsername());
+                bundleto.putString("desc",ask.getUserdes());
                 IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
             }
         });
@@ -126,8 +140,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         askViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                IntentUtils.getInstence().intent(context, AskDetailActivity.class);
+                Bundle bundleto = new Bundle();
+                bundleto.putString("icon",ask.getUsericonurl());
+                bundleto.putString("name",ask.getUsername());
+                bundleto.putString("desc",ask.getUserdes());
+                bundleto.putString("content",ask.getContent());
+                bundleto.putString("video",ask.getVideourl());
+                bundleto.putString("cover",ask.getCoverurl());
+                IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
 
             }
         });

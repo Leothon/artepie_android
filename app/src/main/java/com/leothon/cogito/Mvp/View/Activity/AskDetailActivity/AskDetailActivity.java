@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -55,6 +56,20 @@ public class AskDetailActivity extends BaseActivity {
     private ImageView sendComment;
     private View dismiss;
     private ArrayList<UserComment> userComments;
+
+    private Intent intent;
+    private Bundle bundle;
+    private String[] name = {"TomCruise","Leo张","樱君","爱笑的包子","沐锦曦","黑木桃","苏墨_Echo","良诚恐moon","蝶馨向梦","凌申洲_023"};
+    private String[] comment = {"Hello！",
+            "前排",
+            "你的声音真好听",
+            "赞，能不能教我唱歌",
+            "@IJU_22 听歌来",
+            "点赞",
+            "已截图",
+            "直奔评论区",
+            "谁有阎维文老师的课程？",
+            "人美歌甜"};
     @Override
     public int initLayout() {
         return R.layout.activity_ask_detail;
@@ -62,6 +77,8 @@ public class AskDetailActivity extends BaseActivity {
 
     @Override
     public void initview() {
+        intent = getIntent();
+        bundle = intent.getExtras();
         setToolbarSubTitle("");
         setToolbarTitle("");
         loadFalseData();
@@ -71,18 +88,18 @@ public class AskDetailActivity extends BaseActivity {
 
     private void loadFalseData(){
         askDetail = new AskDetail();
-        askDetail.setUsericon("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534355936116%26di%3De8d37adaf4bac509d40549f88a07bac9%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimgsrc.baidu.com%252Fforum%252Fpic%252Fitem%252Fb0ca8026d72fe30a8b82a131.jpg&thumburl=https%3A%2F%2Fss3.bdstatic.com%2F70cFv8Sh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D552083791%2C3490826282%26fm%3D27%26gp%3D0.jpg");
-        askDetail.setUsername("刘备");
-        askDetail.setUserdes("汉昭烈帝刘玄德");
-        askDetail.setContent("话说天下合久必分，分久必合，合久必分，分久必合，合久必分，分久必合，合久必分，分久必合");
-        askDetail.setCoverurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
-        askDetail.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
+        askDetail.setUsericon(bundle.getString("icon"));
+        askDetail.setUsername(bundle.getString("name"));
+        askDetail.setUserdes(bundle.getString("desc"));
+        askDetail.setContent(bundle.getString("content"));
+        askDetail.setCoverurl(bundle.getString("cover"));
+        askDetail.setVideourl(bundle.getString("video"));
         userComments = new ArrayList<>();
-        for (int i = 0;i < 20;i++){
+        for (int i = 0;i < 10;i++){
             UserComment userComment = new UserComment();
-            userComment.setUsername("曹操");
+            userComment.setUsername(name[i]);
             userComment.setUsericon("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534355965654%26di%3D80b2e428590ce5cef81a1060a5ae48d4%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimgsa.baidu.com%252Fbaike%252Fpic%252Fitem%252Fc2fdfc039245d6889a29f356a8c27d1ed21b241c.jpg&thumburl=https%3A%2F%2Fss0.bdstatic.com%2F70cFvHSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1522657165%2C2769090755%26fm%3D11%26gp%3D0.jpg");
-            userComment.setUsercomment("刘皇叔讲的很对，我赞同，改天再约");
+            userComment.setUsercomment(comment[i]);
             userComments.add(userComment);
         }
         askDetail.setUserComments(userComments);

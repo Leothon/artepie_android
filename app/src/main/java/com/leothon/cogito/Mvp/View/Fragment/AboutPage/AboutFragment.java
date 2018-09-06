@@ -92,8 +92,12 @@ public class AboutFragment extends BaseFragment {
         Log.e("登录状态", " "+Constants.loginStatus);
         if (Constants.loginStatus == 0){
             userName.setText("未登录");
+            userIcon.setImageResource(R.drawable.defalutimg);
+            signature.setText("");
         }else {
-            userName.setText("李大钊");
+            userName.setText("叶落知秋");
+            ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.iconurl,userIcon,R.drawable.defalutimg);
+            signature.setText("如鱼饮水，冷暖自知");
         }
     }
 
@@ -210,9 +214,12 @@ public class AboutFragment extends BaseFragment {
         if (Constants.loginStatus == 0){
             CommonUtils.loadinglogin(getMContext());
         }else if (Constants.loginStatus ==1){
-            Bundle bundleTo = new Bundle();
-            bundleTo.putString("type","individual");
-            IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleTo);
+            Bundle bundleto = new Bundle();
+            bundleto.putString("type","individual");
+            bundleto.putString("icon",Constants.iconurl);
+            bundleto.putString("name","叶落知秋");
+            bundleto.putString("desc","如鱼饮水，冷暖自知");
+            IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleto);
         }
     }
 
