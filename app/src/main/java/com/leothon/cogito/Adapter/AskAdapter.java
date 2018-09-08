@@ -2,8 +2,13 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +32,8 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Weight.LoadingDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
@@ -50,7 +57,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     protected boolean isPlay;
     private LayoutInflater inflater;
     protected boolean isFull;
-
+    private boolean islike = false;
     public AskAdapter(Context context, ArrayList<Ask> asks){
         this.context = context;
         this.asks = asks;
@@ -73,32 +80,104 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         askViewHolder.userName.setText(ask.getUsername());
         askViewHolder.userDes.setText(ask.getUserdes());
         askViewHolder.contentAsk.setText(ask.getContent());
-        if (!ask.getVideourl().equals("")){
+        if (ask.getLikecount().equals("0")){
+            askViewHolder.likeAsk.setText("喜欢");
+        }else {
+            askViewHolder.likeAsk.setText(ask.getLikecount());
+        }
+        if (ask.getCommentcount().equals("0")){
+            askViewHolder.commentAsk.setText("评论");
+        }else {
+            askViewHolder.commentAsk.setText(ask.getCommentcount());
+        }
+        if (!ask.getVideourl().equals("")) {
             askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             //imageView.setImageResource(R.drawable.activityback);
-            ImageLoader.loadImageViewwithError(context,ask.getCoverurl(),imageView,R.drawable.defalutimg);
-            askViewHolder.gsyVideoPlayer.setThumbImageView(imageView);
-            askViewHolder.gsyVideoPlayer.setUpLazy(ask.getVideourl(),true,null,null,"标题");
-            askViewHolder.gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
-            askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+            ImageLoader.loadImageViewThumbnailwitherror(context, ask.getCoverurl(), imageView, R.drawable.defalutimg);
+
+
+            GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+            gsyVideoOption.setThumbImageView(imageView)
+                    .setIsTouchWiget(true)
+                    .setRotateViewAuto(true)
+                    .setLockLand(false)
+                    .setAutoFullWithSize(true)
+                    .setShowFullAnimation(false)
+                    .setNeedLockFull(true)
+                    .setUrl(ask.getVideourl())
+                    .setCacheWithPlay(false)
+                    .setVideoTitle("")
+            .build(askViewHolder.gsyVideoPlayer);
             askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
-            askViewHolder.gsyVideoPlayer.setPlayTag(TAG);
-            askViewHolder.gsyVideoPlayer.setPlayPosition(position);
-            //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
-            askViewHolder.gsyVideoPlayer.setAutoFullWithSize(true);
-            //音频焦点冲突时是否释放
-            askViewHolder.gsyVideoPlayer.setReleaseWhenLossAudio(false);
-            //全屏动画
-            askViewHolder.gsyVideoPlayer.setShowFullAnimation(true);
-            //小屏时不触摸滑动
-            askViewHolder.gsyVideoPlayer.setIsTouchWiget(false);
+            askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+
         }else {
             askViewHolder.gsyVideoPlayer.setVisibility(View.GONE);
         }
 
+        askViewHolder.moreAsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonUtils.makeText(context,"显示更多信息");
+            }
+        });
+        askViewHolder.commentAsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("icon",ask.getUsericonurl());
+                bundleto.putString("name",ask.getUsername());
+                bundleto.putString("desc",ask.getUserdes());
+                bundleto.putString("content",ask.getContent());
+                bundleto.putString("video",ask.getVideourl());
+                bundleto.putString("cover",ask.getCoverurl());
+                bundleto.putString("like",ask.getLikecount());
+                bundleto.putString("comment",ask.getCommentcount());
+                IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+            }
+        });
 
+        askViewHolder.likeAsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!islike){
+
+                    Drawable drawableLeft = context.getResources().getDrawable(
+                            R.drawable.baseline_favorite_black_18);
+
+                    askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                            null, null, null);
+                    String like = askViewHolder.likeAsk.getText().toString();
+                    if (like.equals("喜欢")){
+                        int likeint = 1;
+                        askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                    }else {
+                        int likeint = Integer.parseInt(like) + 1;
+                        askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                    }
+                    islike = true;
+                    //TODO 加载点赞
+                }else {
+                    Drawable drawableLeft = context.getResources().getDrawable(
+                            R.drawable.baseline_favorite_border_black_18);
+
+                    askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                            null, null, null);
+                    String like = askViewHolder.likeAsk.getText().toString();
+
+                    int likeint = Integer.parseInt(like) - 1;
+                    if (likeint == 0){
+                        askViewHolder.likeAsk.setText("喜欢");
+                    }else {
+                        askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                    }
+                    islike = false;
+                    //TODO 取消点赞
+                }
+            }
+        });
         askViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +226,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 bundleto.putString("content",ask.getContent());
                 bundleto.putString("video",ask.getVideourl());
                 bundleto.putString("cover",ask.getCoverurl());
+                bundleto.putString("like",ask.getLikecount());
+                bundleto.putString("comment",ask.getCommentcount());
                 IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
 
             }
@@ -176,6 +257,12 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView userDes;
         @BindView(R.id.content_ask)
         TextView contentAsk;
+        @BindView(R.id.like_ask)
+        TextView likeAsk;
+        @BindView(R.id.comment_ask)
+        TextView commentAsk;
+        @BindView(R.id.more_ask)
+        ImageView moreAsk;
 
 
 

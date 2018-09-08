@@ -8,7 +8,33 @@ public class Voice extends BaseResponse{
 
     private String imgurl;
     private String title;
-    private String description;
+    private String author;
+    private String time;
+    private String price;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getTitle() {
         return title;
@@ -18,13 +44,6 @@ public class Voice extends BaseResponse{
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getImgurl() {
         return imgurl;

@@ -94,6 +94,8 @@ public class AskDetailActivity extends BaseActivity {
         askDetail.setContent(bundle.getString("content"));
         askDetail.setCoverurl(bundle.getString("cover"));
         askDetail.setVideourl(bundle.getString("video"));
+        askDetail.setLike(bundle.getString("like"));
+        askDetail.setComment(bundle.getString("comment"));
         userComments = new ArrayList<>();
         for (int i = 0;i < 10;i++){
             UserComment userComment = new UserComment();

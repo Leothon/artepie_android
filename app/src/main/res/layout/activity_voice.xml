@@ -20,22 +20,9 @@
         android:elevation="3dp">
 
 
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center">
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/icon_seek"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/defalutimg"
-                android:scaleType="centerCrop"
-                app:riv_oval="true" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="8"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <FrameLayout

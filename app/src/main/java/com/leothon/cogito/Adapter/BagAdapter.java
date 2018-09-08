@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.BagBuy;
@@ -76,6 +77,10 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             ImageLoader.loadImageViewThumbnailwitherror(context,bagBuyclass.get(position1).getImgurl(),buyClassHolder.classbagImg,R.drawable.defalutimg);
             buyClassHolder.classbagTitle.setText(bagBuyclass.get(position1).getTitle());
             buyClassHolder.classbagDes.setText(bagBuyclass.get(position1).getDescription());
+            buyClassHolder.classbagDivider.setVisibility(View.GONE);
+            buyClassHolder.classbagPrice.setVisibility(View.GONE);
+            buyClassHolder.classbagTime.setVisibility(View.GONE);
+            buyClassHolder.layoutShow.setVisibility(View.GONE);
             buyClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -176,12 +181,21 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     class BuyClassHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.voice_img)
+        @BindView(R.id.mic_img)
         RoundedImageView classbagImg;
-        @BindView(R.id.voice_des)
+        @BindView(R.id.mic_author)
         TextView classbagDes;
-        @BindView(R.id.voice_title)
+        @BindView(R.id.mic_title)
         TextView classbagTitle;
+
+        @BindView(R.id.mic_class_time)
+        TextView classbagTime;
+        @BindView(R.id.mic_class_price)
+        TextView classbagPrice;
+        @BindView(R.id.mic_divider)
+        TextView classbagDivider;
+        @BindView(R.id.price_layout)
+        RelativeLayout layoutShow;
 
         public BuyClassHolder(View itemView){
             super(itemView);

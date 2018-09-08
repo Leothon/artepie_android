@@ -65,7 +65,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
         for (int i = 0; i < 30;i++){
             Voice voice = new Voice();
             voice.setTitle("陈江流");
-            voice.setDescription("得道高僧陈玄奘");
+            voice.setAuthor("得道高僧陈玄奘");
             voice.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1536147071841%26di%3D816cee85d35f312482da4fe06d425be3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Ftravel.taiwan.cn%252Flist%252F201410%252FW020141017498044176219.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2704465701%2C1268881022%26fm%3D26%26gp%3D0.jpg");
             voices.add(voice);
         }
@@ -75,7 +75,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
         for (int i = 0; i < 30;i++){
             Voice voice = new Voice();
             voice.setTitle("陈到底");
-            voice.setDescription("无根悟净");
+            voice.setAuthor("无根悟净");
             voice.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1536147071841%26di%3D816cee85d35f312482da4fe06d425be3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Ftravel.taiwan.cn%252Flist%252F201410%252FW020141017498044176219.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2704465701%2C1268881022%26fm%3D26%26gp%3D0.jpg");
             voices.add(voice);
         }

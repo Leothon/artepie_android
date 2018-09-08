@@ -12,7 +12,26 @@ public class AskDetail  {
     private String content;
     private String coverurl;
     private String videourl;
+    private String like;
+    private String comment;
     private ArrayList<UserComment> userComments;
+
+
+    public String getLike() {
+        return like;
+    }
+
+    public void setLike(String like) {
+        this.like = like;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public String getUsericon() {
         return usericon;

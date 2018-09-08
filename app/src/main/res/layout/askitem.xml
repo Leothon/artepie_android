@@ -12,9 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@color/dividerColor"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/user_icon_ask"
@@ -25,7 +24,8 @@
             app:riv_oval="true"
             android:scaleType="centerCrop"/>
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_toRightOf="@+id/user_icon_ask"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="8dp">
@@ -44,7 +44,15 @@
                 android:text="佛教创始人"
                 android:textSize="@dimen/tipsSize"/>
         </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/more_ask"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_more_horiz_black_24"
+            android:layout_centerInParent="true"
+            android:padding="8dp"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,10 +75,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/post_media_height"/>
 
-
-
-
-
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:padding="3dp"
+            android:id="@+id/like_ask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_favorite_border_black_18"
+            android:drawableTint="@color/fontColor"
+            android:text="喜欢"
+            android:textSize="@dimen/tipsSize"
+            android:textColor="@color/fontColor"/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:padding="3dp"
+            android:layout_toRightOf="@+id/like_ask"
+            android:id="@+id/comment_ask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_message_black_18"
+            android:drawableTint="@color/fontColor"
+            android:text="评论"
+            android:textSize="@dimen/tipsSize"
+            android:textColor="@color/fontColor"/>
+    </RelativeLayout>
 </LinearLayout>
 

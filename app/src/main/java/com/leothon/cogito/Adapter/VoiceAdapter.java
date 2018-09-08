@@ -17,8 +17,11 @@ public class VoiceAdapter extends BaseAdapter {
     @Override
     public <T> void convert(BaseViewHolder holder, T bean) {
         Voice voice = (Voice)bean;
-        holder.setImageUrls(R.id.voice_img,voice.getImgurl());
-        holder.setText(R.id.voice_des,voice.getDescription());
-        holder.setText(R.id.voice_title,voice.getTitle());
+        holder.setImageUrls(R.id.mic_img,voice.getImgurl());
+        holder.setText(R.id.mic_author,voice.getAuthor());
+        holder.setText(R.id.mic_title,voice.getTitle());
+        holder.setText(R.id.mic_class_time,voice.getTime());
+        holder.setText(R.id.mic_class_price,voice.getPrice());
+
     }
 }

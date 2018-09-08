@@ -45,7 +45,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
      * 以下数据均为假数据，在实际开发中，要把上面的alldatas进行解析
      */
     private String[] foryouVideo = {
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170623%2Fdd9e7bef3a564270a1da154003a123b3_th.png&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D909547022%2C674958986%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fmusic.jzxy.edu.cn%2Fimages%2F16%2F04%2F22%2F1cnf70gawx%2F56pz_image001.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2534055294%2C3045001537%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjxb.hbwgydx.com%2Fupfiles%2F20150330163612337.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D3027847697%2C1579758526%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjly.xhcom.edu.cn%2Fdigidata%2F2014-4-30%2F7813363711.JPG&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D501126548%2C560633887%26fm%3D27%26gp%3D0.jpg",
@@ -56,8 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.ph.126.net%2FXOK1RyvGcvTxUVGanI3BAA%3D%3D%2F6598157183656073074.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D1055812407%2C2049095469%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fchina-ljsw.com%2Fupdate%2F3%2Fbb5f8d46b790e71e34.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D494318182%2C3784477290%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2Fnews%2F2016%2F11%2F20161112173915.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D986374677%2C2301535002%26fm%3D11%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.7171515.com%2Fattached%2Fimage%2F20140226%2F20140226144729_9316.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2117409958%2C2733064645%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.guitarchina.com%2Fimg2016%2F0727yy%2F24.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D624817842%2C1391406194%26fm%3D26%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg"};
     private String[] foryouvideotitle = {
             "男中音的通病",
@@ -71,9 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "民族歌手刘硕示范",
             "歌唱气息的支点",
             "歌曲表达的意境",
-            "青歌赛海选现场",
-            "练声的误区",
-            "声音的穿透力"};
+            "气息的控制"};
     private String[] activitiesName = {"国际音乐节","草莓音乐节","“爱之声” 音乐会","国家大剧院专场","美声专场"};
     private String[] activitiesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fphotocdn.sohu.com%2F20130502%2FImg374568060.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D25528335%2C2202724169%26fm%3D27%26gp%3D0.jpg",

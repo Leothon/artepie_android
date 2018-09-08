@@ -38,8 +38,6 @@ public class VoiceActivity extends BaseActivity {
 
     @BindView(R.id.play_pause)
     PlayPauseView playPause;
-    @BindView(R.id.icon_seek)
-    RoundedImageView iconSeek;
     @BindView(R.id.seek_bar)
     SeekBar seekBar;
     @BindView(R.id.current_time)
@@ -85,7 +83,6 @@ public class VoiceActivity extends BaseActivity {
             public void play() {
                 //TODO 播放音乐
 
-                iconSeek.startAnimation(operatingAnim);
                 if (!mediaPlayer.isPlaying()){
                     mediaPlayer.start();
                     mediaPlayer.seekTo(currentPosition);
@@ -119,7 +116,6 @@ public class VoiceActivity extends BaseActivity {
             @Override
             public void pause() {
                 //TODO 暂停音乐
-                iconSeek.clearAnimation();
                 if (mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
                     isPause = true;

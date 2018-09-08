@@ -20,7 +20,7 @@ public class FollowAFansAdapter extends BaseAdapter {
     public <T> void convert(BaseViewHolder holder, T bean) {
         Voice voice = (Voice)bean;
         holder.setText(R.id.faf_name,voice.getTitle());
-        holder.setText(R.id.faf_content,voice.getDescription());
+        holder.setText(R.id.faf_content,voice.getAuthor());
         //holder.setOvilImage(R.id.faf_icon,voice.getImgurl());
     }
 }

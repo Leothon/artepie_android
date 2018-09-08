@@ -49,6 +49,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     TextView subtitle;
     @BindView(R.id.float_btn)
     FloatingActionButton floatBtn;
+
     private AskAdapter askAdapter;
     private ArrayList<Ask> asks;
 
@@ -78,16 +79,16 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             "",
             "http://121.196.199.171:8080/myweb/cogito001.mp4",
             ""};
-    private String[] coverurl = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F14%2F61%2F93%2F13658PICEPg_1024.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D37279219%2C636865625%26fm%3D26%26gp%3D0.jpg",
+    private String[] coverurl = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjxb.hbwgydx.com%2Fupfiles%2F20150330163612337.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D3027847697%2C1579758526%26fm%3D27%26gp%3D0.jpg",
             "",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F25%2F26%2F79658PIC3vd_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2323192023%2C1521283642%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.3987.com%2Fps%2Fuploadfile%2F2013%2F0228%2F20130228013108547.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1767639110%2C755067372%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2Fdc54564e9258d1097ee05241db58ccbf6d814dc6.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3682580729%2C531475834%26fm%3D200%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ffamehall.com%2Fnelsontao%2Fphoto%2F2009%2F20090307-nelson070.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D1758210423%2C366943980%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.01ny.cn%2Fforum%2F201302%2F16%2F075211fqmmzmwyprpdww8w.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D1896258671%2C2756036358%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170623%2Fdd9e7bef3a564270a1da154003a123b3_th.png&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D909547022%2C674958986%26fm%3D27%26gp%3D0.jpg",
             "",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F25%2F26%2F79658PIC3vd_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2323192023%2C1521283642%26fm%3D26%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg",
             ""};
-    private String[] like = {"466","456","864","846","4764","464","846","64"};
-    private String[] commnent = {"466","456","864","846","4764","464","846","64"};
+    private String[] like = {"466","456","0","846","4764","0","846","64"};
+    private String[] commnent = {"21","54","864","0","658","464","54","0"};
     public AskFragment() {}
 
     /**
