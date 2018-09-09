@@ -1,4 +1,4 @@
-package com.leothon.cogito.Mvp.View.Activity.HomeActivity;
+package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.leothon.cogito.Mvp.View.Fragment.AboutPage.AboutFragment;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
 import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
-import com.leothon.cogito.Mvp.View.Fragment.VoicePage.VoiceFragment;
+import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -36,8 +36,8 @@ public class HostActivity extends BaseActivity  {
 
     @BindView(R.id.bottom_btn_home)
     BottomButton bottombtnHome;
-    @BindView(R.id.bottom_btn_voice)
-    BottomButton bottombtnVoice;
+    @BindView(R.id.bottom_btn_mic_class)
+    BottomButton bottombtnMicClass;
     @BindView(R.id.bottom_btn_ask)
     BottomButton bottombtnAsk;
     @BindView(R.id.bottom_btn_bag)
@@ -53,13 +53,13 @@ public class HostActivity extends BaseActivity  {
     @BindView(R.id.bar_host)
     CardView barHost;
     Fragment homePage;
-    Fragment voicePage;
+    Fragment micClassPage;
     Fragment askPage;
     Fragment bagPage;
     Fragment aboutPage;
 
     private static final String HOMEPAGE = "homePage";
-    private static final String VOICEPAGE = "voicePage";
+    private static final String MICCLASSPAGE = "micClassPage";
     private static final String ASKPAGE = "askPage";
     private static final String BAGPAGE = "bagPage";
     private static final String ABOUTPAGE = "aboutPage";
@@ -85,8 +85,8 @@ public class HostActivity extends BaseActivity  {
                 switchFragment(HOMEPAGE);
                 break;
             case "voice":
-                focusOnVoice();
-                switchFragment(VOICEPAGE);
+                focusOnMic();
+                switchFragment(MICCLASSPAGE);
                 break;
             case "ask":
                 focusOnAsk();
@@ -112,7 +112,7 @@ public class HostActivity extends BaseActivity  {
      */
     public void initBottomButton(){
         bottombtnHome.setTvAndIv("首页",R.drawable.baseline_music_note_black_24);
-        bottombtnVoice.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
+        bottombtnMicClass.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
         bottombtnAsk.setTvAndIv("互动",R.drawable.baseline_question_answer_black_24);
         bottombtnBag.setTvAndIv("小书包",R.drawable.baseline_class_black_24);
         bottombtnAbout.setTvAndIv("我的",R.drawable.baseline_perm_identity_black_24);
@@ -171,14 +171,14 @@ public class HostActivity extends BaseActivity  {
                     transaction.show(homePage);
                 }
                 break;
-            case VOICEPAGE:
-                focusOnVoice();
-                if (voicePage == null || Constants.isRefreshtruetypeFragment == true){
+            case MICCLASSPAGE:
+                focusOnMic();
+                if (micClassPage == null || Constants.isRefreshtruetypeFragment == true){
                     Constants.isRefreshtruetypeFragment = false;
-                    voicePage = VoiceFragment.newInstance();
-                    transaction.add(R.id.container_home,voicePage,VOICEPAGE);
+                    micClassPage = MicClassFragment.newInstance();
+                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
                 }else {
-                    transaction.show(voicePage);
+                    transaction.show(micClassPage);
                 }
                 break;
             case ASKPAGE:
@@ -223,8 +223,8 @@ public class HostActivity extends BaseActivity  {
         if (homePage != null){
             transaction.hide(homePage);
         }
-        if (voicePage != null){
-            transaction.hide(voicePage);
+        if (micClassPage != null){
+            transaction.hide(micClassPage);
         }
         if (askPage != null){
             transaction.hide(askPage);
@@ -243,11 +243,11 @@ public class HostActivity extends BaseActivity  {
         switchFragment(HOMEPAGE);
     }
 
-    @OnClick(R.id.bottom_btn_voice)
+    @OnClick(R.id.bottom_btn_mic_class)
     public void showType(View v){
         //跳转一条
-        focusOnVoice();
-        switchFragment(VOICEPAGE);
+        focusOnMic();
+        switchFragment(MICCLASSPAGE);
     }
 
     @OnClick(R.id.bottom_btn_ask)
@@ -279,9 +279,9 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.setIvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.focusOnButton();
-        bottombtnVoice.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.resetButton();
+        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.resetButton();
@@ -293,14 +293,14 @@ public class HostActivity extends BaseActivity  {
         bottombtnAbout.resetButton();
     }
 
-    public void focusOnVoice(){
+    public void focusOnMic(){
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
-        bottombtnVoice.setTvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnVoice.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnVoice.focusOnButton();
+        bottombtnMicClass.setTvColor(getResources().getColor(R.color.colorPrimary));
+        bottombtnMicClass.setIvColor(getResources().getColor(R.color.colorPrimary));
+        bottombtnMicClass.focusOnButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.resetButton();
@@ -317,9 +317,9 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
-        bottombtnVoice.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.resetButton();
+        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAsk.focusOnButton();
@@ -336,9 +336,9 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
-        bottombtnVoice.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.resetButton();
+        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.resetButton();
@@ -355,9 +355,9 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.resetButton();
-        bottombtnVoice.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnVoice.resetButton();
+        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.resetButton();

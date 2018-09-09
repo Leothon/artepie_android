@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Mvp.View.Activity.HomeActivity.HostActivity"
+            android:name=".Mvp.View.Activity.HostActivity.HostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".Mvp.View.Activity.LoginActivity.LoginActivity" />
@@ -48,7 +48,7 @@
         <activity android:name=".Mvp.View.Activity.ActivityListActivity.ActivityListActivity" />
         <activity android:name=".Mvp.View.Activity.ViewPagerActivity.ViewPageActivity" />
         <activity android:name=".Mvp.View.Activity.SelectClassActivity.SelectClassActivity" />
-        <activity android:name=".Mvp.View.Activity.VoiceActivity.VoiceActivity" />
+        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.SettingsActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.MessageActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.AdviceActivity" />
@@ -77,7 +77,8 @@
         <activity android:name=".Mvp.View.Activity.UploadActivity.UploadActivity" />
         <activity android:name=".Mvp.View.Activity.IndividualActivity.IndividualActivity" />
         <activity android:name=".Mvp.View.Activity.VSureActivity.VSureActivity" />
-        <activity android:name=".Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity" />
+        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic2ClassActivity"></activity>
     </application>
 
 </manifest>

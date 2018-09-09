@@ -12,8 +12,27 @@ public class BagBuy {
     private String description;
     private SelectClass selectclass;
     private String author;
+    private String classCount;
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     private int classoractivity;
+
+    public String getClassCount() {
+        return classCount;
+    }
+
+    public void setClassCount(String classCount) {
+        this.classCount = classCount;
+    }
 
     public int getClassoractivity() {
         return classoractivity;

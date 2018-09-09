@@ -2,7 +2,6 @@ package com.leothon.cogito.Mvp.View.Activity.SuccessActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -20,7 +19,6 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.leothon.cogito.Constants.isRefreshtruebagFragment;
 

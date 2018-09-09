@@ -18,7 +18,6 @@ import com.leothon.cogito.Bean.BagBuy;
 
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 
 import com.leothon.cogito.Utils.IntentUtils;
@@ -26,7 +25,6 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +54,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         if (viewType == HEAD0) {
             return new BuyClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else if(viewType == HEAD1){
-            return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.voiceitem,parent,false));
+            return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.mic2_item,parent,false));
         }else if (viewType == HEAD2){
             return new RecommentClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else {
@@ -76,11 +74,10 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             BuyClassHolder buyClassHolder = (BuyClassHolder)holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,bagBuyclass.get(position1).getImgurl(),buyClassHolder.classbagImg,R.drawable.defalutimg);
             buyClassHolder.classbagTitle.setText(bagBuyclass.get(position1).getTitle());
-            buyClassHolder.classbagDes.setText(bagBuyclass.get(position1).getDescription());
-            buyClassHolder.classbagDivider.setVisibility(View.GONE);
+            buyClassHolder.classbagAuthor.setText(bagBuyclass.get(position1).getDescription());
             buyClassHolder.classbagPrice.setVisibility(View.GONE);
-            buyClassHolder.classbagTime.setVisibility(View.GONE);
-            buyClassHolder.layoutShow.setVisibility(View.GONE);
+            buyClassHolder.classbagTime.setText(bagBuyclass.get(position1).getClassCount());
+            buyClassHolder.classbagCount.setText(bagBuyclass.get(position1).getTime());
             buyClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -181,21 +178,21 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     class BuyClassHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.mic_img)
+        @BindView(R.id.mic2_img)
         RoundedImageView classbagImg;
-        @BindView(R.id.mic_author)
-        TextView classbagDes;
-        @BindView(R.id.mic_title)
+        @BindView(R.id.mic2_author)
+        TextView classbagAuthor;
+        @BindView(R.id.mic2_title)
         TextView classbagTitle;
-
-        @BindView(R.id.mic_class_time)
+        @BindView(R.id.mic2_class_count)
+        TextView classbagCount;
+        @BindView(R.id.mic2_time)
         TextView classbagTime;
-        @BindView(R.id.mic_class_price)
+        @BindView(R.id.mic2_class_price)
         TextView classbagPrice;
-        @BindView(R.id.mic_divider)
+        @BindView(R.id.mic2_divider)
         TextView classbagDivider;
-        @BindView(R.id.price_layout)
-        RelativeLayout layoutShow;
+
 
         public BuyClassHolder(View itemView){
             super(itemView);

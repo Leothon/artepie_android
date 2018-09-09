@@ -101,7 +101,9 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             bagBuy.setImgurl(clurl[i]);
             bagBuy.setTitle(cltitle[i]);
             bagBuy.setDescription(cldes[i]);
-            bagBuy.setAuthor("戴雨农");
+            bagBuy.setAuthor("蒋大为");
+            bagBuy.setClassCount("10讲");
+            bagBuy.setTime("5小时");
             bagBuys.add(bagBuy);
         }
 
@@ -109,7 +111,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             BagBuy bagBuy = new BagBuy();
             bagBuy.setImgurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
             bagBuy.setTitle("为您推荐的课程标题");
-            bagBuy.setAuthor("毛人凤");
+            bagBuy.setAuthor("晁浩建");
             recomments.add(bagBuy);
         }
     }

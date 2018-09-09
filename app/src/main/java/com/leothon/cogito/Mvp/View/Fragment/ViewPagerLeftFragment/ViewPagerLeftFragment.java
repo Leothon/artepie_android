@@ -1,15 +1,10 @@
 package com.leothon.cogito.Mvp.View.Fragment.ViewPagerLeftFragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.ViewPagerContentAdapter;
@@ -32,7 +27,7 @@ public class ViewPagerLeftFragment extends BaseFragment{
     private ViewPagerContentAdapter viewPagerContentAdapter;
     private ArrayList<ActivityAndVideo> activityAndVideos;
 
-    @BindView(R.id.rv_leftfragment)
+    @BindView(R.id.rv_fragment)
     RecyclerView rvLeft;
     public ViewPagerLeftFragment() { }
 
@@ -48,7 +43,7 @@ public class ViewPagerLeftFragment extends BaseFragment{
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_view_pager_left;
+        return R.layout.fragment_view_pager;
     }
 
     @Override

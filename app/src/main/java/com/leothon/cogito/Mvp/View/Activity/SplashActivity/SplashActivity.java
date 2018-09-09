@@ -6,19 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.leothon.cogito.Constants;
-import com.leothon.cogito.Http.BaseObserver;
-import com.leothon.cogito.Http.BaseResponse;
-import com.leothon.cogito.Http.HttpService;
-import com.leothon.cogito.Http.RetrofitServiceManager;
-import com.leothon.cogito.Http.ThreadTransformer;
-import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
-
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on 2018.7.24

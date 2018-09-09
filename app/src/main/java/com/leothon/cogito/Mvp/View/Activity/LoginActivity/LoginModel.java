@@ -1,10 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Constants;
-import com.leothon.cogito.Mvp.View.Activity.HomeActivity.HostActivity;
 import com.leothon.cogito.Utils.CommonUtils;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 /**

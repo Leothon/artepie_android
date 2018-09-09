@@ -32,7 +32,7 @@ public class ViewPagerRightFragment extends BaseFragment {
     private ViewPagerContentAdapter viewPagerContentAdapter;
     private ArrayList<ActivityAndVideo> activityAndVideos;
 
-    @BindView(R.id.rv_rightfragment)
+    @BindView(R.id.rv_fragment)
     RecyclerView rvRight;
     public ViewPagerRightFragment() { }
 
@@ -50,7 +50,7 @@ public class ViewPagerRightFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_view_pager_right;
+        return R.layout.fragment_view_pager;
     }
 
     @Override

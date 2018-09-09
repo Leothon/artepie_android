@@ -3,16 +3,14 @@ package com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.FollowAFansAdapter;
-import com.leothon.cogito.Bean.Voice;
+import com.leothon.cogito.Bean.MicClass;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -32,7 +30,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
     @BindView(R.id.rv_followafans)
     RecyclerView rvFollowFans;
 
-    private ArrayList<Voice> voices;
+    private ArrayList<MicClass> voices;
     private FollowAFansAdapter followAFansAdapter;
 
     private Intent intent;
@@ -63,7 +61,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
     private void loadFalseData1(){
         voices = new ArrayList<>();
         for (int i = 0; i < 30;i++){
-            Voice voice = new Voice();
+            MicClass voice = new MicClass();
             voice.setTitle("陈江流");
             voice.setAuthor("得道高僧陈玄奘");
             voice.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1536147071841%26di%3D816cee85d35f312482da4fe06d425be3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Ftravel.taiwan.cn%252Flist%252F201410%252FW020141017498044176219.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2704465701%2C1268881022%26fm%3D26%26gp%3D0.jpg");
@@ -73,7 +71,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
     private void loadFalseData2(){
         voices = new ArrayList<>();
         for (int i = 0; i < 30;i++){
-            Voice voice = new Voice();
+            MicClass voice = new MicClass();
             voice.setTitle("陈到底");
             voice.setAuthor("无根悟净");
             voice.setImgurl("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1536147071841%26di%3D816cee85d35f312482da4fe06d425be3%26imgtype%3D0%26src%3Dhttp%253A%252F%252Ftravel.taiwan.cn%252Flist%252F201410%252FW020141017498044176219.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2704465701%2C1268881022%26fm%3D26%26gp%3D0.jpg");

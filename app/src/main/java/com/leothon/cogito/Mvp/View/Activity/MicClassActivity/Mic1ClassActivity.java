@@ -1,14 +1,11 @@
-package com.leothon.cogito.Mvp.View.Activity.VoiceActivity;
+package com.leothon.cogito.Mvp.View.Activity.MicClassActivity;
 
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -19,11 +16,8 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
-import com.leothon.cogito.Utils.IntentUtils;
 
 import com.leothon.cogito.Weight.PlayPauseView;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Timer;
@@ -33,7 +27,7 @@ import butterknife.BindView;
 /**
  * created by leothon on 2018.8.11
  */
-public class VoiceActivity extends BaseActivity {
+public class Mic1ClassActivity extends BaseActivity {
 
 
     @BindView(R.id.play_pause)
@@ -62,7 +56,7 @@ public class VoiceActivity extends BaseActivity {
     private Bundle bundle;
     @Override
     public int initLayout() {
-        return R.layout.activity_voice;
+        return R.layout.activity_mic1_class;
     }
 
     @Override
@@ -128,7 +122,7 @@ public class VoiceActivity extends BaseActivity {
     }
 
     public void loadAnim(){
-        operatingAnim = AnimationUtils.loadAnimation(VoiceActivity.this,R.anim.remote_img);
+        operatingAnim = AnimationUtils.loadAnimation(Mic1ClassActivity.this,R.anim.remote_img);
         operatingAnim.setDuration(2000);
         linearInterpolator = new LinearInterpolator();
         operatingAnim.setInterpolator(linearInterpolator);

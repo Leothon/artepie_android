@@ -4,13 +4,22 @@ import com.leothon.cogito.Http.BaseResponse;
 /**
  * created by leothon on 2018.8.6
  */
-public class Voice extends BaseResponse{
+public class MicClass extends BaseResponse{
 
     private String imgurl;
     private String title;
     private String author;
     private String time;
     private String price;
+    private String classCount;
+
+    public String getClassCount() {
+        return classCount;
+    }
+
+    public void setClassCount(String classCount) {
+        this.classCount = classCount;
+    }
 
     public String getPrice() {
         return price;
