@@ -38,7 +38,7 @@
                 android:textSize="@dimen/littleTitle"
                 android:textColor="@color/black" />
             <TextView
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/class_title"
                 android:id="@+id/class_description"
                 android:layout_width="wrap_content"

@@ -76,7 +76,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     int realposition = position - 1;
 
-                    if (realposition > 2){
+                    if (realposition > 2 && !selectClass.getSelectprice().equals("0")){
                         loadDialog(selectClass);
                     }else {
                         Bundle bundle = new Bundle();

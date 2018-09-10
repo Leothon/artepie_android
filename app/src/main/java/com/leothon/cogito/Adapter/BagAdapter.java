@@ -87,6 +87,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     bundle.putString("url",bagBuyclass.get(position1).getImgurl());
                     bundle.putString("title",bagBuyclass.get(position1).getTitle());
                     bundle.putString("author",bagBuyclass.get(position1).getAuthor());
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });
@@ -108,6 +109,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     bundle.putString("url",recommendclass.get(position2).getImgurl());
                     bundle.putString("title",recommendclass.get(position2).getTitle());
                     bundle.putString("author",recommendclass.get(position2).getAuthor());
+                    bundle.putString("price",recommendclass.get(position2).getPrice());
                     IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });

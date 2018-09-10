@@ -109,9 +109,10 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
         for (int j = 0;j < 10;j++){
             BagBuy bagBuy = new BagBuy();
-            bagBuy.setImgurl("http://bpic.588ku.com/element_origin_min_pic/16/10/27/a83c050d95559070f6dea688be356b5c.jpg");
+            bagBuy.setImgurl("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg02.hc360.com%2Faudio%2F201701%2F201701131010529375.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D902267406%2C1753850064%26fm%3D26%26gp%3D0.jpg");
             bagBuy.setTitle("为您推荐的课程标题");
             bagBuy.setAuthor("晁浩建");
+            bagBuy.setPrice("200");
             recomments.add(bagBuy);
         }
     }

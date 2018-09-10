@@ -2,8 +2,10 @@ package com.leothon.cogito.Mvp.View.Activity.IndividualActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -131,7 +133,19 @@ public class IndividualActivity extends BaseActivity {
     @OnClick(R.id.individual_icon)
     public void individualIcon(View view){
         //TODO 大图
-        CommonUtils.makeText(this,"显示大图");
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
+        ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("icon"),img,R.drawable.defalutimg);
+        dialog.setView(imgEntryView); // 自定义dialog
+        dialog.show();
+        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
+        imgEntryView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View paramView) {
+                dialog.cancel();
+            }
+        });
     }
 
     @OnClick(R.id.individual_follow_count)
