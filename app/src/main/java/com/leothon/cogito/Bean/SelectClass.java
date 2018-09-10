@@ -12,9 +12,26 @@ public class SelectClass  {
     private String selecttime;
     private String selectauthor;
     private boolean isfav;
+    private String selectdesc;
+    private String selectprice;
 
     private ArrayList<VideoClass> videoClasses;
 
+    public String getSelectprice() {
+        return selectprice;
+    }
+
+    public void setSelectprice(String selectprice) {
+        this.selectprice = selectprice;
+    }
+
+    public String getSelectdesc() {
+        return selectdesc;
+    }
+
+    public void setSelectdesc(String selectdesc) {
+        this.selectdesc = selectdesc;
+    }
     public ArrayList<VideoClass> getVideoClasses() {
         return videoClasses;
     }

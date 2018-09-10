@@ -64,6 +64,8 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClass.setSelectbackimg(bundle.getString("url"));
         selectClass.setSelectlisttitle(bundle.getString("title"));
         selectClass.setSelectauthor(bundle.getString("author"));
+        selectClass.setSelectprice(bundle.getString("price"));
+        selectClass.setSelectdesc(bundle.getString("desc"));
         ArrayList<VideoClass> classes = new ArrayList<>();
         for (int i = 0;i < 20;i++){
             VideoClass videoClass = new VideoClass();

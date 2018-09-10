@@ -95,8 +95,6 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-
             }
 
             @Override
@@ -137,6 +135,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
             classItem.setClasstitle(title[i]);
             classItem.setClassdescription(des[i]);
             classItem.setClassprice(price[i]);
+            classItem.setAuthorname(bundle.getString("name"));
             classItem.setClassurl("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fchina-ljsw.com%2Fupdate%2F3%2Fbb5f8d46b790e71e34.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D494318182%2C3784477290%26fm%3D27%26gp%3D0.jpg");
             classitems.add(classItem);
         }

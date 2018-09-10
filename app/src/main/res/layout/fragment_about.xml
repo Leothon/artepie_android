@@ -47,6 +47,7 @@
                     android:id="@+id/usericon_about"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
+                    android:scaleType="centerCrop"
                     app:riv_oval="true"
                     app:riv_border_color="@color/white"
                     app:riv_border_width="2dp"

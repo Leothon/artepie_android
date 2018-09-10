@@ -6,39 +6,42 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="5dp"
         android:background="@color/dividerColor"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@drawable/ripple"
-        android:elevation="3dp">
+        android:elevation="3dp"
+        android:padding="10dp">
         <TextView
             android:id="@+id/select_class_index"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="第一课："
-            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_alignParentStart="true"
             android:textColor="@color/fontColor"/>
         <TextView
             android:id="@+id/select_class_title"
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="声乐的产生"
-            android:gravity="left|center"
-            android:textColor="@color/fontColor"/>
+            android:layout_toRightOf="@+id/select_class_index"
+            android:layout_centerInParent="true"
+            android:textColor="@color/fontColor"
+            android:layout_marginLeft="20dp"/>
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/select_class_lock"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_play_circle_outline_black_36"
-            android:tint="@color/fontColor"
-            android:layout_gravity="center"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/baseline_lock_black_18"
+            android:layout_centerInParent="true"
+            android:tint="@color/fontColor" />
+
+    </RelativeLayout>
 
 </LinearLayout>

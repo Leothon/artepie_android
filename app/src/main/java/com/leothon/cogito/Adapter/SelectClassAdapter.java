@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Weight.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,20 +63,68 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             int realposition = position - 1;
             final SelectClassHolder selectClassHolder = (SelectClassHolder)holder;
             selectClassHolder.selectClassTitle.setText(selectClass.getVideoClasses().get(realposition).getVideoTitle());
+            if (!selectClass.getSelectprice().equals("0") && realposition > 2){
+                selectClassHolder.selectClassLock.setImageResource(R.drawable.baseline_lock_black_18);
+
+            }else {
+                selectClassHolder.selectClassLock.setImageResource(R.drawable.baseline_play_circle_outline_black_24);
+            }
             int index = realposition + 1;
             selectClassHolder.selectClassIndex.setText("第" + CommonUtils.toCharaNumber(index) + "课");
             selectClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int realposition = position - 1;
-                    //TODO 跳转到视频播放页面
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgTitle",selectClass.getVideoClasses().get(realposition).getVideoTitle());
-                    bundle.putString("imgUrls",selectClass.getVideoClasses().get(realposition).getVideoUrl());
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+
+                    if (realposition > 2){
+                        loadDialog(selectClass);
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("imgTitle",selectClass.getVideoClasses().get(realposition).getVideoTitle());
+                        bundle.putString("imgUrls",selectClass.getVideoClasses().get(realposition).getVideoUrl());
+                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+                    }
+
                 }
             });
         }
+    }
+    private void loadDialog(final SelectClass selectData){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("是否购买整套课程？")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("购买")
+                .setNegtive("放弃")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("imgurl",selectData.getSelectbackimg());
+                        bundle.putString("title",selectData.getSelectlisttitle());
+                        bundle.putString("des",selectData.getSelectdesc());
+                        bundle.putString("price",selectData.getSelectprice());
+                        bundle.putString("type","class");
+                        bundle.putString("time","");
+                        bundle.putString("address","");
+                        bundle.putString("count","");
+                        bundle.putString("name","");
+                        bundle.putString("idcard","");
+                        bundle.putString("phone","");
+                        IntentUtils.getInstence().intent(context, PayInfoActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
     }
 
     @Override
@@ -127,6 +177,8 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView selectClassTitle;
         @BindView(R.id.select_class_index)
         TextView selectClassIndex;
+        @BindView(R.id.select_class_lock)
+        ImageView selectClassLock;
         public SelectClassHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

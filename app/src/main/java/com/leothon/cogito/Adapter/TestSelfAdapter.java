@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.TeacherSelf;
 import com.leothon.cogito.Bean.TestSelf;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
@@ -17,6 +18,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -80,15 +82,47 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         bundle.putString("url",testSelf.getTestclasses().get(realposition).getClassurl());
                         bundle.putString("title",testSelf.getTestclasses().get(realposition).getClasstitle());
                         bundle.putString("author",testSelf.getTestclasses().get(realposition).getAuthorname());
+                        bundle.putString("price",testSelf.getTestclasses().get(realposition).getClassprice());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
                         //TODO 跳转支付页面
+                        loadDialog(testSelf.getTestclasses().get(realposition));
                     }
                 }
             });
         }
     }
 
+    private void loadDialog(final ClassItem classItem){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("该课程是付费课程，您尚未订阅")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("试看前几节")
+                .setNegtive("返回")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url",classItem.getClassurl());
+                        bundle.putString("title",classItem.getClasstitle());
+                        bundle.putString("author",classItem.getAuthorname());
+                        bundle.putString("price",classItem.getClassprice());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
     @Override
     public int getItemViewType(int position) {
         if (position == 0 && headView != null){

@@ -23,10 +23,24 @@ public class VideoClass extends BaseResponse{
 
     private String favCount;
 
+    private boolean isLocked;
+
+
+
     private ArrayList<UserComment> userComments;
+
 
     public ArrayList<UserComment> getUserComments() {
         return userComments;
+    }
+
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean getLocked(){
+        return isLocked;
     }
 
     public void setUserComments(ArrayList<UserComment> userComments) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.TeacherSelf;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
@@ -86,23 +87,12 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Bundle bundle = new Bundle();
                         bundle.putString("url",teacherSelfs.getClassItems().get(realposition).getClassurl());
                         bundle.putString("title",teacherSelfs.getClassItems().get(realposition).getClasstitle());
-                        bundle.putString("author",teacherSelfs.getTeaname());
+                        bundle.putString("author",teacherSelfs.getClassItems().get(realposition).getAuthorname());
+                        bundle.putString("price",teacherSelfs.getClassItems().get(realposition).getClassprice());
+                        bundle.putString("desc",teacherSelfs.getClassItems().get(realposition).getClassdescription());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        //TODO 跳转支付页面
-                        Bundle bundle = new Bundle();
-                        bundle.putString("imgurl",teacherSelfs.getClassItems().get(realposition).getClassurl());
-                        bundle.putString("title",teacherSelfs.getClassItems().get(realposition).getClasstitle());
-                        bundle.putString("des",teacherSelfs.getClassItems().get(realposition).getClassdescription());
-                        bundle.putString("price",teacherSelfs.getClassItems().get(realposition).getClassprice());
-                        bundle.putString("type","class");
-                        bundle.putString("time","");
-                        bundle.putString("address","");
-                        bundle.putString("count","");
-                        bundle.putString("name","");
-                        bundle.putString("idcard","");
-                        bundle.putString("phone","");
-                        IntentUtils.getInstence().intent(context, PayInfoActivity.class,bundle);
+                        loadDialog(teacherSelfs.getClassItems().get(realposition));
                     }
 
                 }
@@ -110,7 +100,37 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    private void loadDialog(final ClassItem classItem){
+        final CommonDialog dialog = new CommonDialog(context);
 
+
+        dialog.setMessage("该课程是付费课程，您尚未订阅")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("试看前几节")
+                .setNegtive("返回")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url",classItem.getClassurl());
+                        bundle.putString("title",classItem.getClasstitle());
+                        bundle.putString("author",classItem.getAuthorname());
+                        bundle.putString("price",classItem.getClassprice());
+                        bundle.putString("desc",classItem.getClassdescription());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
     @Override
     public int getItemViewType(int position) {
         if (position == 0 && headView != null){
