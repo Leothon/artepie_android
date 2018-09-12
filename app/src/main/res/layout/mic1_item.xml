@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentBottom="true"/>
 
         <RelativeLayout
             android:layout_toLeftOf="@+id/mic1_class_price"

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:background="@color/white">
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已经到底了"
+        android:textSize="@dimen/tipsSize"
+        android:textColor="@color/fontColor"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/bottom_show_empty"
+        android:layout_marginBottom="8dp"/>
+    <View
+        android:id="@+id/bottom_show_empty"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"/>
+</RelativeLayout>

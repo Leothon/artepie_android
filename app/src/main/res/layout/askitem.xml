@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ripple"
-    android:elevation="3dp">
+    android:background="@drawable/ripple">
 
 
     <View

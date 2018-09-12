@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     //首页布局总数
-    private int LAYOUT_COUNT = 6;
+
     //需要在首页加载的一整条数据
     private List<String> allDatas;
 
@@ -105,23 +105,20 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private int HEAD2 = 2;
     private int HEAD3 = 3;
     private int HEAD4 = 4;
-//    private int HEAD5 = 5;
     private int HEAD5 = 5;
     private int HEAD6 = 6;
-    private int NORMAL = 100;
+    private int HEAD7 = 7;
+
 
     private View headView0;
     private View headView1;
     private View headView2;
     private View headView3;
     private View headView4;
-//    private View headView5;
     private View headView5;
     private View headView6;
+    private View headView7;
 
-    public void setHeadView0(View headView0) {
-        this.headView0 = headView0;
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -138,13 +135,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return new classHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
         }else if(viewType == HEAD5){
             return new dividerHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
-        }else {
+        }else if (viewType == HEAD6){
             return new foryouHolder(LayoutInflater.from(context).inflate(R.layout.videoforyou_home,parent,false));
+        }else {
+            return new bottomHolder(LayoutInflater.from(context).inflate(R.layout.bottom_show_empty,parent,false));
         }
 
-        //if(viewType == HEAD5){
-        //            return new videoclassHolder(LayoutInflater.from(context).inflate(R.layout.tagcommon_home,parent,false));
-        //        }
     }
 
     @Override
@@ -390,10 +386,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
         }else if (viewType == HEAD5){
             return;
-        }else if (viewType == NORMAL){
+        }else if (viewType == HEAD6){
             //TODO 增加更多的数据显示
             foryouHolder foryouholder = (foryouHolder) holder;
-            final int videoPosition = position - LAYOUT_COUNT;
+            final int videoPosition = position - 6;
             foryouholder.foryouIV.setImageResource(R.drawable.defalutimg);
             //foryouholder.foryouIV.setTag(videoPosition);
             foryouholder.foryouTV.setText(foryouvideotitle[videoPosition]);
@@ -409,78 +405,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 }
             });
             ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
-
-//            else if(viewType == HEAD5){
-//                videoclassHolder videoclassholder = (videoclassHolder) holder;
-//                videoclassholder.tagnameInvideo.setText("精彩课时");
-//                videoclassholder.video1.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("imgUrls",videoImg[0]);
-//                        bundle.putString("imgTitle",videoName[0]);
-//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-//                    }
-//                });
-//                videoclassholder.video2.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("imgUrls",videoImg[1]);
-//                        bundle.putString("imgTitle",videoName[1]);
-//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-//                    }
-//                });
-//                videoclassholder.video3.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("imgUrls",videoImg[2]);
-//                        bundle.putString("imgTitle",videoName[2]);
-//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-//                    }
-//                });
-//                videoclassholder.video4.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("imgUrls",videoImg[3]);
-//                        bundle.putString("imgTitle",videoName[3]);
-//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-//                    }
-//                });
-//                videoclassholder.video5.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("imgUrls",videoImg[4]);
-//                        bundle.putString("imgTitle",videoName[4]);
-//                        IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-//                    }
-//                });
-//                videoclassholder.video6.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("title","更多精彩课时");
-//                        IntentUtils.getInstence().intent(context, ActivityListActivity.class,bundle);
-//                    }
-//                });
-//
-//                videoclassholder.video1title.setText(videoName[0]);
-//                videoclassholder.video2title.setText(videoName[1]);
-//                videoclassholder.video3title.setText(videoName[2]);
-//                videoclassholder.video4title.setText(videoName[3]);
-//                videoclassholder.video5title.setText(videoName[4]);
-//
-//                //加载图片
-//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[0],videoclassholder.video1img,R.drawable.defalutimg);
-//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[1],videoclassholder.video2img,R.drawable.defalutimg);
-//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[2],videoclassholder.video3img,R.drawable.defalutimg);
-//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[3],videoclassholder.video4img,R.drawable.defalutimg);
-//                ImageLoader.loadImageViewThumbnailwitherror(context,videoImg[4],videoclassholder.video5img,R.drawable.defalutimg);
-//            }
-
+        }else {
+            return;
         }
 
 
@@ -496,7 +422,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public int getSpanSize(int position) {
                     int type = getItemViewType(position);
-                    if (type == NORMAL){
+                    if (type == HEAD6){
                         return 1;
                     }else {
                         return 2;
@@ -520,18 +446,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return HEAD4;
         }else if (position == 5 && headView5 != null){
             return HEAD5;
+        }else if (position <= (foryouVideo.length + 5) && position != 0){
+            return HEAD6;
         }else {
-            return NORMAL;
+            return HEAD7;
         }
 
-//        else if (position == 5 && headView5 != null){
-//            return HEAD5;
-//        }
     }
 
     @Override
     public int getItemCount() {
-        return LAYOUT_COUNT + foryouvideotitle.length;
+        return 7 + foryouvideotitle.length;
     }
 
     public void addHeadView0(View view){
@@ -711,48 +636,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ButterKnife.bind(this,itemView);
         }
     }
-//    class videoclassHolder extends RecyclerView.ViewHolder{
-//        @BindView(R.id.tag_name)
-//        TextView tagnameInvideo;
-//        @BindView(R.id.home1)
-//        FrameLayout video1;
-//        @BindView(R.id.home2)
-//        FrameLayout video2;
-//        @BindView(R.id.home3)
-//        FrameLayout video3;
-//        @BindView(R.id.home4)
-//        FrameLayout video4;
-//        @BindView(R.id.home5)
-//        FrameLayout video5;
-//        @BindView(R.id.home6)
-//        FrameLayout video6;
-//
-//        @BindView(R.id.home_title1)
-//        TextView video1title;
-//        @BindView(R.id.home_title2)
-//        TextView video2title;
-//        @BindView(R.id.home_title3)
-//        TextView video3title;
-//        @BindView(R.id.home_title4)
-//        TextView video4title;
-//        @BindView(R.id.home_title5)
-//        TextView video5title;
-//
-//        @BindView(R.id.home_img1)
-//        RoundedImageView video1img;
-//        @BindView(R.id.home_img2)
-//        RoundedImageView video2img;
-//        @BindView(R.id.home_img3)
-//        RoundedImageView video3img;
-//        @BindView(R.id.home_img4)
-//        RoundedImageView video4img;
-//        @BindView(R.id.home_img5)
-//        RoundedImageView video5img;
-//        public videoclassHolder(View itemView){
-//            super(itemView);
-//            ButterKnife.bind(this,itemView);
-//        }
-//    }
+
 
     class dividerHolder extends RecyclerView.ViewHolder{
 
@@ -773,6 +657,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
+    class bottomHolder extends RecyclerView.ViewHolder{
+
+        public bottomHolder(View itemView){
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
 
     public interface OnItemClickListener{
         void onItemClick(View v,int postion);

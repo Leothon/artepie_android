@@ -110,29 +110,11 @@ public class Mic1Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void initAdapter(){
         swpFragment.setOnRefreshListener(this);
-        mic1ClassAdapter = new Mic1ClassAdapter(getMContext(),micClasses);
+        mic1ClassAdapter = new Mic1ClassAdapter(micClasses,getMContext());
         rvFragment.setLayoutManager(new LinearLayoutManager(getMContext(), LinearLayoutManager.VERTICAL,false));
         rvFragment.setAdapter(mic1ClassAdapter);
-        mic1ClassAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
-            @Override
-            public void onItemClickListner(View v, int position) {
-                //TODO 跳转到相应的
-                Bundle bundle = new Bundle();
-                bundle.putString("title",micClasses.get(position).getTitle());
-                bundle.putString("img",micClasses.get(position).getImgurl());
-                bundle.putString("author",micClasses.get(position).getAuthor());
-                bundle.putString("time",micClasses.get(position).getTime());
-                bundle.putString("price",micClasses.get(position).getPrice());
-                IntentUtils.getInstence().intent(getMContext(), Mic1ClassActivity.class,bundle);
-            }
-        });
 
-        mic1ClassAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
-            @Override
-            public void onItemLongClickListner(View v, int position) {
 
-            }
-        });
         rvFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean controlVisible = true;
             int scrollDistance = 0;

@@ -41,6 +41,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private int HEAD1 = 1;
     private int HEAD2 = 2;
     private int HEAD3 = 3;
+    private int HEAD4 = 4;
 
 
     public BagAdapter(ArrayList<BagBuy> bagBuyclass,ArrayList<BagBuy> recommendclass, Context context){
@@ -57,8 +58,10 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.mic2_item,parent,false));
         }else if (viewType == HEAD2){
             return new RecommentClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
-        }else {
+        }else if (viewType == HEAD3){
             return new RecommentClassHolder(LayoutInflater.from(context).inflate(R.layout.videoforyou_home,parent,false));
+        }else {
+            return new BottomShowHolder(LayoutInflater.from(context).inflate(R.layout.bottom_show_empty,parent,false));
         }
     }
 
@@ -113,6 +116,8 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });
+        }else {
+            return;
         }
 
 
@@ -127,11 +132,13 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (position < bagBuyclass.size()+2){
-                        return 2;
-                    }else {
+                    int type = getItemViewType(position);
+                    if (type == HEAD3){
                         return 1;
+                    }else {
+                        return 2;
                     }
+
                 }
             });
         }
@@ -145,15 +152,17 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             return HEAD1;
         }else if (position == bagBuyclass.size() + 1){
             return HEAD2;
-        }else {
+        }else if (position <= (recommendclass.size() + bagBuyclass.size() + 1) && position != 0){
             return HEAD3;
+        }else {
+            return HEAD4;
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return bagBuyclass.size() + recommendclass.size() + 2;
+        return bagBuyclass.size() + recommendclass.size() + 3;
     }
 
     @Override
@@ -229,6 +238,12 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         }
     }
 
+    class BottomShowHolder extends RecyclerView.ViewHolder{
+        public BottomShowHolder(View itemView){
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
 
     public interface OnItemClickListener{
         void onItemClick(View v,int postion);
