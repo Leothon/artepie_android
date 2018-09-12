@@ -36,6 +36,7 @@ import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.EmptyRecyclerView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -116,6 +117,13 @@ public class PlayerActivity extends BaseActivity {
 
     @BindView(R.id.comment_in)
     CardView commentIn;
+
+    @BindView(R.id.content_video)
+    LinearLayout contentVideo;
+    @BindView(R.id.video_bar)
+    CardView videoBar;
+
+
     private boolean isPlay;
     private boolean isPause;
 
@@ -138,6 +146,7 @@ public class PlayerActivity extends BaseActivity {
     private VideoCommentAdapter videoCommentAdapter;
 
     private long position;
+
     @Override
     public int initLayout() {
         return R.layout.activity_player;
@@ -365,7 +374,11 @@ public class PlayerActivity extends BaseActivity {
         });
         videoCommentList.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
         videoCommentList.setAdapter(videoCommentAdapter);
+
+
     }
+
+
     @Override
     public void onBackPressed() {
         if (orientationUtils != null){

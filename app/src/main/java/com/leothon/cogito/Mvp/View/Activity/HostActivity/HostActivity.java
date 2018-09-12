@@ -7,7 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 import com.leothon.cogito.Constants;
@@ -20,6 +23,7 @@ import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -48,7 +52,8 @@ public class HostActivity extends BaseActivity  {
 
     @BindView(R.id.container_home)
     FrameLayout container;
-
+    @BindView(R.id.host_bottom)
+    CardView hostBottom;
 
     @BindView(R.id.bar_host)
     CardView barHost;
@@ -68,6 +73,9 @@ public class HostActivity extends BaseActivity  {
 
     private Intent intent;
     private Bundle bundle;
+
+    private Animation mShowAction;
+    private Animation mHiddenAction;
     @Override
     public int initLayout() {
         return R.layout.activity_host;
@@ -76,7 +84,8 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initview() {
         initBottomButton();
-
+        mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
+        mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
         bundle = intent.getExtras();
         switch (bundle.getString("type")){
@@ -120,7 +129,17 @@ public class HostActivity extends BaseActivity  {
     }
 
 
+    public void hideBottomBtn(){
+        hostBottom.setVisibility(View.GONE);
+        hostBottom.startAnimation(mHiddenAction);
 
+    }
+
+    public void showBottomBtn(){
+        hostBottom.setVisibility(View.VISIBLE);
+        hostBottom.startAnimation(mShowAction);
+
+    }
 
     @Override
     public void initdata() {

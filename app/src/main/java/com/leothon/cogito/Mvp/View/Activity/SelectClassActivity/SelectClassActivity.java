@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.SelectClassActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -95,10 +96,15 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                     int position = linearLayoutManager.findFirstVisibleItemPosition();
                     if (position > 0){
                         selectBar.setVisibility(View.VISIBLE);
-                        selectBar.setTranslationY(CommonUtils.getStatusBarHeight(SelectClassActivity.this));
+                        selectBar.setTranslationY(CommonUtils.getStatusBarHeight(SelectClassActivity.this) - 5);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                            StatusBarUtils.setStatusBarColor(SelectClassActivity.this,R.color.white);
+                        }
                         selectBar.setVisibility(View.VISIBLE);
                     }else {
                         selectBar.setVisibility(View.GONE);
+                        StatusBarUtils.transparencyBar(SelectClassActivity.this);
                     }
                 }
             }

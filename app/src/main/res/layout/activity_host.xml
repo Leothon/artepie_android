@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
     android:fitsSystemWindows="true">
 
     <include
@@ -12,15 +12,17 @@
         layout="@layout/toolbar"/>
 
 
-    <include layout="@layout/bottombutton"/>
+    <include
+        android:id="@+id/host_bottom"
+        layout="@layout/bottombutton"/>
 
     <FrameLayout
         android:id="@+id/container_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ll_bottom"
-        >
+        android:layout_height="match_parent">
+
     </FrameLayout>
+
 
 
 </RelativeLayout>

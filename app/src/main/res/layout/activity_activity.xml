@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:background="@color/white">
 
     <include
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         android:id="@+id/activity_bar"
         android:visibility="gone"
-        layout="@layout/toolbar"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+        layout="@layout/toolbar" />
     <com.leothon.cogito.View.ObserveScrollView
         android:id="@+id/obser_Scr"
         android:layout_width="match_parent"
@@ -88,7 +83,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/ripple"
         android:clickable="true">
         <TextView
@@ -115,4 +110,4 @@
     </RelativeLayout>
 
 
-</FrameLayout>
+</RelativeLayout>

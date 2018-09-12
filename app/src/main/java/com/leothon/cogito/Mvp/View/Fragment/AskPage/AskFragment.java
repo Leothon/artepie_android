@@ -3,6 +3,7 @@ package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.AskAdapter;
@@ -21,9 +24,12 @@ import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.StatusBarUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
@@ -89,6 +95,10 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             ""};
     private String[] like = {"466","456","0","846","4764","0","846","64"};
     private String[] commnent = {"21","54","864","0","658","464","54","0"};
+    private static int THRESHOLD_OFFSET = 10;
+    private HostActivity hostActivity;
+    private Animation viewShowAnim;
+    private Animation viewHideAnim;
     public AskFragment() {}
 
     /**
@@ -118,7 +128,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         asks = new ArrayList<>();
         loadfalsedata();
         initAdapter();
-
+        hostActivity = (HostActivity)getActivity();
+        viewShowAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_show);
+        viewHideAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_hide);
     }
 
     private void loadfalsedata(){
@@ -145,6 +157,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         rvAsk.setLayoutManager(mlinearLayoutManager);
         rvAsk.setAdapter(askAdapter);
         rvAsk.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean controlVisible = true;
+            int scrollDistance = 0;
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 int lastVisibleItem = mlinearLayoutManager.findLastVisibleItemPosition();
@@ -160,10 +174,40 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                         askAdapter.notifyDataSetChanged();
                     }
                 }
+
+                if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
+                    animationHide();
+                    controlVisible = false;
+                    scrollDistance = 0;
+                }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
+                    animationShow();
+                    controlVisible = true;
+                    scrollDistance = 0;
+                }
+
+                //当scrollDistance累计到隐藏（显示)ToolBar之后，如果Scroll向下（向上）滚动，则停止对scrollDistance的累加
+                //直到Scroll开始往反方向滚动，再次启动scrollDistance的累加
+                if ((controlVisible && dy > 0) || (!controlVisible && dy < 0)){
+                    scrollDistance += dy;
+                }
+
             }
         });
     }
 
+    private void animationHide(){
+        hostActivity.hideBottomBtn();
+        floatBtn.setVisibility(View.GONE);
+        floatBtn.startAnimation(viewHideAnim);
+
+    }
+
+    private void animationShow(){
+        hostActivity.showBottomBtn();
+        floatBtn.setVisibility(View.VISIBLE);
+        floatBtn.startAnimation(viewShowAnim);
+
+    }
     @OnClick(R.id.float_btn)
     public void addcontent(View view){
         //TODO 用户添加问题

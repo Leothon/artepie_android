@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Mvp.View.Activity.PlayerActivity.PlayerActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:animateLayoutChanges="true">
 
     <include
         android:id="@+id/video_bar"
         layout="@layout/toolbar"
         android:visibility="gone"/>
+
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
         android:id="@+id/video_player"
         android:layout_width="match_parent"

@@ -12,7 +12,7 @@
         android:id="@+id/ask_bar"
         layout="@layout/toolbar"/>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_below="@+id/ask_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,12 +35,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_margin="15dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="65dp"
             app:fabSize="normal"
             android:src="@drawable/ask"
             app:rippleColor="@color/contentColor"
-            android:elevation="6dp"/>
-    </FrameLayout>
+            android:elevation="6dp" />
+    </android.support.design.widget.CoordinatorLayout>
 
     <FrameLayout
         android:id="@+id/video_full_container"

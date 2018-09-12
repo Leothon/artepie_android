@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.leothon.cogito.Mvp.BaseFragment;
@@ -53,6 +55,9 @@ public class MicClassFragment extends BaseFragment {
 
     private ArrayList<Fragment> fragments;
 
+    private Animation showAnimation;
+    private Animation hideAnimation;
+
 //    @BindView(R.id.rv_voice)
 //    RecyclerView rvVoice;
 //
@@ -90,7 +95,9 @@ public class MicClassFragment extends BaseFragment {
     protected void initView() {
         title.setText("艺条学院");
         subtitle.setText("");
-
+        voiceBar.setCardElevation(0.0f);
+        showAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_in);
+        hideAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_out);
     }
 
 
@@ -135,10 +142,12 @@ public class MicClassFragment extends BaseFragment {
 
     public void showTab(){
         voiceBar.setVisibility(View.VISIBLE);
+        voiceBar.startAnimation(showAnimation);
     }
 
     public void hideTab(){
         voiceBar.setVisibility(View.GONE);
+        voiceBar.startAnimation(hideAnimation);
     }
 
     @Override

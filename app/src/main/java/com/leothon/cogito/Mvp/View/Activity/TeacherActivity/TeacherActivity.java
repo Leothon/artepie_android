@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.TeacherActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
@@ -72,14 +75,12 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     @Override
     public void initview() {
         StatusBarUtils.transparencyBar(this);
-        teaBar.setRadius(CommonUtils.dip2px(this,5));
         intent = getIntent();
         bundle = intent.getExtras();
         loadFalseData();
         initAdapter();
         setToolbarTitle("");
         setToolbarSubTitle(teacherSelf.getTeaname());
-
 
     }
 
@@ -103,11 +104,18 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
                     int position = linearLayoutManager.findFirstVisibleItemPosition();
                     if (position > 0){
                         teaBar.setVisibility(View.VISIBLE);
-                        teaBar.setTranslationY(CommonUtils.getStatusBarHeight(TeacherActivity.this));
+                        teaBar.setTranslationY(CommonUtils.getStatusBarHeight(TeacherActivity.this) - 5);
                         teacherIcon.setVisibility(View.VISIBLE);
                         teacherIcon.setImageResource(teacherSelf.getTeaicon());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                            StatusBarUtils.setStatusBarColor(TeacherActivity.this,R.color.white);
+                        }
+
                     }else {
                         teaBar.setVisibility(View.GONE);
+                        StatusBarUtils.transparencyBar(TeacherActivity.this);
+
                     }
                 }
             }

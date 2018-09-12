@@ -69,7 +69,6 @@ public class EditIndividualActivity extends BaseActivity {
     private String signatrue = "";
     private String[] sexArray = new String[]{"暂不填写","女","男"};
     private boolean isEdit = false;
-    private String icon = "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F13%2F28%2F36%2F62f58PICRBq_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D651319201%2C4278459580%26fm%3D26%26gp%3D0.jpg";
 
     @Override
     public int initLayout() {
@@ -87,7 +86,7 @@ public class EditIndividualActivity extends BaseActivity {
         signatrue = "如鱼饮水，冷暖自知";
         userNumber.setText(phone);
         userSignal.setText(signatrue);
-        ImageLoader.loadImageViewThumbnailwitherror(this,icon,userIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.iconurl,userIcon,R.drawable.defalutimg);
         Calendar nowdate = Calendar.getInstance();
         mYear = nowdate.get(Calendar.YEAR);
         mMonth = nowdate.get(Calendar.MONTH);

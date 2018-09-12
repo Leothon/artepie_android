@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.TestActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.leothon.cogito.Bean.TestSelf;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
@@ -52,7 +54,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void initview() {
         StatusBarUtils.transparencyBar(this);
-        testBar.setRadius(CommonUtils.dip2px(this,5));
+
         intent = getIntent();
         bundle = intent.getExtras();
         LoadFalseData();
@@ -84,9 +86,14 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         int position = linearLayoutManager.findFirstVisibleItemPosition();
                         if (position > 0){
                             testBar.setVisibility(View.VISIBLE);
-                            testBar.setTranslationY(CommonUtils.getStatusBarHeight(TestActivity.this));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                StatusBarUtils.setStatusBarColor(TestActivity.this,R.color.white);
+                            }
+                            testBar.setTranslationY(CommonUtils.getStatusBarHeight(TestActivity.this) - 5);
                         }else {
                             testBar.setVisibility(View.GONE);
+                            StatusBarUtils.transparencyBar(TestActivity.this);
                         }
                     }
                 }
