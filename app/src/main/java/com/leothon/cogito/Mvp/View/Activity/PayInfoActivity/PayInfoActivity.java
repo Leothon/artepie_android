@@ -66,7 +66,7 @@ public class PayInfoActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
 
@@ -179,7 +179,7 @@ public class PayInfoActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

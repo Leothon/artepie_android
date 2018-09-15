@@ -41,7 +41,7 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarSubTitle("");
@@ -83,23 +83,23 @@ public class FollowAFansActivity extends BaseActivity implements SwipeRefreshLay
         followAFansAdapter = new FollowAFansAdapter(this,voices);
         rvFollowFans.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         rvFollowFans.setAdapter(followAFansAdapter);
-        followAFansAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        followAFansAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 Bundle bundleto = new Bundle();
                 bundleto.putString("type","other");
                 IntentUtils.getInstence().intent(FollowAFansActivity.this, IndividualActivity.class,bundleto);
             }
         });
-        followAFansAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        followAFansAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

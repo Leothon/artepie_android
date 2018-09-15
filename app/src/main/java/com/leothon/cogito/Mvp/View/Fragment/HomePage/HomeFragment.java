@@ -156,9 +156,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         initTeacherData();
         TeacherAdapter teacherAdapter = new TeacherAdapter(getMContext(), teachers);
         teaRV.setAdapter(teacherAdapter);
-        teacherAdapter.setOnItemClickListner(new TeacherAdapter.OnItemClickListner() {
+        teacherAdapter.setOnItemClickListener(new TeacherAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 //根据position，选出对应的老师，并进入下一个页面
                 //TODO 跳转到老师的页面
                 //CommonUtils.makeText(getMContext(),"点击的是" + teacherNameList[position] + "老师");
@@ -175,9 +175,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         });
 
-        teacherAdapter.setOnItemLongClickListner(new TeacherAdapter.OnItemLongClickListner() {
+        teacherAdapter.setOnItemLongClickListener(new TeacherAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });

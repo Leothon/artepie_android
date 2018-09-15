@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.leothon.cogito.Adapter.SelectClassAdapter;
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
@@ -26,6 +27,8 @@ import com.leothon.cogito.Utils.StatusBarUtils;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * created by leothon on 2018.8.4
  */
@@ -40,6 +43,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     @BindView(R.id.select_bar)
     CardView selectBar;
 
+
     private SelectClass selectClass;
     private LinearLayoutManager linearLayoutManager;
     private Intent intent;
@@ -50,7 +54,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         StatusBarUtils.transparencyBar(this);
         intent = getIntent();
         bundle = intent.getExtras();
@@ -58,6 +62,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         initAdapter();
         setToolbarTitle(bundle.getString("title"));
         setToolbarSubTitle("");
+
     }
 
     public void loadfalsedata(){
@@ -117,12 +122,16 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassAdapter.addHeadView(headView);
     }
 
+
+
+
+
     @Override
     public void onRefresh() {
         swpSelect.setRefreshing(false);
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

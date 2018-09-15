@@ -39,7 +39,7 @@ public class HistoryActivity extends BaseActivity implements SwipeRefreshLayout.
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarTitle("播放历史");
         setToolbarSubTitle("");
         loadFalseData();
@@ -75,7 +75,7 @@ public class HistoryActivity extends BaseActivity implements SwipeRefreshLayout.
 
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

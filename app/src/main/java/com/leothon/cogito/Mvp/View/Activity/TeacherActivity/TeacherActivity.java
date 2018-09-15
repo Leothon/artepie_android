@@ -73,7 +73,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         StatusBarUtils.transparencyBar(this);
         intent = getIntent();
         bundle = intent.getExtras();
@@ -154,7 +154,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
         teacherSelf.setClassItems(classitems);
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

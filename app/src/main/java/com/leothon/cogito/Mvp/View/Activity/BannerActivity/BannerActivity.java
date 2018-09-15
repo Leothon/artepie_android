@@ -37,7 +37,7 @@ public class BannerActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         urls = bundle.getString("urls");
@@ -62,7 +62,7 @@ public class BannerActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

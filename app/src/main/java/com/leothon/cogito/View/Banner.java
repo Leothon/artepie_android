@@ -404,8 +404,8 @@ public class Banner extends RelativeLayout {
 
     private OnItemClickListener mOnItemClickListener;
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+    public void setOnItemClickListener(OnItemClickListener Listener) {
+        this.mOnItemClickListener = Listener;
     }
 
     public interface OnItemClickListener {

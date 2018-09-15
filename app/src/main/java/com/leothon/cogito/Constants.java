@@ -1,5 +1,10 @@
 package com.leothon.cogito;
 
+import com.leothon.cogito.Bean.SaveUploadData;
+import com.leothon.cogito.Bean.UploadSave;
+
+import java.util.ArrayList;
+
 /*
 * created by leothon on 2018.7.22
 * */
@@ -17,6 +22,11 @@ public class Constants {
     public static boolean isRefreshtrueaskFragment = false;
     public static boolean isRefreshtruebagFragment = false;
     public static boolean isRefreshtrueaboutFragment = false;
+
+    public static ArrayList<UploadSave> uploadSaves;
+    public static String classTitle;
+    public static String classDesc;
+    public static ArrayList<String> tags;
 
     public static final String iconurl = "https://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fcache.colabug.com%2Fforum%2F201709%2F29%2F160729eznn1azzh00ia41k.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFvXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1565457528%2C3190941137%26fm%3D26%26gp%3D0.jpg";
 

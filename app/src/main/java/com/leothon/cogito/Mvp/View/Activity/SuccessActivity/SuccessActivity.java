@@ -41,7 +41,7 @@ public class SuccessActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
 
         intent = getIntent();
         bundle = intent.getExtras();
@@ -123,7 +123,7 @@ public class SuccessActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

@@ -47,7 +47,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarTitle("设置");
@@ -107,7 +107,7 @@ public class SettingsActivity extends BaseActivity {
         finish();
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

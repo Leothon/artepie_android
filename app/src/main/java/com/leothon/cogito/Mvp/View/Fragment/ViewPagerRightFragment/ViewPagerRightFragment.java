@@ -74,19 +74,22 @@ public class ViewPagerRightFragment extends BaseFragment {
         viewPagerContentAdapter = new ViewPagerContentAdapter(getMContext(),activityAndVideos);
         rvRight.setLayoutManager(new GridLayoutManager(getMContext(),2,GridLayoutManager.VERTICAL,false));
         rvRight.setAdapter(viewPagerContentAdapter);
-        viewPagerContentAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        viewPagerContentAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("title",activityAndVideos.get(position).getAvtitle());
                 bundle.putString("url",activityAndVideos.get(position).getAvurl());
+                bundle.putInt("count",1);
+                bundle.putInt("position",0);
+                bundle.putString("price","0");
                 IntentUtils.getInstence().intent(getMContext(), ActivityActivity.class,bundle);
             }
         });
 
-        viewPagerContentAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        viewPagerContentAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });

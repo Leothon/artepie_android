@@ -18,13 +18,13 @@ public class Mic2ClassActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("课堂");
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

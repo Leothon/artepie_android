@@ -24,14 +24,14 @@ public class DownloadDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
 
         loadFalseData();
         initAdapter();
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

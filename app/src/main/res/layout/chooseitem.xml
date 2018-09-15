@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="60dp">
+    <TextView
+        android:id="@+id/choose_count"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="第一集"
+        android:textSize="@dimen/tipsSize"
+        android:textColor="@color/fontColor"
+        android:background="@drawable/textviewbackground"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

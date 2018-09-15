@@ -67,19 +67,22 @@ public class ViewPagerLeftFragment extends BaseFragment{
         viewPagerContentAdapter = new ViewPagerContentAdapter(getMContext(),activityAndVideos);
         rvLeft.setLayoutManager(new GridLayoutManager(getMContext(),2,GridLayoutManager.VERTICAL,false));
         rvLeft.setAdapter(viewPagerContentAdapter);
-        viewPagerContentAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        viewPagerContentAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("imgTitle",activityAndVideos.get(position).getAvtitle());
                 bundle.putString("imgUrls",activityAndVideos.get(position).getAvurl());
+                bundle.putInt("count",1);
+                bundle.putInt("position",0);
+                bundle.putString("price","0");
                 IntentUtils.getInstence().intent(getMContext(), PlayerActivity.class,bundle);
             }
         });
 
-        viewPagerContentAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        viewPagerContentAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });

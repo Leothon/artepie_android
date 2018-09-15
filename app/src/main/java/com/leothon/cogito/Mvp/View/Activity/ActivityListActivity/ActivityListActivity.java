@@ -47,7 +47,7 @@ public class ActivityListActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         loadFalseData();
@@ -62,9 +62,9 @@ public class ActivityListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvList.setLayoutManager(linearLayoutManager);
         rvList.setAdapter(listCommonAdapter);
-        listCommonAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        listCommonAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 if (bundle.getString("title").equals("更多演出活动")){
                     //TODO 更多演出活动
                     Bundle bundle = new Bundle();
@@ -82,9 +82,9 @@ public class ActivityListActivity extends BaseActivity {
             }
         });
 
-        listCommonAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        listCommonAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });
@@ -103,7 +103,7 @@ public class ActivityListActivity extends BaseActivity {
         }
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

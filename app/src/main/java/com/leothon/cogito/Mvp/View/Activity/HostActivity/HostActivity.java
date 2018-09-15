@@ -82,7 +82,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         initBottomButton();
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
@@ -142,7 +142,7 @@ public class HostActivity extends BaseActivity  {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

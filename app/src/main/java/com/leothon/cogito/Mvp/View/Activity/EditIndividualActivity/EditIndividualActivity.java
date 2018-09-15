@@ -76,7 +76,7 @@ public class EditIndividualActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("编辑个人信息");
         userName.setText("叶落知秋");
@@ -138,10 +138,11 @@ public class EditIndividualActivity extends BaseActivity {
             Log.e(TAG, "sendEdit: 修改了");
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putString("type","about");
-        IntentUtils.getInstence().intent(EditIndividualActivity.this, IndividualActivity.class,bundle);
-        finish();
+        onBackPressed();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("type","about");
+//        IntentUtils.getInstence().intent(EditIndividualActivity.this, IndividualActivity.class,bundle);
+//        finish();
     }
 
 
@@ -326,7 +327,7 @@ public class EditIndividualActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

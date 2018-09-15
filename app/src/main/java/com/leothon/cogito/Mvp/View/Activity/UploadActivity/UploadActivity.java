@@ -44,7 +44,7 @@ public class UploadActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("我发布的内容");
         loadFalseData();
@@ -92,7 +92,7 @@ public class UploadActivity extends BaseActivity {
         });
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

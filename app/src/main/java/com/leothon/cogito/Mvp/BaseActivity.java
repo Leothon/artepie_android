@@ -90,8 +90,8 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
             basePresenter.attachWindow(initModel(),this);
         }
         ButterKnife.bind(this);
-        initdata();
-        initview();
+        initData();
+        initView();
 
     }
 
@@ -129,9 +129,9 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
     public abstract int initLayout();
 
-    public abstract void initview();
+    public abstract void initView();
 
-    public abstract void initdata();
+    public abstract void initData();
 
     /**
      * 封装状态栏

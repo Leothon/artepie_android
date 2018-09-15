@@ -69,14 +69,14 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.qqzhi.com%2Fuploadpic%2F2014-05-02%2F001810904.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D1073960396%2C1422270742%26fm%3D26%26gp%3D0.jpg"};
     private String[] name = {"Lanruence","张小光","风末","北冥有鱼","人生终有路","Server 吴","文德斯","马伯庸"};
     private String[] desc = {"小音乐教师","我亦飘零久","公众号yytt2018,欢迎关注","半桶纯净水，洗清心中事","唯有音乐和啤酒","Ask my piano","文艺年轻人","不进则退"};
-    private String[] content = {"这周课程好多啊！购买的课程都没来得及看，自己要加油了！！",
+    private String[] content = {"这周课程好多啊！购买的课程都没来得及看，自己要加油了！！\uD83D\uDE01\uD83D\uDE02\uD83D\uDE03\uD83D\uDE04\uD83D\uDE09",
             "音乐是反映人类现实生活情感的一种艺术（英名称：music；法文名称： musique；意大利文：musica）。\n音乐可以分为声乐和器乐两大类型，又可以粗略的分为古典音乐、民间音乐、原生态音乐、现代音乐（包括流行音乐）等。在艺术类型中，音乐具有抽象性，音乐从历史发展上可分为东方音乐和西方音乐。东方以中国汉族音乐为首的中国古代理论基础是五声音阶，即宫、商、角、徵、羽，西方是以七声音阶为主。音乐让人赏心悦目，并为大家带来听觉的享受。音乐能提高人的审美能力，净化人们的心灵，树立崇高的理想。我们通过音乐来抒发我们的情感，使我们的很多情绪得到释放。",
             "一首《天堂》送给大家，唱得不好还请见谅。。\nps:关注我的公众号，每天一段小视频",
             "在明亮的月光中徘徊，目光却看不到更远，漆黑的颜色总是阻止着心动，阻止着远行的背包。溜走的人和事可以在明天尽量不去重复遗憾，昨天还谈论的故事，今天只有在雨水密织的车窗外偶尔还能看见……",
-            "迷笛！迷笛！迷笛！",
+            "迷笛！迷笛！迷笛！\uD83D\uDE2A\uD83D\uDE2A",
             "-When the whole world is about to rain, let’s make it clear in our heart together.\n-当全世界约好一起下雨，让我们约好一起在心里放晴。",
             "各位大佬，我想问下，谁能解决我高音的问题？\n 详情看视频",
-            "见到了我的偶像，激动中"};
+            "见到了我的偶像，激动中\uD83D\uDE31\uD83D\uDE31"};
     private String[] videourl = {"http://121.196.199.171:8080/myweb/cogito001.mp4",
             "",
             "http://121.196.199.171:8080/myweb/cogito001.mp4",

@@ -66,7 +66,7 @@ public class VSureActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("认证身份");
         ImageLoader.loadImageViewThumbnailwitherror(this, Constants.iconurl,vSureIcon,R.drawable.defalutimg);
@@ -85,10 +85,11 @@ public class VSureActivity extends BaseActivity {
 
         if (!vSureInfo.getText().toString().equals("") && isImgShow){
             //TODO 上传相关证件
-            Bundle bundleto = new Bundle();
-            bundleto.putString("type","individual");
-            IntentUtils.getInstence().intent(VSureActivity.this, IndividualActivity.class,bundleto);
-            finish();
+            onBackPressed();
+//            Bundle bundleto = new Bundle();
+//            bundleto.putString("type","individual");
+//            IntentUtils.getInstence().intent(VSureActivity.this, IndividualActivity.class,bundleto);
+//            finish();
         }else {
             CommonUtils.makeText(this,"请上传图片，填写信息");
         }
@@ -188,7 +189,7 @@ public class VSureActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

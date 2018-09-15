@@ -12,12 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.FollowAFansAdapter;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadActivity.UploadActivity;
+import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -69,10 +71,10 @@ public class IndividualActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
-        ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("icon"),individualIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.iconurl,individualIcon,R.drawable.defalutimg);
         individualName.setText(bundle.getString("name"));
         individualSignal.setText(bundle.getString("desc"));
         if (bundle.getString("type").equals("other")){
@@ -94,7 +96,7 @@ public class IndividualActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     IntentUtils.getInstence().intent(IndividualActivity.this, EditIndividualActivity.class);
-                    finish();
+
                 }
             });
             individualContent.setText("我发布的内容");
@@ -105,10 +107,17 @@ public class IndividualActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //TODO 从网络加载数据，实现修改资料返回该页面重新加载
+    }
+
     @OnClick(R.id.make_upload_class)
     public void makeUploadClass(View view){
         //TODO 制作上传视频
-        CommonUtils.makeText(this,"您不是认证用户，请先认证。\n本平台只有认证用户方可制作上传课程");
+        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class);
+        //CommonUtils.makeText(this,"您不是认证用户，请先认证。\n本平台只有认证用户方可制作上传课程");
     }
 
     @OnClick(R.id.follow_btn)
@@ -137,7 +146,7 @@ public class IndividualActivity extends BaseActivity {
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("icon"),img,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.iconurl,img,R.drawable.defalutimg);
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
@@ -167,7 +176,6 @@ public class IndividualActivity extends BaseActivity {
         //TODO 加V认证
         //CommonUtils.makeText(this,"认证");
         IntentUtils.getInstence().intent(IndividualActivity.this, VSureActivity.class);
-        finish();
     }
 
     @OnClick(R.id.individual_content)
@@ -175,7 +183,7 @@ public class IndividualActivity extends BaseActivity {
         IntentUtils.getInstence().intent(IndividualActivity.this, UploadActivity.class);
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

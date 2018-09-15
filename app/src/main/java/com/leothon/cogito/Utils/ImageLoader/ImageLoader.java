@@ -101,8 +101,8 @@ public class ImageLoader {
     //设置监听的用处 可以用于监控请求发生错误来源，以及图片来源 是内存还是磁盘
 
     //设置监听请求接口
-    public static void loadImageViewListener(Context mContext, String path, ImageView mImageView, RequestListener<String, GlideDrawable> requstlistener) {
-        Glide.with(mContext).load(path).listener(requstlistener).into(mImageView);
+    public static void loadImageViewListener(Context mContext, String path, ImageView mImageView, RequestListener<String, GlideDrawable> requstListener) {
+        Glide.with(mContext).load(path).listener(requstListener).into(mImageView);
     }
 
     //项目中有很多需要先下载图片然后再做一些合成的功能，比如项目中出现的图文混排

@@ -19,7 +19,7 @@ public class ListCommonAdapter extends BaseAdapter{
     }
 
     @Override
-    public  <T> void convert(BaseViewHolder holder, T bean) {
+    public  <T> void convert(BaseViewHolder holder, T bean,int position) {
         Activityed activityed = (Activityed) bean;
         holder.setImageUrls(R.id.class_img,activityed.getClassurl());
         holder.setText(R.id.class_title,activityed.getClasstitle());

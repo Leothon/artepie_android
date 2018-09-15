@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/toolbar"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/title_class_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入课程的标题"
+        android:textSize="@dimen/appBarSize"
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        app:met_clearButton="true"
+        app:met_textColor="@color/black"
+        app:met_hideUnderline="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加标签的位置"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/desc_class_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入发布课程的简介"
+        app:met_floatingLabel="normal"
+        app:met_floatingLabelText="发布课程的简介"
+        app:met_floatingLabelTextSize="@dimen/tipsSize"
+        android:textSize="@dimen/contentSize"
+        android:padding="5dp"
+        android:minLines="4"
+        android:maxLines="6"
+        android:gravity="start|top"
+        android:layout_margin="3dp"
+        app:met_clearButton="true"
+        app:met_textColor="@color/fontColor"
+        app:met_hideUnderline="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/textviewbackground">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_add_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/add_class_upload"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加单节课程"
+                android:drawableLeft="@drawable/baseline_add_black_24"
+                android:gravity="center"
+                android:background="@drawable/textviewbackground"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout> 

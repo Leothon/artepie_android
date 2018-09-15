@@ -1,6 +1,7 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,6 +31,11 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
 
+    public View getView(int id){
+
+        View view = (View)convertView.findViewById(id);
+        return view;
+    }
 
     //常用设置方法封装
     public void setText(int id, String text) {
@@ -57,6 +63,13 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
         ImageLoader.loadImageViewThumbnailwitherror(context,urls,img,R.drawable.defalutimg);
     }
 
+    public void setText(int id,String text,int color,int background){
+        TextView tx = (TextView) convertView.findViewById(id);
+        tx.setText(text);
+        tx.setTextColor(color);
+        tx.setBackgroundResource(background);
+    }
+
     /**
      * 直接通过加入
      * @param view
@@ -65,6 +78,7 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
     public void setViewImagebyUrl(ImageView view,String url){
         ImageLoader.loadImageViewThumbnailwitherror(context,url,view, R.drawable.defalutimg);
     }
+
 
     public void setImageUrlswiththumb(int id,String url){
         ImageView img = (ImageView) convertView.findViewById(id);

@@ -17,7 +17,7 @@ public class FollowAFansAdapter extends BaseAdapter {
         super(context, R.layout.followfans_item,voices);
     }
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean) {
+    public <T> void convert(BaseViewHolder holder, T bean,int position) {
         MicClass voice = (MicClass)bean;
         holder.setText(R.id.faf_name,voice.getTitle());
         holder.setText(R.id.faf_content,voice.getAuthor());

@@ -76,7 +76,7 @@ public class AskDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarSubTitle("");
@@ -139,7 +139,7 @@ public class AskDetailActivity extends BaseActivity {
         popupInputMethod();
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

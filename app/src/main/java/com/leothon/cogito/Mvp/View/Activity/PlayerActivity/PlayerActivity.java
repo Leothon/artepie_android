@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,22 +27,30 @@ import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Adapter.BaseAdapter;
+import com.leothon.cogito.Adapter.ChooseClassAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
+import com.leothon.cogito.Bean.ChooseClass;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.UserComment;
 import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.EmptyRecyclerView;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -122,7 +131,10 @@ public class PlayerActivity extends BaseActivity {
     LinearLayout contentVideo;
     @BindView(R.id.video_bar)
     CardView videoBar;
-
+    @BindView(R.id.choose_class)
+    RelativeLayout chooseClass;
+    @BindView(R.id.rv_choose_class)
+    RecyclerView rvChooseClass;
 
     private boolean isPlay;
     private boolean isPause;
@@ -131,7 +143,7 @@ public class PlayerActivity extends BaseActivity {
     private View empty;
     private VideoClass videoClass;
     private Intent intent;
-    Bundle bundle;
+    private Bundle bundle;
     private OrientationUtils orientationUtils;
 
     private View popview;
@@ -142,29 +154,110 @@ public class PlayerActivity extends BaseActivity {
     private ImageView sendComment;
 
     private ArrayList<UserComment> userComments;
+    private ArrayList<ChooseClass> chooseClasses;
 
     private VideoCommentAdapter videoCommentAdapter;
-
-    private long position;
-
+    private ChooseClassAdapter chooseClassAdapter;
+    private int count = 0;
+    private ScrollSpeedLinearLayoutManager scrollSpeedLinearLayoutManager;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
     }
 
     @Override
-    public void initview() {
-        videoClass = new VideoClass();//切换课程时候，记得这个要重新初始化，以防止数据被覆盖
-        loadCommentData();
+    public void initView() {
+        //切换课程时候，记得这个要重新初始化，以防止数据被覆盖
         intent = getIntent();
         bundle = intent.getExtras();
-        Loadview();
-        initPopupWindow();
+        count = bundle.getInt("count");
+
+        loadAll(bundle.getString("imgTitle"),bundle.getString("imgUrls"),bundle.getInt("count"),bundle.getInt("position"),bundle.getString("price"));
+
 
     }
 
+    private void loadAll(String title, String img, int count, int position, final String price){
+        videoClass = new VideoClass();
+        loadCommentData(position,price);
+        Loadview(title,img);
+        initPopupWindow();
+        if (count == 1){
+            chooseClass.setVisibility(View.GONE);
+        }else {
+            chooseClass.setVisibility(View.VISIBLE);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            rvChooseClass.setLayoutManager(linearLayoutManager);
+
+
+            rvChooseClass.smoothScrollToPosition(position);
+            chooseClassAdapter = new ChooseClassAdapter(this,chooseClasses);
+            rvChooseClass.setAdapter(chooseClassAdapter);
+            chooseClassAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(View v, int position) {
+
+                    if (price.equals("0")){
+                        intentClass(position);
+                    }else {
+                        if (position < 3){
+                            intentClass(position);
+                        }else {
+                            loadDialog();
+                        }
+
+                    }
+
+
+                }
+            });
+
+            chooseClassAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClickListener(View v, int position) {
+
+                }
+            });
+
+
+
+        }
+    }
+
+    private void loadDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+        dialog.setMessage("是否购买整套课程？")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("购买")
+                .setNegtive("放弃")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        CommonUtils.makeText(PlayerActivity.this,"跳转支付");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
+
+    private void intentClass(int position){
+
+        loadAll(bundle.getString("imgTitle"),bundle.getString("imgUrls"),bundle.getInt("count"),position,bundle.getString("price"));
+
+    }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 
@@ -181,7 +274,7 @@ public class PlayerActivity extends BaseActivity {
     /**
      * 伪数据
      */
-    public void loadCommentData(){
+    public void loadCommentData(int position,String price){
 
 
         userComments = new ArrayList<>();
@@ -193,6 +286,20 @@ public class PlayerActivity extends BaseActivity {
             userComments.add(userComment);
         }
         videoClass.setUserComments(userComments);
+
+        chooseClasses = new ArrayList<>();
+        for (int j = 0;j < count;j++){
+            ChooseClass chooseClass = new ChooseClass();
+            chooseClass.setPosition(position);
+            chooseClass.setCount("第" + CommonUtils.toCharaNumber(j + 1) + "课");
+            if (j >= 3 && !price.equals("0")){
+                chooseClass.setLocked(true);
+            }else {
+                chooseClass.setLocked(false);
+            }
+            chooseClasses.add(chooseClass);
+        }
+
     }
 
     public void loadVideoData(){
@@ -207,14 +314,13 @@ public class PlayerActivity extends BaseActivity {
 
 
 
-    public void Loadview() {
-        String title = bundle.getString("imgTitle");
-        String urls = bundle.getString("imgUrls");
+    public void Loadview(String title,String img) {
+
 
         videoTitle.setText(title);
         ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.loadImageViewwithError(this,urls,imageView,R.drawable.defalutimg);
+        ImageLoader.loadImageViewwithError(this,img,imageView,R.drawable.defalutimg);
 
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,16 +465,16 @@ public class PlayerActivity extends BaseActivity {
 
     public void loadComment(){
         videoCommentAdapter = new VideoCommentAdapter(this,videoClass.getUserComments());
-        videoCommentAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        videoCommentAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 //TODO 未来进行回复评论的操作
                 CommonUtils.makeText(PlayerActivity.this,"回复评论功能暂未开放");
             }
         });
-        videoCommentAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        videoCommentAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });

@@ -40,7 +40,7 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarTitle("我的收藏");
         setToolbarSubTitle("");
         loadFalseData();
@@ -75,7 +75,7 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

@@ -37,7 +37,7 @@ public class NoticeActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("消息通知");
         loadFalseData();
@@ -58,22 +58,22 @@ public class NoticeActivity extends BaseActivity {
         noticeAdapter = new NoticeAdapter(this,notices);
         rvNotice.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         rvNotice.setAdapter(noticeAdapter);
-        noticeAdapter.setOnItemClickListner(new BaseAdapter.OnItemClickListner() {
+        noticeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClickListner(View v, int position) {
+            public void onItemClickListener(View v, int position) {
                 //TODO 点击进入评论详情
             }
         });
 
-        noticeAdapter.setOnItemLongClickListner(new BaseAdapter.OnItemLongClickListner() {
+        noticeAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClickListner(View v, int position) {
+            public void onItemLongClickListener(View v, int position) {
 
             }
         });
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

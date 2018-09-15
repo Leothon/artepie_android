@@ -55,7 +55,7 @@ public class WalletActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         StatusBarUtils.transparencyBar(this);
         loadPrice();
         dividerTitle.setText("充值");
@@ -137,7 +137,7 @@ public class WalletActivity extends BaseActivity {
         list.add("￥500");
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

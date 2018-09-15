@@ -17,7 +17,7 @@ public class TeacherAdapter extends BaseAdapter {
         super(context, R.layout.tea_layout_rv,teaList);
     }
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean) {
+    public <T> void convert(BaseViewHolder holder, T bean,int position) {
         Teacher teacher = (Teacher) bean;
         holder.setImageResource(R.id.tea_icon,teacher.getResId());
         holder.setText(R.id.tea_name,teacher.getName());

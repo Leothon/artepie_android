@@ -22,8 +22,8 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private int layoutId;
     private List<? extends BaseResponse> data;
     private Context context;
-    private OnItemClickListner onItemClickListner;//单击事件
-    private OnItemLongClickListner onItemLongClickListner;//长按单击事件
+    private OnItemClickListener onItemClickListener;//单击事件
+    private OnItemLongClickListener onItemLongClickListener;//长按单击事件
     private boolean clickFlag = true;//单击事件和长单击事件的屏蔽标识
 
     /**
@@ -46,7 +46,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             @Override
             public void onClick(View v) {
                 if (clickFlag) {
-                    onItemClickListner.onItemClickListner(v, holder.getLayoutPosition());
+                    onItemClickListener.onItemClickListener(v, holder.getLayoutPosition());
                 }
                 clickFlag = true;
             }
@@ -55,7 +55,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                onItemLongClickListner.onItemLongClickListner(v, holder.getLayoutPosition());
+                onItemLongClickListener.onItemLongClickListener(v, holder.getLayoutPosition());
                 clickFlag = false;
                 return false;
             }
@@ -67,31 +67,31 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        convert(holder, data.get(position));
+        convert(holder, data.get(position),position);
 
     }
 
 
-    public abstract <T> void convert(BaseViewHolder holder, T bean);
+    public abstract <T> void convert(BaseViewHolder holder, T bean,int position);
 
     @Override
     public int getItemCount() {
         return data.size();
     }
 
-    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
-        this.onItemClickListner = onItemClickListner;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
-    public void setOnItemLongClickListner(OnItemLongClickListner onItemLongClickListner) {
-        this.onItemLongClickListner = onItemLongClickListner;
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    public interface OnItemClickListner {
-        void onItemClickListner(View v, int position);
+    public interface OnItemClickListener {
+        void onItemClickListener(View v, int position);
     }
 
-    public interface OnItemLongClickListner {
-        void onItemLongClickListner(View v, int position);
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View v, int position);
     }
 }

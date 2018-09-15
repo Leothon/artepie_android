@@ -216,7 +216,7 @@ public class AboutFragment extends BaseFragment {
         }else if (Constants.loginStatus ==1){
             Bundle bundleto = new Bundle();
             bundleto.putString("type","individual");
-            bundleto.putString("icon",Constants.iconurl);
+            bundleto.putString("icon","");
             bundleto.putString("name","叶落知秋");
             bundleto.putString("desc","如鱼饮水，冷暖自知");
             IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleto);

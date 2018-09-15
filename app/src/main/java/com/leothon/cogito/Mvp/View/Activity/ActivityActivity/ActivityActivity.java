@@ -63,7 +63,7 @@ public class ActivityActivity extends BaseActivity implements ObserveScrollView.
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         StatusBarUtils.transparencyBar(this);
@@ -118,7 +118,7 @@ public class ActivityActivity extends BaseActivity implements ObserveScrollView.
         }
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

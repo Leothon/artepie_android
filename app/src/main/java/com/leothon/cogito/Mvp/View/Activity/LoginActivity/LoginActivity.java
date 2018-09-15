@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         sharedPreferencesUtils = new SharedPreferencesUtils(this,"AccountPassword");
         bar.setVisibility(View.VISIBLE);
         getToolbar().setNavigationIcon(R.drawable.baseline_clear_black_24);
@@ -230,7 +230,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
         loginPresenter = new LoginPresenter(this);
     }
 

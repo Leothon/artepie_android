@@ -16,7 +16,7 @@ public class NoticeAdapter extends BaseAdapter {
         super(context, R.layout.notice_item,notices);
     }
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean) {
+    public <T> void convert(BaseViewHolder holder, T bean,int position) {
         Notice notice = (Notice)bean;
         holder.setImageUrlswiththumb(R.id.notice_icon,notice.getUsericon());
         holder.setText(R.id.notice_name,notice.getNoticeuser());

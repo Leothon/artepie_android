@@ -52,7 +52,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         StatusBarUtils.transparencyBar(this);
 
         intent = getIntent();
@@ -128,7 +128,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

@@ -320,6 +320,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",classesImg[0]);
                     bundle.putString("imgTitle",classesName[0]);
+                    bundle.putInt("count",1);
+                    bundle.putInt("position",0);
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
@@ -329,6 +332,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",classesImg[1]);
                     bundle.putString("imgTitle",classesName[1]);
+                    bundle.putInt("count",1);
+                    bundle.putInt("position",0);
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
@@ -338,6 +344,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",classesImg[2]);
                     bundle.putString("imgTitle",classesName[2]);
+                    bundle.putInt("count",1);
+                    bundle.putInt("position",0);
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
@@ -347,6 +356,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",classesImg[3]);
                     bundle.putString("imgTitle",classesName[3]);
+                    bundle.putInt("count",1);
+                    bundle.putInt("position",0);
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
@@ -356,6 +368,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",classesImg[4]);
                     bundle.putString("imgTitle",classesName[4]);
+                    bundle.putInt("count",1);
+                    bundle.putInt("position",0);
+                    bundle.putString("price","0");
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });
@@ -401,6 +416,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrls",foryouVideo[videoPosition]);
                     bundle.putString("imgTitle",foryouvideotitle[videoPosition]);
+                    bundle.putInt("count",1);
                     IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                 }
             });

@@ -1,8 +1,10 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +29,14 @@ import butterknife.ButterKnife;
  */
 public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
-    private OnItemClickListener onItemClickListner;
+    private OnItemClickListener onItemClickListener;
     private SelectClass selectClass;
     private Context context;
 
     private int HEAD = 0;
     private int BODY = 100;
     private View headView;
+    private boolean isFaved = false;
 
     public SelectClassAdapter(SelectClass selectClass, Context context){
         this.selectClass = selectClass;
@@ -53,12 +56,40 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
         if (viewType == HEAD){
-            SelectHeadHolder selectHeadHolder= (SelectHeadHolder) holder;
+            final SelectHeadHolder selectHeadHolder= (SelectHeadHolder) holder;
             ImageLoader.loadImageViewwithError(context,selectClass.getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
             selectHeadHolder.selectTitle.setText(selectClass.getSelectlisttitle());
             //selectHeadHolder.selectTime.setText(selectClass.getSelecttime());
             //selectHeadHolder.selectStuCount.setText(selectClass.getSelectstucount());
             selectHeadHolder.selectAuthor.setText("讲师:" + selectClass.getSelectauthor());
+            selectHeadHolder.selectClassFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isFaved){
+                        selectHeadHolder.selectClassFav.setImageResource(R.drawable.faved);
+                        isFaved = true;
+                        CommonUtils.makeText(context,"已收藏本套课程");
+                        //TODO 执行收藏操作
+                    }else {
+                        selectHeadHolder.selectClassFav.setImageResource(R.drawable.fav);
+                        isFaved = false;
+                        CommonUtils.makeText(context,"已取消收藏本套课程");
+                        //TODO 执行取消收藏操作
+                    }
+                }
+            });
+            selectHeadHolder.selectClassShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    shareText("分享本节课程到",
+                            "主题名称",
+                            "我正在 @文艺派-给生活以艺术 客户端学习《"
+                                    + selectClass.getSelectlisttitle() +
+                                    "》这个课程，点击加入体验"
+                                    +"https://github.com/Leothon"+
+                                    "\n (分享自文艺派APP)");
+                }
+            });
         }else if (viewType == BODY){
             int realposition = position - 1;
             final SelectClassHolder selectClassHolder = (SelectClassHolder)holder;
@@ -82,11 +113,46 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Bundle bundle = new Bundle();
                         bundle.putString("imgTitle",selectClass.getVideoClasses().get(realposition).getVideoTitle());
                         bundle.putString("imgUrls",selectClass.getVideoClasses().get(realposition).getVideoUrl());
+                        bundle.putInt("count",selectClass.getVideoClasses().size());
+                        bundle.putInt("position",realposition);
+                        bundle.putString("price",selectClass.getSelectprice());
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                     }
 
                 }
             });
+        }
+    }
+
+    /**
+     * 分享文字内容
+     *
+     * @param dlgTitle
+     *            分享对话框标题
+     * @param subject
+     *            主题
+     * @param content
+     *            分享内容（文字）
+     */
+    private void shareText(String dlgTitle, String subject, String content) {
+        if (content == null || "".equals(content)) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        if (subject != null && !"".equals(subject)) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        }
+
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+
+        // 设置弹出框标题
+        if (dlgTitle != null && !"".equals(dlgTitle)) { // 自定义标题
+
+            context.startActivity(Intent.createChooser(intent, dlgTitle));
+        } else { // 系统默认标题
+
+            context.startActivity(intent);
         }
     }
     private void loadDialog(final SelectClass selectData){
@@ -164,6 +230,11 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView selectStuCount;
         @BindView(R.id.select_class_author)
         TextView selectAuthor;
+
+        @BindView(R.id.select_class_fav)
+        ImageView selectClassFav;
+        @BindView(R.id.select_class_share)
+        ImageView selectClassShare;
         public SelectHeadHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

@@ -28,7 +28,7 @@ public class VideoCommentAdapter extends BaseAdapter {
     }
 
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean) {
+    public <T> void convert(BaseViewHolder holder, T bean,int position) {
         UserComment userComment = (UserComment)bean;
         holder.setText(R.id.user_name_video,userComment.getUsername());
         holder.setText(R.id.user_comment_video,userComment.getUsercomment());

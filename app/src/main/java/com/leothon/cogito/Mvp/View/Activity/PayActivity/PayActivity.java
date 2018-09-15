@@ -48,7 +48,7 @@ public class PayActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarSubTitle("");
@@ -186,7 +186,7 @@ public class PayActivity extends BaseActivity {
         finish();
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

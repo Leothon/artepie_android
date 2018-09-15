@@ -29,7 +29,7 @@ public class AdviceActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("反馈意见");
     }
@@ -44,7 +44,7 @@ public class AdviceActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

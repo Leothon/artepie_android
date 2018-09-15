@@ -12,7 +12,7 @@ public class LoginModel implements LoginContract.ILoginModel {
 
     SharedPreferencesUtils sharedPreferencesUtils;
     @Override
-    public void login(User user, LoginContract.OnLoginFinishedListener listener) {
+    public void login(User user, LoginContract.OnLoginFinishedListener Listener) {
         String username = user.getU_name();
         String password = user.getU_password();
         //登录操作
@@ -20,20 +20,20 @@ public class LoginModel implements LoginContract.ILoginModel {
         sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"AccountPassword");
         if (!username.equals("") && !password.equals("")){
 
-            //TODO 使用Retrofit进行登录 成功登录，则调用 listener.onSuccess()，如果失败，则调用listener.onFail()
+            //TODO 使用Retrofit进行登录 成功登录，则调用 Listener.onSuccess()，如果失败，则调用Listener.onFail()
 
             if (username.equals("12345") && password.equals("12345")){
-                listener.onSuccess();
+                Listener.onSuccess();
             }else {
-                listener.onFail();
+                Listener.onFail();
             }
         }else {
-            listener.onUsernameORPassWordEmpty();
+            Listener.onUsernameORPassWordEmpty();
         }
     }
 
     @Override
-    public void register(User user, LoginContract.OnLoginFinishedListener listener) {
+    public void register(User user, LoginContract.OnLoginFinishedListener Listener) {
         String phonenumber = user.getU_phone();
         String username = user.getU_name();
         String password = user.getU_password();
@@ -41,12 +41,12 @@ public class LoginModel implements LoginContract.ILoginModel {
         if (!phonenumber.equals("") && !username.equals("") && !password.equals("") && CommonUtils.isPhoneNumber(phonenumber)){
 
             //TODO 使用retrofit进行注册
-            listener.onRegisterSuccess();
+            Listener.onRegisterSuccess();
 
         }else if (!CommonUtils.isPhoneNumber(phonenumber)){
-            listener.onPhoneIllegal();
+            Listener.onPhoneIllegal();
         }else {
-            listener.onSomeEmpty();
+            Listener.onSomeEmpty();
         }
     }
 }

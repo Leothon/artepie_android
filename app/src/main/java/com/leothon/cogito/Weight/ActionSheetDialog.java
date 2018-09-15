@@ -97,15 +97,15 @@ public class ActionSheetDialog {
      *            条目名称
      * @param color
      *            条目字体颜色，设置null则默认蓝色
-     * @param listener
+     * @param Listener
      * @return
      */
     public ActionSheetDialog addSheetItem(String strItem, SheetItemColor color,
-                                          OnSheetItemClickListener listener) {
+                                          OnSheetItemClickListener Listener) {
         if (sheetItemList == null) {
             sheetItemList = new ArrayList<SheetItem>();
         }
-        sheetItemList.add(new SheetItem(strItem, color, listener));
+        sheetItemList.add(new SheetItem(strItem, color, Listener));
         return this;
     }
 
@@ -132,7 +132,7 @@ public class ActionSheetDialog {
             SheetItem sheetItem = sheetItemList.get(i - 1);
             String strItem = sheetItem.name;
             SheetItemColor color = sheetItem.color;
-            final OnSheetItemClickListener listener = (OnSheetItemClickListener) sheetItem.itemClickListener;
+            final OnSheetItemClickListener Listener = (OnSheetItemClickListener) sheetItem.itemClickListener;
 
             TextView textView = new TextView(context);
             textView.setText(strItem);
@@ -182,7 +182,7 @@ public class ActionSheetDialog {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(index);
+                    Listener.onClick(index);
                     dialog.dismiss();
                 }
             });

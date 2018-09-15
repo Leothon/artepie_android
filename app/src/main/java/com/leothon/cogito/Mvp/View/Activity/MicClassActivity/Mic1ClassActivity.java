@@ -60,7 +60,7 @@ public class Mic1ClassActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarTitle(bundle.getString("title"));
@@ -185,7 +185,7 @@ public class Mic1ClassActivity extends BaseActivity {
         }
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override

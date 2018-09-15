@@ -33,7 +33,7 @@ public class DownloadActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("编辑");
         setToolbarTitle("下载");
         loadFalseData();
@@ -64,7 +64,7 @@ public class DownloadActivity extends BaseActivity {
         rvDownload.setAdapter(downloadAdapter);
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

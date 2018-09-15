@@ -16,7 +16,7 @@ public class ViewPagerContentAdapter extends BaseAdapter {
         super(context, R.layout.videoforyou_home,activityAndVideos);
     }
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean) {
+    public <T> void convert(BaseViewHolder holder, T bean,int position) {
         ActivityAndVideo activityAndVideo = (ActivityAndVideo) bean;
         holder.setText(R.id.foryou_tv,activityAndVideo.getAvtitle());
         holder.setImageUrls(R.id.foryou_iv,activityAndVideo.getAvurl());

@@ -28,8 +28,7 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:background="@drawable/ripple"
-        android:clickable="true"
-        android:elevation="3dp">
+        android:clickable="true">
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -130,13 +129,25 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/choose_class"
+        android:layout_below="@+id/content_video"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_choose_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/dividerColor"
-        android:layout_below="@+id/content_video"/>
+        android:layout_below="@+id/choose_class"/>
 
 
     <LinearLayout

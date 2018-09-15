@@ -12,16 +12,16 @@ public class LoginContract {
         /**
          * 登录
          * @param user
-         * @param listener
+         * @param Listener
          */
-        void login(User user,OnLoginFinishedListener listener);
+        void login(User user,OnLoginFinishedListener Listener);
 
         /**
          * 注册
          * @param user
-         * @param listener
+         * @param Listener
          */
-        void register(User user,OnLoginFinishedListener listener);
+        void register(User user,OnLoginFinishedListener Listener);
 
     }
 

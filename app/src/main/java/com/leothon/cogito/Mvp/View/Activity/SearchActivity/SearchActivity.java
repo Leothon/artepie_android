@@ -30,13 +30,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
 
 
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,7 +49,7 @@ public class AskActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("");
         Icon.setVisibility(View.VISIBLE);
@@ -136,6 +137,7 @@ public class AskActivity extends BaseActivity {
             String content = askContent.getText().toString();
             //TODO 向服务器提交数据
             CommonUtils.makeText(this,"已提交问题： " + content);
+            Log.e(TAG, "sendAsk: " + content);
             Constants.isRefreshtrueaskFragment = true;
             Bundle bundleto = new Bundle();
             bundleto.putString("type","ask");
@@ -157,7 +159,7 @@ public class AskActivity extends BaseActivity {
         //使用动态加载的方式进行图片的添加
     }
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
 

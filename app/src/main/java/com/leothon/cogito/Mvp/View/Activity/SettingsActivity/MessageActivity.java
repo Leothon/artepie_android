@@ -40,7 +40,7 @@ public class MessageActivity extends BaseActivity {
     }
 
     @Override
-    public void initview() {
+    public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("消息设置");
         soundNotice.setChecked(true);
@@ -110,7 +110,7 @@ public class MessageActivity extends BaseActivity {
     }
 
     @Override
-    public void initdata() {
+    public void initData() {
 
     }
     @Override
