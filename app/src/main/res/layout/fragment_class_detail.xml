@@ -2,17 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <include
-        android:id="@+id/mic1_bar"
-        layout="@layout/toolbar"/>
+    android:layout_height="match_parent">
 
     <com.leothon.cogito.View.ObserveScrollView
-        android:id="@+id/scroll_mic_class"
-        android:layout_below="@+id/mic1_bar"
-        android:layout_above="@+id/bottom_mic1"
+        android:id="@+id/scroll_mic2_class"
+        android:layout_above="@+id/bottom_mic2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -20,100 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/class_detail_img_1"
-                    android:layout_width="80dp"
-                    android:layout_height="90dp"
-                    app:riv_corner_radius="5dp"
-                    android:src="@drawable/backactivity"
-                    android:scaleType="centerCrop"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"/>
-
-                <TextView
-                    android:id="@+id/class_detail_title_1"
-                    android:layout_toLeftOf="@+id/class_detail_level_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="25dp"
-                    android:text="标题"
-                    android:textSize="@dimen/appBarSize"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_toRightOf="@+id/class_detail_img_1"/>
-
-                <TextView
-                    android:id="@+id/class_detail_level_1"
-                    android:layout_toLeftOf="@+id/trade_class"
-                    android:text="9.7"
-                    android:layout_marginTop="15dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/appBarSize"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="23dp"
-                    android:id="@+id/trade_class"
-                    android:text="分"
-                    android:textSize="@dimen/tipsSize"
-                    android:textColor="@color/fontColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"/>
-                <TextView
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@+id/class_detail_title_1"
-                    android:layout_toRightOf="@+id/class_detail_img_1"
-                    android:id="@+id/teacher_mic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="主讲人: "
-                    android:textSize="@dimen/contentSize"
-                    android:textColor="@color/fontColor"/>
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@+id/class_detail_title_1"
-                    android:layout_toRightOf="@+id/teacher_mic"
-                    android:id="@+id/class_detail_author_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="作者名字"
-                    android:textSize="@dimen/contentSize"
-                    android:textColor="@color/fontColor"/>
-                <TextView
-                    android:id="@+id/class_detail_time_1"
-                    android:layout_below="@+id/teacher_mic"
-                    android:layout_toRightOf="@+id/class_detail_img_1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45分钟"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/class_detail_level_1"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="25dp"
-                    android:id="@+id/class_detail_price_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥ 9.9"
-                    android:textColor="@color/orange"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/appBarSize"
-                    />
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -135,7 +35,7 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="15dp"/>
                 <TextView
-                    android:id="@+id/class_detail_desc_1"
+                    android:id="@+id/class_detail_desc_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
@@ -158,11 +58,11 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="15dp"/>
                 <TextView
-                    android:id="@+id/class_detail_author_desc_1"
+                    android:id="@+id/class_detail_author_desc_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:text="爵士乐演唱家、教育家。留美钢琴博士，爵士乐研究硕士。目前担任上海音乐学院音乐剧系教师,全国高等院校开设爵士乐演唱即兴入门课程第一人。"
+                    android:text="作者自己的介绍，可以详细描述自己的简历和取得的成就"
                     android:textSize="@dimen/contentSize"
                     android:textColor="@color/fontColor"/>
             </LinearLayout>
@@ -198,7 +98,7 @@
                         android:layout_height="wrap_content">
 
                         <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/comment_first_img"
+                            android:id="@+id/comment_first_img2"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_margin="10dp"
@@ -207,37 +107,37 @@
                             app:riv_oval="true" />
 
                         <TextView
-                            android:id="@+id/comment_first_name"
+                            android:id="@+id/comment_first_name2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:layout_toRightOf="@+id/comment_first_img"
-                            android:text="刘雅"
+                            android:layout_toRightOf="@+id/comment_first_img2"
+                            android:text="第一个评论的名字"
                             android:textColor="@color/black"
                             android:textSize="@dimen/contentSize" />
 
                         <TextView
-                            android:id="@+id/comment_first_content"
+                            android:id="@+id/comment_first_content2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_first_name"
+                            android:layout_below="@+id/comment_first_name2"
                             android:paddingBottom="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="5dp"
-                            android:text="从很久以前了解到发展的历史，感谢老师从很久以前了解到发展的历史，感谢老师从很久以前了解到发展的历史，感谢老师"
+                            android:text="@string/content"
                             android:textColor="@color/fontColor"
                             android:textSize="@dimen/tipsSize" />
 
                         <TextView
-                            android:id="@+id/comment_first_like"
+                            android:id="@+id/comment_first_like2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_first_content"
+                            android:layout_below="@+id/comment_first_content2"
                             android:layout_marginBottom="15dp"
                             android:layout_marginLeft="15dp"
                             android:drawableLeft="@drawable/baseline_favorite_black_18"
-                            android:text="12k" />
+                            android:text="12.5k" />
                     </RelativeLayout>
 
                     <View
@@ -252,7 +152,7 @@
                         android:layout_height="wrap_content">
 
                         <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/comment_second_img"
+                            android:id="@+id/comment_second_img2"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_margin="10dp"
@@ -261,37 +161,37 @@
                             app:riv_oval="true" />
 
                         <TextView
-                            android:id="@+id/comment_second_name"
+                            android:id="@+id/comment_second_name2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:layout_toRightOf="@+id/comment_second_img"
-                            android:text="南京音乐家"
+                            android:layout_toRightOf="@+id/comment_second_img2"
+                            android:text="第二个评论的名字"
                             android:textColor="@color/black"
                             android:textSize="@dimen/contentSize" />
 
                         <TextView
-                            android:id="@+id/comment_second_content"
+                            android:id="@+id/comment_second_content2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_second_name"
+                            android:layout_below="@+id/comment_second_name2"
                             android:paddingBottom="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="5dp"
-                            android:text="很有意思，学到了很多知识，听到了平常很少接触到的爵士乐，只是个人希望对于以后的发展能有帮助，老师辛苦了"
+                            android:text="@string/content"
                             android:textColor="@color/fontColor"
                             android:textSize="@dimen/tipsSize" />
 
                         <TextView
-                            android:id="@+id/comment_second_like"
+                            android:id="@+id/comment_second_like2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_second_content"
+                            android:layout_below="@+id/comment_second_content2"
                             android:layout_marginBottom="15dp"
                             android:layout_marginLeft="15dp"
                             android:drawableLeft="@drawable/baseline_favorite_black_18"
-                            android:text="1k" />
+                            android:text="12.5k" />
                     </RelativeLayout>
 
                     <View
@@ -306,7 +206,7 @@
                         android:layout_height="wrap_content">
 
                         <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/comment_third_img"
+                            android:id="@+id/comment_third_img2"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_margin="10dp"
@@ -315,37 +215,37 @@
                             app:riv_oval="true" />
 
                         <TextView
-                            android:id="@+id/comment_third_name"
+                            android:id="@+id/comment_third_name2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:layout_toRightOf="@+id/comment_third_img"
-                            android:text="#理想三旬"
+                            android:layout_toRightOf="@+id/comment_third_img2"
+                            android:text="第三个评论的名字"
                             android:textColor="@color/black"
                             android:textSize="@dimen/contentSize" />
 
                         <TextView
-                            android:id="@+id/comment_third_content"
+                            android:id="@+id/comment_third_content2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_third_name"
+                            android:layout_below="@+id/comment_third_name2"
                             android:paddingBottom="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:paddingTop="5dp"
-                            android:text="老师很有耐心，回答了很多问题，讲的很棒，感谢老师很有耐心，回答了很多问题，讲的很棒，感谢"
+                            android:text="@string/content"
                             android:textColor="@color/fontColor"
                             android:textSize="@dimen/tipsSize" />
 
                         <TextView
-                            android:id="@+id/comment_third_like"
+                            android:id="@+id/comment_third_like2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/comment_third_content"
+                            android:layout_below="@+id/comment_third_content2"
                             android:layout_marginBottom="15dp"
                             android:layout_marginLeft="15dp"
                             android:drawableLeft="@drawable/baseline_favorite_black_18"
-                            android:text="389" />
+                            android:text="12.5k" />
                     </RelativeLayout>
 
                     <View
@@ -356,7 +256,7 @@
                         android:background="@color/white" />
 
                     <TextView
-                        android:id="@+id/comment_more_class"
+                        android:id="@+id/comment_more_class2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableRight="@drawable/baseline_keyboard_arrow_right_black_18"
@@ -371,7 +271,7 @@
         </LinearLayout>
     </com.leothon.cogito.View.ObserveScrollView>
     <RelativeLayout
-        android:id="@+id/bottom_mic1"
+        android:id="@+id/bottom_mic2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
@@ -380,7 +280,7 @@
         android:clickable="true">
 
         <TextView
-            android:id="@+id/class_free_1"
+            android:id="@+id/class_free_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击试学"
@@ -396,7 +296,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="15dp"/>
         <TextView
-            android:id="@+id/class_detail_buy_btn_1"
+            android:id="@+id/class_detail_buy_btn_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="购买课程"

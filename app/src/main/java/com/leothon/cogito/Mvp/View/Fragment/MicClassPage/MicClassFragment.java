@@ -58,14 +58,7 @@ public class MicClassFragment extends BaseFragment {
     private Animation showAnimation;
     private Animation hideAnimation;
 
-//    @BindView(R.id.rv_voice)
-//    RecyclerView rvVoice;
-//
-//    @BindView(R.id.swp_voice)
-//    SwipeRefreshLayout swpVoice;
 
-
-    //private VoiceAdapter voiceAdapter;
 
 
 

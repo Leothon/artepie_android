@@ -1,6 +1,7 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,13 +63,14 @@ public class Mic2ClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             content2Holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //                Bundle bundle = new Bundle();
-//                bundle.putString("title",micClasses.get(position).getTitle());
-//                bundle.putString("img",micClasses.get(position).getImgurl());
-//                bundle.putString("author",micClasses.get(position).getAuthor());
-//                bundle.putString("time",micClasses.get(position).getTime());
-//                bundle.putString("price",micClasses.get(position).getPrice());
-                  IntentUtils.getInstence().intent(context, Mic2ClassActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title",micClasses.get(position).getTitle());
+                bundle.putString("img",micClasses.get(position).getImgurl());
+                bundle.putString("author",micClasses.get(position).getAuthor());
+                bundle.putString("time",micClasses.get(position).getTime());
+                bundle.putString("price",micClasses.get(position).getPrice());
+                bundle.putString("count",micClasses.get(position).getClassCount());
+                  IntentUtils.getInstence().intent(context, Mic2ClassActivity.class,bundle);
                 }
             });
         }else if(viewType == HEAD1){
