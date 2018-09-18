@@ -115,7 +115,7 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

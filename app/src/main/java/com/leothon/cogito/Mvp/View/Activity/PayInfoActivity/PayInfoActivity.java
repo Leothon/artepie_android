@@ -106,7 +106,7 @@ public class PayInfoActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onNegtiveClick() {
+                        public void onNegativeClick() {
                             dialog.dismiss();
 
                         }
@@ -125,7 +125,7 @@ public class PayInfoActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onNegtiveClick() {
+                        public void onNegativeClick() {
                             dialog.dismiss();
 
                         }

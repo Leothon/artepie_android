@@ -93,7 +93,7 @@ public class MicClassFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        title.setText("艺条学院");
+        title.setText("学院");
         subtitle.setText("");
         voiceBar.setCardElevation(0.0f);
         showAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_in);

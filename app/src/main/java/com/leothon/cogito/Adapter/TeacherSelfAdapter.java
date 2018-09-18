@@ -123,7 +123,7 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

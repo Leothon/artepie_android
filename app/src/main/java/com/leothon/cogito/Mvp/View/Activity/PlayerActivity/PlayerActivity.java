@@ -242,7 +242,7 @@ public class PlayerActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

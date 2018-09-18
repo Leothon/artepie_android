@@ -99,7 +99,7 @@ public class FavAdapter extends RecyclerView.Adapter{
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

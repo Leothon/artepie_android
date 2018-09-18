@@ -12,10 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.Ask;
-import com.leothon.cogito.Bean.MicClass;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.MicClassActivity.Mic1ClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;

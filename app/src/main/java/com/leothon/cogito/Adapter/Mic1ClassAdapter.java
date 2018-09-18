@@ -2,20 +2,15 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leothon.cogito.Bean.ActivityAndVideo;
-import com.leothon.cogito.Bean.BagBuy;
 import com.leothon.cogito.Bean.MicClass;
 import com.leothon.cogito.Mvp.View.Activity.MicClassActivity.Mic1ClassActivity;
-import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
+import com.leothon.cogito.Mvp.View.Activity.MicClassActivity.backup;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;

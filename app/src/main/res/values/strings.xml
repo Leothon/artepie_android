@@ -5,6 +5,10 @@
     <string name="hello_blank_fragment">一个新建的空fragment</string>
     <string name="_cancel_action">取消</string>
     <string name="options_choose">操作选择</string>
+
+    <string name="content">1、 如果黑板就是浩淼的大海，那么，老师便是海上的水手。铃声响起那刻，你用教职工鞭作浆，划动那船只般泊在港口的课本 。课桌上，那难题堆放，犹如暗礁一样布列，你手势生动如一只飞翔的鸟，在讲台上挥一条优美弧线——船只穿过……天空飘不来一片云，犹如你亮堂堂的心，一派高远。\n
+2、 希望源于失望，奋起始于忧患，正如一位诗人所说：有饥饿感受的人一定消化好，有紧迫感受的人一定效率高，有危机感受的人一定进步快。\n
+</string>
     <string name="register_contract">
        文艺派用户服务协议\n\n
 1 接受条款\n

@@ -104,7 +104,7 @@ public class ActivityActivity extends BaseActivity implements ObserveScrollView.
      * @param oldt
      */
     @Override
-    public void scrollOritention(int l, int t, int oldl, int oldt) {
+    public void scrollOrientation(int l, int t, int oldl, int oldt) {
         if (t > 400 && oldt < t){
             activityBar.setTranslationY(CommonUtils.getStatusBarHeight(this) - 5);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

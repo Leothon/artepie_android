@@ -84,7 +84,7 @@ public class PayActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

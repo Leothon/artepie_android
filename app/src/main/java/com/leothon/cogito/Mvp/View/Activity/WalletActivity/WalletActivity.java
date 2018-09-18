@@ -110,7 +110,7 @@ public class WalletActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

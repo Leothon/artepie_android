@@ -102,7 +102,7 @@ public class SuccessActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
 
                     }

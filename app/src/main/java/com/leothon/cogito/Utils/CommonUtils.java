@@ -105,7 +105,7 @@ public class CommonUtils {
                         }
 
                         @Override
-                        public void onNegtiveClick() {
+                        public void onNegativeClick() {
                             dialog.dismiss();
 
                         }

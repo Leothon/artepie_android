@@ -13,13 +13,16 @@ import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.UploadClassAdapter;
 import com.leothon.cogito.Bean.ChooseClass;
 import com.leothon.cogito.Bean.SaveUploadData;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.UploadSave;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -97,10 +100,45 @@ public class UploadClassActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Constants.uploadSaves.clear();
+        if (titleClassUpload.getText().toString().equals("") && descClassUpload.getText().toString().equals("") && Constants.uploadSaves.size() == 0){
+            super.onBackPressed();
+        }else {
+            loadDialog();
+        }
+
+
     }
 
+    private void loadDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+        dialog.setMessage("是否保存草稿？")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("保存")
+                .setNegtive("不保存")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Constants.classTitle = titleClassUpload.getText().toString();
+                        Constants.classDesc = descClassUpload.getText().toString();
+                        UploadClassActivity.super.onBackPressed();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                        Constants.classTitle = "";
+                        Constants.classDesc = "";
+                        Constants.uploadSaves.clear();
+                        UploadClassActivity.super.onBackPressed();
+                    }
+
+                })
+                .show();
+    }
     private void initAdapter(){
         uploadClassAdapter = new UploadClassAdapter(this,titles);
         rvAddClass.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));

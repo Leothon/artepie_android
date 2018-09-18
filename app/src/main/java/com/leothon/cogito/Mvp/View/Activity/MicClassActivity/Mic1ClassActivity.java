@@ -1,57 +1,76 @@
 package com.leothon.cogito.Mvp.View.Activity.MicClassActivity;
 
-import android.app.Service;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.SeekBar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.ActivityActivity.ActivityActivity;
 import com.leothon.cogito.R;
-
-import com.leothon.cogito.Weight.PlayPauseView;
-
-import java.text.SimpleDateFormat;
-import java.util.Timer;
-import java.util.TimerTask;
+import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.ObserveScrollView;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
-/**
- * created by leothon on 2018.8.11
- */
-public class Mic1ClassActivity extends BaseActivity {
 
+public class Mic1ClassActivity extends BaseActivity implements ObserveScrollView.ScrollListener{
 
-    @BindView(R.id.play_pause)
-    PlayPauseView playPause;
-    @BindView(R.id.seek_bar)
-    SeekBar seekBar;
-    @BindView(R.id.current_time)
-    TextView currentTime;
-    @BindView(R.id.time_sum)
-    TextView timeSum;
-
-
-    private MediaPlayer mediaPlayer ;
-    private AudioManager audioManager;
-    private Timer timer;
-    private boolean isPause = false;
-
-    int maxVolume,CurrentVolume;
-    private boolean isSeekBarChanging;
-    private int currentPosition;
-    SimpleDateFormat format;
-
-    private Animation operatingAnim;
-    private LinearInterpolator linearInterpolator;
+    @BindView(R.id.class_detail_img_1)
+    RoundedImageView classDetailImg;
+    @BindView(R.id.class_detail_title_1)
+    TextView classDetailTitle;
+    @BindView(R.id.class_detail_level_1)
+    TextView classDetailLevel;
+    @BindView(R.id.class_detail_author_1)
+    TextView classDetailAuthor;
+    @BindView(R.id.class_detail_time_1)
+    TextView classDetailTime;
+    @BindView(R.id.class_detail_price_1)
+    TextView classDetailPrice;
+    @BindView(R.id.class_detail_desc_1)
+    TextView classDetailDesc;
+    @BindView(R.id.class_detail_author_desc_1)
+    TextView classDetailAuthorDesc;
+    @BindView(R.id.comment_first_img)
+    RoundedImageView commentFistImg;
+    @BindView(R.id.comment_first_name)
+    TextView commentFirstName;
+    @BindView(R.id.comment_first_content)
+    TextView commentFirstContent;
+    @BindView(R.id.comment_first_like)
+    TextView commentFirstLike;
+    @BindView(R.id.comment_second_img)
+    RoundedImageView commentSecondImg;
+    @BindView(R.id.comment_second_name)
+    TextView commentSecondName;
+    @BindView(R.id.comment_second_content)
+    TextView commentSecondContent;
+    @BindView(R.id.comment_second_like)
+    TextView commentSecondLike;
+    @BindView(R.id.comment_third_img)
+    RoundedImageView commentThirdImg;
+    @BindView(R.id.comment_third_name)
+    TextView commentThirdName;
+    @BindView(R.id.comment_third_content)
+    TextView commentThirdContent;
+    @BindView(R.id.comment_third_like)
+    TextView commentThirdLike;
+    @BindView(R.id.comment_more_class)
+    TextView commentMore;
+    @BindView(R.id.class_free_1)
+    TextView classFree;
+    @BindView(R.id.class_detail_buy_btn_1)
+    TextView classDetailBuy;
+    @BindView(R.id.scroll_mic_class)
+    ObserveScrollView scrollMicClass;
     private Intent intent;
     private Bundle bundle;
     @Override
@@ -61,133 +80,36 @@ public class Mic1ClassActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        setToolbarSubTitle("");
+        setToolbarTitle("");
         intent = getIntent();
         bundle = intent.getExtras();
-        setToolbarTitle(bundle.getString("title"));
-        setToolbarSubTitle("");
-        loadAnim();
-        
-        mediaPlayer = new MediaPlayer();
-        audioManager = (AudioManager)getSystemService(Service.AUDIO_SERVICE);
-        format = new SimpleDateFormat("mm:ss");
-        seekBar.setOnSeekBarChangeListener(new MyseekBar());
-        initMediaPlayer();
-        playPause.setPlayPauseListener(new PlayPauseView.PlayPauseListener() {
-            @Override
-            public void play() {
-                //TODO 播放音乐
-
-                if (!mediaPlayer.isPlaying()){
-                    mediaPlayer.start();
-                    mediaPlayer.seekTo(currentPosition);
-                    timer = new Timer();
-                    timer.schedule(new TimerTask() {
-
-                        Runnable updateUI = new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mediaPlayer == null){
-                                    currentTime.setText("");
-                                }else {
-                                    currentTime.setText(format.format(mediaPlayer.getCurrentPosition()) + "");
-                                }
-
-                            }
-                        };
-                        @Override
-                        public void run() {
-                            if (!isSeekBarChanging){
-                                seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                                runOnUiThread(updateUI);
-                            }
-                        }
-                    },0,50);
-                }
-
-
-            }
-
-            @Override
-            public void pause() {
-                //TODO 暂停音乐
-                if (mediaPlayer.isPlaying()){
-                    mediaPlayer.pause();
-                    isPause = true;
-                    currentPosition = mediaPlayer.getCurrentPosition();
-
-                }
-
-            }
-        });
+        scrollMicClass.setScrollListener(this);
+        ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("img"),classDetailImg,R.drawable.defalutimg);
+        classDetailAuthor.setText(bundle.getString("author"));
+        classDetailTitle.setText(bundle.getString("title"));
+        classDetailTime.setText(bundle.getString("time"));
+        classDetailPrice.setText(bundle.getString("price"));
     }
 
-    public void loadAnim(){
-        operatingAnim = AnimationUtils.loadAnimation(Mic1ClassActivity.this,R.anim.remote_img);
-        operatingAnim.setDuration(2000);
-        linearInterpolator = new LinearInterpolator();
-        operatingAnim.setInterpolator(linearInterpolator);
-    }
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        isSeekBarChanging = true;
-        if (mediaPlayer != null){
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-        if (timer != null){
-            timer.cancel();
-            timer = null;
-        }
-    }
-
-    /**
-     * 获取资源注意
-     */
-    private void initMediaPlayer() {
-        try {
-            //mediaPlayer.setDataSource("/sdcard/netease/cloudmusic/Music/Ridan - Ulysse.mp3");//指定音频文件的路径
-            //mediaPlayer.prepare();//让mediaplayer进入准备状态
-            mediaPlayer.setDataSource("http://www.170mv.com/kw/other.web.rh01.sycdn.kuwo.cn/resource/n3/21/19/3413654131.mp3");
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                public void onPrepared(MediaPlayer mp) {
-                    seekBar.setMax(mediaPlayer.getDuration());
-                    timeSum.setText(format.format(mediaPlayer.getDuration())+"");
-                    currentTime.setText("00:00");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public class MyseekBar implements SeekBar.OnSeekBarChangeListener{
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            isSeekBarChanging = true;
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            isSeekBarChanging = false;
-            mediaPlayer.seekTo(seekBar.getProgress());
-            currentPosition = seekBar.getProgress();
+    public void scrollOrientation(int l, int t, int oldl, int oldt) {
+        if (t > 400 && oldt < t){
+            getToolbarTitle().setTextSize(20);
+            setToolbarTitle(bundle.getString("title"));
+            getToolbarSubTitle().setTextColor(getResources().getColor(R.color.orange));
+            getToolbarSubTitle().setTextSize(15);
+            setToolbarSubTitle(bundle.getString("price"));
+        }else if (t <= 400 && oldt >= t){
+            setToolbarTitle("");
+            setToolbarSubTitle("");
         }
     }
     @Override
     public void initData() {
 
     }
+
     @Override
     public BasePresenter initPresenter() {
         return null;
@@ -197,8 +119,6 @@ public class Mic1ClassActivity extends BaseActivity {
     public BaseModel initModel() {
         return null;
     }
-
-
 
     @Override
     public void showLoading() {

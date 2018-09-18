@@ -48,7 +48,7 @@
         <activity android:name=".Mvp.View.Activity.ActivityListActivity.ActivityListActivity" />
         <activity android:name=".Mvp.View.Activity.ViewPagerActivity.ViewPageActivity" />
         <activity android:name=".Mvp.View.Activity.SelectClassActivity.SelectClassActivity" />
-        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity" />
+        <activity android:name=".Mvp.View.Activity.MicClassActivity.backup" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.SettingsActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.MessageActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.AdviceActivity" />
@@ -79,9 +79,11 @@
         <activity android:name=".Mvp.View.Activity.VSureActivity.VSureActivity" />
         <activity android:name=".Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity" />
         <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic2ClassActivity" />
-        <activity android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-        <activity android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassDetailActivity"></activity>
+        <activity
+            android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassDetailActivity" />
+        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity"></activity>
     </application>
 
 </manifest>

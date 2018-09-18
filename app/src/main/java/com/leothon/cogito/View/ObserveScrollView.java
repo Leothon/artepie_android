@@ -8,7 +8,7 @@ public class ObserveScrollView extends ScrollView {
     private ScrollListener mListener;
 
     public static interface ScrollListener {//声明接口，用于传递数据
-        public void scrollOritention(int l, int t, int oldl, int oldt);
+        public void scrollOrientation(int l, int t, int oldl, int oldt);
     }
 
     public ObserveScrollView(Context context, AttributeSet attrs,
@@ -28,7 +28,7 @@ public class ObserveScrollView extends ScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mListener != null) {
-            mListener.scrollOritention(l, t, oldl, oldt);
+            mListener.scrollOrientation(l, t, oldl, oldt);
         }
     }
 

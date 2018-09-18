@@ -172,7 +172,7 @@ public class EditIndividualActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNegtiveClick() {
+                    public void onNegativeClick() {
                         dialog.dismiss();
                         finish();
                     }
