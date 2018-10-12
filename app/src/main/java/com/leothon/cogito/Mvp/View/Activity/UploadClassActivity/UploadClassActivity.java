@@ -21,8 +21,10 @@ import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -41,7 +43,8 @@ public class UploadClassActivity extends BaseActivity {
     RecyclerView rvAddClass;
     @BindView(R.id.add_class_upload)
     TextView addClassUpload;
-
+    @BindView(R.id.send_icon)
+    RoundedImageView sendIcon;
 
     private UploadClassAdapter uploadClassAdapter;
     private ArrayList<ChooseClass> titles;
@@ -59,6 +62,7 @@ public class UploadClassActivity extends BaseActivity {
         setToolbarTitle("添加课程");
         setToolbarSubTitle("");
         initAdapter();
+        sendIcon.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -97,6 +101,19 @@ public class UploadClassActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.send_icon)
+    public void sendClass(View view){
+        if (titleClassUpload.getText().toString().equals("") || descClassUpload.getText().toString().equals("") || Constants.uploadSaves.size() == 0){
+            CommonUtils.makeText(this,"请填写完整内容");
+        }else {
+            //TODO 上传课程
+            CommonUtils.makeText(this,"课程上传成功");
+            Constants.classTitle = "";
+            Constants.classDesc = "";
+            Constants.uploadSaves.clear();
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public void onBackPressed() {

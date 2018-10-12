@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Mvp.View.Activity.BannerActivity.BannerActivity"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <include
         android:id="@+id/banner_title"
         layout="@layout/toolbar"/>
-    <ScrollView
+
+
+    <com.leothon.cogito.View.ObserveScrollView
+        android:layout_below="@id/banner_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/content_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:src="@drawable/defalutimg"/>
-    </ScrollView>
+            android:scaleType="center"/>
 
-</LinearLayout>
+    </com.leothon.cogito.View.ObserveScrollView>
+
+</RelativeLayout>

@@ -132,7 +132,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                  * 使用position找到数组中图片的地址并进入相应的Activity
                  */
                 //TODO 跳转到对应的显示banner广告的网页
-                String url = "https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1533375435046%26di%3Dc98d26ed0afdfa20bb5505c6b802f51c%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F01bc705812f626a84a0e282b9369b2.jpg&thumburl=https%3A%2F%2Fss3.bdstatic.com%2F70cFv8Sh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1376480138%2C2208983521%26fm%3D27%26gp%3D0.jpg";
+                String url = "https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1537954563027%26di%3D9a522f349ecc393514bcf32410b17a97%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0114905936b857a8012193a3a114c9.jpg%25401280w_1l_2o_100sh.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D3417683066%2C1421423689%26fm%3D26%26gp%3D0.jpg";
                 String title = "海报";
                 Bundle bundle = new Bundle();
                 bundle.putString("urls", url);

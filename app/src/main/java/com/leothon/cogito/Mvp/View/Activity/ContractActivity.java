@@ -7,10 +7,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.leothon.cogito.Message.MessageEvent;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,7 +49,24 @@ public class ContractActivity extends BaseActivity {
             setToolbarTitle("注册协议");
             contractContent.setText(R.string.register_contract);
         }
+
+        EventBus.getDefault().register(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        //信息处理操作
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+
 
     @OnClick(R.id.btn_agree)
     public void setAgree(){
