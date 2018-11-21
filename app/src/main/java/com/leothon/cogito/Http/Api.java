@@ -5,6 +5,6 @@ package com.leothon.cogito.Http;
 * */
 public class Api {
 
-
+    public static final String verifyUrl = "http://hb9.api.okayapi.com";
     public static final String BaseUrl = "";
 }

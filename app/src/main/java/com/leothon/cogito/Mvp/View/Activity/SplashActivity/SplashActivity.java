@@ -3,14 +3,26 @@ package com.leothon.cogito.Mvp.View.Activity.SplashActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.leothon.cogito.Bean.verifyCode;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on 2018.7.24
@@ -28,15 +40,47 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("password")){
-                    String username = sharedPreferencesUtils.getParams("account","").toString();
-                    String password = sharedPreferencesUtils.getParams("password","").toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("type","home");
-                    IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
-                    Constants.loginStatus = 1;//表示登录成功
-                    finish();
-                    //使用账号密码进行登录操作
+
+                RetrofitServiceManager.getInstance().create(HttpService.class)
+                        .verify("App.Table.Get","verifycode","7","12727A1A4685624694E01443D5332A4A")
+                        .compose(ThreadTransformer.switchSchedulers())
+                        .subscribe(new BaseObserver() {
+
+
+                            @Override
+                            public void doOnSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void doOnCompleted() {
+
+                            }
+
+                            @Override
+                            public void doOnError(String msg) {
+
+                            }
+
+                            @Override
+                            public void doOnNext(BaseResponse baseResponse) {
+                                Gson gson = new Gson();
+                                String str = gson.toJson(baseResponse,BaseResponse.class);
+                                JsonObject jsonObject = (JsonObject) new JsonParser().parse(str);
+                                JsonObject verifyCode = jsonObject.get("data").getAsJsonObject();
+                                JsonObject dataCode = verifyCode.get("data").getAsJsonObject();
+                                String codedd = dataCode.get("verify").getAsString();
+
+                                if (codedd.equals("0")){
+                                    if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("password")){
+                                        String username = sharedPreferencesUtils.getParams("account","").toString();
+                                        String password = sharedPreferencesUtils.getParams("password","").toString();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("type","home");
+                                        IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
+                                        Constants.loginStatus = 1;//表示登录成功
+                                        finish();
+                                        //使用账号密码进行登录操作
 //                    RetrofitServiceManager.getInstance().create(HttpService.class)
 //                            .login(username,password)
 //                            .compose(ThreadTransformer.switchSchedulers())
@@ -59,12 +103,21 @@ public class SplashActivity extends AppCompatActivity {
 //                                public void onNext(Object o) { }
 //                            });
 
-                }else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mark","normal");
-                    IntentUtils.getInstence().intent(SplashActivity.this,LoginActivity.class,bundle);
-                    finish();
-                }
+                                    }else {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("mark","normal");
+                                        IntentUtils.getInstence().intent(SplashActivity.this,LoginActivity.class,bundle);
+                                        finish();
+                                    }
+                                }else {
+                                    finish();
+                                }
+
+                                }
+
+                        });
+
+
 
 
             }

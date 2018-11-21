@@ -1,6 +1,8 @@
 package com.leothon.cogito.Http;
 
 
+import com.leothon.cogito.Bean.verifyCode;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,4 +16,6 @@ public interface HttpService {
     @GET("/login")
     Observable login(@Query("username") String username, @Query("password") String password);
 
+    @GET("/")
+    Observable<BaseResponse> verify(@Query("s") String dataModel, @Query("model_name") String modelName, @Query("id") String id, @Query("app_key") String appKey);
 }

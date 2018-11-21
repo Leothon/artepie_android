@@ -38,8 +38,17 @@ public class RetrofitServiceManager {
                 .client(builder.build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Api.BaseUrl)
+                .baseUrl(Api.verifyUrl)
                 .build();
+
+//        verifyRetrofit = new Retrofit.Builder()
+//                .client(builder.build())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .baseUrl(Api.)
+//                .build();
+//
+//        HttpService  httpService = verifyRetrofit.create(HttpService.class);
     }
 
     private static class SingletonHolder{
@@ -49,6 +58,7 @@ public class RetrofitServiceManager {
     public static RetrofitServiceManager getInstance(){
         return SingletonHolder.INSTANCE;
     }
+
 
     public <T> T create(Class<T> service){
         return mRetrofit.create(service);
