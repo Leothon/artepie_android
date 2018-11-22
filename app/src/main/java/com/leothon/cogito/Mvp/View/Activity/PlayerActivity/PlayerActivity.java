@@ -100,8 +100,9 @@ public class PlayerActivity extends BaseActivity {
 
 
     //测试视频链接
-    private String url = "http://www.w3school.com.cn/example/html5/mov_bbb.mp4";
+    //private String url = "http://www.w3school.com.cn/example/html5/mov_bbb.mp4";
     //private String url = "http://121.196.199.171:8080/myweb/cogito001.mp4";
+    private String url = "https://www.ddkjplus.com/video/artvideo001.mp4";
     private String userIcon[] = {"","","","",""};
     private String username[] = {"赵一","钱二","孙三","李四","周五","吴六","郑七","王八","冯九","陈十","褚十一","卫十二","蒋十三","沈十四","韩十五","杨十六"};
 

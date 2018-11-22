@@ -124,12 +124,12 @@ public class Mic2Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 super.onScrolled(recyclerView, dx, dy);
 
                 if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
-                    animationHide();
+                    //animationHide();
 
                     controlVisible = false;
                     scrollDistance = 0;
                 }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
-                    animationShow();
+                    //animationShow();
                     controlVisible = true;
                     scrollDistance = 0;
                 }

@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Mvp.View.Fragment.MicClassPage.MicClassFragment"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:animateLayoutChanges="true">
+    android:background="@color/white">
 
-    <include
-        android:id="@+id/voice_bar"
-        layout="@layout/toolbar"/>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/mic_class_tab"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabIndicatorHeight="2dp"
-        app:tabIndicatorFullWidth="false"
-        app:tabTextColor="@color/fontColor"
-        app:tabSelectedTextColor="@color/black"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-    </android.support.design.widget.TabLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="学院"
+                android:scrollHorizontally="true"
+                android:textColor="@color/fontColor"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </android.support.v7.widget.Toolbar>
+        <include
+            android:id="@+id/voice_bar"
+            layout="@layout/toolbar"
+            android:visibility="gone"
+            />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/mic_class_tab"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabTextColor="@color/fontColor"
+            app:tabSelectedTextColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -30,10 +55,11 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/mic_class_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v4.view.ViewPager>
 
 
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
