@@ -83,11 +83,11 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     shareText("分享本节课程到",
                             "主题名称",
-                            "我正在 @文艺派-给生活以艺术 客户端学习《"
+                            "我正在 @艺派-给生活以艺术 客户端学习《"
                                     + selectClass.getSelectlisttitle() +
                                     "》这个课程，点击加入体验"
                                     +"https://github.com/Leothon"+
-                                    "\n (分享自文艺派APP)");
+                                    "\n (分享自艺派APP)");
                 }
             });
         }else if (viewType == BODY){

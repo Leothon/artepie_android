@@ -30,7 +30,7 @@ public class AboutusActivity extends AppCompatActivity {
         aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.mipmap.icon)
-                .setDescription("文艺派联手国内各大知名艺术教育家推出线教育视屏学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
+                .setDescription("艺派联手国内各大知名艺术教育家推出线教育视屏学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
                 .addItem(new Element().setTitle("联系我们").setGravity(Gravity.CENTER))
                 .addGroup("客户服务")
                 .addEmail("CogitoTec@163.com")
@@ -44,9 +44,9 @@ public class AboutusActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }))
-                .addItem(new Element().setTitle("客服提醒：为了更好更快的帮您解决问题，请在邮件中留下电话、文艺派账号、昵称、相关截图、详细问题等信息。").setIconDrawable(R.drawable.service))
+                .addItem(new Element().setTitle("客服提醒：为了更好更快的帮您解决问题，请在邮件中留下电话、艺派账号、昵称、相关截图、详细问题等信息。").setIconDrawable(R.drawable.service))
                 .addGroup("课程合作")
-                .addItem(new Element().setTitle("如果您希望在文艺派上开设课程，请与我们联系。"))
+                .addItem(new Element().setTitle("如果您希望在艺派上开设课程，请与我们联系。"))
                 .addEmail("CogitoTec@163.com")
                 .addItem(new Element().setTitle("联系电话：(010)5338 1318").setIconDrawable(R.drawable.baseline_phone_black_24).setOnClickListener(new View.OnClickListener() {
                     @Override
