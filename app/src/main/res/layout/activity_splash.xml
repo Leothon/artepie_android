@@ -15,41 +15,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_weight="2">
+
         <LinearLayout
-            android:id="@+id/title_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:gravity="center">
             <ImageView
                 android:id="@+id/icon_app"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentTop="true"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/icon"
-                android:layout_gravity="center"/>
+                android:scaleType="centerCrop"/>
+
+
+
             <TextView
-                android:layout_toRightOf="@+id/icon_app"
-                android:layout_alignParentTop="true"
-                android:id="@+id/name_app"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="@dimen/largeTitle"
-                android:gravity="center"/>
+                android:text="@string/app_slogan"
+                android:textSize="@dimen/contentSize"/>
+
         </LinearLayout>
 
-
-        <TextView
-            android:layout_below="@+id/title_app"
-            android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content"
-            android:text="@string/app_slogan"
-            android:textSize="@dimen/tipsSize"/>
 
 
 
