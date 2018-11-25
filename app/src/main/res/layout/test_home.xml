@@ -1,48 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="5dp"
-    android:clipToPadding="false"
-    android:clipChildren="false">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="5dp"
         android:background="@color/dividerColor"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="155dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
-        android:elevation="3dp">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="@dimen/tagNameabove"
-            android:layout_marginStart="8dp"
-            android:gravity="center"
-            android:text="艺考曲目"
-            android:textColor="@color/white"
-            android:background="@drawable/textviewbackgroundshow"/>
-
-
+        android:padding="5dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
             <RelativeLayout
                 android:id="@+id/test1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img1"
@@ -50,44 +31,37 @@
                     android:layout_height="40dp"
                     android:src="@drawable/minzu"
                     android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    />
                 <TextView
                     android:layout_below="@+id/test_img1"
                     android:id="@+id/test_title1"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
-                    android:gravity="center" />
+                    android:gravity="center"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/test2"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/meisheng"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img2"
                     android:id="@+id/test_title2"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -97,26 +71,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img3"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/gudian"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@id/test_img3"
                     android:id="@+id/test_title3"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -126,26 +94,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img4"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/xiqu"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img4"
                     android:id="@+id/test_title4"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -155,33 +117,27 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginBottom="3dp"
             android:orientation="horizontal">
             <RelativeLayout
                 android:id="@+id/test5"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img5"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/yuanshengtai"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img5"
                     android:id="@+id/test_title5"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -191,26 +147,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img6"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/minyao"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img6"
                     android:id="@+id/test_title6"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -220,26 +170,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img7"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/tongsu"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img7"
                     android:id="@+id/test_title7"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -249,10 +193,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img8"
@@ -260,16 +200,14 @@
                     android:layout_height="40dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/qita"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_centerInParent="true" />
                 <TextView
                     android:layout_below="@+id/test_img8"
                     android:id="@+id/test_title8"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="3dp"
-                    android:text="美声的唱法"
+                    android:paddingBottom="3dp"
+                    android:text="美声"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/littleSize"
                     android:gravity="center" />
@@ -284,4 +222,4 @@
         android:background="@color/dividerColor"
         android:layout_gravity="bottom"/>
 
-</FrameLayout>
+</LinearLayout>

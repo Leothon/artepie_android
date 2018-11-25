@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Mvp.View.Fragment.HomePage.HomeFragment"
-    android:orientation="vertical">
+    tools:context=".Mvp.View.Fragment.HomePage.HomeFragment">
 
     <include
+        android:id="@+id/position_bar_host"
+        layout="@layout/positionbar"/>
+    <include
+        android:layout_below="@+id/position_bar_host"
         android:id="@+id/search_top"
-        layout="@layout/search"/>
+        layout="@layout/search"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swp"
         android:layout_width="match_parent"
@@ -36,4 +41,5 @@
 
 
 
-</LinearLayout>
+
+</RelativeLayout>

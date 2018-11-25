@@ -101,7 +101,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                     int position = linearLayoutManager.findFirstVisibleItemPosition();
                     if (position > 0){
                         selectBar.setVisibility(View.VISIBLE);
-                        selectBar.setTranslationY(CommonUtils.getStatusBarHeight(SelectClassActivity.this) - 5);
+                        selectBar.setTranslationY(CommonUtils.getStatusBarHeight(SelectClassActivity.this) - CommonUtils.dip2px(SelectClassActivity.this,3));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                             StatusBarUtils.setStatusBarColor(SelectClassActivity.this,R.color.white);

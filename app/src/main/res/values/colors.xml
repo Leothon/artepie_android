@@ -12,6 +12,9 @@
     <color name="black">#000000</color>
     <color name="dividerColor">#ededed</color>
 
+    <color name="whitealpha">#c4ffffff</color>
+    <color name="alpha">#00ffffff</color>
+
     <color name="pressColorPrimary">#e5f26402</color>
 
     <color name="pressColorAccent">#e1db4437</color>

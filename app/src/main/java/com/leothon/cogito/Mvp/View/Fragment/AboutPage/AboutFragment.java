@@ -3,9 +3,11 @@ package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -43,6 +45,10 @@ import butterknife.OnClick;
 public class AboutFragment extends BaseFragment {
 
 
+    @BindView(R.id.position_bar_about)
+    LinearLayout positionBar;
+    @BindView(R.id.search_about)
+    CardView search;
 
     @BindView(R.id.search)
     RelativeLayout searchAbout;
@@ -87,6 +93,11 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
+        layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
+        positionBar.setLayoutParams(layoutParams);
+        positionBar.setVisibility(View.INVISIBLE);
+        search.setBackgroundColor(getResources().getColor(R.color.alpha));
         searchTitle.setText("搜索相关内容");
         //TODO 根据登录信息来设定用户的各种信息
         Log.e("登录状态", " "+Constants.loginStatus);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="5dp"
     app:cardCornerRadius="3dp"
@@ -9,30 +9,69 @@
     app:cardBackgroundColor="@color/white"
     android:foreground="?android:attr/selectableItemBackground">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/foryou_iv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/defalutimg"
-            android:scaleType="centerCrop"
-            />
-        <ImageView
-            android:id="@+id/play_mark"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/baseline_play_circle_filled_black_48"
-            android:tint="@color/white"
-            android:scaleType="center" />
-        <TextView
-            android:id="@+id/foryou_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="这个地方显示视频的标题"
-            android:textSize="@dimen/tipsSize"
-            android:gravity="center|start"
-            android:layout_gravity="bottom"
-            android:maxLines="1"
-            android:layout_margin="5dp"
-            android:textColor="@color/fontColor"/>
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/foryou_iv"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/defalutimg"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="8dp"/>
+
+                <RelativeLayout
+                    android:layout_toRightOf="@+id/foryou_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="10dp">
+                        <TextView
+                            android:id="@+id/foryou_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="这个地方显示视频的标题"
+                            android:textSize="@dimen/littleTitle"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:layout_below="@+id/foryou_tv"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/foryou_author"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="刘慈欣"
+                            android:textSize="@dimen/contentSize"
+                            android:textColor="@color/fontColor"
+                            />
+                        <TextView
+                            android:layout_below="@+id/foryou_author"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/foryou_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20623人次已观看"
+                            android:textSize="@dimen/tipsSize"
+                            android:textColor="@color/fontColor"
+                            />
+                        <TextView
+                            android:layout_below="@+id/foryou_author"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/foryou_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="免费"
+                            android:textSize="@dimen/tipsSize"
+                            android:textColor="@color/orange"
+                            />
+
+                </RelativeLayout>
+
+        </RelativeLayout>
+
 
 </android.support.v7.widget.CardView>

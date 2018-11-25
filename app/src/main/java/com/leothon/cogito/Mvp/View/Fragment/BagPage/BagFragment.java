@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.leothon.cogito.Adapter.BagAdapter;
 import com.leothon.cogito.Bean.BagBuy;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,8 @@ import butterknife.BindView;
  */
 public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar bagBar;
 
     @BindView(R.id.toolbar_subtitle)
     TextView subtitle;
@@ -71,6 +77,10 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     protected void initView() {
+        ViewGroup.LayoutParams layoutParams = bagBar.getLayoutParams();
+        layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) + CommonUtils.dip2px(getMContext(),45);
+        bagBar.setLayoutParams(layoutParams);
+        bagBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
         title.setText("小书包");
         subtitle.setText("");
         bagBuys = new ArrayList<>();

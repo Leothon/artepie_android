@@ -20,11 +20,11 @@ public class ViewPagerContentAdapter extends BaseAdapter {
         ActivityAndVideo activityAndVideo = (ActivityAndVideo) bean;
         holder.setText(R.id.foryou_tv,activityAndVideo.getAvtitle());
         holder.setImageUrls(R.id.foryou_iv,activityAndVideo.getAvurl());
-        if (activityAndVideo.getAvmark() == 0){
-            holder.setViewVisiable(R.id.play_mark,1);
-        }else if (activityAndVideo.getAvmark() == 1){
-            holder.setViewVisiable(R.id.play_mark,0);
-        }
+//        if (activityAndVideo.getAvmark() == 0){
+//            holder.setViewVisiable(R.id.play_mark,1);
+//        }else if (activityAndVideo.getAvmark() == 1){
+//            holder.setViewVisiable(R.id.play_mark,0);
+//        }
 
     }
 }

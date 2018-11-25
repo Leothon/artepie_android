@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Mvp.View.Fragment.AboutPage.AboutFragment"
-    android:orientation="vertical">
+    tools:context=".Mvp.View.Fragment.AboutPage.AboutFragment">
+
 
     <include
+        android:id="@+id/position_bar_about"
+        layout="@layout/positionbar"/>
+    <include
         android:id="@+id/search_about"
-        layout="@layout/search"/>
-
+        layout="@layout/search"
+        android:layout_below="@+id/position_bar_about"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
 
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -22,7 +28,7 @@
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp">
+                android:layout_height="200dp">
                 <com.leothon.cogito.View.ArcImageView
                     android:id="@+id/backimg_about"
                     android:layout_width="match_parent"
@@ -42,7 +48,7 @@
                     android:paddingEnd="20dp"
                     android:background="@drawable/textborder"
                     android:textColor="@color/white"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_marginTop="70dp"/>
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/usericon_about"
                     android:layout_width="64dp"
@@ -53,7 +59,7 @@
                     app:riv_border_width="2dp"
                     android:src="@drawable/musicdefalut"
                     android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="26dp"/>
+                    android:layout_marginBottom="40dp"/>
                 <TextView
                     android:id="@+id/username_about"
                     android:layout_width="wrap_content"
@@ -61,7 +67,7 @@
                     android:layout_gravity="bottom|center"
                     android:text="陈独秀"
                     android:textSize="@dimen/littleTitle"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="10dp"/>
             </FrameLayout>
 
             <TextView
@@ -307,4 +313,6 @@
 
     </ScrollView>
 
-</LinearLayout>
+
+
+</RelativeLayout>

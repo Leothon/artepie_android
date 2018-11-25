@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Fragment.MicClassPage;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,6 +18,7 @@ import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Fragment.MicClassFragment.Mic1Fragment;
 import com.leothon.cogito.Mvp.View.Fragment.MicClassFragment.Mic2Fragment;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class MicClassFragment extends BaseFragment {
 
 
 
+    @BindView(R.id.voice_bar_layout)
+    AppBarLayout voiceBarLayout;
     @BindView(R.id.voice_bar)
     CardView voiceBar;
 
@@ -87,6 +91,7 @@ public class MicClassFragment extends BaseFragment {
     @Override
     protected void initView() {
         title.setText("学院");
+        voiceBarLayout.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
         subtitle.setText("");
         voiceBar.setCardElevation(0.0f);
         showAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_in);

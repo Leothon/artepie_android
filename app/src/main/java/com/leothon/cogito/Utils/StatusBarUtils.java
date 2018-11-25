@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -16,6 +17,19 @@ import java.lang.reflect.Method;
  * 设置白色状态栏
  */
 public class StatusBarUtils {
+
+
+    public static void setRootViewFitsSystemWindows(Activity activity, boolean fitSystemWindows) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ViewGroup winContent = (ViewGroup) activity.findViewById(android.R.id.content);
+            if (winContent.getChildCount() > 0) {
+                ViewGroup rootView = (ViewGroup) winContent.getChildAt(0);
+                if (rootView != null) {
+                    rootView.setFitsSystemWindows(fitSystemWindows);
+                }
+            }
+        }
+    }
 
     /**
      * 修改状态栏为全透明

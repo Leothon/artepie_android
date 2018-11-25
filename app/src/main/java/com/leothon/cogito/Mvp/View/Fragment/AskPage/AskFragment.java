@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
@@ -44,6 +47,9 @@ import butterknife.OnClick;
 public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
 
+
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar askBar;
     @BindView(R.id.swp_ask)
     SwipeRefreshLayout swpAsk;
     @BindView(R.id.rv_ask)
@@ -131,6 +137,11 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     protected void initView() {
+        ViewGroup.LayoutParams layoutParams = askBar.getLayoutParams();
+        layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) + CommonUtils.dip2px(getMContext(),45);
+        askBar.setLayoutParams(layoutParams);
+        askBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
+
         title.setText("互动论坛");
         subtitle.setText("");
         asks = new ArrayList<>();
@@ -205,14 +216,14 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     private void animationHide(){
         hostActivity.hideBottomBtn();
-        floatBtn.setVisibility(View.GONE);
+        floatBtn.hide();
         floatBtn.startAnimation(viewHideAnim);
 
     }
 
     private void animationShow(){
         hostActivity.showBottomBtn();
-        floatBtn.setVisibility(View.VISIBLE);
+        floatBtn.show();
         floatBtn.startAnimation(viewShowAnim);
 
     }

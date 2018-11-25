@@ -102,7 +102,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             int position2 = position - (bagBuyclass.size() + 2);
             RecommentClassHolder recommentClassHolder = (RecommentClassHolder)holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,recommendclass.get(position2).getImgurl(),recommentClassHolder.recommentImg,R.drawable.defalutimg);
-            recommentClassHolder.playMark.setVisibility(View.GONE);
+            //recommentClassHolder.playMark.setVisibility(View.GONE);
             recommentClassHolder.recommentTv.setText(recommendclass.get(position2).getTitle());
             recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -229,8 +229,8 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         RoundedImageView recommentImg;
         @BindView(R.id.foryou_tv)
         TextView recommentTv;
-        @BindView(R.id.play_mark)
-        ImageView playMark;
+//        @BindView(R.id.play_mark)
+//        ImageView playMark;
 
         public RecommentClassHolder(View itemView){
             super(itemView);

@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Mvp.View.Fragment.AskPage.AskFragment"
-    android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:background="@color/white">
 
     <include
         android:id="@+id/ask_bar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_below="@+id/ask_bar"

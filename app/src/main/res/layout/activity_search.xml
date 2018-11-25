@@ -12,14 +12,15 @@
         android:visibility="gone"
         layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:cardElevation="3dp">
 
         <RelativeLayout
-            android:id="@+id/search"
+            android:id="@+id/search1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/search_bg"

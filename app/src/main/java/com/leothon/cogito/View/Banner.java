@@ -314,7 +314,7 @@ public class Banner extends RelativeLayout {
                 }
             });
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(20,5,20,5);
+            imageView.setPadding(0,5,0,5);
             if (isImageUrl) {
                 ImageLoader.loadImageViewwithError(getContext(),mImageUrls.get(toRealPosition(position)),imageView,R.drawable.defalutimg);
             } else {

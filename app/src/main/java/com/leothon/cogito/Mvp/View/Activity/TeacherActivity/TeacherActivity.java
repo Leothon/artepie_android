@@ -104,7 +104,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
                     int position = linearLayoutManager.findFirstVisibleItemPosition();
                     if (position > 0){
                         teaBar.setVisibility(View.VISIBLE);
-                        teaBar.setTranslationY(CommonUtils.getStatusBarHeight(TeacherActivity.this) - 5);
+                        teaBar.setTranslationY(CommonUtils.getStatusBarHeight(TeacherActivity.this) - CommonUtils.dip2px(TeacherActivity.this,3));
                         teacherIcon.setVisibility(View.VISIBLE);
                         teacherIcon.setImageResource(teacherSelf.getTeaicon());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

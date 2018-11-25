@@ -13,15 +13,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Mvp.View.Activity.ActivityActivity.ActivityActivity;
 import com.leothon.cogito.Mvp.View.Activity.ActivityListActivity.ActivityListActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
+import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.TestActivity.TestActivity;
 import com.leothon.cogito.Mvp.View.Activity.ViewPagerActivity.ViewPageActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -150,79 +153,79 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return;
         }else if(viewType == HEAD1){
             return;
-        }else if(viewType == HEAD2){
+        }else if(viewType == HEAD2) {
             testHolder testholder = (testHolder) holder;
 
             testholder.test1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[0]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[0]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[1]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[1]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[2]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[2]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[3]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[3]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[4]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[4]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test6.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[5]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[5]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test7.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[6]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[6]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
             testholder.test8.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title",testesName[7]);
-                    bundle.putString("description","这里显示各种曲目的介绍");
-                    IntentUtils.getInstence().intent(context, TestActivity.class,bundle);
+                    bundle.putString("title", testesName[7]);
+                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
 
@@ -235,176 +238,177 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             testholder.test_title7.setText(testesName[6]);
             testholder.test_title8.setText(testesName[7]);
 
-        }else if (viewType == HEAD3){
+        }
+//        }else if (viewType == HEAD3){
+//
+//            activityHolder activityholder = (activityHolder) holder;
+//            activityholder.tagnameInActivity.setText("演出观摩");
+//            activityholder.activity1.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title",activitiesName[0]);
+//                    bundle.putString("url",activitiesImg[0]);
+//                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
+//                }
+//            });
+//            activityholder.activity2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title",activitiesName[1]);
+//                    bundle.putString("url",activitiesImg[1]);
+//                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
+//                }
+//            });
+//            activityholder.activity3.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title",activitiesName[2]);
+//                    bundle.putString("url",activitiesImg[2]);
+//                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
+//                }
+//            });
+//            activityholder.activity4.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title",activitiesName[3]);
+//                    bundle.putString("url",activitiesImg[3]);
+//                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
+//                }
+//            });
+//            activityholder.activity5.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title",activitiesName[4]);
+//                    bundle.putString("url",activitiesImg[4]);
+//                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
+//                }
+//            });
+//            activityholder.activity6.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    /**
+//                     * 此处的数据直接在ActivityListActivity中请求
+//                     */
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title","更多演出活动");
+//                    IntentUtils.getInstence().intent(context, ActivityListActivity.class,bundle);
+//                }
+//            });
+//
+//            activityholder.activity1title.setText(activitiesName[0]);
+//            activityholder.activity2title.setText(activitiesName[1]);
+//            activityholder.activity3title.setText(activitiesName[2]);
+//            activityholder.activity4title.setText(activitiesName[3]);
+//            activityholder.activity5title.setText(activitiesName[4]);
+//
+//            //加载图片
+//            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[0],activityholder.activity1img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[1],activityholder.activity2img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[2],activityholder.activity3img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[3],activityholder.activity4img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[4],activityholder.activity5img,R.drawable.defalutimg);
+//
+//        }else if(viewType == HEAD4){
+//            classHolder classholder = (classHolder) holder;
+//            classholder.tagnameInClass.setText("公益讲堂");
+//
+//             //TODO 需要判定是讲课还是活动，分别进行跳转
+//            classholder.class1.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",classesImg[0]);
+//                    bundle.putString("imgTitle",classesName[0]);
+//                    bundle.putInt("count",1);
+//                    bundle.putInt("position",0);
+//                    bundle.putString("price","0");
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                }
+//            });
+//            classholder.class2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",classesImg[1]);
+//                    bundle.putString("imgTitle",classesName[1]);
+//                    bundle.putInt("count",1);
+//                    bundle.putInt("position",0);
+//                    bundle.putString("price","0");
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                }
+//            });
+//            classholder.class3.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",classesImg[2]);
+//                    bundle.putString("imgTitle",classesName[2]);
+//                    bundle.putInt("count",1);
+//                    bundle.putInt("position",0);
+//                    bundle.putString("price","0");
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                }
+//            });
+//            classholder.class4.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",classesImg[3]);
+//                    bundle.putString("imgTitle",classesName[3]);
+//                    bundle.putInt("count",1);
+//                    bundle.putInt("position",0);
+//                    bundle.putString("price","0");
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                }
+//            });
+//            classholder.class5.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",classesImg[4]);
+//                    bundle.putString("imgTitle",classesName[4]);
+//                    bundle.putInt("count",1);
+//                    bundle.putInt("position",0);
+//                    bundle.putString("price","0");
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                }
+//            });
+//            classholder.class6.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    /**
+//                     * 内容点击进去进行请求
+//                     */
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title","更多公益内容");
+//                    IntentUtils.getInstence().intent(context, ViewPageActivity.class,bundle);
+//                }
+//            });
+//
+//            classholder.class1title.setText(classesName[0]);
+//            classholder.class2title.setText(classesName[1]);
+//            classholder.class3title.setText(classesName[2]);
+//            classholder.class4title.setText(classesName[3]);
+//            classholder.class5title.setText(classesName[4]);
+//
+//            //加载图片
+//            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[0],classholder.class1img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[1],classholder.class2img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[2],classholder.class3img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[3],classholder.class4img,R.drawable.defalutimg);
+//            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[4],classholder.class5img,R.drawable.defalutimg);
 
-            activityHolder activityholder = (activityHolder) holder;
-            activityholder.tagnameInActivity.setText("演出观摩");
-            activityholder.activity1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title",activitiesName[0]);
-                    bundle.putString("url",activitiesImg[0]);
-                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
-                }
-            });
-            activityholder.activity2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title",activitiesName[1]);
-                    bundle.putString("url",activitiesImg[1]);
-                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
-                }
-            });
-            activityholder.activity3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title",activitiesName[2]);
-                    bundle.putString("url",activitiesImg[2]);
-                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
-                }
-            });
-            activityholder.activity4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title",activitiesName[3]);
-                    bundle.putString("url",activitiesImg[3]);
-                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
-                }
-            });
-            activityholder.activity5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title",activitiesName[4]);
-                    bundle.putString("url",activitiesImg[4]);
-                    IntentUtils.getInstence().intent(context, ActivityActivity.class,bundle);
-                }
-            });
-            activityholder.activity6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /**
-                     * 此处的数据直接在ActivityListActivity中请求
-                     */
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title","更多演出活动");
-                    IntentUtils.getInstence().intent(context, ActivityListActivity.class,bundle);
-                }
-            });
-
-            activityholder.activity1title.setText(activitiesName[0]);
-            activityholder.activity2title.setText(activitiesName[1]);
-            activityholder.activity3title.setText(activitiesName[2]);
-            activityholder.activity4title.setText(activitiesName[3]);
-            activityholder.activity5title.setText(activitiesName[4]);
-
-            //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[0],activityholder.activity1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[1],activityholder.activity2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[2],activityholder.activity3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[3],activityholder.activity4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,activitiesImg[4],activityholder.activity5img,R.drawable.defalutimg);
-
-        }else if(viewType == HEAD4){
-            classHolder classholder = (classHolder) holder;
-            classholder.tagnameInClass.setText("公益讲堂");
-
-             //TODO 需要判定是讲课还是活动，分别进行跳转
-            classholder.class1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",classesImg[0]);
-                    bundle.putString("imgTitle",classesName[0]);
-                    bundle.putInt("count",1);
-                    bundle.putInt("position",0);
-                    bundle.putString("price","0");
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            classholder.class2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",classesImg[1]);
-                    bundle.putString("imgTitle",classesName[1]);
-                    bundle.putInt("count",1);
-                    bundle.putInt("position",0);
-                    bundle.putString("price","0");
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            classholder.class3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",classesImg[2]);
-                    bundle.putString("imgTitle",classesName[2]);
-                    bundle.putInt("count",1);
-                    bundle.putInt("position",0);
-                    bundle.putString("price","0");
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            classholder.class4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",classesImg[3]);
-                    bundle.putString("imgTitle",classesName[3]);
-                    bundle.putInt("count",1);
-                    bundle.putInt("position",0);
-                    bundle.putString("price","0");
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            classholder.class5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",classesImg[4]);
-                    bundle.putString("imgTitle",classesName[4]);
-                    bundle.putInt("count",1);
-                    bundle.putInt("position",0);
-                    bundle.putString("price","0");
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                }
-            });
-            classholder.class6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /**
-                     * 内容点击进去进行请求
-                     */
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title","更多公益内容");
-                    IntentUtils.getInstence().intent(context, ViewPageActivity.class,bundle);
-                }
-            });
-
-            classholder.class1title.setText(classesName[0]);
-            classholder.class2title.setText(classesName[1]);
-            classholder.class3title.setText(classesName[2]);
-            classholder.class4title.setText(classesName[3]);
-            classholder.class5title.setText(classesName[4]);
-
-            //加载图片
-            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[0],classholder.class1img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[1],classholder.class2img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[2],classholder.class3img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[3],classholder.class4img,R.drawable.defalutimg);
-            ImageLoader.loadImageViewThumbnailwitherror(context,classesImg[4],classholder.class5img,R.drawable.defalutimg);
-
-        }else if (viewType == HEAD5){
+        else if (viewType == HEAD5){
             return;
         }else if (viewType == HEAD6){
             //TODO 增加更多的数据显示
-            foryouHolder foryouholder = (foryouHolder) holder;
-            final int videoPosition = position - 6;
+            final foryouHolder foryouholder = (foryouHolder) holder;
+            final int videoPosition = position - 4;
             foryouholder.foryouIV.setImageResource(R.drawable.defalutimg);
             //foryouholder.foryouIV.setTag(videoPosition);
             foryouholder.foryouTV.setText(foryouvideotitle[videoPosition]);
@@ -413,11 +417,28 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 public void onClick(View view) {
                     int pos = videoPosition;
                     //以下的context来自于home Fragment调用构造方法时传入，fragment中context来自于basefragment
-                    Bundle bundle = new Bundle();
-                    bundle.putString("imgUrls",foryouVideo[videoPosition]);
-                    bundle.putString("imgTitle",foryouvideotitle[videoPosition]);
-                    bundle.putInt("count",1);
-                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("imgUrls",foryouVideo[videoPosition]);
+//                    bundle.putString("imgTitle",foryouvideotitle[videoPosition]);
+//                    bundle.putInt("count",1);
+//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+
+                    if (foryouholder.foryouPrice.getText().toString().equals("免费")){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url",foryouVideo[videoPosition]);
+                        bundle.putString("title",foryouholder.foryouTV.getText().toString());
+                        bundle.putString("author",foryouholder.foryouAuthor.getText().toString());
+                        bundle.putString("price","0");
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }else {
+                        //TODO 跳转支付页面
+                        ClassItem classItem = new ClassItem();
+                        classItem.setClassurl(foryouVideo[videoPosition]);
+                        classItem.setClasstitle(foryouholder.foryouTV.getText().toString());
+                        classItem.setAuthorname(foryouholder.foryouAuthor.getText().toString());
+                        classItem.setClassprice(foryouholder.foryouPrice.getText().toString());
+                        loadDialog(classItem);
+                    }
                 }
             });
             ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
@@ -428,24 +449,55 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if (manager instanceof GridLayoutManager){
-            final GridLayoutManager gridLayoutManager = ((GridLayoutManager)manager);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    int type = getItemViewType(position);
-                    if (type == HEAD6){
-                        return 1;
-                    }else {
-                        return 2;
+//    @Override
+//    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+//        super.onAttachedToRecyclerView(recyclerView);
+//        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+//        if (manager instanceof GridLayoutManager){
+//            final GridLayoutManager gridLayoutManager = ((GridLayoutManager)manager);
+//            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                @Override
+//                public int getSpanSize(int position) {
+//                    int type = getItemViewType(position);
+//                    if (type == HEAD6){
+//                        return 1;
+//                    }else {
+//                        return 2;
+//                    }
+//                }
+//            });
+//        }
+//    }
+
+    private void loadDialog(final ClassItem classItem){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("该课程是付费课程，您尚未订阅")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("试看前几节")
+                .setNegtive("返回")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url",classItem.getClassurl());
+                        bundle.putString("title",classItem.getClasstitle());
+                        bundle.putString("author",classItem.getAuthorname());
+                        bundle.putString("price",classItem.getClassprice());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }
-                }
-            });
-        }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
     }
 
     @Override
@@ -456,13 +508,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return HEAD1;
         }else if (position == 2 && headView2 != null){
             return HEAD2;
-        }else if (position == 3 && headView3 != null){
-            return HEAD3;
-        }else if (position == 4 && headView4 != null){
-            return HEAD4;
-        }else if (position == 5 && headView5 != null){
+//        }else if (position == 3 && headView3 != null){
+//            return HEAD3;
+//        }else if (position == 4 && headView4 != null){
+//            return HEAD4;
+        }else if (position == 3 && headView5 != null){
             return HEAD5;
-        }else if (position <= (foryouVideo.length + 5) && position != 0){
+        }else if (position <= (foryouVideo.length + 3) && position != 0){
             return HEAD6;
         }else {
             return HEAD7;
@@ -472,7 +524,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemCount() {
-        return 7 + foryouvideotitle.length;
+        return 5 + foryouvideotitle.length;
     }
 
     public void addHeadView0(View view){
@@ -667,6 +719,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         ImageView foryouIV;
         @BindView(R.id.foryou_tv)
         TextView foryouTV;
+        @BindView(R.id.foryou_price)
+        TextView foryouPrice;
+        @BindView(R.id.foryou_author)
+        TextView foryouAuthor;
         public foryouHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

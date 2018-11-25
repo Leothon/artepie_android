@@ -1,14 +1,18 @@
 package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.Banner;
 
 
@@ -30,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.annotations.Nullable;
 
 import static com.leothon.cogito.Constants.teacherDescription;
 import static com.leothon.cogito.Constants.teacherIconList;
@@ -49,6 +55,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private ArrayList<Teacher> teachers = new ArrayList<>();
 
+    @BindView(R.id.search_top)
+    CardView searchTop;
+
+    @BindView(R.id.position_bar_host)
+    LinearLayout positionBar;
 
     @BindView(R.id.search)
     RelativeLayout search;
@@ -62,6 +73,8 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private Handler mHandler;
 
     private HomeAdapter homeAdapter;
+
+    private LinearLayoutManager linearLayoutManager;
 
     public HomeFragment() {
     }
@@ -90,6 +103,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     protected void initView() {
         mHandler = new Handler();
+        ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
+        layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
+        positionBar.setLayoutParams(layoutParams);
+        positionBar.setVisibility(View.INVISIBLE);
+        searchTop.setBackgroundColor(getResources().getColor(R.color.alpha));
         initimg();
         initAdapter();
     }
@@ -110,13 +128,33 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         initBanner(homeAdapter);
         initTea(homeAdapter);
         initTest(homeAdapter);
-        initActivity(homeAdapter);
-        initclass(homeAdapter);
-        //initvideoclass(homeAdapter);
         initdivider(homeAdapter);
-
-        rvHome.setLayoutManager(new GridLayoutManager(getMContext(), 2, GridLayoutManager.VERTICAL, false));
+        linearLayoutManager = new LinearLayoutManager(getMContext());
+        rvHome.setLayoutManager(linearLayoutManager);
         rvHome.setAdapter(homeAdapter);
+        rvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (linearLayoutManager != null){
+                    int position = linearLayoutManager.findFirstVisibleItemPosition();
+                    if (position > 0){
+                        searchTop.setBackgroundColor(getResources().getColor(R.color.white));
+                        search.setBackgroundColor(getResources().getColor(R.color.dividerColor));
+                        getActivity().getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                        StatusBarUtils.setStatusBarColor(getActivity(),R.color.white);
+                    }else {
+                        searchTop.setBackgroundColor(getResources().getColor(R.color.alpha));
+                        search.setBackgroundColor(getResources().getColor(R.color.whitealpha));
+                        StatusBarUtils.transparencyBar(getActivity());
+                    }
+                }
+            }
+        });
     }
 
 

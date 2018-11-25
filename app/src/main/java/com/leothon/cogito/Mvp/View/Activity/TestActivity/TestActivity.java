@@ -90,7 +90,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                                 StatusBarUtils.setStatusBarColor(TestActivity.this,R.color.white);
                             }
-                            testBar.setTranslationY(CommonUtils.getStatusBarHeight(TestActivity.this) - 5);
+                            testBar.setTranslationY(CommonUtils.getStatusBarHeight(TestActivity.this) - CommonUtils.dip2px(TestActivity.this,3));
                         }else {
                             testBar.setVisibility(View.GONE);
                             StatusBarUtils.transparencyBar(TestActivity.this);

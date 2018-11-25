@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -37,6 +39,8 @@ import butterknife.OnClick;
  */
 public class HostActivity extends BaseActivity  {
 
+    @BindView(R.id.container_all)
+    RelativeLayout containerAll;
 
     @BindView(R.id.bottom_btn_home)
     BottomButton bottombtnHome;
@@ -84,6 +88,7 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initView() {
         initBottomButton();
+        StatusBarUtils.transparencyBar(this);
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
@@ -127,6 +132,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAbout.setTvAndIv("我的",R.drawable.baseline_perm_identity_black_24);
         focusOnHome();
     }
+
+
 
 
     public void hideBottomBtn(){
@@ -182,6 +189,7 @@ public class HostActivity extends BaseActivity  {
         switch (pageName){
             case HOMEPAGE:
                 focusOnHome();
+                StatusBarUtils.transparencyBar(this);
                 if (homePage == null || Constants.isRefreshtruehomeFragment == true){
                     Constants.isRefreshtruehomeFragment = false;
                     homePage = HomeFragment.newInstance();
@@ -192,6 +200,8 @@ public class HostActivity extends BaseActivity  {
                 break;
             case MICCLASSPAGE:
                 focusOnMic();
+                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                StatusBarUtils.setStatusBarColor(this,R.color.white);
                 if (micClassPage == null || Constants.isRefreshtruetypeFragment == true){
                     Constants.isRefreshtruetypeFragment = false;
                     micClassPage = MicClassFragment.newInstance();
@@ -202,6 +212,8 @@ public class HostActivity extends BaseActivity  {
                 break;
             case ASKPAGE:
                 focusOnAsk();
+                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                StatusBarUtils.setStatusBarColor(this,R.color.white);
                 if (askPage == null || Constants.isRefreshtrueaskFragment == true){
                     Constants.isRefreshtrueaskFragment = false;
                     askPage = AskFragment.newInstance();
@@ -212,6 +224,8 @@ public class HostActivity extends BaseActivity  {
                 break;
             case BAGPAGE:
                 focusOnBag();
+                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                StatusBarUtils.setStatusBarColor(this,R.color.white);
                 if (bagPage == null || Constants.isRefreshtruebagFragment == true){
                     Constants.isRefreshtruebagFragment = false;
                     bagPage = BagFragment.newInstance();
@@ -222,6 +236,7 @@ public class HostActivity extends BaseActivity  {
                 break;
             case ABOUTPAGE:
                 focusOnAbout();
+                StatusBarUtils.transparencyBar(this);
                 if (aboutPage == null || Constants.isRefreshtrueaboutFragment == true){
                     Constants.isRefreshtrueaboutFragment = false;
                     aboutPage = AboutFragment.newInstance();
