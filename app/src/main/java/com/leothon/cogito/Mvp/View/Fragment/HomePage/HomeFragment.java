@@ -123,6 +123,8 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public void initAdapter() {
         swp.setOnRefreshListener(this);
+        swp.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+        swp.setProgressViewOffset (false,100,300);
         homeAdapter = new HomeAdapter(allDatas, getMContext());
         homeAdapter.setmOnItemClickLitener(this);
         initBanner(homeAdapter);

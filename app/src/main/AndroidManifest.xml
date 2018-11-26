@@ -37,8 +37,6 @@
         <activity
             android:name=".Mvp.View.Activity.PlayerActivity.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/FixSystemWindowTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Mvp.View.Activity.BannerActivity.BannerActivity" />
         <activity android:name=".Mvp.View.Activity.TeacherActivity.TeacherActivity" />
@@ -82,7 +80,7 @@
             android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassDetailActivity" />
-        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity" />
     </application>
 
 </manifest>

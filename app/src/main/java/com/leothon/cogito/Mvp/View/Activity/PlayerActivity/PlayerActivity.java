@@ -9,9 +9,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -59,6 +66,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * created by leothon on 2018.8.2
@@ -106,6 +114,8 @@ public class PlayerActivity extends BaseActivity {
     private String userIcon[] = {"","","","",""};
     private String username[] = {"赵一","钱二","孙三","李四","周五","吴六","郑七","王八","冯九","陈十","褚十一","卫十二","蒋十三","沈十四","韩十五","杨十六"};
 
+    @BindView(R.id.video_toolbar)
+    Toolbar toolbar;
     @BindView(R.id.video_player)
     StandardGSYVideoPlayer videoPlayer;
 
@@ -137,6 +147,19 @@ public class PlayerActivity extends BaseActivity {
     @BindView(R.id.rv_choose_class)
     RecyclerView rvChooseClass;
 
+    @BindView(R.id.playButton)
+    ButtonBarLayout playTitle;
+    @BindView(R.id.video_danmu)
+    FrameLayout videoLayout;
+
+    @BindView(R.id.video_scroll_view)
+    NestedScrollView videoScrollView;
+
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout toolbarLayout;
+
+    @BindView(R.id.app_bar)
+    AppBarLayout appBar;
     private boolean isPlay;
     private boolean isPause;
 
@@ -161,20 +184,77 @@ public class PlayerActivity extends BaseActivity {
     private ChooseClassAdapter chooseClassAdapter;
     private int count = 0;
     private ScrollSpeedLinearLayoutManager scrollSpeedLinearLayoutManager;
+
+    private int CURRENT_STATE_PLAYING = 2;
+    private int CURRENT_STATE_PAUSE = 5;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
     }
+    private CollapsingToolbarLayoutState state;
 
+    private enum CollapsingToolbarLayoutState {
+        EXPANDED,
+        COLLAPSED,
+        INTERNEDIATE
+    }
     @Override
     public void initView() {
         //切换课程时候，记得这个要重新初始化，以防止数据被覆盖
         intent = getIntent();
+        StatusBarUtils.transparencyBar(this);
+        toolbar.setPadding(0,CommonUtils.getStatusBarHeight(this) - CommonUtils.dip2px(this,3),0,0);
         bundle = intent.getExtras();
         count = bundle.getInt("count");
 
         loadAll(bundle.getString("imgTitle"),bundle.getString("imgUrls"),bundle.getInt("count"),bundle.getInt("position"),bundle.getString("price"));
 
+
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+
+                if (verticalOffset == 0) {
+                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
+                        state = CollapsingToolbarLayoutState.EXPANDED;
+                        //修改状态标记为展开
+                        //toolbarLayout.setTitle("EXPANDED");
+                        //设置title为EXPANDED
+                    }
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
+
+                        toolbarLayout.setTitle("");
+                        playTitle.setVisibility(View.VISIBLE);
+                        state = CollapsingToolbarLayoutState.COLLAPSED;
+
+                    }
+
+                } else {
+                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
+                        if (state == CollapsingToolbarLayoutState.COLLAPSED) {
+                            playTitle.setVisibility(View.GONE);
+                            //由折叠变为中间状态时隐藏播放按钮
+                        }
+                        //toolbarLayout.setTitle("INTERNEDIATE");
+                        //设置title为INTERNEDIATE
+                        state = CollapsingToolbarLayoutState.INTERNEDIATE;
+                        //修改状态标记为中间
+                    }
+                }
+
+            }
+
+
+
+            
+        });
+    }
+
+    @OnClick(R.id.playButton)
+    public void playVideo(View v){
+        appBar.setExpanded(true);
 
     }
 
@@ -302,6 +382,7 @@ public class PlayerActivity extends BaseActivity {
         }
 
     }
+
 
     public void loadVideoData(){
         //将得到的数据加载到videoClass中再进行数值加载

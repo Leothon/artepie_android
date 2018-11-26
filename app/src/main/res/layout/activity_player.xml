@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,188 +10,253 @@
     android:background="@color/white">
 
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:statusBarScrim="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            android:fitsSystemWindows="true">
+
+            <FrameLayout
+                android:id="@+id/video_danmu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
+                <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+                    android:id="@+id/video_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
+            </FrameLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/video_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                app:layout_collapseMode="pin">
+                <!--自定义带图片的立即播放按钮-->
+                <android.support.v7.widget.ButtonBarLayout
+                    android:id="@+id/playButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/video_play_normal"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:text="立即播放"
+                        android:layout_gravity="center_vertical" />
+                </android.support.v7.widget.ButtonBarLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
     <include
         android:id="@+id/video_bar"
         layout="@layout/toolbar"
         android:visibility="gone"/>
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:id="@+id/video_player"
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/video_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
-
-    <LinearLayout
-        android:id="@+id/content_video"
-        android:layout_below="@+id/video_player"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:background="@drawable/ripple"
-        android:clickable="true">
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/video_author_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                app:riv_oval="true"
-                android:src="@drawable/defalutimg"
-                android:layout_marginBottom="5dp"/>
-
-            <TextView
-                android:id="@+id/video_author_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:text="中国新闻网"
-                android:textSize="@dimen/tipsSize"
-                android:layout_marginBottom="5dp"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
-            <TextView
-                android:id="@+id/video_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="声乐的历史"
-                android:textSize="@dimen/littleTitle"
-                android:layout_gravity="top"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/black"
-                android:maxLines="1"/>
-            <TextView
-                android:id="@+id/video_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="声乐的出现背景"
-                android:textSize="@dimen/contentSize"
-                android:layout_gravity="center|start"
-                android:layout_marginTop="8dp"/>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/content_video"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
-                android:padding="3dp"
-                android:layout_gravity="top">
+                android:background="@drawable/ripple"
+                android:clickable="true">
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/baseline_remove_red_eye_black_18"
-                        android:tint="@color/fontColor"
-                        android:layout_gravity="start"/>
+                    android:layout_weight="1">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/video_author_icon"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        app:riv_oval="true"
+                        android:src="@drawable/defalutimg"
+                        android:layout_marginBottom="5dp"/>
+
                     <TextView
-                        android:id="@+id/view_count"
+                        android:id="@+id/video_author_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="352"
-                        android:layout_gravity="center"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:text="中国新闻网"
+                        android:textSize="@dimen/tipsSize"
+                        android:layout_marginBottom="5dp"/>
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/baseline_favorite_black_18"
-                        android:tint="@color/fontColor"
-                        android:layout_gravity="start"/>
+                    android:layout_weight="2">
                     <TextView
-                        android:id="@+id/fav_count"
+                        android:id="@+id/video_title"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="120"
-                        android:layout_gravity="center"/>
+                        android:layout_height="wrap_content"
+                        android:text="声乐的历史"
+                        android:textSize="@dimen/littleTitle"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/black"
+                        android:maxLines="1"/>
+                    <TextView
+                        android:id="@+id/video_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="声乐的出现背景"
+                        android:textSize="@dimen/contentSize"
+                        android:layout_gravity="center|start"
+                        android:layout_marginTop="8dp"/>
                 </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:layout_gravity="top">
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:layout_margin="3dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/baseline_remove_red_eye_black_18"
+                                android:tint="@color/fontColor"
+                                android:layout_gravity="start"/>
+                            <TextView
+                                android:id="@+id/view_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="352"
+                                android:layout_gravity="center"/>
+                        </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:layout_margin="3dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/baseline_favorite_black_18"
+                                android:tint="@color/fontColor"
+                                android:layout_gravity="start"/>
+                            <TextView
+                                android:id="@+id/fav_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="120"
+                                android:layout_gravity="center"/>
+                        </FrameLayout>
+                    </LinearLayout>
+
+
+                </FrameLayout>
+
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/choose_class"
+                android:layout_below="@+id/content_video"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_choose_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
 
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/choose_class"
-        android:layout_below="@+id/content_video"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_choose_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-        </android.support.v7.widget.RecyclerView>
-    </RelativeLayout>
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/dividerColor"
-        android:layout_below="@+id/choose_class"/>
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/dividerColor"
+                android:layout_below="@+id/choose_class"/>
 
 
-    <LinearLayout
-        android:id="@+id/line_divider"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@+id/divider"
-        android:orientation="horizontal">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1sp"
-            android:layout_weight="1"
-            android:background="@color/fontColor"
-            android:layout_gravity="center"/>
+            <LinearLayout
+                android:id="@+id/line_divider"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/divider"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1sp"
+                    android:layout_weight="1"
+                    android:background="@color/fontColor"
+                    android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/divider_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="评论"
-            android:textSize="@dimen/tipsSize"
-            android:textColor="@color/fontColor"
-            android:layout_gravity="center"
-            android:gravity="center"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1sp"
-            android:layout_weight="1"
-            android:background="@color/fontColor"
-            android:layout_gravity="center"/>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/divider_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="评论"
+                    android:textSize="@dimen/tipsSize"
+                    android:textColor="@color/fontColor"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1sp"
+                    android:layout_weight="1"
+                    android:background="@color/fontColor"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/line_divider"
-        android:id="@+id/video_comment_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp">
+            <android.support.v7.widget.RecyclerView
+                android:layout_below="@+id/line_divider"
+                android:id="@+id/video_comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp">
 
-    </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
 
+
+        </RelativeLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.v7.widget.CardView
         android:id="@+id/comment_in"
@@ -198,8 +264,8 @@
         android:layout_height="40dp"
         app:cardElevation="3dp"
         app:cardCornerRadius="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:layout_gravity="bottom">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -208,4 +274,8 @@
             android:layout_margin="10dp"/>
     </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>
