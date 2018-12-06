@@ -123,26 +123,26 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if (manager instanceof GridLayoutManager){
-            final GridLayoutManager gridLayoutManager = ((GridLayoutManager)manager);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    int type = getItemViewType(position);
-                    if (type == HEAD3){
-                        return 1;
-                    }else {
-                        return 2;
-                    }
-
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+//        super.onAttachedToRecyclerView(recyclerView);
+//        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+//        if (manager instanceof GridLayoutManager){
+//            final GridLayoutManager gridLayoutManager = ((GridLayoutManager)manager);
+//            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                @Override
+//                public int getSpanSize(int position) {
+//                    int type = getItemViewType(position);
+//                    if (type == HEAD3){
+//                        return 1;
+//                    }else {
+//                        return 2;
+//                    }
+//
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public int getItemViewType(int position) {

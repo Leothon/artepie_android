@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,7 +95,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         swpBag.setOnRefreshListener(this);
         bagAdapter = new BagAdapter(bagBuys,recomments,getMContext());
 
-        rvBag.setLayoutManager(new GridLayoutManager(getMContext(),2,GridLayoutManager.VERTICAL,false));
+        rvBag.setLayoutManager(new LinearLayoutManager(getMContext()));
         rvBag.setAdapter(bagAdapter);
 
     }
