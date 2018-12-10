@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/study_title_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的学习曲线"
+                android:layout_margin="10dp"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/littleTitle"/>
+            <TextView
+                android:id="@+id/study_count_line"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总学习课程：10个"
+                android:layout_margin="10dp"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/contentSize"/>
+            <View
+                android:id="@+id/study_line_divider"
+                android:layout_below="@+id/study_title_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_below="@+id/study_line_divider"
+                android:id="@+id/study_line"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_margin="10dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <include layout="@layout/dividerview"/>
+</LinearLayout>

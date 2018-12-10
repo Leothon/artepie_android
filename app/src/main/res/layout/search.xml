@@ -18,7 +18,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
-        android:background="@color/whitealpha"
+        android:background="@drawable/search_background_alpha"
         >
         <ImageView
             android:id="@+id/back_search"

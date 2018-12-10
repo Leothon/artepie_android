@@ -17,13 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.leothon.cogito.Adapter.BagAdapter;
 import com.leothon.cogito.Bean.BagBuy;
+import com.leothon.cogito.Bean.studyLine;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -44,6 +54,10 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     SwipeRefreshLayout swpBag;
     @BindView(R.id.rv_bag)
     RecyclerView rvBag;
+
+
+
+
 
     private String[] cltitle = {"王宏伟教学精讲","声乐形体语言","蒋大为精讲","孟教授讲声音穿透","气息的位置"};
     private String[] clurl = {"http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.chaohaojian.com%2Fupload%2Ffck%2FZ_20110907-165714_CG88.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D491319393%2C103263368%26fm%3D27%26gp%3D0.jpg",
@@ -127,6 +141,9 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             recomments.add(bagBuy);
         }
     }
+
+
+
     @Override
     protected void initData() {
 

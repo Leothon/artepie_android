@@ -36,7 +36,10 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /*
 * created by leothon on 2017.7.23
@@ -704,5 +707,24 @@ public class CommonUtils {
                 + "TB";
     }
 
+    /**
+     * 通过距离今天的差值来获取日期
+     * @param sum
+     * @return
+     */
+    public static String getTime(int sum){
+
+
+
+        Date date=new Date();//取时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE,sum);//把日期往后增加一天.整数往后推,负数往前移动
+        date=calendar.getTime(); //这个时间就是日期往后推一天的结果
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+        String dateString = formatter.format(date);
+
+        return dateString;
+    }
 
 }

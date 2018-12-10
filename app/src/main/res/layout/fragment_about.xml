@@ -36,19 +36,22 @@
                     android:src="@drawable/aboutbackground"
                     app:arcHeight="60dp"
                     android:scaleType="centerCrop"/>
-                <TextView
-                    android:id="@+id/check_in"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="签到送艺币"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="20dp"
-                    android:background="@drawable/textborder"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="70dp"/>
+
+
+                    <TextView
+                        android:id="@+id/check_in"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="签到送艺币"
+                        android:padding="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="20dp"
+                        android:layout_marginTop="75dp"
+                        android:background="@drawable/textborder"
+                        android:textColor="@color/white" />
+
+
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/usericon_about"
                     android:layout_width="64dp"

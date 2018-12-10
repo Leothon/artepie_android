@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -146,12 +147,18 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     int position = linearLayoutManager.findFirstVisibleItemPosition();
                     if (position > 0){
                         searchTop.setBackgroundColor(getResources().getColor(R.color.white));
-                        search.setBackgroundColor(getResources().getColor(R.color.dividerColor));
+                        int bgID = getResources().getIdentifier("search_background", "drawable", "com.leothon.cogito");
+                        Drawable bg = getResources().getDrawable(bgID);
+                        search.setBackground(bg);
+                        //search.setBackgroundColor(getResources().getColor(R.color.dividerColor));
                         getActivity().getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                         StatusBarUtils.setStatusBarColor(getActivity(),R.color.white);
                     }else {
                         searchTop.setBackgroundColor(getResources().getColor(R.color.alpha));
-                        search.setBackgroundColor(getResources().getColor(R.color.whitealpha));
+                        int bgID = getResources().getIdentifier("search_background_alpha", "drawable", "com.leothon.cogito");
+                        Drawable bg = getResources().getDrawable(bgID);
+                        search.setBackground(bg);
+                        //search.setBackgroundColor(getResources().getColor(R.color.whitealpha));
                         StatusBarUtils.transparencyBar(getActivity());
                     }
                 }
