@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -23,6 +24,7 @@ public class BaseApplication extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+        MultiDex.install(this);
 
     }
 
