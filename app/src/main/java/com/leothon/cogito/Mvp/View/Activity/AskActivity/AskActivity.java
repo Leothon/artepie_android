@@ -128,7 +128,7 @@ public class AskActivity extends BaseActivity {
 
     @OnClick(R.id.send_icon)
     public void sendAsk(View view){
-        //TODO 发送问题
+        //TODO 发送问题  eventbus处理
         if (askContent.getText().toString().equals("")){
             CommonUtils.makeText(this,"请输入问题描述");
         }else if (askContent.getText().toString().length() > 140){
@@ -138,7 +138,6 @@ public class AskActivity extends BaseActivity {
             //TODO 向服务器提交数据
             CommonUtils.makeText(this,"已提交问题： " + content);
             Log.e(TAG, "sendAsk: " + content);
-            Constants.isRefreshtrueaskFragment = true;
             Bundle bundleto = new Bundle();
             bundleto.putString("type","ask");
             IntentUtils.getInstence().intent(this, HostActivity.class,bundleto);

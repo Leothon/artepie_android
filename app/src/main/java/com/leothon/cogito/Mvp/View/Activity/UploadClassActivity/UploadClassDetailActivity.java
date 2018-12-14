@@ -20,6 +20,8 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -43,6 +45,7 @@ public class UploadClassDetailActivity extends BaseActivity{
     private Intent intent;
     private Bundle bundle;
     private UploadSave uploadSave;
+    private ArrayList<UploadSave> uploadSaves;
     @Override
     public int initLayout() {
         return R.layout.activity_upload_class_detail;
@@ -53,6 +56,7 @@ public class UploadClassDetailActivity extends BaseActivity{
         intent = getIntent();
         bundle = intent.getExtras();
         uploadSave = new UploadSave();
+        uploadSaves = new ArrayList<>();
         setToolbarSubTitle("");
         setToolbarTitle("添加单节课程");
         loadLastData();
@@ -79,21 +83,27 @@ public class UploadClassDetailActivity extends BaseActivity{
             uploadSave.setTitle(title);
             uploadSave.setContent(content);
 
+
+            //点击修改已有课程
             if (bundle.getInt("mark") != 0){
 
-                Constants.uploadSaves.remove(bundle.getInt("mark") - 1);
+                uploadSave.setMark(bundle.getInt("mark"));
 
-                Constants.uploadSaves.add(bundle.getInt("mark") - 1,uploadSave);
+//                Constants.uploadSaves.remove(bundle.getInt("mark") - 1);
+//
+//                Constants.uploadSaves.add(bundle.getInt("mark") - 1,uploadSave);
+            }else {//点击添加新课程
 
-                onBackPressed();
-            }else {
-                Constants.uploadSaves.add(uploadSave);
+
+                uploadSave.setMark(0);
 
 
-                onBackPressed();
             }
-        }
 
+            EventBus.getDefault().post(uploadSave);
+            onBackPressed();
+
+        }
 
     }
     @Override

@@ -122,6 +122,13 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+
+        }
+    }
     public void initAdapter() {
         swp.setOnRefreshListener(this);
         swp.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);

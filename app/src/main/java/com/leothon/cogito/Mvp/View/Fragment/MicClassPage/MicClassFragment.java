@@ -87,6 +87,13 @@ public class MicClassFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+
+        }
+    }
 
     @Override
     protected void initView() {

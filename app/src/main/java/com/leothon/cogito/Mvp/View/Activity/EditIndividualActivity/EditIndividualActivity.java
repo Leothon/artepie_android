@@ -133,16 +133,12 @@ public class EditIndividualActivity extends BaseActivity {
 
     public void sendEdit(){
         if (isEdit){
-            //TODO 网络请求发送信息
-            Constants.isRefreshtrueaboutFragment = true;
+            //TODO 网络请求发送信息 eventbus实现
             Log.e(TAG, "sendEdit: 修改了");
         }
 
-        onBackPressed();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("type","about");
-//        IntentUtils.getInstence().intent(EditIndividualActivity.this, IndividualActivity.class,bundle);
-//        finish();
+        super.onBackPressed();
+
     }
 
 

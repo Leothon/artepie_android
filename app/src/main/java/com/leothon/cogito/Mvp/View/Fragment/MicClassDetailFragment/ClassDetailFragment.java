@@ -116,6 +116,7 @@ public class ClassDetailFragment extends BaseFragment implements ObserveScrollVi
     }
 
 
+
     @Override
     public void showLoading() {
 

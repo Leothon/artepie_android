@@ -14,6 +14,16 @@ public class UploadSave  extends BaseResponse{
     private String imgUri;
     private String videoUri;
 
+    private int mark;
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
     public String getTitle() {
         return title;
     }

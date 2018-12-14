@@ -112,6 +112,13 @@ public class AboutFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+
+        }
+    }
 
     @OnClick(R.id.check_in)
     public void checkIn(View view){

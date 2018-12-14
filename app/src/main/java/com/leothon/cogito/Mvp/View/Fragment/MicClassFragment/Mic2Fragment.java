@@ -108,6 +108,14 @@ public class Mic2Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     }
 
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+
+        }
+    }
     private void initAdapter(){
         swpFragment.setOnRefreshListener(this);
         mic2ClassAdapter = new Mic2ClassAdapter(micClasses,getMContext());

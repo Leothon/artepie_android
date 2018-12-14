@@ -101,6 +101,8 @@ public class ViewPagerRightFragment extends BaseFragment {
     }
 
 
+
+
     @Override
     public void showLoading() {
 

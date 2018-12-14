@@ -16,6 +16,7 @@ import com.leothon.cogito.Bean.SaveUploadData;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.UploadSave;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.Message.MessageEvent;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -26,6 +27,10 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -50,6 +55,7 @@ public class UploadClassActivity extends BaseActivity {
     private ArrayList<ChooseClass> titles;
 
 
+    private ArrayList<UploadSave> uploadSaves;
     @Override
     public int initLayout() {
         return R.layout.activity_upload_class;
@@ -58,10 +64,12 @@ public class UploadClassActivity extends BaseActivity {
     @Override
     public void initView() {
         titles = new ArrayList<>();
+        uploadSaves = new ArrayList<>();
         loadConstantsData();
         setToolbarTitle("添加课程");
         setToolbarSubTitle("");
         initAdapter();
+        EventBus.getDefault().register(this);
         sendIcon.setVisibility(View.VISIBLE);
     }
 
@@ -89,12 +97,12 @@ public class UploadClassActivity extends BaseActivity {
         titleClassUpload.setText(Constants.classTitle);
         descClassUpload.setText(Constants.classDesc);
 
-        if (Constants.uploadSaves.size() != 0){
+        if (uploadSaves.size() != 0){
             titles.clear();
-            Log.e(TAG, "loadConstantsData: "+ Constants.uploadSaves.size());
-            for (int i=0;i<Constants.uploadSaves.size();i++){
+            Log.e(TAG, "loadConstantsData: "+ uploadSaves.size());
+            for (int i=0;i<uploadSaves.size();i++){
                 ChooseClass chooseClass = new ChooseClass();
-                chooseClass.setName(Constants.uploadSaves.get(i).getTitle());
+                chooseClass.setName(uploadSaves.get(i).getTitle());
                 titles.add(chooseClass);
 
             }
@@ -103,7 +111,7 @@ public class UploadClassActivity extends BaseActivity {
 
     @OnClick(R.id.send_icon)
     public void sendClass(View view){
-        if (titleClassUpload.getText().toString().equals("") || descClassUpload.getText().toString().equals("") || Constants.uploadSaves.size() == 0){
+        if (titleClassUpload.getText().toString().equals("") || descClassUpload.getText().toString().equals("") || uploadSaves.size() == 0){
             CommonUtils.makeText(this,"请填写完整内容");
         }else {
             //TODO 上传课程
@@ -117,7 +125,7 @@ public class UploadClassActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (titleClassUpload.getText().toString().equals("") && descClassUpload.getText().toString().equals("") && Constants.uploadSaves.size() == 0){
+        if (titleClassUpload.getText().toString().equals("") && descClassUpload.getText().toString().equals("") && uploadSaves.size() == 0){
             super.onBackPressed();
         }else {
             loadDialog();
@@ -141,6 +149,7 @@ public class UploadClassActivity extends BaseActivity {
                         dialog.dismiss();
                         Constants.classTitle = titleClassUpload.getText().toString();
                         Constants.classDesc = descClassUpload.getText().toString();
+                        Constants.uploadSaves = uploadSaves;
                         UploadClassActivity.super.onBackPressed();
                     }
 
@@ -150,6 +159,7 @@ public class UploadClassActivity extends BaseActivity {
                         Constants.classTitle = "";
                         Constants.classDesc = "";
                         Constants.uploadSaves.clear();
+                        uploadSaves.clear();
                         UploadClassActivity.super.onBackPressed();
                     }
 
@@ -169,6 +179,7 @@ public class UploadClassActivity extends BaseActivity {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("mark",position + 1);
+                Constants.uploadSaves = uploadSaves;
                 IntentUtils.getInstence().intent(UploadClassActivity.this,UploadClassDetailActivity.class,bundle);
             }
         });
@@ -179,6 +190,20 @@ public class UploadClassActivity extends BaseActivity {
             }
         });
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UploadSave uploadSave) {
+        if (uploadSave.getMark() != 0){
+            uploadSaves.remove(uploadSave.getMark() - 1);
+            uploadSaves.add(uploadSave.getMark() - 1,uploadSave);
+        }else {
+            uploadSaves.add(uploadSave);
+        }
+
+        uploadClassAdapter.notifyDataSetChanged();
+
+    }
+
 
     @OnClick(R.id.add_class_upload)
     public void addClassUpload(View view){
@@ -217,5 +242,13 @@ public class UploadClassActivity extends BaseActivity {
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

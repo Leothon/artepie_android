@@ -168,7 +168,13 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             asks.add(ask);
         }
     }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
 
+        }
+    }
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
         askAdapter = new AskAdapter(getMContext(),asks);

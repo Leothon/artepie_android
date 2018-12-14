@@ -43,6 +43,7 @@ public class ClassListFragment extends BaseFragment implements SwipeRefreshLayou
     }
 
 
+
     public static ClassListFragment newInstance(ArrayList<DetailClass> detailClasses) {
         ClassListFragment fragment = new ClassListFragment();
         Bundle bundle = new Bundle();

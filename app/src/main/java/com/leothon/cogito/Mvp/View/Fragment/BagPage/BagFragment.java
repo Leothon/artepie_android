@@ -105,6 +105,14 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+
+        }
+    }
+
     public void initAdapter(){
         swpBag.setOnRefreshListener(this);
         bagAdapter = new BagAdapter(bagBuys,recomments,getMContext());

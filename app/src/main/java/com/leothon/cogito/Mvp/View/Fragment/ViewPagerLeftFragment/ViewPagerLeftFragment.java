@@ -58,6 +58,7 @@ public class ViewPagerLeftFragment extends BaseFragment{
         }
     }
 
+
     @Override
     protected void initView() {
         initAdapter();

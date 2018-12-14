@@ -17,11 +17,11 @@ public class Constants {
     public static int loginStatus = 0;//登录状态，0表示未登录，1表示已登录
 
     //设置是否刷新首页五个fragment，若有相关数据产生，需要刷新显示，则设置为true
-    public static boolean isRefreshtruehomeFragment = false;
-    public static boolean isRefreshtruetypeFragment = false;
-    public static boolean isRefreshtrueaskFragment = false;
-    public static boolean isRefreshtruebagFragment = false;
-    public static boolean isRefreshtrueaboutFragment = false;
+//    public static boolean isRefreshtruehomeFragment = false;
+//    public static boolean isRefreshtruetypeFragment = false;
+//    public static boolean isRefreshtrueaskFragment = false;
+//    public static boolean isRefreshtruebagFragment = false;
+//    public static boolean isRefreshtrueaboutFragment = false;
 
     public static ArrayList<UploadSave> uploadSaves;
     public static String classTitle;

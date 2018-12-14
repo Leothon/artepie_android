@@ -30,6 +30,8 @@ import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -80,6 +82,8 @@ public class HostActivity extends BaseActivity  {
 
     private Animation mShowAction;
     private Animation mHiddenAction;
+
+    private ArrayList<Fragment> fragmentArrayList;
     @Override
     public int initLayout() {
         return R.layout.activity_host;
@@ -89,10 +93,12 @@ public class HostActivity extends BaseActivity  {
     public void initView() {
         initBottomButton();
         StatusBarUtils.transparencyBar(this);
+        fragmentArrayList = new ArrayList<>();
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
         bundle = intent.getExtras();
+        initFragment();
         switch (bundle.getString("type")){
             case "home":
                 focusOnHome();
@@ -121,6 +127,48 @@ public class HostActivity extends BaseActivity  {
         }
     }
 
+    /**
+     * 初始化fragment
+     */
+
+
+    private void initFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        homePage = HomeFragment.newInstance();
+        fragmentArrayList.add(homePage);
+        transaction.add(R.id.container_home,homePage,HOMEPAGE);
+
+        micClassPage = MicClassFragment.newInstance();
+        fragmentArrayList.add(micClassPage);
+        transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+
+        askPage = AskFragment.newInstance();
+        fragmentArrayList.add(askPage);
+        transaction.add(R.id.container_home,askPage,ASKPAGE);
+
+        bagPage = BagFragment.newInstance();
+        fragmentArrayList.add(bagPage);
+        transaction.add(R.id.container_home,bagPage,BAGPAGE);
+
+        aboutPage = AboutFragment.newInstance();
+        fragmentArrayList.add(aboutPage);
+        transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+
+//        if (fragmentList.size() == 0) {
+//            for (int i = 0; i < 3; i++) {
+//                MainItemFragment fragment = new MainItemFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("type", i + 1);
+//                fragment.setArguments(bundle);
+//                fragmentList.add(fragment);
+//                fragmentTransaction.add(R.id.container, fragment, "fragment" + i);
+//                Log.d("debug", ":add :" + i);
+//            }
+//        }
+        transaction.commitAllowingStateLoss();
+
+    }
     /**
      * 初始化底部按钮
      */
@@ -190,67 +238,63 @@ public class HostActivity extends BaseActivity  {
             case HOMEPAGE:
                 focusOnHome();
                 StatusBarUtils.transparencyBar(this);
-                if (homePage == null || Constants.isRefreshtruehomeFragment == true){
-                    Constants.isRefreshtruehomeFragment = false;
-                    homePage = HomeFragment.newInstance();
-                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
-                }else {
-                    transaction.show(homePage);
-                }
+                transaction.show(homePage);
+//                if (homePage == null ){
+//                    homePage = HomeFragment.newInstance();
+//                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
+//                }else {
+//                    transaction.show(homePage);
+//                }
                 break;
             case MICCLASSPAGE:
                 focusOnMic();
-
-                if (micClassPage == null || Constants.isRefreshtruetypeFragment == true){
-                    Constants.isRefreshtruetypeFragment = false;
-                    micClassPage = MicClassFragment.newInstance();
-                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
-                }else {
-                    transaction.show(micClassPage);
-                }
+                transaction.show(micClassPage);
+//                if (micClassPage == null ){
+//                    micClassPage = MicClassFragment.newInstance();
+//                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+//                }else {
+//                    transaction.show(micClassPage);
+//                }
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ASKPAGE:
                 focusOnAsk();
-
-                if (askPage == null || Constants.isRefreshtrueaskFragment == true){
-                    Constants.isRefreshtrueaskFragment = false;
-                    askPage = AskFragment.newInstance();
-                    transaction.add(R.id.container_home,askPage,ASKPAGE);
-                }else {
-                    transaction.show(askPage);
-                }
+                transaction.show(askPage);
+//                if (askPage == null ){
+//                    askPage = AskFragment.newInstance();
+//                    transaction.add(R.id.container_home,askPage,ASKPAGE);
+//                }else {
+//                    transaction.show(askPage);
+//                }
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case BAGPAGE:
                 focusOnBag();
-
-                if (bagPage == null || Constants.isRefreshtruebagFragment == true){
-                    Constants.isRefreshtruebagFragment = false;
-                    bagPage = BagFragment.newInstance();
-                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
-                }else {
-                    transaction.show(bagPage);
-                }
+                transaction.show(bagPage);
+//                if (bagPage == null ){
+//                    bagPage = BagFragment.newInstance();
+//                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
+//                }else {
+//                    transaction.show(bagPage);
+//                }
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ABOUTPAGE:
                 focusOnAbout();
-
-                if (aboutPage == null || Constants.isRefreshtrueaboutFragment == true){
-                    Constants.isRefreshtrueaboutFragment = false;
-                    aboutPage = AboutFragment.newInstance();
-                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
-                }else {
-                    transaction.show(aboutPage);
-                }
+                transaction.show(aboutPage);
+//                if (aboutPage == null ){
+//                    aboutPage = AboutFragment.newInstance();
+//                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+//                }else {
+//                    transaction.show(aboutPage);
+//                }
                 StatusBarUtils.transparencyBar(this);
                 break;
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     /**
