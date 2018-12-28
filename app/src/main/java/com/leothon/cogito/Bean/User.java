@@ -15,15 +15,27 @@ public class User {
     private String u_lastLoginTime;
     private String u_headerImage;
     private String u_nlineTime;//累计登录时间
-    private String replayLoginPassword;
+    private String token;
+    private String verify_code;
 
-    public String getReplayLoginPassword() {
-        return replayLoginPassword;
+    public String getVerify_code() {
+        return verify_code;
     }
 
-    public void setReplayLoginPassword(String replayLoginPassword) {
-        this.replayLoginPassword = replayLoginPassword;
+    public void setVerify_code(String verify_code) {
+        this.verify_code = verify_code;
     }
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
 
     public String getU_id() {
         return u_id;

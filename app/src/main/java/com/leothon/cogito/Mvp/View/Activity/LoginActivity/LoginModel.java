@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
+import android.util.Log;
+
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
@@ -35,10 +37,9 @@ public class LoginModel implements LoginContract.ILoginModel {
     @Override
     public void register(User user, LoginContract.OnLoginFinishedListener Listener) {
         String phonenumber = user.getU_phone();
-        String username = user.getU_name();
-        String password = user.getU_password();
+        String verifyCode = user.getVerify_code();
         sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"RegisterInfo");
-        if (!phonenumber.equals("") && !username.equals("") && !password.equals("") && CommonUtils.isPhoneNumber(phonenumber)){
+        if (!phonenumber.equals("") && !verifyCode.equals("") && CommonUtils.isPhoneNumber(phonenumber)){
 
             //TODO 使用retrofit进行注册
             Listener.onRegisterSuccess();

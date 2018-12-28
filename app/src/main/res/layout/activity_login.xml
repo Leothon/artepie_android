@@ -10,286 +10,267 @@
         android:id="@+id/bar"
         layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/login_page"
-        android:layout_below="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:text="登录"
-            android:textSize="@dimen/largeTitle"
-            android:gravity="center"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/account_login"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="使用手机号/用户名登录"
-            android:hint="使用手机号/用户名登录"
-            app:met_iconLeft="@drawable/baseline_account_circle_black_18"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            android:paddingTop="5dp"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/password_login"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="输入密码"
-            android:hint="输入密码"
-            app:met_iconLeft="@drawable/baseline_lock_black_18"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            android:paddingTop="5dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:padding="15dp">
-            <Button
-                android:id="@+id/register_button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="注册"
-                android:textColor="@color/white"
-                android:background="@color/contentColor"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"/>
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/btnbackground"
-                android:text="登录"
-                android:textColor="@color/white"/>
-
-        </LinearLayout>
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            layout="@layout/dividerview"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/qq_login"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:src="@drawable/qq"
-                app:riv_oval="true"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/wechat_login"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:src="@drawable/wechat"
-                app:riv_oval="true"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/register_page"
-        android:layout_below="@+id/login_page"
+        android:layout_below="@+id/bar"
+        android:id="@+id/login_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/text_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="注册"
-            android:textSize="@dimen/largeTitle"
-            android:gravity="center"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_below="@+id/text_register"
-            android:id="@+id/phone_register"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="输入手机号"
-            android:hint="输入手机号"
-            android:inputType="number"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            app:met_iconLeft="@drawable/baseline_phone_black_18"
-            android:maxLength="11"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_below="@+id/phone_register"
-            android:id="@+id/account_register"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="输入用户名"
-            android:hint="输入用户名"
-            android:focusable="true"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            app:met_iconLeft="@drawable/baseline_account_circle_black_18"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_below="@+id/account_register"
-            android:id="@+id/password_register"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="输入密码"
-            android:hint="输入密码"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            app:met_iconLeft="@drawable/baseline_lock_black_18"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_below="@+id/password_register"
-            android:id="@+id/password_register_re"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="重新输入密码"
-            android:hint="重新输入密码"
-            android:textSize="@dimen/contentSize"
-            app:met_clearButton="true"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            app:met_iconLeft="@drawable/baseline_lock_black_18"/>
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/ver_layout"
-            android:layout_below="@+id/password_register_re"
+            android:id="@+id/login_page"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/register_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="使用密码登录"
+                android:textSize="@dimen/largeTitle"
+                android:gravity="center"
+                android:paddingTop="60dp"
+                android:paddingBottom="60dp"/>
             <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/verify_code"
+                android:id="@+id/account_login"
+                android:layout_below="@+id/register_text"
                 app:met_floatingLabel="normal"
-                app:met_floatingLabelText="验证码"
-                android:hint="验证码"
+                app:met_floatingLabelText="使用手机号/用户名登录"
+                android:hint="使用手机号/用户名登录"
+                app:met_iconLeft="@drawable/baseline_account_circle_black_18"
                 android:textSize="@dimen/contentSize"
                 app:met_clearButton="true"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:met_iconLeft="@drawable/baseline_verified_user_black_18"
-                android:inputType="number"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="5dp" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/password_login"
+                android:layout_below="@id/account_login"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="输入密码"
+                android:hint="输入密码"
+                app:met_iconLeft="@drawable/baseline_lock_black_18"
+                android:textSize="@dimen/contentSize"
+                app:met_clearButton="true"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="5dp"
+                android:layout_marginTop="20dp"/>
+
             <Button
-                android:layout_alignParentEnd="true"
-                android:id="@+id/get_verify_code"
-                android:layout_width="wrap_content"
+                android:layout_below="@+id/password_login"
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/contentColor"
-                android:text="获取验证码"
+                android:background="@drawable/btnbackground"
+                android:text="登录"
                 android:textColor="@color/white"
-                android:layout_margin="5dp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"/>
+
+
         </RelativeLayout>
-        <Button
-            android:layout_below="@+id/ver_layout"
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="注册"
-            android:textColor="@color/white"
-            android:background="@drawable/btnbackground"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp" />
+
         <RelativeLayout
-            android:id="@+id/con_layout"
-            android:layout_below="@+id/register"
+            android:id="@+id/register_page"
+            android:layout_below="@+id/login_page"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:visibility="visible">
             <TextView
-                android:id="@+id/textcon"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_register"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="点击注册，则表示您已阅读并同意"
-                android:textSize="@dimen/littleSize"
-                android:textColor="@color/fontColor"
-                android:layout_centerInParent="true"/>
-            <TextView
-                android:id="@+id/register_contract"
-                android:layout_width="wrap_content"
+                android:paddingTop="60dp"
+                android:paddingBottom="60dp"
+                android:text="登录艺派，发掘艺术之美"
+                android:textSize="@dimen/largeTitle"
+                android:gravity="center"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_below="@+id/text_register"
+                android:id="@+id/phone_register"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="输入手机号"
+                android:hint="输入手机号"
+                android:inputType="number"
+                android:textSize="@dimen/contentSize"
+                app:met_clearButton="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="《用户服务协议》"
-                android:layout_toRightOf="@+id/textcon"
-                android:textSize="@dimen/littleSize"
-                android:textColor="@color/colorAccent"
-                android:layout_centerInParent="true"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp"
+                app:met_iconLeft="@drawable/baseline_phone_black_18"
+                android:maxLength="11"/>
+
+
+            <RelativeLayout
+                android:id="@+id/ver_layout"
+                android:layout_below="@+id/phone_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/verify_code"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="验证码"
+                    android:hint="验证码"
+                    android:textSize="@dimen/contentSize"
+                    app:met_clearButton="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:met_iconLeft="@drawable/baseline_verified_user_black_18"
+                    android:inputType="number"/>
+                <Button
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/get_verify_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btnenableback"
+                    android:text="获取验证码"
+                    android:textColor="@color/white"
+                    android:padding="5dp" />
+            </RelativeLayout>
+            <Button
+                android:layout_below="@+id/ver_layout"
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:textColor="@color/white"
+                android:background="@drawable/btnbackground"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp" />
+            <RelativeLayout
+                android:id="@+id/notice_register"
+                android:layout_below="@id/register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未注册手机号会在验证后登录"
+                    android:textColor="@color/fontColor"
+                    android:layout_alignParentStart="true"/>
+                <TextView
+                    android:id="@+id/use_password_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="使用密码登录"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/con_layout"
+                android:layout_below="@+id/notice_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/textcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点击注册，则表示您已阅读并同意"
+                    android:textSize="@dimen/littleSize"
+                    android:textColor="@color/fontColor"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:id="@+id/register_contract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《用户服务协议》"
+                    android:layout_toRightOf="@+id/textcon"
+                    android:textSize="@dimen/littleSize"
+                    android:textColor="@color/colorAccent"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+
         </RelativeLayout>
-        <include
-            android:id="@+id/divider_re"
-            android:layout_below="@+id/con_layout"
+
+        <RelativeLayout
+            android:id="@+id/add_name_page"
+            android:layout_below="@id/register_page"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            layout="@layout/dividerview" />
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-        <TextView
-            android:layout_below="@id/divider_re"
-            android:padding="5dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/sound_code"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="使用语音验证码"
-            android:textSize="@dimen/littleTitle"
-            android:gravity="center"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/textviewbackground"/>
-
-
+            <com.rengwuxian.materialedittext.MaterialEditText
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请给自己取一个艺名"
+                android:hint="请给自己取一个艺名"
+                android:textSize="@dimen/contentSize"
+                app:met_clearButton="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+        </RelativeLayout>
     </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/wechat_login"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/wechat"
+            app:riv_oval="true"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/qq_login"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/qq"
+            app:riv_oval="true"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/weibo_login"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/weibo"
+            app:riv_oval="true"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>

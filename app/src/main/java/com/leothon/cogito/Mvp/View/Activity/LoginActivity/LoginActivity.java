@@ -2,10 +2,12 @@ package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,68 +29,68 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * created by leothon on 2018.7.24
  */
 
-public class LoginActivity extends BaseActivity implements LoginContract.ILoginView,View.OnClickListener{
+public class LoginActivity extends BaseActivity implements LoginContract.ILoginView{
 
 
-    //登录页面控件绑定
+    //有密码登录页面控件绑定
     @BindView(R.id.login_page)
-    LinearLayout loginPage;
+    RelativeLayout loginPage;
     @BindView(R.id.account_login)
     MaterialEditText accountLogin;
     @BindView(R.id.password_login)
     MaterialEditText passwordLogin;
-    @BindView(R.id.register_button)
-    Button registerButton;
     @BindView(R.id.login_button)
     Button loginButton;
-    @BindView(R.id.divider_title)
-    TextView dividerTitle;
-    @BindView(R.id.qq_login)
-    RoundedImageView qqLogin;
-    @BindView(R.id.wechat_login)
-    RoundedImageView wechatLogin;
 
-    //注册页面的控件绑定
+
+
+    //免密码登录页面的控件绑定
     @BindView(R.id.register_page)
     RelativeLayout registerPage;
     @BindView(R.id.phone_register)
     MaterialEditText phoneRegister;
-    @BindView(R.id.account_register)
-    MaterialEditText accountRegister;
-    @BindView(R.id.password_register)
-    MaterialEditText passwordRegister;
     @BindView(R.id.verify_code)
     MaterialEditText verifyCode;
     @BindView(R.id.get_verify_code)
     Button getVerifyCode;
     @BindView(R.id.register)
     Button register;
-    @BindView(R.id.sound_code)
-    TextView soundCode;
     @BindView(R.id.register_contract)
     TextView registerContract;
-    @BindView(R.id.password_register_re)
-    MaterialEditText passwordRegisterRe;
+
+    @BindView(R.id.use_password_login)
+    TextView usePasswordLogin;
 
     @BindView(R.id.bar)
     CardView bar;
 
+    @BindView(R.id.add_name_page)
+    RelativeLayout addNamePage;
+    @BindView(R.id.qq_login)
+    RoundedImageView qqLogin;
+    @BindView(R.id.wechat_login)
+    RoundedImageView wechatLogin;
+    @BindView(R.id.weibo_login)
+    RoundedImageView weiboLogin;
+
     private LoginPresenter loginPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private static boolean isLoginPage = true;
+    private static boolean isRegisterPage = true;
     private String accountString;
     private String passwordString;
 
     private String rephone;
-    private String reUsername;
-    private String repassword;
-    private String repasswordre;
+    private String reverifyCode;
 
+    public int T = 60;
+
+    private Handler mHandler = new Handler();
     @Override
     public int initLayout() {
         return R.layout.activity_login;
@@ -98,59 +100,59 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void initView() {
         sharedPreferencesUtils = new SharedPreferencesUtils(this,"AccountPassword");
         bar.setVisibility(View.VISIBLE);
+        getVerifyCode.setEnabled(false);
         getToolbar().setNavigationIcon(R.drawable.baseline_clear_black_24);
         setToolbarTitle("");
         setToolbarSubTitle("暂不登录");
-        dividerTitle.setText("使用社交账号登录");
-        getVerifyCode.setOnClickListener(this);
-        loginButton.setOnClickListener(this);
-        registerButton.setOnClickListener(this);
-        soundCode.setOnClickListener(this);
-        qqLogin.setOnClickListener(this);
-        wechatLogin.setOnClickListener(this);
-        register.setOnClickListener(this);
-        registerContract.setOnClickListener(this);
+
         getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (isLoginPage){
-                    //TODO 跳转到未登录主页面
-                    Bundle bundle = new Bundle();
-                    bundle.putString("type","home");
-                    IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class,bundle);
-                    Constants.loginStatus = 0;
-                    finish();
-                }else {
-                   toLoginPage();
-                }
+                Bundle bundle = new Bundle();
+                bundle.putString("type","home");
+                IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class,bundle);
+                Constants.loginStatus = 0;
+                finish();
+
             }
         });
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoginPage){
+                if (isRegisterPage){
                     removeAllActivity();
                 }else {
-                    toLoginPage();
+                    //打开免密码登录
+                    toRegisterPage();
                 }
             }
         });
 
-        passwordRegisterRe.addTextChangedListener(new TextWatcher() {
+
+        phoneRegister.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                if (!editable.toString().equals(passwordRegister.getText().toString()) && !passwordRegister.getText().toString().equals("")){
-                    passwordRegisterRe.setError("两次输入的密码不一致");
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 11){
+                    getVerifyCode.setEnabled(true);
+                    getVerifyCode.setBackground(getResources().getDrawable(R.drawable.btnbackground));
+                }else {
+                    getVerifyCode.setEnabled(false);
+                    getVerifyCode.setBackground(getResources().getDrawable(R.drawable.btnenableback));
                 }
             }
         });
+
 
 
     }
@@ -159,75 +161,82 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         return false;
     }
 
-    public void toLoginPage(){
-        setToolbarTitle("");
-        setToolbarSubTitle("暂不登录");
-        loginPage.setVisibility(View.VISIBLE);
-        registerPage.setVisibility(View.GONE);
-        dividerTitle.setText("使用社交账号登录");
+    /**
+     * 使用免密码登录
+     */
+    public void toRegisterPage(){
+        registerPage.setVisibility(View.VISIBLE);
+        loginPage.setVisibility(View.GONE);
+        addNamePage.setVisibility(View.GONE);
         getToolbar().setNavigationIcon(R.drawable.baseline_clear_black_24);
-        isLoginPage = true;
+        isRegisterPage = true;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.login_button:
-                accountString = accountLogin.getText().toString();
-                passwordString = passwordLogin.getText().toString();
-                User user = new User();
-                user.setU_name(accountString);
-                user.setU_password(passwordString);
-                loginPresenter.validateCrendentials(user);
-                break;
-            case R.id.get_verify_code:
-                if (!phoneRegister.getText().toString().equals("") && CommonUtils.isPhoneNumber(phoneRegister.getText().toString())){
-                    CommonUtils.makeText(LoginActivity.this,"已向" + phoneRegister.getText().toString() + "发送验证码");
-                    //TODO 进行获取验证码操作
-                }else if (phoneRegister.getText().toString().equals("")){
-                    CommonUtils.makeText(LoginActivity.this,"手机号码为空");
-                }else {
-                    CommonUtils.makeText(LoginActivity.this,"手机号码不存在");
-                }
-                break;
-            case R.id.register_button:
-                loginPage.setVisibility(View.GONE);
-                registerPage.setVisibility(View.VISIBLE);
-                dividerTitle.setText("没有收到验证码？");
-                setToolbarSubTitle("登录");
-                getToolbar().setNavigationIcon(R.drawable.baseline_arrow_back_24);
-                isLoginPage = false;
-                break;
-            case R.id.sound_code:
-                CommonUtils.makeText(LoginActivity.this,"暂未开启语音验证码，敬请期待");
-                break;
-            case R.id.qq_login:
-                CommonUtils.makeText(LoginActivity.this,"暂未开放QQ登录");
-                break;
-            case R.id.wechat_login:
-                CommonUtils.makeText(LoginActivity.this,"暂未开放微信登录");
-                break;
-            case R.id.register:
-                rephone = phoneRegister.getText().toString();
-                reUsername = accountRegister.getText().toString();
-                repassword = passwordRegister.getText().toString();
-                repasswordre = passwordRegisterRe.getText().toString();
-                User usere = new User();
-                usere.setU_phone(rephone);
-                usere.setU_name(reUsername);
-                usere.setU_password(repassword);
-                usere.setReplayLoginPassword(repasswordre);
-                loginPresenter.registerInfo(usere);
-                break;
-            case R.id.register_contract:
-                Bundle bundle = new Bundle();
-                bundle.putString("type","register");
-                IntentUtils.getInstence().intent(LoginActivity.this, ContractActivity.class,bundle);
-            default:
-                break;
+
+    @OnClick(R.id.register)
+    public void registerLogin(View view){
+        //TODO 免密码登录
+        rephone = phoneRegister.getText().toString();
+        reverifyCode = verifyCode.getText().toString();
+        User usere = new User();
+        usere.setU_phone(rephone);
+        usere.setVerify_code(reverifyCode);
+        loginPresenter.registerInfo(usere);
+    }
+
+    @OnClick(R.id.get_verify_code)
+    public void getVerifyCode(View view){
+        //TODO 获取验证码
+        if (!phoneRegister.getText().toString().equals("") && CommonUtils.isPhoneNumber(phoneRegister.getText().toString())){
+            CommonUtils.makeText(LoginActivity.this,"已向" + phoneRegister.getText().toString() + "发送验证码");
+            //TODO 进行获取验证码操作
+            new Thread(new MyCountDownTimer()).start();
+
+        }else if (phoneRegister.getText().toString().equals("")){
+            CommonUtils.makeText(LoginActivity.this,"手机号码为空");
+        }else {
+            CommonUtils.makeText(LoginActivity.this,"请输入正确格式的手机号码");
         }
-
     }
+    @OnClick(R.id.use_password_login)
+    public void usePasswordLogin(View view){
+        //TODO 跳转使用密码登录
+        registerPage.setVisibility(View.GONE);
+        loginPage.setVisibility(View.VISIBLE);
+        addNamePage.setVisibility(View.GONE);
+        getToolbar().setNavigationIcon(R.drawable.baseline_arrow_back_24);
+        isRegisterPage = false;
+    }
+    @OnClick(R.id.login_button)
+    public void loginTo(View view){
+        //TODO 密码登录
+        accountString = accountLogin.getText().toString();
+        passwordString = passwordLogin.getText().toString();
+        User user = new User();
+        user.setU_name(accountString);
+        user.setU_password(passwordString);
+        loginPresenter.validateCrendentials(user);
+    }
+    @OnClick(R.id.register_contract)
+    public void registerContract(View view){
+        Bundle bundle = new Bundle();
+        bundle.putString("type","register");
+        IntentUtils.getInstence().intent(LoginActivity.this, ContractActivity.class,bundle);
+    }
+
+    @OnClick(R.id.wechat_login)
+    public void wechatLogin(View view){
+        //TODO 使用微信登录
+    }
+    @OnClick(R.id.qq_login)
+    public void qqLogin(View view){
+        //TODO 使用QQ登录
+    }
+    @OnClick(R.id.weibo_login)
+    public void weiboLogin(View view){
+        //TODO 使用微博登录
+    }
+
 
     @Override
     public void initData() {
@@ -246,7 +255,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         //TODO 登录成功，则跳转
         Constants.loginStatus = 1;
         sharedPreferencesUtils.setParams("account",accountString);
-        sharedPreferencesUtils.setParams("password",passwordString);
+        sharedPreferencesUtils.setParams("token",passwordString);
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
@@ -265,10 +274,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void showRegisterSuccess() {
+        //TODO 注册成功直接登录
         CommonUtils.makeText(this,"注册成功");
-        toLoginPage();
-        accountLogin.setText(reUsername);
-        passwordLogin.setText(repassword);
+
     }
 
     @Override
@@ -317,5 +325,52 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         removeAllActivity();
 
 
+    }
+
+
+    /**
+     * 自定义倒计时类，实现Runnable接口
+     */
+    class MyCountDownTimer implements Runnable {
+
+        @Override
+        public void run() {
+
+            //倒计时开始，循环
+            while (T > 0) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getVerifyCode.setClickable(false);
+                        getVerifyCode.setText(T + "秒后重新获取");
+                        getVerifyCode.setBackground(getResources().getDrawable(R.drawable.btnenableback));
+                    }
+                });
+                try {
+                    Thread.sleep(1000); //强制线程休眠1秒，就是设置倒计时的间隔时间为1秒。
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                T--;
+            }
+
+            //倒计时结束，也就是循环结束
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (phoneRegister.getEditableText().toString().length() == 11){
+                        getVerifyCode.setClickable(true);
+                        getVerifyCode.setText("获取验证码");
+                        getVerifyCode.setBackground(getResources().getDrawable(R.drawable.btnbackground));
+                    }else {
+                        getVerifyCode.setClickable(false);
+                        getVerifyCode.setText("获取验证码");
+                        getVerifyCode.setBackground(getResources().getDrawable(R.drawable.btnenableback));
+                    }
+
+                }
+            });
+            T = 60; //最后再恢复倒计时时长
+        }
     }
 }

@@ -40,41 +40,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-
-                RetrofitServiceManager.getInstance().create(HttpService.class)
-                        .verify("App.Table.Get","verifycode","7","12727A1A4685624694E01443D5332A4A")
-                        .compose(ThreadTransformer.switchSchedulers())
-                        .subscribe(new BaseObserver() {
-
-
-                            @Override
-                            public void doOnSubscribe(Disposable d) {
-
-                            }
-
-                            @Override
-                            public void doOnCompleted() {
-
-                            }
-
-                            @Override
-                            public void doOnError(String msg) {
-
-                            }
-
-                            @Override
-                            public void doOnNext(BaseResponse baseResponse) {
-                                Gson gson = new Gson();
-                                String str = gson.toJson(baseResponse,BaseResponse.class);
-                                JsonObject jsonObject = (JsonObject) new JsonParser().parse(str);
-                                JsonObject verifyCode = jsonObject.get("data").getAsJsonObject();
-                                JsonObject dataCode = verifyCode.get("data").getAsJsonObject();
-                                String codedd = dataCode.get("verify").getAsString();
-
-                                if (codedd.equals("0")){
-                                    if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("password")){
+                                    if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("token")){
                                         String username = sharedPreferencesUtils.getParams("account","").toString();
-                                        String password = sharedPreferencesUtils.getParams("password","").toString();
+                                        String password = sharedPreferencesUtils.getParams("token","").toString();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("type","home");
                                         IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
@@ -109,18 +77,16 @@ public class SplashActivity extends AppCompatActivity {
                                         IntentUtils.getInstence().intent(SplashActivity.this,LoginActivity.class,bundle);
                                         finish();
                                     }
-                                }else {
-                                    finish();
+//                                }else {
+//                                    finish();
                                 }
 
-                                }
-
-                        });
 
 
 
 
-            }
+
+
         },3000);
     }
 }
