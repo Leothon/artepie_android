@@ -115,8 +115,8 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public void initimg() {
         bigPics = new ArrayList<>();
-        bigPics.add("http://www.ddkjplus.com/image/banner1.jpg");
         bigPics.add("http://www.ddkjplus.com/image/banner2.jpg");
+        bigPics.add("http://www.ddkjplus.com/image/banner1.jpg");
         bigPics.add("http://www.ddkjplus.com/image/banner3.jpg");
         bigPics.add("http://www.ddkjplus.com/image/banner4.jpg");
     }
