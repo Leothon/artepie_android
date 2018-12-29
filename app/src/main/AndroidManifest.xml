@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
     <application
         android:name=".Base.BaseApplication"
         android:allowBackup="true"

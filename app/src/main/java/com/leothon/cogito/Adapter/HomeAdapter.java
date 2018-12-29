@@ -48,18 +48,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
      * 以下数据均为假数据，在实际开发中，要把上面的alldatas进行解析
      */
     private String[] foryouVideo = {
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fmusic.jzxy.edu.cn%2Fimages%2F16%2F04%2F22%2F1cnf70gawx%2F56pz_image001.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2534055294%2C3045001537%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjxb.hbwgydx.com%2Fupfiles%2F20150330163612337.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D3027847697%2C1579758526%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fjly.xhcom.edu.cn%2Fdigidata%2F2014-4-30%2F7813363711.JPG&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D501126548%2C560633887%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ffamehall.com%2Fnelsontao%2Fphoto%2F2009%2F20090307-nelson070.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D1758210423%2C366943980%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fcms-bucket.nosdn.127.net%2F91c1fadee3094ab0b26e6ac82567484f20170714144127.jpeg%3FimageView%26thumbnail%3D550x0&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1050740983%2C2262122875%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.chaohaojian.com%2Fupload%2Ffck%2FZ_20110928-161917_CG77.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2489780484%2C4129421496%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.01ny.cn%2Fforum%2F201302%2F16%2F075211fqmmzmwyprpdww8w.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D1896258671%2C2756036358%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.ph.126.net%2FXOK1RyvGcvTxUVGanI3BAA%3D%3D%2F6598157183656073074.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D1055812407%2C2049095469%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fchina-ljsw.com%2Fupdate%2F3%2Fbb5f8d46b790e71e34.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D494318182%2C3784477290%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2Fnews%2F2016%2F11%2F20161112173915.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D986374677%2C2301535002%26fm%3D11%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.guitarchina.com%2Fimg2016%2F0727yy%2F24.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D624817842%2C1391406194%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140714%2F20140714095040-38685612.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D4270141334%2C1319034638%26fm%3D27%26gp%3D0.jpg"};
+            "http://www.ddkjplus.com/image/home1.jpg",
+            "http://www.ddkjplus.com/image/home2.jpg",
+            "http://www.ddkjplus.com/image/home3.jpg",
+            "http://www.ddkjplus.com/image/home4.jpg",
+            "http://www.ddkjplus.com/image/home5.jpg",
+            "http://www.ddkjplus.com/image/home6.jpg",
+            "http://www.ddkjplus.com/image/home7.jpeg",
+            "http://www.ddkjplus.com/image/home8.jpg",
+            "http://www.ddkjplus.com/image/home9.jpeg",
+            "http://www.ddkjplus.com/image/home10.jpg",
+            "http://www.ddkjplus.com/image/home11.jpg",
+            "http://www.ddkjplus.com/image/home12.jpg"};
     private String[] foryouvideotitle = {
             "男中音的通病",
             "歌手杨杰现场示范",
@@ -90,13 +90,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fp0.qhimgs4.com%2Ft014537d45b7b3e5bbb.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2854303102%2C4251008079%26fm%3D11%26gp%3D0.jpg",
             "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20180621%2F01c23db09b024dfebbc0d7f3c9319203.jpeg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4169152315%2C3808895887%26fm%3D11%26gp%3D0.jpg"};
 
-//    private String[] videoName = {"《天堂》","蒋大为的歌曲","声音的共鸣","美声如何发音","课程集锦"};
-//    private String[] videoImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.52fuqing.com%2Fupload%2Fnews%2F20180224%2F201802241130485019.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D4206511761%2C1971567880%26fm%3D27%26gp%3D0.jpg",
-//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fvpic.video.qq.com%2F3388556%2Fu0326kofujb_ori_3.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D33290701%2C4103959810%26fm%3D27%26gp%3D0.jpg",
-//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.sycm.com.cn%2Ffile%2Ffile_images%2Fmiddle%2F20150629083343181875.JPG&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1298413096%2C1752857152%26fm%3D27%26gp%3D0.jpg",
-//            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.nnjsx.cn%2Fuploads%2Fueditor%2Fimg%2F20160822%2F1471855304880262.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1826940172%2C343088080%26fm%3D27%26gp%3D0.jpg",
-//            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2FPhoto%2F2012%2F4%2F201204261058132115.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3691238471%2C1121997744%26fm%3D11%26gp%3D0.jpg"};
-//
+    private String[] videoName = {"《天堂》","蒋大为的歌曲","声音的共鸣","美声如何发音","课程集锦"};
+    private String[] videoImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.52fuqing.com%2Fupload%2Fnews%2F20180224%2F201802241130485019.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D4206511761%2C1971567880%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fvpic.video.qq.com%2F3388556%2Fu0326kofujb_ori_3.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D33290701%2C4103959810%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.sycm.com.cn%2Ffile%2Ffile_images%2Fmiddle%2F20150629083343181875.JPG&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1298413096%2C1752857152%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.nnjsx.cn%2Fuploads%2Fueditor%2Fimg%2F20160822%2F1471855304880262.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1826940172%2C343088080%26fm%3D27%26gp%3D0.jpg",
+            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2FPhoto%2F2012%2F4%2F201204261058132115.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3691238471%2C1121997744%26fm%3D11%26gp%3D0.jpg"};
+
     private Context context;
 
     public HomeAdapter(List<String> allDatas,Context context){
@@ -441,7 +441,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     }
                 }
             });
-            ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
+
+               ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
         }else {
             return;
         }

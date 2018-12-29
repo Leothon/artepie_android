@@ -115,10 +115,10 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public void initimg() {
         bigPics = new ArrayList<>();
-        bigPics.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1532967231913%26di%3Ddef0e3547c23dbd4dd406811c641fafe%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fpic121.nipic.com%252Ffile%252F20170118%252F10342397_093406227032_2.jpg&thumburl=https%3A%2F%2Fss0.bdstatic.com%2F70cFuHSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D4205889207%2C2194506569%26fm%3D27%26gp%3D0.jpg");
-        bigPics.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1532967303684%26di%3D8a98afce5b12453b593879534a81de6d%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fpic41.nipic.com%252F20140507%252F9677900_165306362000_2.jpg&thumburl=https%3A%2F%2Fss3.bdstatic.com%2F70cFv8Sh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1073813594%2C3371302847%26fm%3D27%26gp%3D0.jpg");
-        bigPics.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1532967484448%26di%3D0cbb193cd37ad343a9abdaa39268a9c9%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fpic-cdn.35pic.com%252F58pic%252F17%252F89%252F67%252F18Y58PICjuc_1024.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D3852226960%2C2590804301%26fm%3D27%26gp%3D0.jpg");
-        bigPics.add("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1532967536186%26di%3Db73a9a8882b1d1e89c151f1ebada2ccb%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fpic34.photophoto.cn%252F20150106%252F0017029512610299_b.jpg&thumburl=https%3A%2F%2Fss2.bdstatic.com%2F70cFvnSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D2161420977%2C194448215%26fm%3D27%26gp%3D0.jpg");
+        bigPics.add("http://www.ddkjplus.com/image/banner1.jpg");
+        bigPics.add("http://www.ddkjplus.com/image/banner2.jpg");
+        bigPics.add("http://www.ddkjplus.com/image/banner3.jpg");
+        bigPics.add("http://www.ddkjplus.com/image/banner4.jpg");
     }
 
 

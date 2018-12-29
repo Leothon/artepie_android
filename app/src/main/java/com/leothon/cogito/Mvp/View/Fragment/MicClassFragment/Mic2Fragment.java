@@ -29,16 +29,17 @@ public class Mic2Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private static int THRESHOLD_OFFSET = 10;
     private ArrayList<MicClass> micClasses;
 
-    private String[] micImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic81.huitu.com%2Fres%2F20160606%2F1023278_20160606191557276200_1.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1113631057%2C4023783067%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Finfoimage.duoduoyin.com%2Fuploads%2Fnews%2F20160301%2F20160301055852567dcb22e0.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D3675121430%2C3678586633%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fp0.meituan.net%2Fmogu%2F51888d4e941f44955d5172a32ece61e5114231.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D3740252261%2C3000643199%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F00%2F96%2F06%2F4156f2f5c4727fa.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2293172972%2C2213945100%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic2.ooopic.com%2F11%2F48%2F04%2F06b1OOOPIC82.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D44522839%2C3991756975%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic2.cxtuku.com%2F00%2F03%2F16%2Fb4673e271bc6.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D3220011842%2C703251432%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fdocs.ebdoor.com%2FImage%2FInfoContentImage%2FProductDesc%2F2017%2F05%2F06%2Fda%2Fdae052d8-b3b2-4ab4-940b-a6529361dbbd.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2281886034%2C407577424%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic41.nipic.com%2F20140505%2F18249376_125346747000_2.jpg&thumburl=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D17369009%2C1276609573%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fi1.hdslb.com%2Fbfs%2Farchive%2F7a5ada7194ae2a3802ebf8de59d5fde0eb21050a.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3089493290%2C1109433263%26fm%3D26%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ftaobao.90sheji.com%2F58pic%2F15%2F25%2F04%2F93Y58PICEqT.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D402844967%2C507784682%26fm%3D26%26gp%3D0.jpg"};
+    private String[] micImg =
+            {"http://www.ddkjplus.com/image/art11.jpg",
+            "http://www.ddkjplus.com/image/art12.jpg",
+            "http://www.ddkjplus.com/image/art13.jpg",
+            "http://www.ddkjplus.com/image/art14.jpg",
+            "http://www.ddkjplus.com/image/art15.jpg",
+            "http://www.ddkjplus.com/image/art16.jpg",
+            "http://www.ddkjplus.com/image/art17.jpg",
+            "http://www.ddkjplus.com/image/art18.jpg",
+            "http://www.ddkjplus.com/image/art19.jpg",
+            "http://www.ddkjplus.com/image/art20.jpg"};
     private String[] micTitle = {"如何确定自己发声位置？",
             "十分钟学会唱高音",
             "你的歌唱状态对了吗？",

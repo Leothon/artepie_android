@@ -33,8 +33,11 @@ import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,6 +65,8 @@ public class CommonUtils {
         GTE_HC = Build.VERSION.SDK_INT >= 11;
         PRE_HC = Build.VERSION.SDK_INT < 11;
     }
+
+
 
     private CommonUtils() {
         throw new IllegalStateException("you can't instantiate me!");
