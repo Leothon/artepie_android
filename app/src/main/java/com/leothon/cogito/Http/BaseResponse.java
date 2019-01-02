@@ -7,26 +7,18 @@ import java.io.Serializable;
 * */
 public class BaseResponse<T> implements Serializable {
     private T data;
-    private String code;
-    private String msg;
+    private boolean success;
+    private String error;
 
     public T getData() {
         return data;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
+    public String getError() {
+        return error;
     }
 
     public boolean isSuccess(){
-        if (code.equals("200")){
-            return true;
-        }else {
-            return false;
-        }
+       return success;
     }
 }

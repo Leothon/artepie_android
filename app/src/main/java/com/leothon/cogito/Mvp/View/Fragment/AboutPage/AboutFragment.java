@@ -103,7 +103,7 @@ public class AboutFragment extends BaseFragment {
         Log.e("登录状态", " "+Constants.loginStatus);
         if (Constants.loginStatus == 0){
             userName.setText("未登录");
-            userIcon.setImageResource(R.drawable.defalutimg);
+            userIcon.setImageResource(R.drawable.defaulticon);
             signature.setText("");
         }else {
             userName.setText("叶落知秋");

@@ -31,6 +31,13 @@ import android.widget.Toast;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.Payload;
+import com.nimbusds.jose.crypto.MACVerifier;
+
+import net.minidev.json.JSONObject;
 
 import java.io.File;
 import java.io.InputStream;
@@ -39,10 +46,13 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 * created by leothon on 2017.7.23
@@ -90,6 +100,8 @@ public class CommonUtils {
         // 设置hint
         v.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
     }
+
+
 
 
     public  static String stringto(String rebate){

@@ -25,6 +25,7 @@ import com.leothon.cogito.Constants;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FitUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     TextView mToolbarTitle;
     @BindView(R.id.toolbar_subtitle)
     TextView mToolbarSubTitle;
+    private SharedPreferencesUtils activitysharedPreferencesUtils;
 
 
     private static long startTime = 0;
@@ -78,6 +80,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
             baseApplication = (BaseApplication)getApplication();
         }
         context = this;
+        activitysharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         addActivity();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

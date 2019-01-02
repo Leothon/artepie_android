@@ -39,30 +39,41 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     }
 
     @Override
+    public void registerORloginSuccess(String info) {
+        if (iLoginView != null){
+            iLoginView.registerORloginSuccess(info);
+        }
+    }
+
+    @Override
     public void onSomeEmpty() {
         if (iLoginView != null){
             iLoginView.setSomeEmpty();
         }
     }
 
-    @Override
-    public void onRegisterSuccess() {
-        if (iLoginView != null){
-            iLoginView.showRegisterSuccess();
-        }
-    }
 
-    @Override
-    public void onRegisterFail() {
-        if (iLoginView != null){
-            iLoginView.showRegisterFail();
-        }
-    }
+
+
 
     @Override
     public void onPhoneIllegal() {
         if (iLoginView != null){
             iLoginView.showphoneIllegal();
+        }
+    }
+
+    @Override
+    public void showFailInfo(String err) {
+        if (iLoginView != null){
+            iLoginView.showFailInfo(err);
+        }
+    }
+
+    @Override
+    public void verifysuccess(String code) {
+        if (iLoginView != null){
+            iLoginView.addverifycode(code);
         }
     }
 
@@ -82,9 +93,15 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         iLoginModel.register(user,this);
     }
 
+
     @Override
     public void onDestory() {
         iLoginView = null;
+    }
+
+    @Override
+    public void verifyphone(String phoneNumber) {
+        iLoginModel.verifyPhonenumber(phoneNumber,this);
     }
 
 }

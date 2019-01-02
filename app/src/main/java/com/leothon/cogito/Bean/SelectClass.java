@@ -6,6 +6,7 @@ import java.util.ArrayList;
  */
 public class SelectClass  {
 
+    private String selectId;
     private String selectbackimg;
     private String selectlisttitle;
     private String selectstucount;
@@ -16,6 +17,16 @@ public class SelectClass  {
     private String selectprice;
 
     private ArrayList<VideoClass> videoClasses;
+
+
+    public String getSelectId() {
+        return selectId;
+    }
+
+    public void setSelectId(String selectId) {
+        this.selectId = selectId;
+    }
+
 
     public String getSelectprice() {
         return selectprice;

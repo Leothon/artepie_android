@@ -1,16 +1,15 @@
 package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +26,8 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,6 +80,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @BindView(R.id.weibo_login)
     RoundedImageView weiboLogin;
 
+
+
+
     private LoginPresenter loginPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private static boolean isRegisterPage = true;
@@ -91,6 +95,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public int T = 60;
 
     private Handler mHandler = new Handler();
+
+    ZLoadingDialog dialog = new ZLoadingDialog(LoginActivity.this);
+
     @Override
     public int initLayout() {
         return R.layout.activity_login;
@@ -98,7 +105,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void initView() {
-        sharedPreferencesUtils = new SharedPreferencesUtils(this,"AccountPassword");
+        sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         bar.setVisibility(View.VISIBLE);
         getVerifyCode.setEnabled(false);
         getToolbar().setNavigationIcon(R.drawable.baseline_clear_black_24);
@@ -179,8 +186,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         rephone = phoneRegister.getText().toString();
         reverifyCode = verifyCode.getText().toString();
         User usere = new User();
-        usere.setU_phone(rephone);
-        usere.setVerify_code(reverifyCode);
+        usere.setUser_phone(rephone);
+        usere.setVerifyCode(reverifyCode);
+        loading();
         loginPresenter.registerInfo(usere);
     }
 
@@ -191,6 +199,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             CommonUtils.makeText(LoginActivity.this,"已向" + phoneRegister.getText().toString() + "发送验证码");
             //TODO 进行获取验证码操作
             new Thread(new MyCountDownTimer()).start();
+            loginPresenter.verifyphone(phoneRegister.getText().toString());
+
 
         }else if (phoneRegister.getText().toString().equals("")){
             CommonUtils.makeText(LoginActivity.this,"手机号码为空");
@@ -200,7 +210,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
     @OnClick(R.id.use_password_login)
     public void usePasswordLogin(View view){
-        //TODO 跳转使用密码登录
         registerPage.setVisibility(View.GONE);
         loginPage.setVisibility(View.VISIBLE);
         addNamePage.setVisibility(View.GONE);
@@ -213,8 +222,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         accountString = accountLogin.getText().toString();
         passwordString = passwordLogin.getText().toString();
         User user = new User();
-        user.setU_name(accountString);
-        user.setU_password(passwordString);
+        user.setUser_name(accountString);
+        user.setUser_password(passwordString);
         loginPresenter.validateCrendentials(user);
     }
     @OnClick(R.id.register_contract)
@@ -253,13 +262,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void showSuccess() {
 
         //TODO 登录成功，则跳转
-        Constants.loginStatus = 1;
-        sharedPreferencesUtils.setParams("account",accountString);
-        sharedPreferencesUtils.setParams("token",passwordString);
-        Bundle bundle = new Bundle();
-        bundle.putString("type","home");
-        IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
-        finish();
+        LoginSuccess();
     }
 
     @Override
@@ -272,12 +275,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         CommonUtils.makeText(LoginActivity.this,"请填写完整信息");
     }
 
-    @Override
-    public void showRegisterSuccess() {
-        //TODO 注册成功直接登录
-        CommonUtils.makeText(this,"注册成功");
 
-    }
 
     @Override
     public void showRegisterFail() {
@@ -290,6 +288,34 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
+    public void addverifycode(String code) {
+        verifyCode.setText(code);
+
+
+    }
+
+    @Override
+    public void showFailInfo(String err) {
+        CommonUtils.makeText(LoginActivity.this,err);
+    }
+
+    @Override
+    public void registerORloginSuccess(String info) {
+        hide();
+        CommonUtils.makeText(LoginActivity.this,info);
+        //TODO 执行注册后的动作
+        LoginSuccess();
+    }
+
+    private void LoginSuccess(){
+        Bundle bundle = new Bundle();
+        bundle.putString("type","home");
+        IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
+        Constants.loginStatus = 1;//表示登录成功
+        finish();
+    }
+
+    @Override
     public BaseModel initModel() {
         return null;
     }
@@ -299,6 +325,21 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         return null;
     }
 
+
+    private void loading(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#CC111111")) // 设置背景色，默认白色
+                .show();
+    }
+
+    private void hide(){
+        dialog.cancel();
+    }
     @Override
     public void showLoading() {
 
@@ -323,6 +364,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @Override
     public void onBackPressed() {
         removeAllActivity();
+
 
 
     }

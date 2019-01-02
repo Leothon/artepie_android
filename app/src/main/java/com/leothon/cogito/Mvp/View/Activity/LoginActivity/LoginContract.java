@@ -23,6 +23,16 @@ public class LoginContract {
          */
         void register(User user,OnLoginFinishedListener Listener);
 
+
+        /**
+         *
+         * 验证手机号码
+         * @param phoneNumber
+         * @param listener
+         */
+
+        void verifyPhonenumber(String phoneNumber,OnLoginFinishedListener listener);
+
     }
 
     public interface ILoginView{
@@ -36,9 +46,14 @@ public class LoginContract {
         void showFail();
 
         void setSomeEmpty();
-        void showRegisterSuccess();
         void showRegisterFail();
         void showphoneIllegal();
+
+        void addverifycode(String code);
+
+        void showFailInfo(String err);
+
+        void registerORloginSuccess(String info);
     }
 
     public interface OnLoginFinishedListener {
@@ -47,15 +62,18 @@ public class LoginContract {
         void onSuccess();
         void onFail();
 
+        void registerORloginSuccess(String info);
         void onSomeEmpty();
-        void onRegisterSuccess();
-        void onRegisterFail();
+
         void onPhoneIllegal();
+        void showFailInfo(String err);
+        void verifysuccess(String code);
     }
 
     public interface ILoginPresenter{
         void validateCrendentials(User user);
         void registerInfo(User user);
         void onDestory();
+        void verifyphone(String phoneNumber);
     }
 }

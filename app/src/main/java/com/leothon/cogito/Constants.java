@@ -47,4 +47,6 @@ public class Constants {
     public static boolean isMobilenet = false;
 
     public static String rechargeCount = "0";
+
+
 }

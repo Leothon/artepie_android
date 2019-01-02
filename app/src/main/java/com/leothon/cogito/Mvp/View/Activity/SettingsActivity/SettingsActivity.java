@@ -101,7 +101,7 @@ public class SettingsActivity extends BaseActivity {
     @OnClick(R.id.log_out_settings)
     public void logout(View view){
         Constants.loginStatus = 0;
-        SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"AccountPassword");
+        SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
         finish();

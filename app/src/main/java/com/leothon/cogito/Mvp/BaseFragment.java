@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leothon.cogito.Mvp.BaseContract;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,12 +25,14 @@ public abstract class BaseFragment<P extends BaseContract.BaseIPresenter> extend
     private View mContentView;
     private Context mContext;
     private Unbinder unbinder;
+    public SharedPreferencesUtils fragmentsharedPreferencesUtils;
     @Nullable
     @Override
     public View onCreateView(@android.support.annotation.NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(setLayoutResourceID(),container,false);
         unbinder = ButterKnife.bind(this,mContentView);
         mContext = getContext();
+        fragmentsharedPreferencesUtils = new SharedPreferencesUtils(getMContext(),"saveToken");
         init();
         initData();
         initView();

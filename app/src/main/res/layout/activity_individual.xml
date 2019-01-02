@@ -49,7 +49,7 @@
                             android:id="@+id/individual_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="望江亭"
+                            android:text="昵称"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="@dimen/appBarSize"
@@ -58,7 +58,7 @@
                             android:id="@+id/age_individual"
                             android:layout_toRightOf="@+id/individual_name"
                             android:layout_above="@+id/individual_signal"
-                            android:text="34岁"
+                            android:text="未知"
                             android:textColor="@color/fontColor"
                             android:textSize="@dimen/tipsSize"
                             android:layout_width="wrap_content"
@@ -70,14 +70,14 @@
                             android:layout_above="@id/individual_signal"
                             android:layout_width="18dp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/male"
+                            android:src="@drawable/defaultsex"
                             android:layout_marginLeft="8dp"/>
                         <TextView
                             android:layout_below="@+id/individual_name"
                             android:id="@+id/individual_signal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="镜中望江亭，水上映明月"
+                            android:text="填写你的签名，让更多人了解你"
                             android:textSize="@dimen/tipsSize"
                             android:padding="8dp"/>
                         <TextView
@@ -96,7 +96,7 @@
                         android:id="@+id/individual_icon"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
-                        android:src="@drawable/defalutimg"
+                        android:src="@drawable/defaulticon"
                         android:scaleType="centerCrop"
                         app:riv_oval="true"
                         app:riv_border_color="@color/white"

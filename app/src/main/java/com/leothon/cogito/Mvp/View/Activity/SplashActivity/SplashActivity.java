@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.verifyCode;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Http.BaseObserver;
@@ -19,8 +20,10 @@ import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 
 import io.reactivex.disposables.Disposable;
 
@@ -31,62 +34,37 @@ import io.reactivex.disposables.Disposable;
  */
 public class SplashActivity extends AppCompatActivity {
 
+    TokenValid tokenValid = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"AccountPassword");
+        final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
+
+        tokenValid = new TokenValid();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (sharedPreferencesUtils.contain("token")){
+                    String token = sharedPreferencesUtils.getParams("token","").toString();
+                    tokenValid = tokenUtils.ValidToken(token);
+                    if (tokenValid.isExpired()){
+                        //TODO token过期，需要重新登录
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("type","home");
+                        IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
+                        Constants.loginStatus = 1;//表示登录成功
+                        finish();
+                    }
 
-                                    if (sharedPreferencesUtils.contain("account") && sharedPreferencesUtils.contain("token")){
-                                        String username = sharedPreferencesUtils.getParams("account","").toString();
-                                        String password = sharedPreferencesUtils.getParams("token","").toString();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("type","home");
-                                        IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
-                                        Constants.loginStatus = 1;//表示登录成功
-                                        finish();
-                                        //使用账号密码进行登录操作
-//                    RetrofitServiceManager.getInstance().create(HttpService.class)
-//                            .login(username,password)
-//                            .compose(ThreadTransformer.switchSchedulers())
-//                            .subscribe(new BaseObserver() {
-//                                @Override
-//                                public void doOnSubscribe(Disposable d) { }
-//                                @Override
-//                                public void doOnError(String errorMsg) { }
-//                                @Override
-//                                public void doOnNext(BaseResponse baseResponse) {
-//
-//                                }
-//                                @Override
-//                                public void doOnCompleted() {
-//                                    IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class);
-//                                    Constants.loginStatus = 1;//表示登录成功
-//                                    finish();
-//                                }
-//                                @Override
-//                                public void onNext(Object o) { }
-//                            });
-
-                                    }else {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("mark","normal");
-                                        IntentUtils.getInstence().intent(SplashActivity.this,LoginActivity.class,bundle);
-                                        finish();
-                                    }
-//                                }else {
-//                                    finish();
-                                }
-
-
-
-
-
-
-
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mark", "normal");
+                    IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
+                    finish();
+                }
+            }
         },3000);
     }
 }

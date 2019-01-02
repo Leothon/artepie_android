@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.ClassItem;
+import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Mvp.View.Activity.ActivityActivity.ActivityActivity;
 import com.leothon.cogito.Mvp.View.Activity.ActivityListActivity.ActivityListActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
@@ -41,65 +42,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     //首页布局总数
 
     //需要在首页加载的一整条数据
-    private List<String> allDatas;
+    private HomeData allDatas;
 
-    //TODO 以下数据均为假数据，在实际开发中，要把上面的alldatas进行解析
-    /**
-     * 以下数据均为假数据，在实际开发中，要把上面的alldatas进行解析
-     */
-    private String[] foryouVideo = {
-            "http://www.ddkjplus.com/image/home1.jpg",
-            "http://www.ddkjplus.com/image/home2.jpg",
-            "http://www.ddkjplus.com/image/home3.jpg",
-            "http://www.ddkjplus.com/image/home4.jpg",
-            "http://www.ddkjplus.com/image/home5.jpg",
-            "http://www.ddkjplus.com/image/home6.jpg",
-            "http://www.ddkjplus.com/image/home7.jpeg",
-            "http://www.ddkjplus.com/image/home8.jpg",
-            "http://www.ddkjplus.com/image/home9.jpeg",
-            "http://www.ddkjplus.com/image/home10.jpg",
-            "http://www.ddkjplus.com/image/home11.jpg",
-            "http://www.ddkjplus.com/image/home12.jpg"};
-    private String[] foryouvideotitle = {
-            "男中音的通病",
-            "歌手杨杰现场示范",
-            "男高音专场",
-            "包楞调对唱",
-            "海归歌唱家刘明",
-            "民族情歌对唱",
-            "亲爱的爸爸",
-            "王强教授现场教学",
-            "民族歌手刘硕示范",
-            "歌唱气息的支点",
-            "歌曲表达的意境",
-            "气息的控制"};
-    private String[] activitiesName = {"国际音乐节","草莓音乐节","“爱之声” 音乐会","国家大剧院专场","美声专场"};
-    private String[] activitiesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fphotocdn.sohu.com%2F20130502%2FImg374568060.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D25528335%2C2202724169%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fcdn.k618img.cn%2Fnews.k618.cn%2Fsociety%2F201801%2FW020180109617684454232.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3279624311%2C3206833128%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimage.juooo.com%2Fupload%2Fueditor%2Fimage%2F20150915%2F1442311240572722.png&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2188087079%2C1470367263%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike116%252C5%252C5%252C116%252C38%2Fsign%3Decbd88aa622762d09433acedc185639f%2Fbf096b63f6246b60496285fdeaf81a4c500fa2ce.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D787689764%2C3280717493%26fm%3D27%26gp%3D0.jpg"};
+
 
     private String[] testesName = {"民族","美声","古典","戏曲","原生态","民谣","通俗","其他"};
-//    private int[] testesImg = {R.drawable.meisheng,R.drawable.minzu,R.drawable.tongsu,R.drawable.yuanshengtai,R.drawable.minyao,R.drawable.shuochang,R.drawable.jueshi};
-
-    private String[] classesName = {"爱上钢琴","葫芦丝王子","男低音歌唱家","国粹传承人","作品欣赏课"};
-    private String[] classesImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fhimg2.huanqiu.com%2Fattachment2010%2F2015%2F1030%2F11%2F43%2F20151030114302175.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3483213455%2C1103428764%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Ff.01ny.cn%2Fforum%2F201112%2F04%2F190722f3vkvdfv3khz30mt.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D524358622%2C2173211898%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fy0.ifengimg.com%2Fcmpp%2F2014%2F12%2F15%2F13%2F262b861a-31eb-44fc-b30d-d611d2d469fb.JPG&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D1989887561%2C4126741818%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fp0.qhimgs4.com%2Ft014537d45b7b3e5bbb.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2854303102%2C4251008079%26fm%3D11%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20180621%2F01c23db09b024dfebbc0d7f3c9319203.jpeg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4169152315%2C3808895887%26fm%3D11%26gp%3D0.jpg"};
-
-    private String[] videoName = {"《天堂》","蒋大为的歌曲","声音的共鸣","美声如何发音","课程集锦"};
-    private String[] videoImg = {"http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.52fuqing.com%2Fupload%2Fnews%2F20180224%2F201802241130485019.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D4206511761%2C1971567880%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fvpic.video.qq.com%2F3388556%2Fu0326kofujb_ori_3.jpg&thumburl=http%3A%2F%2Fimg5.imgtn.bdimg.com%2Fit%2Fu%3D33290701%2C4103959810%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.sycm.com.cn%2Ffile%2Ffile_images%2Fmiddle%2F20150629083343181875.JPG&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1298413096%2C1752857152%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fwww.nnjsx.cn%2Fuploads%2Fueditor%2Fimg%2F20160822%2F1471855304880262.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1826940172%2C343088080%26fm%3D27%26gp%3D0.jpg",
-            "http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fwww.fhgy.cn%2FUploadFiles%2FPhoto%2F2012%2F4%2F201204261058132115.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3691238471%2C1121997744%26fm%3D11%26gp%3D0.jpg"};
 
     private Context context;
 
-    public HomeAdapter(List<String> allDatas,Context context){
+    public HomeAdapter(HomeData allDatas, Context context){
         this.allDatas = allDatas;
         this.context = context;
     }
@@ -409,31 +360,29 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             //TODO 增加更多的数据显示
             final foryouHolder foryouholder = (foryouHolder) holder;
             final int videoPosition = position - 4;
-            foryouholder.foryouIV.setImageResource(R.drawable.defalutimg);
             //foryouholder.foryouIV.setTag(videoPosition);
-            foryouholder.foryouTV.setText(foryouvideotitle[videoPosition]);
+            foryouholder.foryouTV.setText(allDatas.getSelectClasses().get(videoPosition).getSelectlisttitle());
+            ImageLoader.loadImageViewThumbnailwitherror(context,allDatas.getSelectClasses().get(videoPosition).getSelectbackimg(),foryouholder.foryouIV,R.drawable.defalutimg);
+            foryouholder.foryouAuthor.setText(allDatas.getSelectClasses().get(videoPosition).getSelectauthor());
+            foryouholder.foryouCount.setText(allDatas.getSelectClasses().get(videoPosition).getSelectstucount() + "人次已学习");
+            String price = allDatas.getSelectClasses().get(videoPosition).getSelectprice();
+            if (price.equals("0")){
+                foryouholder.foryouPrice.setText("免费");
+            }else {
+                foryouholder.foryouPrice.setText("￥" + price);
+            }
             foryouholder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = videoPosition;
-                    //以下的context来自于home Fragment调用构造方法时传入，fragment中context来自于basefragment
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("imgUrls",foryouVideo[videoPosition]);
-//                    bundle.putString("imgTitle",foryouvideotitle[videoPosition]);
-//                    bundle.putInt("count",1);
-//                    IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-
                     if (foryouholder.foryouPrice.getText().toString().equals("免费")){
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",foryouVideo[videoPosition]);
-                        bundle.putString("title",foryouholder.foryouTV.getText().toString());
-                        bundle.putString("author",foryouholder.foryouAuthor.getText().toString());
-                        bundle.putString("price","0");
+                        bundle.putString("classId",allDatas.getSelectClasses().get(pos).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
                         //TODO 跳转支付页面
                         ClassItem classItem = new ClassItem();
-                        classItem.setClassurl(foryouVideo[videoPosition]);
+                        classItem.setClassurl("");
                         classItem.setClasstitle(foryouholder.foryouTV.getText().toString());
                         classItem.setAuthorname(foryouholder.foryouAuthor.getText().toString());
                         classItem.setClassprice(foryouholder.foryouPrice.getText().toString());
@@ -442,7 +391,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 }
             });
 
-               ImageLoader.loadImageViewThumbnailwitherror(context,foryouVideo[videoPosition],foryouholder.foryouIV,R.drawable.defalutimg);
+
         }else {
             return;
         }
@@ -515,7 +464,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //            return HEAD4;
         }else if (position == 3 && headView5 != null){
             return HEAD5;
-        }else if (position <= (foryouVideo.length + 3) && position != 0){
+        }else if (position <= (allDatas.getSelectClasses().size() + 3) && position != 0){
             return HEAD6;
         }else {
             return HEAD7;
@@ -525,7 +474,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemCount() {
-        return 5 + foryouvideotitle.length;
+        return 5 + allDatas.getSelectClasses().size();
     }
 
     public void addHeadView0(View view){
@@ -724,6 +673,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView foryouPrice;
         @BindView(R.id.foryou_author)
         TextView foryouAuthor;
+        @BindView(R.id.foryou_count)
+        TextView foryouCount;
         public foryouHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

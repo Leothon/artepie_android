@@ -10,6 +10,7 @@
         android:id="@+id/bar"
         layout="@layout/toolbar" />
 
+
     <RelativeLayout
         android:layout_below="@+id/bar"
         android:id="@+id/login_content"

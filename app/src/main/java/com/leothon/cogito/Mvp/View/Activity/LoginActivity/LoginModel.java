@@ -2,9 +2,18 @@ package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 import android.util.Log;
 
+import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on 2018.8.5
@@ -12,11 +21,12 @@ import com.leothon.cogito.Utils.SharedPreferencesUtils;
  */
 public class LoginModel implements LoginContract.ILoginModel {
 
+
     SharedPreferencesUtils sharedPreferencesUtils;
     @Override
     public void login(User user, LoginContract.OnLoginFinishedListener Listener) {
-        String username = user.getU_name();
-        String password = user.getU_password();
+        String username = user.getUser_name();
+        String password = user.getUser_password();
         //登录操作
 
         sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"AccountPassword");
@@ -35,19 +45,82 @@ public class LoginModel implements LoginContract.ILoginModel {
     }
 
     @Override
-    public void register(User user, LoginContract.OnLoginFinishedListener Listener) {
-        String phonenumber = user.getU_phone();
-        String verifyCode = user.getVerify_code();
-        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"RegisterInfo");
+    public void register(User user, final LoginContract.OnLoginFinishedListener Listener) {
+        String phonenumber = user.getUser_phone();
+        String verifyCode = user.getVerifyCode();
+        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
         if (!phonenumber.equals("") && !verifyCode.equals("") && CommonUtils.isPhoneNumber(phonenumber)){
 
             //TODO 使用retrofit进行注册
-            Listener.onRegisterSuccess();
+            RetrofitServiceManager.getInstance().create(HttpService.class)
+                    .usePhoneLogin(phonenumber,verifyCode)
+                    .compose(ThreadTransformer.switchSchedulers())
+                    .subscribe(new BaseObserver() {
+                        @Override
+                        public void doOnSubscribe(Disposable d) { }
+                        @Override
+                        public void doOnError(String errorMsg) {
+                            Listener.showFailInfo(errorMsg);
+                        }
+                        @Override
+                        public void doOnNext(BaseResponse baseResponse) {
+
+                        }
+                        @Override
+                        public void doOnCompleted() {
+                            Log.e("返回", "完成");
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse baseResponse) {
+                            if (baseResponse.isSuccess()){
+                                TokenInfo tokenInfo = (TokenInfo)baseResponse.getData();
+                                String token = tokenInfo.getToken();
+                                //TODO 保存Token
+                                sharedPreferencesUtils.setParams("token",token);
+                                Listener.registerORloginSuccess(tokenInfo.getInfo());
+                            }else {
+                                //显示错误信息
+                                Listener.showFailInfo(baseResponse.getError());
+                            }
+
+                        }
+                    });
 
         }else if (!CommonUtils.isPhoneNumber(phonenumber)){
             Listener.onPhoneIllegal();
         }else {
             Listener.onSomeEmpty();
         }
+    }
+
+    @Override
+    public void verifyPhonenumber(String phoneNumber, final LoginContract.OnLoginFinishedListener listener) {
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .verifyphone(phoneNumber)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        verify verify = (verify)baseResponse.getData();
+                        listener.verifysuccess(verify.getCode());
+                    }
+        });
     }
 }

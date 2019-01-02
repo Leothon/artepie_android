@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.HomeAdapter;
 import com.leothon.cogito.Adapter.TeacherAdapter;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.Teacher;
+import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
 import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
@@ -46,7 +48,7 @@ import static com.leothon.cogito.Constants.teacherNameList;
  * created by leothon on 2018.7.29
  * 首页的fragment
  */
-public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeAdapter.OnItemClickListener,View.OnClickListener {
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeAdapter.OnItemClickListener,View.OnClickListener,HomeFragmentContract.IHomeView{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -77,6 +79,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private LinearLayoutManager linearLayoutManager;
 
+    private HomePresenter homePresenter;
+
+
     public HomeFragment() {
     }
 
@@ -102,6 +107,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    protected void initData() {
+        homePresenter = new HomePresenter(this);
+        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+    }
+    @Override
     protected void initView() {
         mHandler = new Handler();
         ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
@@ -109,18 +119,36 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         positionBar.setLayoutParams(layoutParams);
         positionBar.setVisibility(View.INVISIBLE);
         searchTop.setBackgroundColor(getResources().getColor(R.color.alpha));
-        initimg();
-        initAdapter();
+
     }
 
-    public void initimg() {
+    public void initBanner(ArrayList<com.leothon.cogito.Bean.Banner> banners) {
         bigPics = new ArrayList<>();
-        bigPics.add("http://www.ddkjplus.com/image/banner2.jpg");
-        bigPics.add("http://www.ddkjplus.com/image/banner1.jpg");
-        bigPics.add("http://www.ddkjplus.com/image/banner3.jpg");
-        bigPics.add("http://www.ddkjplus.com/image/banner4.jpg");
+        for (int i = 0 ; i < banners.size() ; i++){
+            bigPics.add(banners.get(i).getBanner_img());
+        }
     }
 
+    @Override
+    public void loadData(HomeData homeData) {
+        if (swp.isRefreshing()){
+            swp.setRefreshing(false);
+        }
+        ArrayList<com.leothon.cogito.Bean.Banner> banners = new ArrayList<>();
+        banners = homeData.getBanners();
+        initBanner(banners);
+        initAdapter(homeData);
+    }
+
+    @Override
+    public void loadMoreData(ArrayList<SelectClass> selectClassS) {
+
+    }
+
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(getMContext(),msg);
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -129,11 +157,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         }
     }
-    public void initAdapter() {
+    public void initAdapter(HomeData homeData) {
         swp.setOnRefreshListener(this);
         swp.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         swp.setProgressViewOffset (false,100,300);
-        homeAdapter = new HomeAdapter(allDatas, getMContext());
+        homeAdapter = new HomeAdapter(homeData, getMContext());
         homeAdapter.setmOnItemClickLitener(this);
         initBanner(homeAdapter);
         initTea(homeAdapter);
@@ -283,24 +311,10 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        //下拉刷新数据，使用MVP模式加载
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swp.setRefreshing(false);
-            }
-        }, 1500);
-
-//        loadView();
-//        swp.setRefreshing(false);
-
-
+        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
     }
 
-    @Override
-    protected void initData() {
 
-    }
 
     /**
      * 跳转到搜索页面
