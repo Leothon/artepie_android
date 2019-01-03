@@ -1,6 +1,9 @@
 package com.leothon.cogito.Bean;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+
 /**
  * created by leothon on 2018.8.7
  */
@@ -99,5 +102,10 @@ public class SelectClass  {
     }
 
 
+    @NonNull
+    @Override
+    public String toString() {
+        return selectId + selectbackimg + selectlisttitle + selectprice + selectstucount + selectauthor;
+    }
 }
 

@@ -8,6 +8,7 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -17,10 +18,10 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
 
 
     @Override
-    public void getHomeData(String token, final HomeFragmentContract.OnHomeFinishedListener listener) {
+    public void getHomeData(final HomeFragmentContract.OnHomeFinishedListener listener) {
         //获取首页内容
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getHomeData(token)
+                .getHomeData()
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -47,11 +48,11 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
     }
 
     @Override
-    public void getMoreData(String token, final HomeFragmentContract.OnHomeFinishedListener listener) {
+    public void getMoreData(final HomeFragmentContract.OnHomeFinishedListener listener) {
         //获取更多内容
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreData(token)
+                .getMoreData()
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override

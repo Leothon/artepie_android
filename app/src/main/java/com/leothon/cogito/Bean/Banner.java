@@ -1,5 +1,7 @@
 package com.leothon.cogito.Bean;
 
+import androidx.annotation.NonNull;
+
 public class Banner {
     private String banner_id;
     private String banner_img;
@@ -36,5 +38,11 @@ public class Banner {
 
     public void setBanner_type(String banner_type) {
         this.banner_type = banner_type;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id" + banner_id + "img" + banner_img + "url" + banner_url + "type" + banner_type;
     }
 }

@@ -6,11 +6,13 @@ import com.leothon.cogito.Bean.Teacher;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 public class HomeData {
 
     public ArrayList<Banner> banners;
     public ArrayList<Teacher> teachers;
-    public ArrayList<SelectClass> selectClasses;
+    public ArrayList<SelectClass> teaClasses;
 
     public ArrayList<Banner> getBanners() {
         return banners;
@@ -21,11 +23,11 @@ public class HomeData {
     }
 
     public ArrayList<SelectClass> getSelectClasses() {
-        return selectClasses;
+        return teaClasses;
     }
 
-    public void setSelectClasses(ArrayList<SelectClass> selectClasses) {
-        this.selectClasses = selectClasses;
+    public void setSelectClasses(ArrayList<SelectClass> teaClasses) {
+        this.teaClasses = teaClasses;
     }
 
     public ArrayList<Teacher> getTeachers() {
@@ -36,4 +38,9 @@ public class HomeData {
         this.teachers = teachers;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "banner" + banners + "selectclass" + teaClasses;
+    }
 }

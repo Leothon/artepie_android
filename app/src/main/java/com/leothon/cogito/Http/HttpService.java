@@ -30,9 +30,9 @@ public interface HttpService {
     Observable<BaseResponse<TokenInfo>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
 
     @GET("gethomedata")
-    Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
+    Observable<BaseResponse<HomeData>> getHomeData();
 
     @GET("getmoredata")
-    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData(@Query("token") String token);
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData();
 
 }

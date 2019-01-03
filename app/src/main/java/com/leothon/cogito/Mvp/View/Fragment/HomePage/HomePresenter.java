@@ -47,17 +47,17 @@ public class HomePresenter implements HomeFragmentContract.IHomePresenter,HomeFr
 
 
     @Override
-    public void loadHomeData(String token) {
-        iHomeModel.getHomeData(token,this);
+    public void loadHomeData() {
+        iHomeModel.getHomeData(this);
     }
 
     @Override
-    public void swipeHomeData(String token) {
-        iHomeModel.getHomeData(token,this);
+    public void swipeHomeData() {
+        iHomeModel.getHomeData(this);
     }
 
     @Override
-    public void loadMoreClassData(String token) {
-        iHomeModel.getMoreData(token,this);
+    public void loadMoreClassData() {
+        iHomeModel.getMoreData(this);
     }
 }

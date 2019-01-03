@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import com.leothon.cogito.Adapter.TeacherAdapter;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.DTO.HomeData;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
@@ -31,6 +34,8 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.Banner;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 
 import java.util.ArrayList;
@@ -80,6 +85,10 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private LinearLayoutManager linearLayoutManager;
 
     private HomePresenter homePresenter;
+    private HomeData homeData;
+    private ArrayList<SelectClass> selectClasses;
+
+    HostActivity hostActivity = (HostActivity)getActivity();
 
 
     public HomeFragment() {
@@ -108,8 +117,13 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     protected void initData() {
+        swp.setProgressViewOffset (false,100,300);
+        swp.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+        homeData = new HomeData();
+        selectClasses = new ArrayList<>();
         homePresenter = new HomePresenter(this);
-        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        homePresenter.loadHomeData();
+        swp.setRefreshing(true);
     }
     @Override
     protected void initView() {
@@ -134,15 +148,22 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         if (swp.isRefreshing()){
             swp.setRefreshing(false);
         }
-        ArrayList<com.leothon.cogito.Bean.Banner> banners = new ArrayList<>();
-        banners = homeData.getBanners();
+        this.homeData = homeData;
+
+        selectClasses = homeData.getSelectClasses();
+        ArrayList<com.leothon.cogito.Bean.Banner> banners = homeData.getBanners();
         initBanner(banners);
-        initAdapter(homeData);
+        swp.setRefreshing(false);
+        initAdapter();
+
     }
 
     @Override
     public void loadMoreData(ArrayList<SelectClass> selectClassS) {
-
+        for (int i = 0;i < selectClassS.size(); i++){
+            selectClasses.add(selectClassS.get(i));
+            homeAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -157,11 +178,10 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         }
     }
-    public void initAdapter(HomeData homeData) {
+    public void initAdapter() {
         swp.setOnRefreshListener(this);
-        swp.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
-        swp.setProgressViewOffset (false,100,300);
-        homeAdapter = new HomeAdapter(homeData, getMContext());
+
+        homeAdapter = new HomeAdapter(homeData, selectClasses,getMContext());
         homeAdapter.setmOnItemClickLitener(this);
         initBanner(homeAdapter);
         initTea(homeAdapter);
@@ -197,6 +217,12 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         StatusBarUtils.transparencyBar(getActivity());
                     }
                 }
+            }
+        });
+        rvHome.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                homePresenter.loadMoreClassData();
             }
         });
     }
@@ -311,7 +337,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        homePresenter.loadHomeData();
     }
 
 

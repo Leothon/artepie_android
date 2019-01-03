@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,8 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 
 import java.util.ArrayList;
@@ -130,6 +133,7 @@ public class HostActivity extends BaseActivity  {
     /**
      * 初始化fragment
      */
+
 
 
     private void initFragment(){

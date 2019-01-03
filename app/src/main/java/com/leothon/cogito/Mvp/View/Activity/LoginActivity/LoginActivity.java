@@ -94,9 +94,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     public int T = 60;
 
+    ZLoadingDialog dialog = new ZLoadingDialog(LoginActivity.this);
     private Handler mHandler = new Handler();
 
-    ZLoadingDialog dialog = new ZLoadingDialog(LoginActivity.this);
+
 
     @Override
     public int initLayout() {
@@ -188,7 +189,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         User usere = new User();
         usere.setUser_phone(rephone);
         usere.setVerifyCode(reverifyCode);
-        loading();
+        showLoadingAnim();
         loginPresenter.registerInfo(usere);
     }
 
@@ -301,7 +302,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void registerORloginSuccess(String info) {
-        hide();
+        hideLoadingAnim();
         CommonUtils.makeText(LoginActivity.this,info);
         //TODO 执行注册后的动作
         LoginSuccess();
@@ -326,20 +327,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
 
-    private void loading(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#CC111111")) // 设置背景色，默认白色
-                .show();
-    }
 
-    private void hide(){
-        dialog.cancel();
-    }
     @Override
     public void showLoading() {
 
@@ -414,5 +402,21 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             });
             T = 60; //最后再恢复倒计时时长
         }
+    }
+
+
+    private void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
+
+    private void hideLoadingAnim(){
+        dialog.cancel();
     }
 }

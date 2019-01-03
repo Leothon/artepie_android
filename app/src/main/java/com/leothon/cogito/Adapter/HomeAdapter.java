@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.ClassItem;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Mvp.View.Activity.ActivityActivity.ActivityActivity;
 import com.leothon.cogito.Mvp.View.Activity.ActivityListActivity.ActivityListActivity;
@@ -28,6 +30,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,9 +53,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private Context context;
 
-    public HomeAdapter(HomeData allDatas, Context context){
+    private ArrayList<SelectClass> selectClasses;
+
+    public HomeAdapter(HomeData allDatas, ArrayList<SelectClass> selectClasses,Context context){
         this.allDatas = allDatas;
         this.context = context;
+        this.selectClasses = selectClasses;
     }
     private int HEAD0 = 0;
     private int HEAD1 = 1;
@@ -361,11 +367,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             final foryouHolder foryouholder = (foryouHolder) holder;
             final int videoPosition = position - 4;
             //foryouholder.foryouIV.setTag(videoPosition);
-            foryouholder.foryouTV.setText(allDatas.getSelectClasses().get(videoPosition).getSelectlisttitle());
-            ImageLoader.loadImageViewThumbnailwitherror(context,allDatas.getSelectClasses().get(videoPosition).getSelectbackimg(),foryouholder.foryouIV,R.drawable.defalutimg);
-            foryouholder.foryouAuthor.setText(allDatas.getSelectClasses().get(videoPosition).getSelectauthor());
-            foryouholder.foryouCount.setText(allDatas.getSelectClasses().get(videoPosition).getSelectstucount() + "人次已学习");
-            String price = allDatas.getSelectClasses().get(videoPosition).getSelectprice();
+
+            foryouholder.foryouTV.setText(selectClasses.get(videoPosition).getSelectlisttitle());
+            ImageLoader.loadImageViewThumbnailwitherror(context,selectClasses.get(videoPosition).getSelectbackimg(),foryouholder.foryouIV,R.drawable.defalutimg);
+            foryouholder.foryouAuthor.setText(selectClasses.get(videoPosition).getSelectauthor());
+            foryouholder.foryouCount.setText(selectClasses.get(videoPosition).getSelectstucount() + "人次已学习");
+            String price = selectClasses.get(videoPosition).getSelectprice();
             if (price.equals("0")){
                 foryouholder.foryouPrice.setText("免费");
             }else {
@@ -377,7 +384,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     int pos = videoPosition;
                     if (foryouholder.foryouPrice.getText().toString().equals("免费")){
                         Bundle bundle = new Bundle();
-                        bundle.putString("classId",allDatas.getSelectClasses().get(pos).getSelectId());
+                        bundle.putString("classId",selectClasses.get(pos).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
                         //TODO 跳转支付页面
@@ -464,7 +471,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //            return HEAD4;
         }else if (position == 3 && headView5 != null){
             return HEAD5;
-        }else if (position <= (allDatas.getSelectClasses().size() + 3) && position != 0){
+        }else if (position <= (selectClasses.size() + 3) && position != 0){
             return HEAD6;
         }else {
             return HEAD7;
@@ -474,7 +481,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemCount() {
-        return 5 + allDatas.getSelectClasses().size();
+
+        return 5 + selectClasses.size();
     }
 
     public void addHeadView0(View view){
@@ -699,4 +707,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
+
+
 }

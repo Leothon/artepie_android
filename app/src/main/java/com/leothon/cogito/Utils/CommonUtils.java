@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,6 +22,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -36,6 +38,8 @@ import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACVerifier;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import net.minidev.json.JSONObject;
 
@@ -743,5 +747,21 @@ public class CommonUtils {
 
         return dateString;
     }
+
+    public static void longLog(String tag, String msg) {  //信息太长,分段打印
+        //因为String的length是字符数量不是字节数量所以为了防止中文字符过多，
+        //  把4*1024的MAX字节打印长度改为2001字符数
+        int max_str_length = 2001 - tag.length();
+        //大于4000时
+        while (msg.length() > max_str_length) {
+            Log.i(tag, msg.substring(0, max_str_length));
+            msg = msg.substring(max_str_length);
+        }
+        //剩余部分
+        Log.i(tag, msg);
+    }
+
+
+
 
 }

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class HomeFragmentContract {
     public interface IHomeModel{
        //TODO 执行相关数据操作
-        void getHomeData(String token,OnHomeFinishedListener listener);
+        void getHomeData(OnHomeFinishedListener listener);
 
-        void getMoreData(String token,OnHomeFinishedListener listener);
+        void getMoreData(OnHomeFinishedListener listener);
     }
 
     public interface IHomeView{
@@ -33,8 +33,8 @@ public class HomeFragmentContract {
 
     public interface IHomePresenter{
         void onDestory();
-        void loadHomeData(String token);
-        void swipeHomeData(String token);
-        void loadMoreClassData(String token);
+        void loadHomeData();
+        void swipeHomeData();
+        void loadMoreClassData();
     }
 }
