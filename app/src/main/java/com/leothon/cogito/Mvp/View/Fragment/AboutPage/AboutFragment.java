@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
@@ -35,6 +36,10 @@ import com.leothon.cogito.View.ArcImageView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -42,7 +47,7 @@ import butterknife.OnClick;
  * created by leothon on 2018.7.29
  * 我的页面fragment
  */
-public class AboutFragment extends BaseFragment {
+public class AboutFragment extends BaseFragment implements AboutFragmentContract.IAboutView {
 
 
     @BindView(R.id.position_bar_about)
@@ -70,6 +75,7 @@ public class AboutFragment extends BaseFragment {
 
     private boolean isCheck = false;
 
+    private AboutPresenter aboutPresenter;
     public AboutFragment() {}
 
 
@@ -92,6 +98,23 @@ public class AboutFragment extends BaseFragment {
     }
 
     @Override
+    protected void initData() {
+
+        aboutPresenter = new AboutPresenter(this);
+        aboutPresenter.loadUserAll(fragmentsharedPreferencesUtils.getParams("token","").toString());
+
+    }
+
+
+
+    @Override
+    public void getUserInfo(User user) {
+        userName.setText(user.getUser_name());
+        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),user.getUser_icon(),userIcon,R.drawable.defaulticon);
+        signature.setText(user.getUser_signal());
+        Constants.user = user;
+    }
+    @Override
     protected void initView() {
         ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
         layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
@@ -106,10 +129,11 @@ public class AboutFragment extends BaseFragment {
             userIcon.setImageResource(R.drawable.defaulticon);
             signature.setText("");
         }else {
-            userName.setText("叶落知秋");
-            ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.iconurl,userIcon,R.drawable.defalutimg);
-            signature.setText("如鱼饮水，冷暖自知");
+            userName.setText("");
+            ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.iconurl,userIcon,R.drawable.defaulticon);
+            signature.setText("");
         }
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -120,6 +144,11 @@ public class AboutFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(User user){
+        userName.setText(user.getUser_name());
+        signature.setText(user.getUser_signal());
+    }
     @OnClick(R.id.check_in)
     public void checkIn(View view){
         //TODO 签到
@@ -222,10 +251,7 @@ public class AboutFragment extends BaseFragment {
         IntentUtils.getInstence().intent(getMContext(), AboutusActivity.class);
         //TODO 关于
     }
-    @Override
-    protected void initData() {
 
-    }
 
 
     private void toPersonPage(){
@@ -297,4 +323,18 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public void showLoading() {}
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(getMContext(),msg);
+    }
 }

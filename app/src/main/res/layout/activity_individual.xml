@@ -53,7 +53,8 @@
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="@dimen/appBarSize"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:maxLength="8"/>
                         <TextView
                             android:id="@+id/age_individual"
                             android:layout_toRightOf="@+id/individual_name"

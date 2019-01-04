@@ -186,11 +186,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         //TODO 免密码登录
         rephone = phoneRegister.getText().toString();
         reverifyCode = verifyCode.getText().toString();
-        User usere = new User();
-        usere.setUser_phone(rephone);
-        usere.setVerifyCode(reverifyCode);
-        showLoadingAnim();
-        loginPresenter.registerInfo(usere);
+        if (!rephone.equals("") && !reverifyCode.equals("")){
+            User usere = new User();
+            usere.setUser_phone(rephone);
+            usere.setVerifyCode(reverifyCode);
+            showLoadingAnim();
+            loginPresenter.registerInfo(usere);
+        }else if (!rephone.equals("")){
+            CommonUtils.makeText(this,"手机号码为空");
+        }else {
+            CommonUtils.makeText(this,"请填写完整信息");
+        }
+
     }
 
     @OnClick(R.id.get_verify_code)

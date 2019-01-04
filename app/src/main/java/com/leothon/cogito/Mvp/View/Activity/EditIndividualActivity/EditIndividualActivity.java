@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -23,6 +24,7 @@ import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
@@ -32,13 +34,15 @@ import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EditIndividualActivity extends BaseActivity {
+public class EditIndividualActivity extends BaseActivity implements EditInfoContract.IEditInfoView {
 
 
     @BindView(R.id.edit_user_icon)
@@ -54,8 +58,13 @@ public class EditIndividualActivity extends BaseActivity {
     @BindView(R.id.edit_user_number)
     TextView userNumber;
 
+    @BindView(R.id.edit_user_address)
+    TextView userAddress;
+    @BindView(R.id.edit_user_password)
+    TextView userPassword;
 
-    private String path;
+
+    private String path = "";
 
     private int mYear;
     private int mMonth;
@@ -64,80 +73,156 @@ public class EditIndividualActivity extends BaseActivity {
     private static final int NAME = 0;
     private static final int PHONE = 1;
     private static final int SIGNATRUE = 2;
+    private static final int ADDRESS = 3;
 
-    private String phone = "";
-    private String signatrue = "";
+    private String phone = "绑定手机号";
+    private String signatrue = "输入签名，展示自己";
+    private String address = "填写地址，发现同城好友";
     private String[] sexArray = new String[]{"暂不填写","女","男"};
     private boolean isEdit = false;
 
+    private EditInfoPresenter editInfoPresenter;
     @Override
     public int initLayout() {
         return R.layout.activity_edit_individual;
     }
 
     @Override
+    public void initData() {
+        editInfoPresenter = new EditInfoPresenter(this);
+    }
+    @Override
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("编辑个人信息");
-        userName.setText("叶落知秋");
-        userSex.setText("男");
-        userBirth.setText("1998-8-8");
-        phone = "13500713926";
-        signatrue = "如鱼饮水，冷暖自知";
+        userName.setText(Constants.user.getUser_name());
+        if (Constants.user.getUser_sex() == 1){
+            userSex.setText("男");
+        }else if (Constants.user.getUser_sex() == 0){
+            userSex.setText("女");
+        }
+
+        if (Constants.user.getUser_birth() != null){
+            userBirth.setText(Constants.user.getUser_birth());
+        }
+        if (Constants.user.getUser_phone() != null){
+            phone = Constants.user.getUser_phone();
+        }
+        if (Constants.user.getUser_signal() != null){
+            signatrue = Constants.user.getUser_signal();
+        }
+
         userNumber.setText(phone);
         userSignal.setText(signatrue);
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.iconurl,userIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.user.getUser_icon(),userIcon,R.drawable.defalutimg);
         Calendar nowdate = Calendar.getInstance();
         mYear = nowdate.get(Calendar.YEAR);
         mMonth = nowdate.get(Calendar.MONTH);
         mDay = nowdate.get(Calendar.DAY_OF_MONTH);
     }
 
+    @Override
+    public void getIconUrl(String url) {
+
+        uploadAll(url);
+
+    }
+
+
+    private void uploadAll(String url){
+
+        int sex;
+        if (userSex.getText().toString().equals("男")){
+            sex = 1;
+        }else if (userSex.getText().toString().equals("女")){
+            sex = 2;
+        }else {
+            sex = 0;
+        }
+        editInfoPresenter.updateUserInfo(url,userName.getText().toString(),sex,userBirth.getText().toString(),userNumber.getText().toString(),userSignal.getText().toString(),userAddress.getText().toString());
+
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
+    @Override
+    public void updateSuccess() {
+        CommonUtils.makeText(this,"资料修改成功");
+
+        super.onBackPressed();
+    }
+
     @OnClick(R.id.edit_icon)
     public void editIcon(View view){
-        //TODO 编辑用户头像
 
         options();
     }
     @OnClick(R.id.edit_name)
     public void editName(View view){
-        //TODO 编辑用户名字
         onTextEditDialog(NAME);
     }
     @OnClick(R.id.edit_sex)
     public void editSex(View view){
-        //TODO 编辑用户性别
         showSexChooseDialog();
     }
     @OnClick(R.id.edit_birth)
     public void editBirth(View view){
-        //TODO 编辑用户生日
         new DatePickerDialog(EditIndividualActivity.this, onDateSetListener,mYear,mMonth,mDay).show();
     }
     @OnClick(R.id.edit_phone)
     public void editPhone(View view){
-        //TODO 编辑用户电话
         onTextEditDialog(PHONE);
     }
     @OnClick(R.id.edit_signal)
     public void editSignal(View view){
-        //TODO 修改签名
         onTextEditDialog(SIGNATRUE);
+    }
+
+    @OnClick(R.id.edit_address)
+    public void editAddress(View view){
+        onTextEditDialog(ADDRESS);
+    }
+
+    @OnClick(R.id.edit_password)
+    public void editPassword(View view){
     }
 
     @OnClick(R.id.edit_person_info)
     public void sendEdit(View view){
-        //TODO 发送信息修改
         sendEdit();
     }
 
     public void sendEdit(){
         if (isEdit){
-            //TODO 网络请求发送信息 eventbus实现
-            Log.e(TAG, "sendEdit: 修改了");
+
+            //TODO 增加进度条
+
+            if (path != null && !path.equals("")){
+                editInfoPresenter.updateUserIcon(path);
+            }else {
+                uploadAll("");
+            }
+
+            User user = new User();
+            user.setUser_name(userName.getText().toString());
+            if (userSex.getText().toString().equals("男")){
+                user.setUser_sex(1);
+            }else if (userSex.getText().toString().equals("女")){
+                user.setUser_sex(2);
+            }else {
+                user.setUser_sex(0);
+            }
+            user.setUser_birth(userBirth.getText().toString());
+            user.setUser_phone(userNumber.getText().toString());
+            user.setUser_signal(userSignal.getText().toString());
+            user.setUser_address(userAddress.getText().toString());
+            EventBus.getDefault().post(user);
         }
 
-        super.onBackPressed();
+//        super.onBackPressed();
 
     }
 
@@ -234,7 +319,7 @@ public class EditIndividualActivity extends BaseActivity {
         switch (type){
             case NAME:
                 userInput.setFloatingLabelText("修改姓名");
-                userInput.setText("陈独秀");
+                userInput.setText(Constants.user.getUser_name());
                 userInput.setHint("修改姓名");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -259,7 +344,7 @@ public class EditIndividualActivity extends BaseActivity {
                 break;
             case PHONE:
                 userInput.setFloatingLabelText("修改绑定号码");
-                userInput.setText("13500713926");
+                userInput.setText(Constants.user.getUser_phone() + "");
                 userInput.setHint("修改绑定号码");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -285,7 +370,7 @@ public class EditIndividualActivity extends BaseActivity {
                 break;
             case SIGNATRUE:
                 userInput.setFloatingLabelText("修改签名");
-                userInput.setText("我来自于神之殿堂");
+                userInput.setText(Constants.user.getUser_signal() + "");
                 userInput.setHint("修改签名");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -309,6 +394,31 @@ public class EditIndividualActivity extends BaseActivity {
                                     }
                                 });
                 break;
+            case ADDRESS:
+                userInput.setFloatingLabelText("修改地址");
+                userInput.setText(Constants.user.getUser_address() + "");
+                userInput.setHint("修改地址");
+                // 设置Dialog按钮
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("确认修改",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // 获取edittext的内容,显示到textview
+                                        if (!userInput.getText().toString().equals("")){
+                                            address = userInput.getText().toString();
+                                            userAddress.setText(address);
+                                            isEdit = true;
+                                        }
+
+                                    }
+                                })
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
             default:
                 break;
 
@@ -322,10 +432,7 @@ public class EditIndividualActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    @Override
-    public void initData() {
 
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -380,6 +487,9 @@ public class EditIndividualActivity extends BaseActivity {
              * 如，根据path获取剪辑后的图片
              */
             Bitmap bitmap = PhotoUtils.convertToBitmap(path,PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
+
+            File imgfile = new File(path);
+            Log.e(TAG, "地址是什么" + path);
             if(bitmap != null){
 
                 userIcon.setImageBitmap(bitmap);
@@ -433,4 +543,6 @@ public class EditIndividualActivity extends BaseActivity {
     public void showMessage(@NonNull String message) {
 
     }
+
+
 }

@@ -61,7 +61,7 @@ public class WalletActivity extends BaseActivity {
         dividerTitle.setText("充值");
         initAdapter();
 
-        accountBalance.setText("￥563");
+        accountBalance.setText("￥" + Constants.user.getUser_balance());
         artCoin.setText("526");
         Constants.rechargeCount = "0";
         artCoinDetail.setOnClickListener(new View.OnClickListener() {

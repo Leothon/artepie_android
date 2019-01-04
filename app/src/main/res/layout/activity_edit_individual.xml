@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/musicdefalut"
-            android:text="男"
+            android:text="选择性别"
             android:gravity="center"
             android:textSize="@dimen/tipsSize"
             android:layout_toLeftOf="@+id/into2"
@@ -173,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/musicdefalut"
-            android:text="13500713926"
+            android:text="输入绑定手机号"
             android:gravity="center"
             android:textSize="@dimen/tipsSize"
             android:layout_toLeftOf="@+id/into4"
@@ -211,7 +211,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/musicdefalut"
-            android:text="我来自于神之殿堂"
+            android:text="输入签名，展示自己"
             android:maxLength="10"
             android:gravity="center"
             android:textSize="@dimen/tipsSize"
@@ -226,6 +226,83 @@
             android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+    <RelativeLayout
+        android:id="@+id/edit_address"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:elevation="3dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="修改地址"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"/>
+
+
+        <TextView
+            android:id="@+id/edit_user_address"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/musicdefalut"
+            android:text="填写地址，发现同城的艺术好友"
+            android:maxLength="10"
+            android:gravity="center"
+            android:textSize="@dimen/tipsSize"
+            android:layout_toLeftOf="@+id/into6"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:id="@+id/into6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+        android:id="@+id/edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:elevation="3dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="修改密码"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"/>
+
+
+        <TextView
+            android:id="@+id/edit_user_password"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/musicdefalut"
+            android:text=""
+            android:maxLength="10"
+            android:gravity="center"
+            android:textSize="@dimen/tipsSize"
+            android:layout_toLeftOf="@+id/into7"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:id="@+id/into7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/edit_person_info"

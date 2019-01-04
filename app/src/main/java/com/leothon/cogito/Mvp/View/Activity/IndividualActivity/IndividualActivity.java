@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.FollowAFansAdapter;
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -26,6 +27,12 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,9 +81,29 @@ public class IndividualActivity extends BaseActivity {
     public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
-        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.iconurl,individualIcon,R.drawable.defalutimg);
-        individualName.setText(bundle.getString("name"));
-        individualSignal.setText(bundle.getString("desc"));
+        individualName.setText(Constants.user.getUser_name());
+        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.user.getUser_icon(),individualIcon,R.drawable.defaulticon);
+
+        try{
+            int age = CommonUtils.getAge(Constants.user.getUser_birth());
+            individualAge.setText(age + "岁");
+        }catch (ParseException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (Constants.user.getUser_sex() == 1){
+            individualSex.setImageResource(R.drawable.male);
+        }else if (Constants.user.getUser_sex() == 2){
+            individualSex.setImageResource(R.drawable.female);
+        }else {
+            individualSex.setImageResource(R.drawable.defaultsex);
+        }
+
+        individualSignal.setText(Constants.user.getUser_signal());
+
+        individualLocation.setText(Constants.user.getUser_address());
+
         if (bundle.getString("type").equals("other")){
             individualFollow.setVisibility(View.VISIBLE);
             setToolbarSubTitle("");
@@ -103,7 +130,7 @@ public class IndividualActivity extends BaseActivity {
 
 
         }
-
+        EventBus.getDefault().register(this);
 
     }
 
@@ -146,7 +173,7 @@ public class IndividualActivity extends BaseActivity {
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.iconurl,img,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.user.getUser_icon(),img,R.drawable.defaulticon);
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
@@ -182,6 +209,34 @@ public class IndividualActivity extends BaseActivity {
     public void individualContent(View view){
         IntentUtils.getInstence().intent(IndividualActivity.this, UploadActivity.class);
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(User user){
+        Constants.user = user;
+        individualName.setText(user.getUser_name());
+
+        try{
+            int age = CommonUtils.getAge(user.getUser_birth());
+            individualAge.setText(age + "岁");
+        }catch (ParseException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (user.getUser_sex() == 1){
+            individualSex.setImageResource(R.drawable.male);
+        }else if (user.getUser_sex() == 2){
+            individualSex.setImageResource(R.drawable.female);
+        }else {
+            individualSex.setImageResource(R.drawable.defaultsex);
+        }
+
+        individualSignal.setText(user.getUser_signal());
+
+        individualLocation.setText(user.getUser_address());
+
+    }
     @Override
     public void initData() {
 
@@ -197,6 +252,13 @@ public class IndividualActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 
     @Override
     public void showLoading() {

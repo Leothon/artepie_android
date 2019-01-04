@@ -10,7 +10,13 @@ import com.leothon.cogito.DTO.HomeData;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -30,9 +36,21 @@ public interface HttpService {
     Observable<BaseResponse<TokenInfo>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
 
     @GET("gethomedata")
-    Observable<BaseResponse<HomeData>> getHomeData();
+    Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
 
     @GET("getmoredata")
     Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData();
+
+    @GET("getuserinfo")
+    Observable<BaseResponse<User>> getUserInfo(@Query("token") String token);
+
+    @Multipart
+    @POST("uploadimg")
+    Observable<String> updataFile( @Part MultipartBody.Part pic);
+
+    @POST("updateuserinfo")
+    @FormUrlEncoded
+    Observable<String> updateUserInfo(@Field("iconurl") String url,@Field("username") String name,@Field("usersex") int sex,@Field("userbirth") String birth,@Field("userphone") String phone,@Field("usersignal") String signal,@Field("useraddress") String address);
+
 
 }

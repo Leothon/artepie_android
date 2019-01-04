@@ -5,6 +5,7 @@ import android.util.Log;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -48,50 +49,44 @@ public class LoginModel implements LoginContract.ILoginModel {
     public void register(User user, final LoginContract.OnLoginFinishedListener Listener) {
         String phonenumber = user.getUser_phone();
         String verifyCode = user.getVerifyCode();
-        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
-        if (!phonenumber.equals("") && !verifyCode.equals("") && CommonUtils.isPhoneNumber(phonenumber)){
-
             //TODO 使用retrofit进行注册
-            RetrofitServiceManager.getInstance().create(HttpService.class)
-                    .usePhoneLogin(phonenumber,verifyCode)
-                    .compose(ThreadTransformer.switchSchedulers())
-                    .subscribe(new BaseObserver() {
-                        @Override
-                        public void doOnSubscribe(Disposable d) { }
-                        @Override
-                        public void doOnError(String errorMsg) {
-                            Listener.showFailInfo(errorMsg);
-                        }
-                        @Override
-                        public void doOnNext(BaseResponse baseResponse) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .usePhoneLogin(phonenumber,verifyCode)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        Listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
 
-                        }
-                        @Override
-                        public void doOnCompleted() {
-                            Log.e("返回", "完成");
+                    }
+                    @Override
+                    public void doOnCompleted() {
+                        Log.e("返回", "完成");
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            TokenInfo tokenInfo = (TokenInfo)baseResponse.getData();
+                            String token = tokenInfo.getToken();
+                            //TODO 保存Token
+                            sharedPreferencesUtils.setParams("token",token);
+                            Listener.registerORloginSuccess(tokenInfo.getInfo());
+                        }else {
+                            //显示错误信息
+                            Listener.showFailInfo(baseResponse.getError());
                         }
 
-                        @Override
-                        public void onNext(BaseResponse baseResponse) {
-                            if (baseResponse.isSuccess()){
-                                TokenInfo tokenInfo = (TokenInfo)baseResponse.getData();
-                                String token = tokenInfo.getToken();
-                                //TODO 保存Token
-                                sharedPreferencesUtils.setParams("token",token);
-                                Listener.registerORloginSuccess(tokenInfo.getInfo());
-                            }else {
-                                //显示错误信息
-                                Listener.showFailInfo(baseResponse.getError());
-                            }
+                    }
+                });
 
-                        }
-                    });
 
-        }else if (!CommonUtils.isPhoneNumber(phonenumber)){
-            Listener.onPhoneIllegal();
-        }else {
-            Listener.onSomeEmpty();
-        }
     }
 
     @Override

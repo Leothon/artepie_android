@@ -10,6 +10,7 @@ public class BaseResponse<T> implements Serializable {
     private boolean success;
     private String error;
 
+
     public T getData() {
         return data;
     }

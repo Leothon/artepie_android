@@ -103,6 +103,7 @@ public class SettingsActivity extends BaseActivity {
         Constants.loginStatus = 0;
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
+        Constants.user = null;
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
         finish();
     }

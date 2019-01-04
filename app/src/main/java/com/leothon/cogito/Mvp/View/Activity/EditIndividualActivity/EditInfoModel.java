@@ -1,34 +1,39 @@
-package com.leothon.cogito.Mvp.View.Fragment.HomePage;
+package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 
-import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.verify;
-import com.leothon.cogito.DTO.HomeData;
+import android.util.Log;
+
+import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
-import com.leothon.cogito.Utils.CommonUtils;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
-public class HomeModel implements HomeFragmentContract.IHomeModel {
-
-
+public class EditInfoModel implements EditInfoContract.IEditInfoModel {
     @Override
-    public void getHomeData(String token,final HomeFragmentContract.OnHomeFinishedListener listener) {
-        //获取首页内容
+    public void uploadIcon(String path, final EditInfoContract.OnEditInfoFinishedListener listener) {
+
+        File file = new File(path);
+        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("image/png"), file);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("pic", file.getName(), photoRequestBody);
+
+
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getHomeData(token)
+                .updataFile(photo)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        listener.showMsg(errorMsg);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -41,25 +46,24 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        HomeData homeData = (HomeData)baseResponse.getData();
-                        listener.loadData(homeData);
+                        String url = baseResponse.getError();
+
+                        listener.getIconUrl(url);
                     }
                 });
     }
 
     @Override
-    public void getMoreData(final HomeFragmentContract.OnHomeFinishedListener listener) {
-        //获取更多内容
-
+    public void uploadAllInfo(String icon, String name, int sex, String birth, String phone, String signal, String address, final EditInfoContract.OnEditInfoFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreData()
+                .updateUserInfo(icon,name,sex,birth,phone,signal,address)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        listener.showMsg(errorMsg);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -67,15 +71,14 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
                     }
                     @Override
                     public void doOnCompleted() {
-
+                        Log.e("返回", "完成");
                     }
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        ArrayList<SelectClass> selectClasses = (ArrayList<SelectClass>) baseResponse.getData();
-                        listener.loadMoreData(selectClasses);
+
+                        listener.updateSucess();
                     }
                 });
-
     }
 }

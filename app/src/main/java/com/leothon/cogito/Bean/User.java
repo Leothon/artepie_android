@@ -6,7 +6,7 @@ package com.leothon.cogito.Bean;
  */
 public class User {
 
-    private int user_id;
+    private String user_id;
     private String user_name;
     private String user_icon;
     private String user_birth;
@@ -33,11 +33,11 @@ public class User {
     }
 
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

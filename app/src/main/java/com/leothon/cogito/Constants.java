@@ -2,6 +2,7 @@ package com.leothon.cogito;
 
 import com.leothon.cogito.Bean.SaveUploadData;
 import com.leothon.cogito.Bean.UploadSave;
+import com.leothon.cogito.Bean.User;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,8 @@ public class Constants {
     public static boolean isMobilenet = false;
 
     public static String rechargeCount = "0";
+
+    public static User user;
 
 
 }

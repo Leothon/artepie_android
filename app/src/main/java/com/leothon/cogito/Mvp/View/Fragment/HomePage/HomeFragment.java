@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeData = new HomeData();
         selectClasses = new ArrayList<>();
         homePresenter = new HomePresenter(this);
-        homePresenter.loadHomeData();
+        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swp.setRefreshing(true);
     }
     @Override
@@ -337,7 +337,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        homePresenter.loadHomeData();
+        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
     }
 
 
