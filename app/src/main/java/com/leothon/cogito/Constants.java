@@ -51,5 +51,7 @@ public class Constants {
 
     public static User user;
 
+    public static String icon;
+
 
 }

@@ -104,6 +104,7 @@ public class SettingsActivity extends BaseActivity {
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
         Constants.user = null;
+        Constants.icon = "";
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
         finish();
     }

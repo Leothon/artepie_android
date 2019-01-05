@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 
+import com.leothon.cogito.Bean.User;
+
 public class EditInfoPresenter implements EditInfoContract.IEditInfoPresenter,EditInfoContract.OnEditInfoFinishedListener {
 
     private EditInfoContract.IEditInfoView iEditInfoView;
@@ -41,7 +43,7 @@ public class EditInfoPresenter implements EditInfoContract.IEditInfoPresenter,Ed
     }
 
     @Override
-    public void updateUserInfo(String icon, String name, int sex, String birth, String phone, String signal, String address) {
-        iEditInfoModel.uploadAllInfo(icon,name,sex,birth,phone,signal,address,this);
+    public void updateUserInfo(User user) {
+        iEditInfoModel.uploadAllInfo(user,this);
     }
 }

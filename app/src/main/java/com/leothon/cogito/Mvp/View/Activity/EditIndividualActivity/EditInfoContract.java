@@ -1,10 +1,12 @@
 package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 
+import com.leothon.cogito.Bean.User;
+
 public class EditInfoContract {
     public interface IEditInfoModel{
         void uploadIcon(String path,OnEditInfoFinishedListener listener);
 
-        void uploadAllInfo(String icon,String name,int sex,String birth,String phone,String signal,String address,OnEditInfoFinishedListener listener);
+        void uploadAllInfo(User user,OnEditInfoFinishedListener listener);
     }
 
     public interface IEditInfoView{
@@ -30,6 +32,6 @@ public class EditInfoContract {
         void onDestory();
         void updateUserIcon(String path);
 
-        void updateUserInfo(String icon,String name,int sex,String birth,String phone,String signal,String address);
+        void updateUserInfo(User user);
     }
 }

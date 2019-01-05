@@ -66,7 +66,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     TextView mToolbarTitle;
     @BindView(R.id.toolbar_subtitle)
     TextView mToolbarSubTitle;
-    private SharedPreferencesUtils activitysharedPreferencesUtils;
+    public SharedPreferencesUtils activitysharedPreferencesUtils;
 
 
     private static long startTime = 0;

@@ -3,6 +3,7 @@ package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 import android.util.Log;
 
 import com.leothon.cogito.Bean.TokenInfo;
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -21,9 +22,8 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
     public void uploadIcon(String path, final EditInfoContract.OnEditInfoFinishedListener listener) {
 
         File file = new File(path);
-        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("image/png"), file);
+        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part photo = MultipartBody.Part.createFormData("pic", file.getName(), photoRequestBody);
-
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .updataFile(photo)
@@ -34,6 +34,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     @Override
                     public void doOnError(String errorMsg) {
                         listener.showMsg(errorMsg);
+
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -54,9 +55,9 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
     }
 
     @Override
-    public void uploadAllInfo(String icon, String name, int sex, String birth, String phone, String signal, String address, final EditInfoContract.OnEditInfoFinishedListener listener) {
+    public void uploadAllInfo(User user, final EditInfoContract.OnEditInfoFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .updateUserInfo(icon,name,sex,birth,phone,signal,address)
+                .updateUserInfo(user)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -71,7 +72,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     }
                     @Override
                     public void doOnCompleted() {
-                        Log.e("返回", "完成");
+
                     }
 
                     @Override

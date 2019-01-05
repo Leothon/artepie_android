@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -46,11 +47,10 @@ public interface HttpService {
 
     @Multipart
     @POST("uploadimg")
-    Observable<String> updataFile( @Part MultipartBody.Part pic);
+    Observable<BaseResponse<String>> updataFile(@Part MultipartBody.Part pic);
 
     @POST("updateuserinfo")
-    @FormUrlEncoded
-    Observable<String> updateUserInfo(@Field("iconurl") String url,@Field("username") String name,@Field("usersex") int sex,@Field("userbirth") String birth,@Field("userphone") String phone,@Field("usersignal") String signal,@Field("useraddress") String address);
+    Observable<BaseResponse<String>> updateUserInfo(@Body User user);
 
 
 }

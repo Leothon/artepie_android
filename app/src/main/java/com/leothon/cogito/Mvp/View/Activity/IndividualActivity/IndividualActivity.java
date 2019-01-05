@@ -82,7 +82,7 @@ public class IndividualActivity extends BaseActivity {
         intent = getIntent();
         bundle = intent.getExtras();
         individualName.setText(Constants.user.getUser_name());
-        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.user.getUser_icon(),individualIcon,R.drawable.defaulticon);
+        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.icon,individualIcon,R.drawable.defaulticon);
 
         try{
             int age = CommonUtils.getAge(Constants.user.getUser_birth());
@@ -231,6 +231,8 @@ public class IndividualActivity extends BaseActivity {
         }else {
             individualSex.setImageResource(R.drawable.defaultsex);
         }
+
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.icon,individualIcon,R.drawable.defaulticon);
 
         individualSignal.setText(user.getUser_signal());
 

@@ -113,6 +113,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         ImageLoader.loadImageViewThumbnailwitherror(getMContext(),user.getUser_icon(),userIcon,R.drawable.defaulticon);
         signature.setText(user.getUser_signal());
         Constants.user = user;
+        Constants.icon = user.getUser_icon();
     }
     @Override
     protected void initView() {
@@ -146,6 +147,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
+        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.icon,userIcon,R.drawable.defaulticon);
         userName.setText(user.getUser_name());
         signature.setText(user.getUser_signal());
     }

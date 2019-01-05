@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -18,10 +19,12 @@ import android.widget.TextView;
 
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 
 import com.leothon.cogito.Utils.CommonUtils;
@@ -33,6 +36,8 @@ import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,8 +85,12 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private String address = "填写地址，发现同城好友";
     private String[] sexArray = new String[]{"暂不填写","女","男"};
     private boolean isEdit = false;
+    private User userSend;
+    private String icon;
 
     private EditInfoPresenter editInfoPresenter;
+
+    ZLoadingDialog dialog = new ZLoadingDialog(EditIndividualActivity.this);
     @Override
     public int initLayout() {
         return R.layout.activity_edit_individual;
@@ -95,10 +104,11 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("编辑个人信息");
+
         userName.setText(Constants.user.getUser_name());
         if (Constants.user.getUser_sex() == 1){
             userSex.setText("男");
-        }else if (Constants.user.getUser_sex() == 0){
+        }else if (Constants.user.getUser_sex() == 2){
             userSex.setText("女");
         }
 
@@ -111,10 +121,13 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         if (Constants.user.getUser_signal() != null){
             signatrue = Constants.user.getUser_signal();
         }
+        if (Constants.user.getUser_address() != null){
+            userAddress.setText(Constants.user.getUser_address());
+        }
 
         userNumber.setText(phone);
         userSignal.setText(signatrue);
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.user.getUser_icon(),userIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.icon,userIcon,R.drawable.defalutimg);
         Calendar nowdate = Calendar.getInstance();
         mYear = nowdate.get(Calendar.YEAR);
         mMonth = nowdate.get(Calendar.MONTH);
@@ -124,22 +137,47 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void getIconUrl(String url) {
 
-        uploadAll(url);
+        Log.e(TAG, "返回的url" + url);
+
+        icon = Api.ComUrl + "image/" + url;
+        Log.e(TAG, "拼接后的" + icon);
+
+        uploadAll();
+//
 
     }
 
 
-    private void uploadAll(String url){
+    private void uploadAll(){
 
-        int sex;
+        userSend = new User();
+
+        userSend.setUser_name(userName.getText().toString());
         if (userSex.getText().toString().equals("男")){
-            sex = 1;
+            userSend.setUser_sex(1);
         }else if (userSex.getText().toString().equals("女")){
-            sex = 2;
+            userSend.setUser_sex(2);
         }else {
-            sex = 0;
+            userSend.setUser_sex(0);
         }
-        editInfoPresenter.updateUserInfo(url,userName.getText().toString(),sex,userBirth.getText().toString(),userNumber.getText().toString(),userSignal.getText().toString(),userAddress.getText().toString());
+
+        userSend.setUser_birth(userBirth.getText().toString());
+        userSend.setUser_phone(userNumber.getText().toString());
+        userSend.setUser_signal(userSignal.getText().toString());
+        userSend.setUser_address(userAddress.getText().toString());
+        userSend.setUser_token(activitysharedPreferencesUtils.getParams("token","").toString());
+
+        if (icon == null || icon.equals("")){
+            userSend.setUser_icon(Constants.user.getUser_icon());
+            Constants.icon = Constants.user.getUser_icon();
+        }else {
+            userSend.setUser_icon(icon);
+            Constants.icon = icon;
+        }
+
+
+        EventBus.getDefault().post(userSend);
+        editInfoPresenter.updateUserInfo(userSend);
 
     }
 
@@ -151,7 +189,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void updateSuccess() {
         CommonUtils.makeText(this,"资料修改成功");
-
+        hideLoadingAnim();
         super.onBackPressed();
     }
 
@@ -200,26 +238,15 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
             //TODO 增加进度条
 
+            showLoadingAnim();
             if (path != null && !path.equals("")){
                 editInfoPresenter.updateUserIcon(path);
             }else {
-                uploadAll("");
+                uploadAll();
             }
 
-            User user = new User();
-            user.setUser_name(userName.getText().toString());
-            if (userSex.getText().toString().equals("男")){
-                user.setUser_sex(1);
-            }else if (userSex.getText().toString().equals("女")){
-                user.setUser_sex(2);
-            }else {
-                user.setUser_sex(0);
-            }
-            user.setUser_birth(userBirth.getText().toString());
-            user.setUser_phone(userNumber.getText().toString());
-            user.setUser_signal(userSignal.getText().toString());
-            user.setUser_address(userAddress.getText().toString());
-            EventBus.getDefault().post(user);
+
+
         }
 
 //        super.onBackPressed();
@@ -543,6 +570,19 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     public void showMessage(@NonNull String message) {
 
     }
+    private void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
 
+    private void hideLoadingAnim(){
+        dialog.cancel();
+    }
 
 }
