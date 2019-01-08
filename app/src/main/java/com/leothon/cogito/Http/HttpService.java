@@ -40,14 +40,14 @@ public interface HttpService {
     Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
 
     @GET("getmoredata")
-    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData();
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData(@Query("currentpage") int currentPage);
 
     @GET("getuserinfo")
     Observable<BaseResponse<User>> getUserInfo(@Query("token") String token);
 
     @Multipart
-    @POST("uploadimg")
-    Observable<BaseResponse<String>> updataFile(@Part MultipartBody.Part pic);
+    @POST("uploadfile")
+    Observable<BaseResponse<String>> updataFile(@Part MultipartBody.Part file);
 
     @POST("updateuserinfo")
     Observable<BaseResponse<String>> updateUserInfo(@Body User user);

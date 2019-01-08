@@ -48,11 +48,11 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
     }
 
     @Override
-    public void getMoreData(final HomeFragmentContract.OnHomeFinishedListener listener) {
+    public void getMoreData(int currentPage,final HomeFragmentContract.OnHomeFinishedListener listener) {
         //获取更多内容
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreData()
+                .getMoreData(currentPage)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override

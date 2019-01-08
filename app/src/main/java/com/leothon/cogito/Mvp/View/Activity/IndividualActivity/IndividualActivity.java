@@ -81,33 +81,13 @@ public class IndividualActivity extends BaseActivity {
     public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
-        individualName.setText(Constants.user.getUser_name());
-        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.icon,individualIcon,R.drawable.defaulticon);
 
-        try{
-            int age = CommonUtils.getAge(Constants.user.getUser_birth());
-            individualAge.setText(age + "岁");
-        }catch (ParseException e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if (Constants.user.getUser_sex() == 1){
-            individualSex.setImageResource(R.drawable.male);
-        }else if (Constants.user.getUser_sex() == 2){
-            individualSex.setImageResource(R.drawable.female);
-        }else {
-            individualSex.setImageResource(R.drawable.defaultsex);
-        }
 
-        individualSignal.setText(Constants.user.getUser_signal());
-
-        individualLocation.setText(Constants.user.getUser_address());
 
         if (bundle.getString("type").equals("other")){
             individualFollow.setVisibility(View.VISIBLE);
             setToolbarSubTitle("");
-            setToolbarTitle(bundle.getString("name"));
+            setToolbarTitle("");
             followBtn.setVisibility(View.VISIBLE);
             vSure.setVisibility(View.GONE);
             makeUploadClass.setVisibility(View.GONE);
@@ -127,17 +107,32 @@ public class IndividualActivity extends BaseActivity {
                 }
             });
             individualContent.setText("我发布的内容");
+            individualName.setText(Constants.user.getUser_name());
+            ImageLoader.loadImageViewThumbnailwitherror(this, Constants.icon,individualIcon,R.drawable.defaulticon);
+            try{
+                int age = CommonUtils.getAge(Constants.user.getUser_birth());
+                individualAge.setText(age + "岁");
+            }catch (ParseException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if (Constants.user.getUser_sex() == 1){
+                individualSex.setImageResource(R.drawable.male);
+            }else if (Constants.user.getUser_sex() == 2){
+                individualSex.setImageResource(R.drawable.female);
+            }else {
+                individualSex.setImageResource(R.drawable.defaultsex);
+            }
+
+            individualSignal.setText(Constants.user.getUser_signal());
+
+            individualLocation.setText(Constants.user.getUser_address());
 
 
         }
         EventBus.getDefault().register(this);
 
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //TODO 从网络加载数据，实现修改资料返回该页面重新加载
     }
 
     @OnClick(R.id.make_upload_class)

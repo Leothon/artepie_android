@@ -23,7 +23,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
 
         File file = new File(path);
         RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("pic", file.getName(), photoRequestBody);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .updataFile(photo)

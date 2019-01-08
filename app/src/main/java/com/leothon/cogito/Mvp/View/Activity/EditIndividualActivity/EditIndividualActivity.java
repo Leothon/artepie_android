@@ -137,13 +137,10 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void getIconUrl(String url) {
 
-        Log.e(TAG, "返回的url" + url);
 
-        icon = Api.ComUrl + "image/" + url;
-        Log.e(TAG, "拼接后的" + icon);
+        icon = Api.ComUrl + "resource/" + url;
 
         uploadAll();
-//
 
     }
 

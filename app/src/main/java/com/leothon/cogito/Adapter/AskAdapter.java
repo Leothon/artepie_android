@@ -12,12 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.Ask;
+import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -36,7 +40,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     public static final String TAG = "adapter";
     private Context context;
-    private ArrayList<Ask> asks;
+    private ArrayList<QAData> asks;
 
     private StandardGSYVideoPlayer curPlayer;
     protected OrientationUtils orientationUtils;
@@ -46,10 +50,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     protected boolean isFull;
     private boolean islike = false;
 
+    private SharedPreferencesUtils sharedPreferencesUtils;
+
 
     private int HEAD0 = 0;
     private int HEAD1 = 1;
-    public AskAdapter(Context context, ArrayList<Ask> asks){
+
+    private String userId;
+    public AskAdapter(Context context, ArrayList<QAData> asks){
         this.context = context;
         this.asks = asks;
         inflater = LayoutInflater.from(context);
@@ -69,32 +77,34 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
+        sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
+        userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid();
         int viewType = getItemViewType(position);
         if (viewType == HEAD0 ) {
-            final Ask ask = asks.get(position);
+            final QAData ask = asks.get(position);
             final AskViewHolder askViewHolder = (AskViewHolder) holder;
 
 
-            ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUsericonurl(),askViewHolder.userIcon,R.drawable.defalutimg);
-            askViewHolder.userName.setText(ask.getUsername());
-            askViewHolder.userDes.setText(ask.getUserdes());
-            askViewHolder.contentAsk.setText(ask.getContent());
-            if (ask.getLikecount().equals("0")){
+            ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUser_icon(),askViewHolder.userIcon,R.drawable.defaulticon);
+            askViewHolder.userName.setText(ask.getUser_name());
+            askViewHolder.userDes.setText(ask.getUser_signal());
+            askViewHolder.contentAsk.setText(ask.getQa_content());
+            if (ask.getQa_like().equals("0")){
                 askViewHolder.likeAsk.setText("喜欢");
             }else {
-                askViewHolder.likeAsk.setText(ask.getLikecount());
+                askViewHolder.likeAsk.setText(ask.getQa_like());
             }
-            if (ask.getCommentcount().equals("0")){
+            if (ask.getQa_comment().equals("0")){
                 askViewHolder.commentAsk.setText("评论");
             }else {
-                askViewHolder.commentAsk.setText(ask.getCommentcount());
+                askViewHolder.commentAsk.setText(ask.getQa_comment());
             }
-            if (!ask.getVideourl().equals("")) {
+            if (!ask.getQa_video().equals("")) {
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //imageView.setImageResource(R.drawable.activityback);
-                ImageLoader.loadImageViewThumbnailwitherror(context, ask.getCoverurl(), imageView, R.drawable.defalutimg);
+                ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
@@ -105,7 +115,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         .setAutoFullWithSize(true)
                         .setShowFullAnimation(false)
                         .setNeedLockFull(true)
-                        .setUrl(ask.getVideourl())
+                        .setUrl(ask.getQa_video())
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
                         .build(askViewHolder.gsyVideoPlayer);
@@ -126,14 +136,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     Bundle bundleto = new Bundle();
-                    bundleto.putString("icon",ask.getUsericonurl());
-                    bundleto.putString("name",ask.getUsername());
-                    bundleto.putString("desc",ask.getUserdes());
-                    bundleto.putString("content",ask.getContent());
-                    bundleto.putString("video",ask.getVideourl());
-                    bundleto.putString("cover",ask.getCoverurl());
-                    bundleto.putString("like",ask.getLikecount());
-                    bundleto.putString("comment",ask.getCommentcount());
+
+
+                    bundleto.putString("qaId",ask.getQa_id());
                     IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
                 }
             });
@@ -181,36 +186,22 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     //TODO 跳转个人主页
-                    Bundle bundleto = new Bundle();
-                    bundleto.putString("type","other");
-                    bundleto.putString("icon",ask.getUsericonurl());
-                    bundleto.putString("name",ask.getUsername());
-                    bundleto.putString("desc",ask.getUserdes());
-                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+
+                   intoIndividual(ask);
                 }
             });
             askViewHolder.userName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //TODO 跳转个人主页
-                    Bundle bundleto = new Bundle();
-                    bundleto.putString("type","other");
-                    bundleto.putString("icon",ask.getUsericonurl());
-                    bundleto.putString("name",ask.getUsername());
-                    bundleto.putString("desc",ask.getUserdes());
-                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                    intoIndividual(ask);
                 }
             });
             askViewHolder.userDes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //TODO 跳转个人主页
-                    Bundle bundleto = new Bundle();
-                    bundleto.putString("type","other");
-                    bundleto.putString("icon",ask.getUsericonurl());
-                    bundleto.putString("name",ask.getUsername());
-                    bundleto.putString("desc",ask.getUserdes());
-                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                   intoIndividual(ask);
                 }
             });
 
@@ -219,14 +210,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     Bundle bundleto = new Bundle();
-                    bundleto.putString("icon",ask.getUsericonurl());
-                    bundleto.putString("name",ask.getUsername());
-                    bundleto.putString("desc",ask.getUserdes());
-                    bundleto.putString("content",ask.getContent());
-                    bundleto.putString("video",ask.getVideourl());
-                    bundleto.putString("cover",ask.getCoverurl());
-                    bundleto.putString("like",ask.getLikecount());
-                    bundleto.putString("comment",ask.getCommentcount());
+                    bundleto.putString("qaId",ask.getQa_id());
                     IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
 
                 }
@@ -237,6 +221,20 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
 
+    }
+
+
+    private void intoIndividual(QAData ask){
+
+        Bundle bundleto = new Bundle();
+        if (userId.equals(ask.getQa_user_id())){
+            bundleto.putString("type","individual");
+            IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+        }else {
+            bundleto.putString("type","other");
+            bundleto.putString("userId",ask.getQa_user_id());
+            IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+        }
     }
 
 

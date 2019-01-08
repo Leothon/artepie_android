@@ -57,7 +57,7 @@ public class HomePresenter implements HomeFragmentContract.IHomePresenter,HomeFr
     }
 
     @Override
-    public void loadMoreClassData() {
-        iHomeModel.getMoreData(this);
+    public void loadMoreClassData(int currentPage) {
+        iHomeModel.getMoreData(currentPage,this);
     }
 }

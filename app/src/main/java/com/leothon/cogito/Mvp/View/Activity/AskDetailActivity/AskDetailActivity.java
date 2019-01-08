@@ -88,6 +88,7 @@ public class AskDetailActivity extends BaseActivity {
 
     private void loadFalseData(){
         askDetail = new AskDetail();
+        String qaId = bundle.getString("qaId");
         askDetail.setUsericon(bundle.getString("icon"));
         askDetail.setUsername(bundle.getString("name"));
         askDetail.setUserdes(bundle.getString("desc"));
