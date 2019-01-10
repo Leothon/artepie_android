@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -26,6 +29,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -57,6 +61,7 @@ public class VSureActivity extends BaseActivity {
     @BindView(R.id.send_v_sure)
     TextView sendVSure;
 
+    private UserEntity userEntity;
     private boolean isImgShow = false;
 
     private String path;
@@ -66,10 +71,17 @@ public class VSureActivity extends BaseActivity {
     }
 
     @Override
+    public void initData() {
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
+
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
+    @Override
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("认证身份");
-        ImageLoader.loadImageViewThumbnailwitherror(this, Constants.iconurl,vSureIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this, userEntity.getUser_icon(),vSureIcon,R.drawable.defalutimg);
         vSureName.setText("叶落知秋");
         vSureSignal.setText("如鱼饮水，冷暖自知");
     }
@@ -188,10 +200,7 @@ public class VSureActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    @Override
-    public void initData() {
 
-    }
     @Override
     public BasePresenter initPresenter() {
         return null;

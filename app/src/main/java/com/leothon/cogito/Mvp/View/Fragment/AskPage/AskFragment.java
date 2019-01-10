@@ -37,6 +37,10 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -140,6 +144,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     protected void initData() {
+        EventBus.getDefault().register(this);
         askPresenter = new AskPresenter(this);
         swpAsk.setProgressViewOffset (false,100,300);
         swpAsk.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
@@ -157,7 +162,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         asks = new ArrayList<>();
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swpAsk.setRefreshing(true);
-        initAdapter();
+        //initAdapter();
         hostActivity = (HostActivity)getActivity();
         viewShowAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_show);
         viewHideAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_hide);
@@ -171,6 +176,10 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String msg){
+        askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+    }
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {
 
@@ -292,6 +301,12 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Override
     public void showLoading() {}
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 
 }

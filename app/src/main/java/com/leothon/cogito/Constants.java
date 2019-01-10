@@ -29,8 +29,6 @@ public class Constants {
     public static String classDesc;
     public static ArrayList<String> tags;
 
-    public static final String iconurl = "https://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fcache.colabug.com%2Fforum%2F201709%2F29%2F160729eznn1azzh00ia41k.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFvXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1565457528%2C3190941137%26fm%3D26%26gp%3D0.jpg";
-
     public static String[] teacherNameList = {"晁浩建","金铁霖","蒋大为","李谷一","王秀芬","孟玲","杨阳","黄华丽","王宏伟","腾格尔","查看更多"};
     public static int[] teacherIconList = {R.drawable.chaohaojian,R.drawable.jintielin,R.drawable.jiangdawei,R.drawable.liguyi,R.drawable.wangxiufen,R.drawable.mengling,R.drawable.yangyang,R.drawable.huanghuali,R.drawable.wanghongwei,R.drawable.tenger,R.drawable.baseline_keyboard_arrow_right_black_48};//本地的各位大佬的照片
 
@@ -49,9 +47,6 @@ public class Constants {
 
     public static String rechargeCount = "0";
 
-    public static User user;
-
-    public static String icon;
 
 
 }

@@ -30,16 +30,16 @@ public class Mic2Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private ArrayList<MicClass> micClasses;
 
     private String[] micImg =
-            {"http://www.ddkjplus.com/image/art11.jpg",
-            "http://www.ddkjplus.com/image/art12.jpg",
-            "http://www.ddkjplus.com/image/art13.jpg",
-            "http://www.ddkjplus.com/image/art14.jpg",
-            "http://www.ddkjplus.com/image/art15.jpg",
-            "http://www.ddkjplus.com/image/art16.jpg",
-            "http://www.ddkjplus.com/image/art17.jpg",
-            "http://www.ddkjplus.com/image/art18.jpg",
-            "http://www.ddkjplus.com/image/art19.jpg",
-            "http://www.ddkjplus.com/image/art20.jpg"};
+            {"http://www.ddkjplus.com/resource/art11.jpg",
+            "http://www.ddkjplus.com/resource/art12.jpg",
+            "http://www.ddkjplus.com/resource/art13.jpg",
+            "http://www.ddkjplus.com/resource/art14.jpg",
+            "http://www.ddkjplus.com/resource/art15.jpg",
+            "http://www.ddkjplus.com/resource/art16.jpg",
+            "http://www.ddkjplus.com/resource/art17.jpg",
+            "http://www.ddkjplus.com/resource/art18.jpg",
+            "http://www.ddkjplus.com/resource/art19.jpg",
+            "http://www.ddkjplus.com/resource/art20.jpg"};
     private String[] micTitle = {"如何确定自己发声位置？",
             "十分钟学会唱高音",
             "你的歌唱状态对了吗？",
@@ -70,7 +70,6 @@ public class Mic2Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
             "58讲",
             "8讲",
             "8讲"};
-
     private String[] micTime = {"15分钟",
             "56分钟",
             "144分钟",

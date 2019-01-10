@@ -71,9 +71,37 @@
                 app:met_hideUnderline="true"
                 android:hint="输入问题描述"
                 android:textSize="@dimen/contentSize"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:gravity="start|top"/>
 
+            <RelativeLayout
+                android:id="@+id/upload_cover_ll"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/upload_cover_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="25dp"
+                    app:riv_corner_radius="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/defalutimg"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/delete"
+                    android:id="@+id/delete_video"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/preview_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/video_play_normal"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
             <LinearLayout
                 android:id="@+id/ask_img_layout"
                 android:layout_width="match_parent"

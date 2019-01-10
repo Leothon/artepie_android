@@ -11,7 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.WalletAdapter;
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -20,6 +23,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import java.util.ArrayList;
@@ -49,11 +53,18 @@ public class WalletActivity extends BaseActivity {
 
     private WalletAdapter walletAdapter;
     private ArrayList<String> list;
+    private UserEntity userEntity;
     @Override
     public int initLayout() {
         return R.layout.activity_wallet;
     }
+    @Override
+    public void initData() {
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
 
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
     @Override
     public void initView() {
         StatusBarUtils.transparencyBar(this);
@@ -61,7 +72,7 @@ public class WalletActivity extends BaseActivity {
         dividerTitle.setText("充值");
         initAdapter();
 
-        accountBalance.setText("￥" + Constants.user.getUser_balance());
+        accountBalance.setText("￥" + userEntity.getUser_balance());
         artCoin.setText("526");
         Constants.rechargeCount = "0";
         artCoinDetail.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +147,7 @@ public class WalletActivity extends BaseActivity {
         list.add("￥200");
         list.add("￥500");
     }
-    @Override
-    public void initData() {
 
-    }
 
     @Override
     public BasePresenter initPresenter() {

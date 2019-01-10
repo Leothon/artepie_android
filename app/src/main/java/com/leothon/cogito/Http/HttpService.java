@@ -6,6 +6,8 @@ import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.DTO.HomeData;
+import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.DTO.SendQAData;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public interface HttpService {
     Observable<BaseResponse<verify>> verifyphone(@Query("phonenumber") String phonenumber);
 
     @GET("usephonelogin")
-    Observable<BaseResponse<TokenInfo>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
+    Observable<BaseResponse<User>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
 
     @GET("gethomedata")
     Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
@@ -52,5 +54,15 @@ public interface HttpService {
     @POST("updateuserinfo")
     Observable<BaseResponse<String>> updateUserInfo(@Body User user);
 
+
+
+    @POST("sendqadata")
+    Observable<BaseResponse<String>> sendQAData(@Body SendQAData sendQAData);
+
+    @GET("getquestion")
+    Observable<BaseResponse<ArrayList<QAData>>> getQAData(@Query("token") String token);
+
+    @GET("getmorequestion")
+    Observable<BaseResponse<ArrayList<QAData>>> getMoreQAData(@Query("currentpage") int currentPage);
 
 }

@@ -53,7 +53,7 @@ public class LoginContract {
 
         void showFailInfo(String err);
 
-        void registerORloginSuccess(String info);
+        void registerORloginSuccess(User user);
     }
 
     public interface OnLoginFinishedListener {
@@ -62,7 +62,7 @@ public class LoginContract {
         void onSuccess();
         void onFail();
 
-        void registerORloginSuccess(String info);
+        void registerORloginSuccess(User user);
         void onSomeEmpty();
 
         void onPhoneIllegal();

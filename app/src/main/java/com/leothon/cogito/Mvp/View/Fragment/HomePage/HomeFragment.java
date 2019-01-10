@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.HomeAdapter;
 import com.leothon.cogito.Adapter.TeacherAdapter;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.DTO.HomeData;
@@ -88,7 +89,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private HomeData homeData;
     private ArrayList<SelectClass> selectClasses;
 
-    HostActivity hostActivity = (HostActivity)getActivity();
 
 
     public HomeFragment() {

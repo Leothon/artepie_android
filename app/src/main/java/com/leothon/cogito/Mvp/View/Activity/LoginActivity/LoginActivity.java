@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -84,7 +86,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
 
     private LoginPresenter loginPresenter;
-    private SharedPreferencesUtils sharedPreferencesUtils;
     private static boolean isRegisterPage = true;
     private String accountString;
     private String passwordString;
@@ -106,7 +107,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void initView() {
-        sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         bar.setVisibility(View.VISIBLE);
         getVerifyCode.setEnabled(false);
         getToolbar().setNavigationIcon(R.drawable.baseline_clear_black_24);
@@ -308,10 +308,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
-    public void registerORloginSuccess(String info) {
+    public void registerORloginSuccess(User user) {
         hideLoadingAnim();
-        CommonUtils.makeText(LoginActivity.this,info);
+        CommonUtils.makeText(LoginActivity.this,"成功!");
         //TODO 执行注册后的动作
+        UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance());
+        BaseApplication.getInstances().getDaoSession().insert(userEntity);
         LoginSuccess();
     }
 

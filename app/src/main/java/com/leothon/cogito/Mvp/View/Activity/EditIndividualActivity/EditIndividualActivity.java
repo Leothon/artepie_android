@@ -17,8 +17,11 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -32,6 +35,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -88,7 +92,9 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private User userSend;
     private String icon;
 
+    private UserEntity userInsert;
     private EditInfoPresenter editInfoPresenter;
+    private UserEntity userEntity;
 
     ZLoadingDialog dialog = new ZLoadingDialog(EditIndividualActivity.this);
     @Override
@@ -99,35 +105,40 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void initData() {
         editInfoPresenter = new EditInfoPresenter(this);
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
+
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+
     }
     @Override
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("编辑个人信息");
 
-        userName.setText(Constants.user.getUser_name());
-        if (Constants.user.getUser_sex() == 1){
+        userName.setText(userEntity.getUser_name());
+        if (userEntity.getUser_sex() == 1){
             userSex.setText("男");
-        }else if (Constants.user.getUser_sex() == 2){
+        }else if (userEntity.getUser_sex() == 2){
             userSex.setText("女");
         }
 
-        if (Constants.user.getUser_birth() != null){
-            userBirth.setText(Constants.user.getUser_birth());
+        if (userEntity.getUser_birth() != null){
+            userBirth.setText(userEntity.getUser_birth());
         }
-        if (Constants.user.getUser_phone() != null){
-            phone = Constants.user.getUser_phone();
+        if (userEntity.getUser_phone() != null){
+            phone = userEntity.getUser_phone();
         }
-        if (Constants.user.getUser_signal() != null){
-            signatrue = Constants.user.getUser_signal();
+        if (userEntity.getUser_signal() != null){
+            signatrue = userEntity.getUser_signal();
         }
-        if (Constants.user.getUser_address() != null){
-            userAddress.setText(Constants.user.getUser_address());
+        if (userEntity.getUser_address() != null){
+            userAddress.setText(userEntity.getUser_address());
         }
 
         userNumber.setText(phone);
         userSignal.setText(signatrue);
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.icon,userIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),userIcon,R.drawable.defalutimg);
         Calendar nowdate = Calendar.getInstance();
         mYear = nowdate.get(Calendar.YEAR);
         mMonth = nowdate.get(Calendar.MONTH);
@@ -148,30 +159,41 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private void uploadAll(){
 
         userSend = new User();
-
+        userInsert = new UserEntity();
+        userInsert.setUser_id(userEntity.getUser_id());
         userSend.setUser_name(userName.getText().toString());
+        userInsert.setUser_name(userName.getText().toString());
         if (userSex.getText().toString().equals("男")){
             userSend.setUser_sex(1);
+            userInsert.setUser_sex(1);
         }else if (userSex.getText().toString().equals("女")){
             userSend.setUser_sex(2);
+            userInsert.setUser_sex(2);
         }else {
             userSend.setUser_sex(0);
+            userInsert.setUser_sex(0);
         }
 
         userSend.setUser_birth(userBirth.getText().toString());
+        userInsert.setUser_birth(userBirth.getText().toString());
         userSend.setUser_phone(userNumber.getText().toString());
+        userInsert.setUser_phone(userNumber.getText().toString());
         userSend.setUser_signal(userSignal.getText().toString());
+        userInsert.setUser_signal(userSignal.getText().toString());
         userSend.setUser_address(userAddress.getText().toString());
+        userInsert.setUser_address(userAddress.getText().toString());
         userSend.setUser_token(activitysharedPreferencesUtils.getParams("token","").toString());
+        userInsert.setUser_token(activitysharedPreferencesUtils.getParams("token","").toString());
 
         if (icon == null || icon.equals("")){
-            userSend.setUser_icon(Constants.user.getUser_icon());
-            Constants.icon = Constants.user.getUser_icon();
+            userSend.setUser_icon(userEntity.getUser_icon());
+            userInsert.setUser_icon(userEntity.getUser_icon());
         }else {
             userSend.setUser_icon(icon);
-            Constants.icon = icon;
+            userInsert.setUser_icon(icon);
         }
 
+        BaseApplication.getInstances().getDaoSession().update(userInsert);
 
         EventBus.getDefault().post(userSend);
         editInfoPresenter.updateUserInfo(userSend);
@@ -343,7 +365,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         switch (type){
             case NAME:
                 userInput.setFloatingLabelText("修改姓名");
-                userInput.setText(Constants.user.getUser_name());
+                userInput.setText(userEntity.getUser_name());
                 userInput.setHint("修改姓名");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -368,7 +390,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 break;
             case PHONE:
                 userInput.setFloatingLabelText("修改绑定号码");
-                userInput.setText(Constants.user.getUser_phone() + "");
+                userInput.setText(userEntity.getUser_phone() + "");
                 userInput.setHint("修改绑定号码");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -394,7 +416,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 break;
             case SIGNATRUE:
                 userInput.setFloatingLabelText("修改签名");
-                userInput.setText(Constants.user.getUser_signal() + "");
+                userInput.setText(userEntity.getUser_signal() + "");
                 userInput.setHint("修改签名");
                 // 设置Dialog按钮
                 alertDialogBuilder
@@ -420,7 +442,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 break;
             case ADDRESS:
                 userInput.setFloatingLabelText("修改地址");
-                userInput.setText(Constants.user.getUser_address() + "");
+                userInput.setText(userEntity.getUser_address() + "");
                 userInput.setHint("修改地址");
                 // 设置Dialog按钮
                 alertDialogBuilder

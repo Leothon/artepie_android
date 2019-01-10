@@ -1,23 +1,28 @@
-package com.leothon.cogito.Mvp.View.Fragment.AskPage;
+package com.leothon.cogito.Mvp.View.Activity.AskActivity;
 
-import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.DTO.SendQAData;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
-public class AskModel implements AskFragmentContract.IAskModel {
+public class AskActivityModel implements AskActivityContract.IAskActivityModel {
     @Override
-    public void getAskData(String token, final AskFragmentContract.OnAskFinishedListener listener) {
+    public void uploadFile(String path, final AskActivityContract.OnAskActivityFinishedListener listener) {
+        File file = new File(path);
+        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getQAData(token)
+                .updataFile(photo)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -25,6 +30,7 @@ public class AskModel implements AskFragmentContract.IAskModel {
                     @Override
                     public void doOnError(String errorMsg) {
                         listener.showInfo(errorMsg);
+
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -37,16 +43,18 @@ public class AskModel implements AskFragmentContract.IAskModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        ArrayList<QAData> qaData = (ArrayList<QAData>) baseResponse.getData();
-                        listener.loadAskData(qaData);
+                        String url = baseResponse.getError();
+
+                        listener.getUploadUrl(url);
                     }
                 });
     }
 
     @Override
-    public void getAskMoreData(int currentPage, final AskFragmentContract.OnAskFinishedListener listener) {
+    public void sendQaData(SendQAData sendQAData, final AskActivityContract.OnAskActivityFinishedListener listener) {
+
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreQAData(currentPage)
+                .sendQAData(sendQAData)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -54,6 +62,7 @@ public class AskModel implements AskFragmentContract.IAskModel {
                     @Override
                     public void doOnError(String errorMsg) {
                         listener.showInfo(errorMsg);
+
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -66,8 +75,9 @@ public class AskModel implements AskFragmentContract.IAskModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        ArrayList<QAData> qaData = (ArrayList<QAData>) baseResponse.getData();
-                        listener.loadAskMoreData(qaData);
+                        String msg = baseResponse.getError();
+
+                        listener.sendSuccess(msg);
                     }
                 });
 

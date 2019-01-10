@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
 import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
@@ -32,6 +35,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.ArcImageView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -76,6 +80,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     private boolean isCheck = false;
 
     private AboutPresenter aboutPresenter;
+    private UserEntity userEntity;
+    private String uuid;
+
     public AboutFragment() {}
 
 
@@ -99,21 +106,27 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Override
     protected void initData() {
+        //aboutPresenter = new AboutPresenter(this);
+        //aboutPresenter.loadUserAll(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        TokenValid tokenValid = tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        uuid = tokenValid.getUid();
 
-        aboutPresenter = new AboutPresenter(this);
-        aboutPresenter.loadUserAll(fragmentsharedPreferencesUtils.getParams("token","").toString());
-
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
+
 
 
 
     @Override
     public void getUserInfo(User user) {
-        userName.setText(user.getUser_name());
-        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),user.getUser_icon(),userIcon,R.drawable.defaulticon);
-        signature.setText(user.getUser_signal());
-        Constants.user = user;
-        Constants.icon = user.getUser_icon();
+//        userName.setText(user.getUser_name());
+//        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),user.getUser_icon(),userIcon,R.drawable.defaulticon);
+//        signature.setText(user.getUser_signal());
+//        UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance());
+//
+//        BaseApplication.getInstances().getDaoSession().insert(userEntity);
+//        Constants.user = user;
+//        Constants.icon = user.getUser_icon();
     }
     @Override
     protected void initView() {
@@ -130,9 +143,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             userIcon.setImageResource(R.drawable.defaulticon);
             signature.setText("");
         }else {
-            userName.setText("");
-            ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.iconurl,userIcon,R.drawable.defaulticon);
-            signature.setText("");
+
+            userName.setText(userEntity.getUser_name());
+            ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntity.getUser_icon(),userIcon,R.drawable.defaulticon);
+            signature.setText(userEntity.getUser_signal());
         }
         EventBus.getDefault().register(this);
     }
@@ -147,9 +161,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
-        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),Constants.icon,userIcon,R.drawable.defaulticon);
-        userName.setText(user.getUser_name());
-        signature.setText(user.getUser_signal());
+        UserEntity userEntityRe = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntityRe.getUser_icon(),userIcon,R.drawable.defaulticon);
+        userName.setText(userEntityRe.getUser_name());
+        signature.setText(userEntityRe.getUser_signal());
     }
     @OnClick(R.id.check_in)
     public void checkIn(View view){

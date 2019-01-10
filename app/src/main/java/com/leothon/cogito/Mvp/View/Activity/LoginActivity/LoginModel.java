@@ -73,11 +73,9 @@ public class LoginModel implements LoginContract.ILoginModel {
                     @Override
                     public void onNext(BaseResponse baseResponse) {
                         if (baseResponse.isSuccess()){
-                            TokenInfo tokenInfo = (TokenInfo)baseResponse.getData();
-                            String token = tokenInfo.getToken();
-                            //TODO 保存Token
-                            sharedPreferencesUtils.setParams("token",token);
-                            Listener.registerORloginSuccess(tokenInfo.getInfo());
+                            User user = (User)baseResponse.getData();
+                            sharedPreferencesUtils.setParams("token",user.getUser_token());
+                            Listener.registerORloginSuccess(user);
                         }else {
                             //显示错误信息
                             Listener.showFailInfo(baseResponse.getError());

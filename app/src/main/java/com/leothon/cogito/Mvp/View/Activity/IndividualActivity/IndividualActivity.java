@@ -12,8 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.FollowAFansAdapter;
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -26,6 +29,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -71,12 +75,20 @@ public class IndividualActivity extends BaseActivity {
     private Intent intent;
 
     private boolean isfollowed = false;
+    private UserEntity userEntity;
+    private String uuid;
 
     @Override
     public int initLayout() {
         return R.layout.activity_individual;
     }
+    @Override
+    public void initData() {
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        uuid = tokenValid.getUid();
 
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
     @Override
     public void initView() {
         intent = getIntent();
@@ -107,27 +119,27 @@ public class IndividualActivity extends BaseActivity {
                 }
             });
             individualContent.setText("我发布的内容");
-            individualName.setText(Constants.user.getUser_name());
-            ImageLoader.loadImageViewThumbnailwitherror(this, Constants.icon,individualIcon,R.drawable.defaulticon);
+            individualName.setText(userEntity.getUser_name());
+            ImageLoader.loadImageViewThumbnailwitherror(this, userEntity.getUser_icon(),individualIcon,R.drawable.defaulticon);
             try{
-                int age = CommonUtils.getAge(Constants.user.getUser_birth());
+                int age = CommonUtils.getAge(userEntity.getUser_birth());
                 individualAge.setText(age + "岁");
             }catch (ParseException e){
                 e.printStackTrace();
             }catch (Exception e){
                 e.printStackTrace();
             }
-            if (Constants.user.getUser_sex() == 1){
+            if (userEntity.getUser_sex() == 1){
                 individualSex.setImageResource(R.drawable.male);
-            }else if (Constants.user.getUser_sex() == 2){
+            }else if (userEntity.getUser_sex() == 2){
                 individualSex.setImageResource(R.drawable.female);
             }else {
                 individualSex.setImageResource(R.drawable.defaultsex);
             }
 
-            individualSignal.setText(Constants.user.getUser_signal());
+            individualSignal.setText(userEntity.getUser_signal());
 
-            individualLocation.setText(Constants.user.getUser_address());
+            individualLocation.setText(userEntity.getUser_address());
 
 
         }
@@ -168,7 +180,7 @@ public class IndividualActivity extends BaseActivity {
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.user.getUser_icon(),img,R.drawable.defaulticon);
+        ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),img,R.drawable.defaulticon);
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
@@ -208,36 +220,34 @@ public class IndividualActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
-        Constants.user = user;
-        individualName.setText(user.getUser_name());
+        UserEntity userEntityRe = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        individualName.setText(userEntityRe.getUser_name());
 
         try{
-            int age = CommonUtils.getAge(user.getUser_birth());
+            int age = CommonUtils.getAge(userEntityRe.getUser_birth());
             individualAge.setText(age + "岁");
         }catch (ParseException e){
             e.printStackTrace();
         }catch (Exception e){
             e.printStackTrace();
         }
-        if (user.getUser_sex() == 1){
+        if (userEntityRe.getUser_sex() == 1){
             individualSex.setImageResource(R.drawable.male);
-        }else if (user.getUser_sex() == 2){
+        }else if (userEntityRe.getUser_sex() == 2){
             individualSex.setImageResource(R.drawable.female);
         }else {
             individualSex.setImageResource(R.drawable.defaultsex);
         }
 
-        ImageLoader.loadImageViewThumbnailwitherror(this,Constants.icon,individualIcon,R.drawable.defaulticon);
 
-        individualSignal.setText(user.getUser_signal());
+        ImageLoader.loadImageViewThumbnailwitherror(this,userEntityRe.getUser_icon(),individualIcon,R.drawable.defaulticon);
 
-        individualLocation.setText(user.getUser_address());
+        individualSignal.setText(userEntityRe.getUser_signal());
 
-    }
-    @Override
-    public void initData() {
+        individualLocation.setText(userEntityRe.getUser_address());
 
     }
+
     @Override
     public BasePresenter initPresenter() {
         return null;

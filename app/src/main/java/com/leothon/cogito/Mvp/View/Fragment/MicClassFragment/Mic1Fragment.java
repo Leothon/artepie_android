@@ -20,16 +20,16 @@ public class Mic1Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private ArrayList<MicClass> micClasses;
     private static int THRESHOLD_OFFSET = 10;
     private String[] micImg =
-            {"http://www.ddkjplus.com/image/art1.jpg",
-            "http://www.ddkjplus.com/image/art2.jpg",
-            "http://www.ddkjplus.com/image/art3.jpg",
-            "http://www.ddkjplus.com/image/art4.jpg",
-            "http://www.ddkjplus.com/image/art5.jpg",
-            "http://www.ddkjplus.com/image/art6.jpg",
-            "http://www.ddkjplus.com/image/art7.jpg",
-            "http://www.ddkjplus.com/image/art8.jpg",
-            "http://www.ddkjplus.com/image/art9.jpg",
-            "http://www.ddkjplus.com/image/art10.jpg"};
+            {"http://www.ddkjplus.com/resource/art1.jpg",
+            "http://www.ddkjplus.com/resource/art2.jpg",
+            "http://www.ddkjplus.com/resource/art3.jpg",
+            "http://www.ddkjplus.com/resource/art4.jpg",
+            "http://www.ddkjplus.com/resource/art5.jpg",
+            "http://www.ddkjplus.com/resource/art6.jpg",
+            "http://www.ddkjplus.com/resource/art7.jpg",
+            "http://www.ddkjplus.com/resource/art8.jpg",
+            "http://www.ddkjplus.com/resource/art9.jpg",
+            "http://www.ddkjplus.com/resource/art10.jpg"};
     private String[] micTitle = {"如何确定自己发声位置？",
             "在歌唱中咬字问题的解释",
             "你的歌唱状态对了吗？",

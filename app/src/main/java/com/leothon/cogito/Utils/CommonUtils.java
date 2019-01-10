@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -105,7 +106,61 @@ public class CommonUtils {
         v.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
     }
 
+    /**
+     * 获取视频第一帧作为封面（网络）
+     * @param url
+     * @return
+     */
 
+    public static Bitmap getVideoThumbnail(String url) {
+        Bitmap bitmap = null;
+        //MediaMetadataRetriever 是android中定义好的一个类，提供了统一
+        //的接口，用于从输入的媒体文件中取得帧和元数据；
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            //根据文件路径获取缩略图
+            retriever.setDataSource(url, new HashMap());
+            //获得第一帧图片
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return bitmap;
+    }
+
+    /**
+     * 获取视频第一帧作为封面（本地）
+     * @param path
+     * @return
+     */
+
+    public  static Bitmap getVideoThumb(String path) {
+
+        MediaMetadataRetriever media = new MediaMetadataRetriever();
+
+        media.setDataSource(path);
+
+        return media.getFrameAtTime();
+
+    }
+
+    public static String fileType(String filename){
+        String fileType = filename.substring(filename.lastIndexOf(".") + 1, filename.length()).toLowerCase();
+        String audio[] = {  "mp3", "wma", "wav", "mod", "ra", "cd", "md", "asf", "aac", "vqf", "ape", "mid", "ogg",
+                "m4a", "vqf" };
+        String video[] = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" };
+        for (int i = 0; i < audio.length; i++) {
+            if (audio[i].equals(fileType)) {
+                return "audio";
+            } else if (video[i].equals(fileType)) {
+                return "video";
+            }
+        }
+
+        return null;
+    }
 
 
     public  static String stringto(String rebate){

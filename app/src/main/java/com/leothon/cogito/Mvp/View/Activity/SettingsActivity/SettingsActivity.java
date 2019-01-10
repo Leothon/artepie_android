@@ -9,7 +9,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -103,8 +105,7 @@ public class SettingsActivity extends BaseActivity {
         Constants.loginStatus = 0;
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
-        Constants.user = null;
-        Constants.icon = "";
+        BaseApplication.getInstances().getDaoSession().deleteAll(UserEntity.class);
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
         finish();
     }

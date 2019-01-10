@@ -7,12 +7,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.leothon.cogito.Adapter.AskAdapter;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Ask;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
@@ -26,8 +32,9 @@ public class UploadActivity extends BaseActivity {
     RecyclerView rvUpload;
 
     private AskAdapter uploadAdapter;
-    private ArrayList<Ask> askArrayList;
+    private ArrayList<QAData> askArrayList;
 
+    private UserEntity userEntity;
     @Override
     public BasePresenter initPresenter() {
         return null;
@@ -42,7 +49,13 @@ public class UploadActivity extends BaseActivity {
     public int initLayout() {
         return R.layout.activity_upload;
     }
+    @Override
+    public void initData() {
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
 
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
     @Override
     public void initView() {
         setToolbarSubTitle("");
@@ -55,16 +68,17 @@ public class UploadActivity extends BaseActivity {
     private void loadFalseData(){
         askArrayList = new ArrayList<>();
         for (int i = 0 ;i < 10;i++){
-            Ask ask = new Ask();
-            ask.setUsericonurl(Constants.iconurl);
-            ask.setUsername("叶落知秋");
-            ask.setUserdes("如鱼饮水，冷暖自知");
-            ask.setContent("发布一条视频");
-            ask.setLikecount("122");
-            ask.setCommentcount("56");
-            ask.setVideourl("http://121.196.199.171:8080/myweb/cogito001.mp4");
-            ask.setCoverurl("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F25%2F26%2F79658PIC3vd_1024.jpg&thumburl=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2323192023%2C1521283642%26fm%3D26%26gp%3D0.jpg");
-            askArrayList.add(ask);
+            QAData qaData = new QAData();
+
+            qaData.setUser_icon(userEntity.getUser_icon());
+            qaData.setUser_name(userEntity.getUser_name());
+            qaData.setUser_signal(userEntity.getUser_signal());
+            qaData.setQa_content("发布一条视频");
+            qaData.setQa_like("45");
+            qaData.setQa_comment("1");
+            qaData.setQa_video("");
+            qaData.setQa_video_cover(Api.ComUrl + "resource/home1.jpg");
+            askArrayList.add(qaData);
         }
     }
     private void initAdapter(){
@@ -91,10 +105,7 @@ public class UploadActivity extends BaseActivity {
             }
         });
     }
-    @Override
-    public void initData() {
 
-    }
 
     @Override
     public void showLoading() {

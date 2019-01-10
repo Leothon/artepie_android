@@ -2,8 +2,11 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +52,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private LayoutInflater inflater;
     protected boolean isFull;
     private boolean islike = false;
+    private ImageView imageView;
+
+    private static int COMPLETED = 1;
+    private Bitmap bitmap;
 
     private SharedPreferencesUtils sharedPreferencesUtils;
 
@@ -99,12 +106,23 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             }else {
                 askViewHolder.commentAsk.setText(ask.getQa_comment());
             }
-            if (!ask.getQa_video().equals("")) {
+            if (ask.getQa_video() != null) {
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
-                ImageView imageView = new ImageView(context);
+                imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //imageView.setImageResource(R.drawable.activityback);
-                ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
+                //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        bitmap = CommonUtils.getVideoThumbnail(ask.getQa_video());
+                        Message msg = new Message();
+                        msg.what = COMPLETED;
+                        handler.sendMessage(msg);
+                    }
+                }).start();
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
@@ -222,6 +240,15 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+    };
 
 
     private void intoIndividual(QAData ask){

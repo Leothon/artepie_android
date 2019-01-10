@@ -39,9 +39,9 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     }
 
     @Override
-    public void registerORloginSuccess(String info) {
+    public void registerORloginSuccess(User  user) {
         if (iLoginView != null){
-            iLoginView.registerORloginSuccess(info);
+            iLoginView.registerORloginSuccess(user);
         }
     }
 
