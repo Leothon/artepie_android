@@ -12,10 +12,19 @@ public class AskDetail  {
     private String content;
     private String coverurl;
     private String videourl;
+    private String audiourl;
     private String like;
     private String comment;
-    private ArrayList<UserComment> userComments;
+    private ArrayList<Comment> userComments;
 
+
+    public String getAudiourl() {
+        return audiourl;
+    }
+
+    public void setAudiourl(String audiourl) {
+        this.audiourl = audiourl;
+    }
 
     public String getLike() {
         return like;
@@ -81,11 +90,11 @@ public class AskDetail  {
         this.videourl = videourl;
     }
 
-    public ArrayList<UserComment> getUserComments() {
+    public ArrayList<Comment> getUserComments() {
         return userComments;
     }
 
-    public void setUserComments(ArrayList<UserComment> userComments) {
+    public void setUserComments(ArrayList<Comment> userComments) {
         this.userComments = userComments;
     }
 }

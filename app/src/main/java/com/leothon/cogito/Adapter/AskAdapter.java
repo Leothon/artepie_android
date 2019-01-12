@@ -112,7 +112,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //imageView.setImageResource(R.drawable.activityback);
                 //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
-
+                imageView.setTag(ask.getQa_video());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -126,7 +126,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-                gsyVideoOption.setThumbImageView(imageView)
+                if (imageView.getTag().equals(ask.getQa_video())){
+                    gsyVideoOption.setThumbImageView(imageView);
+                }
+                gsyVideoOption
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
                         .setLockLand(false)

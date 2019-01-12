@@ -1,28 +1,25 @@
 package com.leothon.cogito.Mvp.View.Activity.PlayerActivity;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -32,26 +29,19 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.ChooseClassAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
 import com.leothon.cogito.Bean.ChooseClass;
-import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.UserComment;
+import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.VideoClass;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
-import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
-import com.leothon.cogito.View.EmptyRecyclerView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -110,7 +100,7 @@ public class PlayerActivity extends BaseActivity {
     //测试视频链接
     //private String url = "http://www.w3school.com.cn/example/html5/mov_bbb.mp4";
     //private String url = "http://121.196.199.171:8080/myweb/cogito001.mp4";
-    private String url = "https://www.ddkjplus.com/video/artvideo001.mp4";
+    private String url = "http://www.ddkjplus.com/resource/artvideo000000001.mp4";
     private String userIcon[] = {"","","","",""};
     private String username[] = {"赵一","钱二","孙三","李四","周五","吴六","郑七","王八","冯九","陈十","褚十一","卫十二","蒋十三","沈十四","韩十五","杨十六"};
 
@@ -163,7 +153,20 @@ public class PlayerActivity extends BaseActivity {
     private boolean isPlay;
     private boolean isPause;
 
-
+    //正常
+    public static final int CURRENT_STATE_NORMAL = 0;
+    //准备中
+    public static final int CURRENT_STATE_PREPAREING = 1;
+    //播放中
+    public static final int CURRENT_STATE_PLAYING = 2;
+    //开始缓冲
+    public static final int CURRENT_STATE_PLAYING_BUFFERING_START = 3;
+    //暂停
+    public static final int CURRENT_STATE_PAUSE = 5;
+    //自动播放结束
+    public static final int CURRENT_STATE_AUTO_COMPLETE = 6;
+    //错误状态
+    public static final int CURRENT_STATE_ERROR = 7;
     private View empty;
     private VideoClass videoClass;
     private Intent intent;
@@ -177,16 +180,19 @@ public class PlayerActivity extends BaseActivity {
     private MaterialEditText editComment;
     private ImageView sendComment;
 
-    private ArrayList<UserComment> userComments;
+    private ArrayList<Comment> userComments;
     private ArrayList<ChooseClass> chooseClasses;
 
     private VideoCommentAdapter videoCommentAdapter;
     private ChooseClassAdapter chooseClassAdapter;
     private int count = 0;
     private ScrollSpeedLinearLayoutManager scrollSpeedLinearLayoutManager;
+    private ImageView imageView;
 
-    private int CURRENT_STATE_PLAYING = 2;
-    private int CURRENT_STATE_PAUSE = 5;
+    private static int COMPLETED = 1;
+    private Bitmap bitmap;
+    private int mCurrentState = -1;
+
     @Override
     public int initLayout() {
         return R.layout.activity_player;
@@ -213,38 +219,49 @@ public class PlayerActivity extends BaseActivity {
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
-
-                if (verticalOffset == 0) {
-                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
-                        state = CollapsingToolbarLayoutState.EXPANDED;
-                        //修改状态标记为展开
-                        //toolbarLayout.setTitle("EXPANDED");
-                        //设置title为EXPANDED
-                    }
-                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
-
-                        toolbarLayout.setTitle("");
-                        playTitle.setVisibility(View.VISIBLE);
-                        state = CollapsingToolbarLayoutState.COLLAPSED;
-
-                    }
-
+                mCurrentState = videoPlayer.getCurrentState();
+                if (mCurrentState >= 0 && mCurrentState != CURRENT_STATE_NORMAL
+                        && mCurrentState != CURRENT_STATE_AUTO_COMPLETE && mCurrentState != CURRENT_STATE_ERROR && mCurrentState != CURRENT_STATE_PAUSE) {
+                    videoScrollView.setNestedScrollingEnabled(false);
                 } else {
-                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                        if (state == CollapsingToolbarLayoutState.COLLAPSED) {
-                            playTitle.setVisibility(View.GONE);
-                            //由折叠变为中间状态时隐藏播放按钮
-                        }
-                        //toolbarLayout.setTitle("INTERNEDIATE");
-                        //设置title为INTERNEDIATE
-                        state = CollapsingToolbarLayoutState.INTERNEDIATE;
-                        //修改状态标记为中间
+                    if (!videoScrollView.isNestedScrollingEnabled()){
+                        videoScrollView.setNestedScrollingEnabled(true);
                     }
+
+                    if (verticalOffset == 0) {
+                        if (state != CollapsingToolbarLayoutState.EXPANDED) {
+                            state = CollapsingToolbarLayoutState.EXPANDED;
+                            //修改状态标记为展开
+                            //toolbarLayout.setTitle("EXPANDED");
+                            //设置title为EXPANDED
+                        }
+                    } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                        if (state != CollapsingToolbarLayoutState.COLLAPSED) {
+
+                            toolbarLayout.setTitle("");
+                            playTitle.setVisibility(View.VISIBLE);
+                            state = CollapsingToolbarLayoutState.COLLAPSED;
+
+                        }
+
+                    } else {
+                        if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
+                            if (state == CollapsingToolbarLayoutState.COLLAPSED) {
+                                playTitle.setVisibility(View.GONE);
+                                //由折叠变为中间状态时隐藏播放按钮
+                            }
+                            //toolbarLayout.setTitle("INTERNEDIATE");
+                            //设置title为INTERNEDIATE
+                            state = CollapsingToolbarLayoutState.INTERNEDIATE;
+                            //修改状态标记为中间
+                        }
+                    }
+
                 }
 
             }
+
+
 
 
 
@@ -255,6 +272,7 @@ public class PlayerActivity extends BaseActivity {
     @OnClick(R.id.playButton)
     public void playVideo(View v){
         appBar.setExpanded(true);
+        videoPlayer.getCurrentPlayer().onVideoResume(false);
 
     }
 
@@ -360,10 +378,10 @@ public class PlayerActivity extends BaseActivity {
 
         userComments = new ArrayList<>();
         for (int i = 0;i < username.length;i++){
-            UserComment userComment = new UserComment();
-            userComment.setUserIcon(R.drawable.defalutimg);
-            userComment.setUsername(username[i]);
-            userComment.setUsercomment("这个视频真精彩");
+            Comment userComment = new Comment();
+            userComment.setUser_icon("");
+            userComment.setUser_name(username[i]);
+            userComment.setComment_q_content("这个视频真精彩");
             userComments.add(userComment);
         }
         videoClass.setUserComments(userComments);
@@ -390,7 +408,7 @@ public class PlayerActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
 
@@ -400,9 +418,18 @@ public class PlayerActivity extends BaseActivity {
 
 
         videoTitle.setText(title);
-        ImageView imageView = new ImageView(this);
+        imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.loadImageViewwithError(this,img,imageView,R.drawable.defalutimg);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                bitmap = CommonUtils.getVideoThumbnail(url);
+                Message msg = new Message();
+                msg.what = COMPLETED;
+                handler.sendMessage(msg);
+            }
+        }).start();
 
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,7 +506,14 @@ public class PlayerActivity extends BaseActivity {
         });
     }
 
-
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+    };
 
     public void initPopupWindow(){
         popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
@@ -501,10 +535,10 @@ public class PlayerActivity extends BaseActivity {
                 //TODO 发送信息给评论
                 if (!editComment.getText().toString().equals("")){
                     String comment = editComment.getText().toString();
-                    UserComment userComment = new UserComment();
-                    userComment.setUserIcon(R.drawable.defalutimg);
-                    userComment.setUsername("Leothon");
-                    userComment.setUsercomment(comment);
+                    Comment userComment = new Comment();
+                    userComment.setUser_icon("");
+                    userComment.setUser_name("Leothon");
+                    userComment.setComment_q_content(comment);
                     userComments.add(0,userComment);
                     videoClass.setUserComments(userComments);
                     videoCommentAdapter.notifyItemInserted(0);

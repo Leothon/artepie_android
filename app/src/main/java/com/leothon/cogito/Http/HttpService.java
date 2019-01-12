@@ -7,6 +7,7 @@ import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SendQAData;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ import retrofit2.http.Query;
  */
 public interface HttpService {
 
-    @GET("/login")
-    Observable login(@Query("username") String username, @Query("password") String password);
+//    @GET("/login")
+//    Observable login(@Query("username") String username, @Query("password") String password);
 
 
     @GET("verifyphone")
@@ -64,5 +65,9 @@ public interface HttpService {
 
     @GET("getmorequestion")
     Observable<BaseResponse<ArrayList<QAData>>> getMoreQAData(@Query("currentpage") int currentPage);
+
+
+    @GET("getqadetail")
+    Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
 
 }

@@ -27,10 +27,10 @@ public class VideoClass extends BaseResponse{
 
 
 
-    private ArrayList<UserComment> userComments;
+    private ArrayList<Comment> userComments;
 
 
-    public ArrayList<UserComment> getUserComments() {
+    public ArrayList<Comment> getUserComments() {
         return userComments;
     }
 
@@ -43,7 +43,7 @@ public class VideoClass extends BaseResponse{
         return isLocked;
     }
 
-    public void setUserComments(ArrayList<UserComment> userComments) {
+    public void setUserComments(ArrayList<Comment> userComments) {
         this.userComments = userComments;
     }
 

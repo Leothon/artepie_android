@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,16 +20,19 @@ import android.widget.PopupWindow;
 
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.AskDetailAdapter;
-import com.leothon.cogito.Adapter.BaseAdapter;
-import com.leothon.cogito.Adapter.VideoCommentAdapter;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.AskDetail;
-import com.leothon.cogito.Bean.UserComment;
+import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.DTO.QADataDetail;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivityPresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
-import com.makeramen.roundedimageview.RoundedImageView;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -39,14 +41,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AskDetailActivity extends BaseActivity {
+public class AskDetailActivity extends BaseActivity implements AskDetailContract.IAskDetailView {
 
 
     @BindView(R.id.rv_ask_detail)
     RecyclerView rvAskDetail;
     @BindView(R.id.comment_in_detail)
     CardView commentIn;
-    private AskDetail askDetail;
+    private QADataDetail qaDataDetail;
     private AskDetailAdapter askDetailAdapter;
 
     private View popview;
@@ -55,7 +57,8 @@ public class AskDetailActivity extends BaseActivity {
     private MaterialEditText editComment;
     private ImageView sendComment;
     private View dismiss;
-    private ArrayList<UserComment> userComments;
+    private ArrayList<Comment> userComments;
+    private UserEntity userEntity;
 
     private Intent intent;
     private Bundle bundle;
@@ -70,46 +73,57 @@ public class AskDetailActivity extends BaseActivity {
             "直奔评论区",
             "谁有阎维文老师的课程？",
             "人美歌甜"};
+
+    private AskDetailPresenter askDetailPresenter;
     @Override
     public int initLayout() {
         return R.layout.activity_ask_detail;
     }
+    @Override
+    public void initData() {
+        askDetailPresenter = new AskDetailPresenter(this);
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
 
+        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
     @Override
     public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
         setToolbarSubTitle("");
         setToolbarTitle("");
-        loadFalseData();
-        initAdapter();
+        //loadFalseData();
+
+        askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
+
         initPopupWindow();
     }
 
-    private void loadFalseData(){
-        askDetail = new AskDetail();
-        String qaId = bundle.getString("qaId");
-        askDetail.setUsericon(bundle.getString("icon"));
-        askDetail.setUsername(bundle.getString("name"));
-        askDetail.setUserdes(bundle.getString("desc"));
-        askDetail.setContent(bundle.getString("content"));
-        askDetail.setCoverurl(bundle.getString("cover"));
-        askDetail.setVideourl(bundle.getString("video"));
-        askDetail.setLike(bundle.getString("like"));
-        askDetail.setComment(bundle.getString("comment"));
-        userComments = new ArrayList<>();
-        for (int i = 0;i < 10;i++){
-            UserComment userComment = new UserComment();
-            userComment.setUsername(name[i]);
-            userComment.setUsericon("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534355965654%26di%3D80b2e428590ce5cef81a1060a5ae48d4%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimgsa.baidu.com%252Fbaike%252Fpic%252Fitem%252Fc2fdfc039245d6889a29f356a8c27d1ed21b241c.jpg&thumburl=https%3A%2F%2Fss0.bdstatic.com%2F70cFvHSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1522657165%2C2769090755%26fm%3D11%26gp%3D0.jpg");
-            userComment.setUsercomment(comment[i]);
-            userComments.add(userComment);
-        }
-        askDetail.setUserComments(userComments);
-    }
+//    private void loadFalseData(){
+//        askDetail = new AskDetail();
+//        String qaId = bundle.getString("qaId");
+//        askDetail.setUsericon(bundle.getString("icon"));
+//        askDetail.setUsername(bundle.getString("name"));
+//        askDetail.setUserdes(bundle.getString("desc"));
+//        askDetail.setContent(bundle.getString("content"));
+//        askDetail.setCoverurl(bundle.getString("cover"));
+//        askDetail.setVideourl(bundle.getString("video"));
+//        askDetail.setLike(bundle.getString("like"));
+//        askDetail.setComment(bundle.getString("comment"));
+//        userComments = new ArrayList<>();
+//        for (int i = 0;i < 10;i++){
+//            Comment userComment = new Comment();
+//            userComment.setUsername(name[i]);
+//            userComment.setUsericon("https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1534355965654%26di%3D80b2e428590ce5cef81a1060a5ae48d4%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimgsa.baidu.com%252Fbaike%252Fpic%252Fitem%252Fc2fdfc039245d6889a29f356a8c27d1ed21b241c.jpg&thumburl=https%3A%2F%2Fss0.bdstatic.com%2F70cFvHSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1522657165%2C2769090755%26fm%3D11%26gp%3D0.jpg");
+//            userComment.setUsercomment(comment[i]);
+//            userComments.add(userComment);
+//        }
+//        askDetail.setUserComments(userComments);
+//    }
 
     private void initAdapter(){
-        askDetailAdapter = new AskDetailAdapter(askDetail,this);
+        askDetailAdapter = new AskDetailAdapter(qaDataDetail,this);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         rvAskDetail.setLayoutManager(mlinearLayoutManager);
@@ -134,15 +148,27 @@ public class AskDetailActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void loadDetail(QADataDetail qaDataDetail) {
+        this.qaDataDetail = qaDataDetail;
+        initAdapter();
+    }
+
+    @Override
+    public void loadMoreComment(ArrayList<Comment> userComments) {
+
+    }
+
+    @Override
+    public void showInfo(String msg) {
+
+    }
     @OnClick(R.id.comment_in_detail)
     public void commentTo(View view){
         showPopWindow();
         popupInputMethod();
     }
-    @Override
-    public void initData() {
 
-    }
 
     public void initPopupWindow(){
         popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
@@ -155,7 +181,7 @@ public class AskDetailActivity extends BaseActivity {
         //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         editComment = (MaterialEditText)popview.findViewById(R.id.edit_comment);
-
+        userComments = new ArrayList<>();
         sendComment = (ImageView)popview.findViewById(R.id.send_comment);
         dismiss = (View)popview.findViewById(R.id.dismiss);
         sendComment.setOnClickListener(new View.OnClickListener() {
@@ -164,12 +190,12 @@ public class AskDetailActivity extends BaseActivity {
                 //TODO 发送信息给评论
                 if (!editComment.getText().toString().equals("")){
                     String comment = editComment.getText().toString();
-                    UserComment userComment = new UserComment();
-                    userComment.setUserIcon(R.drawable.defalutimg);
-                    userComment.setUsername("Leothon");
-                    userComment.setUsercomment(comment);
+                    Comment userComment = new Comment();
+                    userComment.setUser_icon(userEntity.getUser_icon());
+                    userComment.setUser_name(userEntity.getUser_name());
+                    userComment.setComment_q_content(comment);
                     userComments.add(0,userComment);
-                    askDetail.setUserComments(userComments);
+                    qaDataDetail.setComments(userComments);
                     askDetailAdapter.notifyItemInserted(0);
                     askDetailAdapter.notifyItemRangeChanged(0,userComments.size());
                     rvAskDetail.scrollToPosition(0);
@@ -262,4 +288,6 @@ public class AskDetailActivity extends BaseActivity {
     public void showMessage(@NonNull String message) {
 
     }
+
+
 }
