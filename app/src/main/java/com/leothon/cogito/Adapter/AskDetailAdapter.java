@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -35,6 +36,8 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -165,16 +168,16 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        bitmap = CommonUtils.getVideoThumbnail(qaDataDetail.getQaData().getQa_video());
-                        Message msg = new Message();
-                        msg.what = COMPLETED;
-                        handler.sendMessage(msg);
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        bitmap = CommonUtils.getVideoThumbnail(qaDataDetail.getQaData().getQa_video());
+//                        Message msg = new Message();
+//                        msg.what = COMPLETED;
+//                        handler.sendMessage(msg);
+//                    }
+//                }).start();
                 detailViewHolder.VideoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -238,9 +241,93 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 EmptyViewHoler emptyViewHoler = (EmptyViewHoler) holder;
                 emptyViewHoler.emptyText.setText("暂无评论");
             } else {
+
+
                 int position1 = position - 1;
 
                 CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
+                commentViewHolder.commentTimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getComment_q_time()));
+                //commentViewHolder.likeImgQa;
+                commentViewHolder.commentLikeQa.setText(qaDataDetail.getComments().get(position1).getComment_q_like());
+                if (qaDataDetail.getComments().get(position1).getReplies() != null){
+                    int replyCount = qaDataDetail.getComments().get(position1).getReplies().size();
+                    switch (replyCount){
+                        case 1:
+                            commentViewHolder.firstReply.setVisibility(View.VISIBLE);
+                            commentViewHolder.secondReply.setVisibility(View.GONE);
+                            commentViewHolder.moreComment.setVisibility(View.GONE);
+                            commentViewHolder.comment1TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_time()));
+                            commentViewHolder.comment1LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like());
+                            ImageLoader.loadImageViewThumbnailwitherror(context,qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+                            commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
+                            commentViewHolder.replyToUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getTo_user_name());
+                            commentViewHolder.replyComment1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment());
+                            break;
+                        case 2:
+                            commentViewHolder.firstReply.setVisibility(View.VISIBLE);
+                            commentViewHolder.secondReply.setVisibility(View.VISIBLE);
+                            commentViewHolder.moreComment.setVisibility(View.GONE);
+                            commentViewHolder.comment1TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_time()));
+                            commentViewHolder.comment2TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_time()));
+                            commentViewHolder.comment1LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like());
+                            commentViewHolder.comment2LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_like());
+                            ImageLoader.loadImageViewThumbnailwitherror(context,qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+                            commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
+                            commentViewHolder.replyToUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getTo_user_name());
+                            commentViewHolder.replyComment1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment());
+                            ImageLoader.loadImageViewThumbnailwitherror(context,qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+                            commentViewHolder.replyUserName2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_name());
+                            commentViewHolder.replyToUserName2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getTo_user_name());
+                            commentViewHolder.replyComment2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_comment());
+                            break;
+                        default:
+                            commentViewHolder.firstReply.setVisibility(View.VISIBLE);
+                            commentViewHolder.secondReply.setVisibility(View.VISIBLE);
+                            commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                            commentViewHolder.comment1TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_time()));
+                            commentViewHolder.comment2TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_time()));
+                            commentViewHolder.comment1LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like());
+                            commentViewHolder.comment2LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_like());
+                            ImageLoader.loadImageViewThumbnailwitherror(context,qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+                            commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
+                            commentViewHolder.replyToUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getTo_user_name());
+                            commentViewHolder.replyComment1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment());
+                            ImageLoader.loadImageViewThumbnailwitherror(context,qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+                            commentViewHolder.replyUserName2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_name());
+                            commentViewHolder.replyToUserName2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getTo_user_name());
+                            commentViewHolder.replyComment2.setText(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_comment());
+                            break;
+                    }
+
+
+
+
+                    //commentViewHolder.like1ImgQa;
+                    //commentViewHolder.like2ImgQa;
+
+
+
+                    commentViewHolder.moreComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO 查看更多回复
+                        }
+                    });
+
+                }
+
+//                commentViewHolder.moreComment;
+//                commentViewHolder.replyComment2;
+//                commentViewHolder.replyToUserName2;
+//                commentViewHolder.replyUserName2;
+//                commentViewHolder.replyComment1;
+//                commentViewHolder.replyToUserName1;
+//                commentViewHolder.replyUserName1;
+//                commentViewHolder.replyUserIcon2;
+//                commentViewHolder.replyUserIcon1;
+//                commentViewHolder.firstReply;
+//                commentViewHolder.secondReply;
+
                 ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getComments().get(position1).getUser_icon(), commentViewHolder.userIconComment, R.drawable.defaulticon);
                 commentViewHolder.userNameComment.setText(qaDataDetail.getComments().get(position1).getUser_name());
                 commentViewHolder.userComment.setText(qaDataDetail.getComments().get(position1).getComment_q_content());
@@ -258,14 +345,14 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == COMPLETED) {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
-    };
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == COMPLETED) {
+//                imageView.setImageBitmap(bitmap);
+//            }
+//        }
+//    };
 
 
 
@@ -330,6 +417,48 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView userNameComment;
         @BindView(R.id.user_comment_video)
         TextView userComment;
+        @BindView(R.id.more_comment)
+        RelativeLayout moreComment;
+        @BindView(R.id.reply_comment2)
+        TextView replyComment2;
+        @BindView(R.id.reply_to_user_name2)
+        TextView replyToUserName2;
+        @BindView(R.id.reply_user_name2)
+        TextView replyUserName2;
+        @BindView(R.id.reply_comment1)
+        TextView replyComment1;
+        @BindView(R.id.reply_to_user_name1)
+        TextView replyToUserName1;
+        @BindView(R.id.reply_user_name1)
+        TextView replyUserName1;
+        @BindView(R.id.reply_user_icon2)
+        RoundedImageView replyUserIcon2;
+        @BindView(R.id.reply_user_icon1)
+        RoundedImageView replyUserIcon1;
+        @BindView(R.id.first_reply)
+        RelativeLayout firstReply;
+        @BindView(R.id.second_reply)
+        RelativeLayout secondReply;
+
+        @BindView(R.id.comment_time_qa)
+        TextView commentTimeQa;
+        @BindView(R.id.comment1_time_qa)
+        TextView comment1TimeQa;
+        @BindView(R.id.comment2_time_qa)
+        TextView comment2TimeQa;
+        @BindView(R.id.like_img_qa)
+        ImageView likeImgQa;
+        @BindView(R.id.like1_img_qa)
+        ImageView like1ImgQa;
+        @BindView(R.id.like2_img_qa)
+        ImageView like2ImgQa;
+        @BindView(R.id.comment_like_qa)
+        TextView commentLikeQa;
+        @BindView(R.id.comment1_like_qa)
+        TextView comment1LikeQa;
+        @BindView(R.id.comment2_like_qa)
+        TextView comment2LikeQa;
+
 
         public CommentViewHolder(View itemView){
             super(itemView);

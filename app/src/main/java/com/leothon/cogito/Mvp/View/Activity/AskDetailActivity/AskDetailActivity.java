@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,13 +42,15 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AskDetailActivity extends BaseActivity implements AskDetailContract.IAskDetailView {
+public class AskDetailActivity extends BaseActivity implements AskDetailContract.IAskDetailView ,SwipeRefreshLayout.OnRefreshListener{
 
 
     @BindView(R.id.rv_ask_detail)
     RecyclerView rvAskDetail;
     @BindView(R.id.comment_in_detail)
     CardView commentIn;
+    @BindView(R.id.swp_ask_detail)
+    SwipeRefreshLayout swpAskDetail;
     private QADataDetail qaDataDetail;
     private AskDetailAdapter askDetailAdapter;
 
@@ -86,6 +89,9 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         String uuid = tokenValid.getUid();
 
         userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+
+        swpAskDetail.setProgressViewOffset (false,100,300);
+        swpAskDetail.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
     }
     @Override
     public void initView() {
@@ -94,7 +100,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         setToolbarSubTitle("");
         setToolbarTitle("");
         //loadFalseData();
-
+        swpAskDetail.setRefreshing(true);
         askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
 
         initPopupWindow();
@@ -122,7 +128,13 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 //        askDetail.setUserComments(userComments);
 //    }
 
+
+    @Override
+    public void onRefresh() {
+        askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
+    }
     private void initAdapter(){
+        swpAskDetail.setOnRefreshListener(this);
         askDetailAdapter = new AskDetailAdapter(qaDataDetail,this);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
@@ -150,6 +162,10 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     @Override
     public void loadDetail(QADataDetail qaDataDetail) {
+
+        if (swpAskDetail.isRefreshing()){
+            swpAskDetail.setRefreshing(false);
+        }
         this.qaDataDetail = qaDataDetail;
         initAdapter();
     }
@@ -288,6 +304,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     public void showMessage(@NonNull String message) {
 
     }
+
 
 
 }

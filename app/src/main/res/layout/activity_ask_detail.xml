@@ -10,14 +10,22 @@
         android:id="@+id/ask_detail_bar"
         layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_ask_detail"
-        android:layout_above="@+id/comment_in_detail"
-        android:layout_below="@+id/ask_detail_bar"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swp_ask_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/comment_in_detail"
+        android:layout_below="@+id/ask_detail_bar">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_ask_detail"
 
-    </android.support.v7.widget.RecyclerView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
 
