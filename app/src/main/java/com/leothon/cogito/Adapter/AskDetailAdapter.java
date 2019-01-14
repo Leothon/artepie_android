@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.BagBuy;
 import com.leothon.cogito.DTO.QADataDetail;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
@@ -100,12 +101,12 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.userName.setText(qaDataDetail.getQaData().getUser_name());
             detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
             detailViewHolder.contentDetail.setText(qaDataDetail.getQaData().getQa_content());
-            if (qaDataDetail.getQaData().getQa_like().equals("0")){
+            if (qaDataDetail.getQaData().getQa_like() == null){
                 detailViewHolder.likeDetail.setText("喜欢");
             }else {
                 detailViewHolder.likeDetail.setText(qaDataDetail.getQaData().getQa_like());
             }
-            if (qaDataDetail.getQaData().getQa_comment().equals("0")){
+            if (qaDataDetail.getQaData().getQa_comment() == null){
                 detailViewHolder.commentDetail.setText("评论");
             }else {
                 detailViewHolder.commentDetail.setText(qaDataDetail.getQaData().getQa_comment());
@@ -243,14 +244,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
 
 
-                int position1 = position - 1;
+                final int position1 = position - 1;
 
                 CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
                 commentViewHolder.commentTimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getComment_q_time()));
                 //commentViewHolder.likeImgQa;
                 commentViewHolder.commentLikeQa.setText(qaDataDetail.getComments().get(position1).getComment_q_like());
-                if (qaDataDetail.getComments().get(position1).getReplies() != null){
+                if (qaDataDetail.getComments().get(position1).getReplies() != null && qaDataDetail.getComments().get(position1).getReplies().size() != 0){
                     int replyCount = qaDataDetail.getComments().get(position1).getReplies().size();
+
                     switch (replyCount){
                         case 1:
                             commentViewHolder.firstReply.setVisibility(View.VISIBLE);
@@ -311,6 +313,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             //TODO 查看更多回复
+                            Bundle bundle = new Bundle();
+                            bundle.putString("commentId",qaDataDetail.getComments().get(position1).getComment_q_id());
+                            IntentUtils.getInstence().intent(context,CommentDetailActivity.class,bundle);
                         }
                     });
 

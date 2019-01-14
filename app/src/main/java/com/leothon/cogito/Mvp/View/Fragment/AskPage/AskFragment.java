@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ import butterknife.OnClick;
  * created by leothon on 2018.7.29
  * 问答页面的fragment
  */
-public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AskFragmentContract.IAskView {
+public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AskFragmentContract.IAskView{
 
 
 
@@ -198,6 +199,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         }
     }
 
+
+
     @Override
     public void showInfo(String msg) {
         CommonUtils.makeText(getMContext(),msg);
@@ -243,6 +246,16 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                     scrollDistance += dy;
                 }
 
+            }
+        });
+        askAdapter.setOnClickaddLike(new AskAdapter.addLikeOnClickListener() {
+            @Override
+            public void addLikeClickListener(boolean isLike,String qaId) {
+                if (isLike){
+                    askPresenter.removeLiked(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }else {
+                    askPresenter.addLiked(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }
             }
         });
 
@@ -308,5 +321,6 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             EventBus.getDefault().unregister(this);
         }
     }
+
 
 }

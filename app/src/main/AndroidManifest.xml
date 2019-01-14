@@ -11,8 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".Base.BaseApplication"
@@ -83,6 +82,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassDetailActivity" />
         <activity android:name=".Mvp.View.Activity.MicClassActivity.Mic1ClassActivity" />
+        <activity android:name=".Mvp.View.Activity.AskDetailActivity.CommentDetailActivity"></activity>
     </application>
 
 </manifest>

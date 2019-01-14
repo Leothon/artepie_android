@@ -14,7 +14,17 @@ public class QAData {
     private String user_icon;
     private String user_signal;
 
+    private boolean liked;
     private String qa_video_cover;
+
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
 
     public String getQa_video_cover() {
         return qa_video_cover;

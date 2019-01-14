@@ -5,6 +5,7 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
@@ -69,5 +70,13 @@ public interface HttpService {
 
     @GET("getqadetail")
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
+
+    @GET("getcommentdetail")
+    Observable<BaseResponse<CommentDetail>> getCommentDetail(@Query("commentid") String commentId);
+
+    @POST("addlikeqa")
+    Observable<BaseResponse<String>> addLikeQa(@Query("token") String token,@Query("qaid") String qaId);
+    @POST("removelikeqa")
+    Observable<BaseResponse<String>> removeLikeQa(@Query("token") String token,@Query("qaid") String qaId);
 
 }

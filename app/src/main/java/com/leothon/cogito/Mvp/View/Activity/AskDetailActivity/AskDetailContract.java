@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class AskDetailContract {
         void getMoreComment(String qaId,String currentPage,OnAskDetailFinishedListener listener);
         //TODO 发送评论
         void postComment(String fromId,String toId,String content,OnAskDetailFinishedListener listener);
+        void getCommentDetail(String commentId,OnAskDetailFinishedListener listener);
     }
 
     public interface IAskDetailView{
@@ -23,6 +25,8 @@ public class AskDetailContract {
         void loadMoreComment(ArrayList<Comment> userComments);
         void showInfo(String msg);
 
+        void getComment(CommentDetail commentDetail);
+
     }
 
     public interface OnAskDetailFinishedListener {
@@ -31,12 +35,14 @@ public class AskDetailContract {
         void loadMoreComment(ArrayList<Comment> userComments);
         void showInfo(String msg);
 
+        void getComment(CommentDetail commentDetail);
+
     }
 
     public interface IAskDetailPresenter{
         void onDestory();
         void getQADetailData(String token,String qaId);
         void getMoreComment(String qaId,String currentPage);
-
+        void loadCommentDetail(String commentId);
     }
 }

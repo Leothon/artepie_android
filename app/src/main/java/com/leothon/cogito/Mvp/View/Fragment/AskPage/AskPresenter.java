@@ -49,4 +49,15 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     public void getAskMoreData(int currentPage) {
         iAskModel.getAskMoreData(currentPage,this);
     }
+
+    @Override
+    public void addLiked(String token, String qaId) {
+        iAskModel.addLike(token,qaId,this);
+    }
+
+    @Override
+    public void removeLiked(String token, String qaId) {
+
+        iAskModel.removeLike(token,qaId,this);
+    }
 }

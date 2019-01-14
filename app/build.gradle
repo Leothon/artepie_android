@@ -33,6 +33,7 @@ greendao {
 
 dependencies {
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '4.23'
     compile 'com.android.support:support-v13:28.0.0-alpha3'
     compile 'com.android.support:support-v4:28.0.0-alpha3'

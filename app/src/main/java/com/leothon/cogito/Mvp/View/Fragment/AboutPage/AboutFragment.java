@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
@@ -158,6 +159,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
         }
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
@@ -351,4 +353,6 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     public void showInfo(String msg) {
         CommonUtils.makeText(getMContext(),msg);
     }
+
+
 }

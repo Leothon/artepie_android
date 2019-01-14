@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter,AskDetailContract.OnAskDetailFinishedListener {
     private AskDetailContract.IAskDetailView iAskDetailView;
     private AskDetailContract.IAskDetailModel iAskDetailModel;
+
 
     public AskDetailPresenter(AskDetailContract.IAskDetailView iAskDetailView){
         this.iAskDetailView = iAskDetailView;
@@ -36,6 +38,13 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
+    public void getComment(CommentDetail commentDetail) {
+        if (iAskDetailView != null){
+            iAskDetailView.getComment(commentDetail);
+        }
+    }
+
+    @Override
     public void onDestory() {
         iAskDetailView = null;
     }
@@ -48,5 +57,10 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     @Override
     public void getMoreComment(String qaId, String currentPage) {
         iAskDetailModel.getMoreComment(qaId,currentPage,this);
+    }
+
+    @Override
+    public void loadCommentDetail(String commentId) {
+        iAskDetailModel.getCommentDetail(commentId,this);
     }
 }
