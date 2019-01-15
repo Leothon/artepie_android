@@ -104,7 +104,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.userDes.setText(ask.getUser_signal());
             askViewHolder.contentAsk.setText(ask.getQa_content());
 
-            if (ask.getQa_like() == null){
+            if (ask.getQa_like() == null && ask.getQa_like().equals("0")){
                 askViewHolder.likeAsk.setText("喜欢");
             }else {
 
@@ -118,7 +118,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             }
 
 
-            if (ask.getQa_comment() == null){
+            if (ask.getQa_comment() == null && ask.getQa_comment().equals("0")){
                 askViewHolder.commentAsk.setText("评论");
             }else {
                 askViewHolder.commentAsk.setText(ask.getQa_comment());
@@ -296,10 +296,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
 
-    public ImageView addImageView(){
-        ImageView imageView = new ImageView(context);
-        return imageView;
-    }
+//    public ImageView addImageView(){
+//        ImageView imageView = new ImageView(context);
+//        return imageView;
+//    }
     @Override
     public int getItemCount() {
         return asks.size() + 1;

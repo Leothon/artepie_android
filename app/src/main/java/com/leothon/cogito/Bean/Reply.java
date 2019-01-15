@@ -17,6 +17,16 @@ public class Reply {
 
     private String reply_time;
 
+    private boolean reply_liked;
+
+    public boolean isReply_liked() {
+        return reply_liked;
+    }
+
+    public void setReply_liked(boolean reply_liked) {
+        this.reply_liked = reply_liked;
+    }
+
     public String getReply_time() {
         return reply_time;
     }

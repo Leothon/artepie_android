@@ -44,9 +44,9 @@ public class AskModel implements AskFragmentContract.IAskModel {
     }
 
     @Override
-    public void getAskMoreData(int currentPage, final AskFragmentContract.OnAskFinishedListener listener) {
+    public void getAskMoreData(int currentPage,String token ,final AskFragmentContract.OnAskFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreQAData(currentPage)
+                .getMoreQAData(currentPage,token)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override

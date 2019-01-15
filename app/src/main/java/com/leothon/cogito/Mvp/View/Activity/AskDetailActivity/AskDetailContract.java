@@ -15,6 +15,15 @@ public class AskDetailContract {
         //TODO 发送评论
         void postComment(String fromId,String toId,String content,OnAskDetailFinishedListener listener);
         void getCommentDetail(String commentId,OnAskDetailFinishedListener listener);
+
+        void addLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
+        void removeLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
+
+        void addLikeComment(String token,String commentId,OnAskDetailFinishedListener listener);
+        void removeLikeComment(String token,String commentId,OnAskDetailFinishedListener listener);
+
+        void addLikeReply(String token,String replyId,OnAskDetailFinishedListener listener);
+        void removeLikeReply(String token,String replyId,OnAskDetailFinishedListener listener);
     }
 
     public interface IAskDetailView{
@@ -44,5 +53,11 @@ public class AskDetailContract {
         void getQADetailData(String token,String qaId);
         void getMoreComment(String qaId,String currentPage);
         void loadCommentDetail(String commentId);
+        void addLikeDetail(String token,String qaId);
+        void removeLikeDetail(String token,String qaId);
+        void addLikeComment(String token,String commentId);
+        void removeLikeComment(String token,String commentId);
+        void addLikeReply(String token,String replyId);
+        void removeLikeReply(String token,String replyId);
     }
 }

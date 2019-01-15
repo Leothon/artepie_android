@@ -65,7 +65,7 @@ public interface HttpService {
     Observable<BaseResponse<ArrayList<QAData>>> getQAData(@Query("token") String token);
 
     @GET("getmorequestion")
-    Observable<BaseResponse<ArrayList<QAData>>> getMoreQAData(@Query("currentpage") int currentPage);
+    Observable<BaseResponse<ArrayList<QAData>>> getMoreQAData(@Query("currentpage") int currentPage,@Query("token") String token);
 
 
     @GET("getqadetail")
@@ -78,5 +78,15 @@ public interface HttpService {
     Observable<BaseResponse<String>> addLikeQa(@Query("token") String token,@Query("qaid") String qaId);
     @POST("removelikeqa")
     Observable<BaseResponse<String>> removeLikeQa(@Query("token") String token,@Query("qaid") String qaId);
+
+    @POST("addlikecomment")
+    Observable<BaseResponse<String>> addLikeComment(@Query("token") String token,@Query("commentid") String commentId);
+    @POST("removelikecomment")
+    Observable<BaseResponse<String>> removeLikeComment(@Query("token") String token,@Query("commentid") String commentId);
+
+    @POST("addlikereply")
+    Observable<BaseResponse<String>> addLikeReply(@Query("token") String token,@Query("replyid") String replyId);
+    @POST("removelikereply")
+    Observable<BaseResponse<String>> removeLikeReply(@Query("token") String token,@Query("replyid") String replyId);
 
 }

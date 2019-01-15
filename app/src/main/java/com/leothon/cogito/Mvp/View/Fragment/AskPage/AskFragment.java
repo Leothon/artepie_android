@@ -262,7 +262,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         rvAsk.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
-                askPresenter.getAskMoreData(currentPage * 15);
+                askPresenter.getAskMoreData(currentPage * 15,fragmentsharedPreferencesUtils.getParams("token","").toString());
             }
         });
     }

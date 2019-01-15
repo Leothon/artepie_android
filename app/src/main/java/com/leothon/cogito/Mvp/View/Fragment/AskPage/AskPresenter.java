@@ -46,8 +46,8 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     }
 
     @Override
-    public void getAskMoreData(int currentPage) {
-        iAskModel.getAskMoreData(currentPage,this);
+    public void getAskMoreData(int currentPage,String token) {
+        iAskModel.getAskMoreData(currentPage,token,this);
     }
 
     @Override

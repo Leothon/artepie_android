@@ -82,4 +82,197 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
                     }
                 });
     }
+
+    @Override
+    public void addLikeDetail(String token, String qaId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .addLikeQa(token,qaId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已点赞");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void removeLikeDetail(String token, String qaId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .removeLikeQa(token,qaId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已取消");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void addLikeComment(String token, String commentId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .addLikeComment(token,commentId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已点赞");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void removeLikeComment(String token, String commentId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .removeLikeComment(token,commentId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已取消");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void addLikeReply(String token, String replyId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .addLikeReply(token,replyId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已点赞");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void removeLikeReply(String token, String replyId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .removeLikeReply(token,replyId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("已取消");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
 }

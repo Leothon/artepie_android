@@ -10,7 +10,7 @@ public class AskFragmentContract {
         //TODO 执行相关数据操作
 
         void getAskData(String token,OnAskFinishedListener listener);
-        void getAskMoreData(int currentPage,OnAskFinishedListener listener);
+        void getAskMoreData(int currentPage,String token,OnAskFinishedListener listener);
 
         void addLike(String token,String qaId,OnAskFinishedListener listener);
         void removeLike(String token,String qaId,OnAskFinishedListener listener);
@@ -34,7 +34,7 @@ public class AskFragmentContract {
     public interface IAskPresenter{
         void onDestory();
         void getAskData(String token);
-        void getAskMoreData(int currentPage);
+        void getAskMoreData(int currentPage,String token);
 
         void addLiked(String token,String qaId);
         void removeLiked(String token,String qaId);

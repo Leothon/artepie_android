@@ -126,6 +126,39 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 }
             }
         });
+
+        askDetailAdapter.setOnClickAddLikeDetail(new AskDetailAdapter.AddLikeDetailOnClickListener() {
+            @Override
+            public void addLikeDetailClickListener(boolean isLike, String qaId) {
+                if (isLike){
+                    askDetailPresenter.removeLikeDetail(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }else {
+                    askDetailPresenter.addLikeDetail(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }
+            }
+        });
+
+        askDetailAdapter.setOnClickAddLikeComment(new AskDetailAdapter.AddLikeCommentOnClickListener() {
+            @Override
+            public void addLikeCommentClickListener(boolean isLike, String commentId) {
+                if (isLike){
+                    askDetailPresenter.removeLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }else {
+                    askDetailPresenter.addLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }
+            }
+        });
+
+        askDetailAdapter.setOnClickAddLikeReply(new AskDetailAdapter.AddLikeReplyOnClickListener() {
+            @Override
+            public void addLikeReplyClickListener(boolean isLike, String replyId) {
+                if (isLike){
+                    askDetailPresenter.removeLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }else {
+                    askDetailPresenter.addLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }
+            }
+        });
     }
 
     @Override
@@ -145,7 +178,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     @Override
     public void showInfo(String msg) {
-
+        CommonUtils.makeText(this,msg);
     }
 
     @Override

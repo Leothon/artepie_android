@@ -63,4 +63,35 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     public void loadCommentDetail(String commentId) {
         iAskDetailModel.getCommentDetail(commentId,this);
     }
+
+    @Override
+    public void addLikeDetail(String token, String qaId) {
+        iAskDetailModel.addLikeDetail(token,qaId,this);
+    }
+
+    @Override
+    public void removeLikeDetail(String token, String qaId) {
+        iAskDetailModel.removeLikeDetail(token,qaId,this);
+    }
+
+    @Override
+    public void addLikeComment(String token, String commentId) {
+        iAskDetailModel.addLikeComment(token,commentId,this);
+    }
+
+    @Override
+    public void removeLikeComment(String token, String commentId) {
+        iAskDetailModel.removeLikeComment(token,commentId,this);
+    }
+
+    @Override
+    public void addLikeReply(String token, String replyId) {
+        iAskDetailModel.addLikeReply(token,replyId,this);
+    }
+
+    @Override
+    public void removeLikeReply(String token, String replyId) {
+
+        iAskDetailModel.removeLikeReply(token,replyId,this);
+    }
 }
