@@ -37,6 +37,17 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String userId;
 
+    public AddLikeCommentDetailOnClickListener addLikeCommentDetailOnClickListener;
+
+    public void setOnClickAddLikeCommentDetail(AddLikeCommentDetailOnClickListener addLikeCommentDetailOnClickListener) {
+        this.addLikeCommentDetailOnClickListener = addLikeCommentDetailOnClickListener;
+    }
+    public AddLikeCommentReplyOnClickListener addLikeCommentReplyOnClickListener;
+
+    public void setOnClickAddLikeCommentReply(AddLikeCommentReplyOnClickListener addLikeCommentReplyOnClickListener) {
+        this.addLikeCommentReplyOnClickListener = addLikeCommentReplyOnClickListener;
+    }
+
     public CommentDetailAdapter(CommentDetail  commentDetail, Context context){
         this.commentDetail = commentDetail;
         this.context = context;
@@ -59,22 +70,63 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
         sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid();
         if (viewType == HEAD0 ) {
-            CommentDetailViewHolder commentDetailViewHolder = (CommentDetailViewHolder)holder;
+            final CommentDetailViewHolder commentDetailViewHolder = (CommentDetailViewHolder)holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,commentDetail.getComment().getUser_icon(),commentDetailViewHolder.userIconCommentDetail,R.drawable.defaulticon);
 
             commentDetailViewHolder.userNameCommentDetail.setText(commentDetail.getComment().getUser_name());
             commentDetailViewHolder.userCommentCommentDetail.setText(commentDetail.getComment().getComment_q_content());
             commentDetailViewHolder.commentTimeCommentDetail.setText(CommonUtils.getTimeRange(commentDetail.getComment().getComment_q_time()));
-            commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
+            //commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
             //commentDetailViewHolder.likeImgCommentDetail;
+            if (commentDetail.getComment().getComment_q_like() == null ){
+                commentDetailViewHolder.commentLikeCommentDetail.setText("喜欢");
+            }else {
+                if (commentDetail.getComment().isComment_liked()){
+                    commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+                }
+                commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
+            }
             commentDetailViewHolder.replyCountCommentDetail.setText(commentDetail.getReplies().size() + "条回复");
 
+            commentDetailViewHolder.likeImgCommentDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    addLikeCommentDetailOnClickListener.addLikeCommentDetailClickListener(commentDetail.getComment().isComment_liked(),commentDetail.getComment().getComment_q_id());
+                    if (!commentDetail.getComment().isComment_liked()){
+                        commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+
+                        String like = commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
+                        if (like.equals("喜欢")){
+                            int likeint = 1;
+                            commentDetailViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        }else {
+                            int likeint = Integer.parseInt(like) + 1;
+                            commentDetailViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        }
+                        commentDetail.getComment().setComment_liked(true);
+                        //TODO 加载点赞
+                    }else {
+                        commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
+                        String like =commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
+
+                        int likeint = Integer.parseInt(like) - 1;
+                        if (likeint == 0){
+                            commentDetailViewHolder.commentLikeCommentDetail.setText("喜欢");
+                        }else {
+                            commentDetailViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        }
+                        commentDetail.getComment().setComment_liked(false);
+                        //TODO 取消点赞
+                    }
+                }
+            });
         }else if(viewType == HEAD1) {
 
 
-            int position1 = position - 1;
+            final int position1 = position - 1;
 
-            CommentDetailRvViewHolder commentDetailRvViewHolder = (CommentDetailRvViewHolder) holder;
+            final CommentDetailRvViewHolder commentDetailRvViewHolder = (CommentDetailRvViewHolder) holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,commentDetail.getReplies().get(position1).getUser_icon(),commentDetailRvViewHolder.replyUserIconCommentDetail,R.drawable.defaulticon);
 
             commentDetailRvViewHolder.replyUserNameCommentDetail.setText(commentDetail.getReplies().get(position1).getUser_name());
@@ -84,6 +136,49 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             commentDetailRvViewHolder.commentLikeCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_like());
             //commentDetailRvViewHolder.LikeImgCommentDetail;
 
+            if (commentDetail.getReplies().get(position1).getReply_like() == null){
+                commentDetailRvViewHolder.commentLikeCommentDetail.setText("喜欢");
+            }else {
+                if (commentDetail.getReplies().get(position1).isReply_liked()){
+                    commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+                }
+                commentDetailRvViewHolder.commentLikeCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_like());
+            }
+
+            commentDetailRvViewHolder.LikeImgCommentDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    addLikeCommentReplyOnClickListener.addLikeCommentReplyClickListener(commentDetail.getReplies().get(position1).isReply_liked(), commentDetail.getReplies().get(position1).getReply_id());
+                    if (!commentDetail.getReplies().get(position1).isReply_liked()) {
+                        commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+
+                        String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
+                        if (like.equals("喜欢")) {
+                            int likeint = 1;
+                            commentDetailRvViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        } else {
+                            int likeint = Integer.parseInt(like) + 1;
+                            commentDetailRvViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        }
+                        commentDetail.getReplies().get(position1).setReply_liked(true);
+                        //TODO 加载点赞
+                    } else {
+                        commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
+                        String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
+
+                        int likeint = Integer.parseInt(like) - 1;
+                        if (likeint == 0) {
+                            commentDetailRvViewHolder.commentLikeCommentDetail.setText("喜欢");
+                        } else {
+                            commentDetailRvViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
+                        }
+                        commentDetail.getReplies().get(position1).setReply_liked(false);
+                        //TODO 取消点赞
+                    }
+
+                }
+            });
         }
 
 
@@ -180,5 +275,12 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
+    }
+
+    public interface AddLikeCommentDetailOnClickListener{
+        void addLikeCommentDetailClickListener(boolean isLike,String commentId);
+    }
+    public interface AddLikeCommentReplyOnClickListener{
+        void addLikeCommentReplyClickListener(boolean isLike,String replyId);
     }
 }

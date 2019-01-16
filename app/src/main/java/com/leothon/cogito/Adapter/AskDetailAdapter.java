@@ -83,6 +83,23 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setOnClickAddLikeReply(AddLikeReplyOnClickListener addLikeReplyOnClickListener) {
         this.addLikeReplyOnClickListener = addLikeReplyOnClickListener;
     }
+    public SendReplyOnClickListener sendReplyOnClickListener;
+
+    public void setSendReplyOnClickListener(SendReplyOnClickListener sendReplyOnClickListener) {
+        this.sendReplyOnClickListener = sendReplyOnClickListener;
+    }
+
+    public DeleteCommentOnClickListener deleteCommentOnClickListener;
+
+    public void setDeleteCommentOnClickListener(DeleteCommentOnClickListener deleteCommentOnClickListener) {
+        this.deleteCommentOnClickListener = deleteCommentOnClickListener;
+    }
+
+    public DeleteReplyOnClickListener deleteReplyOnClickListener;
+
+    public void setDeleteReplyOnClickListener(DeleteReplyOnClickListener deleteReplyOnClickListener) {
+        this.deleteReplyOnClickListener = deleteReplyOnClickListener;
+    }
     public AskDetailAdapter(QADataDetail  qaDataDetail, Context context){
         this.qaDataDetail = qaDataDetail;
         this.context = context;
@@ -167,7 +184,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             detailViewHolder.likeDetail.setText(Integer.toString(likeint));
                         }
                         qaDataDetail.getQaData().setLiked(true);
-                        //TODO 加载点赞
                     }else {
                         Drawable drawableLeft = context.getResources().getDrawable(
                                 R.drawable.baseline_favorite_border_black_18);
@@ -183,7 +199,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             detailViewHolder.likeDetail.setText(Integer.toString(likeint));
                         }
                         qaDataDetail.getQaData().setLiked(false);
-                        //TODO 取消点赞
                     }
                 }
             });
@@ -299,7 +314,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
                             }
                             qaDataDetail.getComments().get(position1).setComment_liked(true);
-                            //TODO 加载点赞
                         }else {
                             commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
                             String like = commentViewHolder.commentLikeQa.getText().toString();
@@ -311,8 +325,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
                             }
                             qaDataDetail.getComments().get(position1).setComment_liked(false);
-                            //TODO 取消点赞
                         }
+                    }
+                });
+
+                commentViewHolder.commentMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e( "点击之后执行","");
+                        deleteCommentOnClickListener.deleteCommentClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getUser_name(),qaDataDetail.getComments().get(position1).getComment_q_content(),position1);
                     }
                 });
                 if (qaDataDetail.getComments().get(position1).getReplies() != null && qaDataDetail.getComments().get(position1).getReplies().size() != 0){
@@ -349,7 +370,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
                                 }
                                 qaDataDetail.getComments().get(position1).getReplies().get(0).setReply_liked(true);
-                                //TODO 加载点赞
                             }else {
                                 commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
                                 String like = commentViewHolder.comment1LikeQa.getText().toString();
@@ -361,8 +381,23 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
                                 }
                                 qaDataDetail.getComments().get(position1).getReplies().get(0).setReply_liked(false);
-                                //TODO 取消点赞
                             }
+                        }
+                    });
+
+                    commentViewHolder.reply1More.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name(),qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment(),position1,0);
+                        }
+                    });
+
+                    commentViewHolder.firstReply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                            sendReplyOnClickListener.sendReplyClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
                         }
                     });
                     if (replyCount >= 2){
@@ -399,7 +434,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                         commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
                                     }
                                     qaDataDetail.getComments().get(position1).getReplies().get(1).setReply_liked(true);
-                                    //TODO 加载点赞
                                 }else {
                                     commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
                                     String like = commentViewHolder.comment2LikeQa.getText().toString();
@@ -411,8 +445,22 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                         commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
                                     }
                                     qaDataDetail.getComments().get(position1).getReplies().get(1).setReply_liked(false);
-                                    //TODO 取消点赞
                                 }
+                            }
+                        });
+
+                        commentViewHolder.secondReply.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                                sendReplyOnClickListener.sendReplyClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_user_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_name());
+                            }
+                        });
+
+                        commentViewHolder.reply2More.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_name(),qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_comment(),position1,1);
                             }
                         });
                         if (replyCount > 2){
@@ -426,7 +474,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     commentViewHolder.moreComment.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //TODO 查看更多回复
                             Bundle bundle = new Bundle();
                             bundle.putString("commentId",qaDataDetail.getComments().get(position1).getComment_q_id());
                             IntentUtils.getInstence().intent(context,CommentDetailActivity.class,bundle);
@@ -440,11 +487,11 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getComments().get(position1).getUser_icon(), commentViewHolder.userIconComment, R.drawable.defaulticon);
                 commentViewHolder.userNameComment.setText(qaDataDetail.getComments().get(position1).getUser_name());
                 commentViewHolder.userComment.setText(qaDataDetail.getComments().get(position1).getComment_q_content());
-                commentViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                commentViewHolder.commentTo.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        //TODO 点击回复评论
-                        CommonUtils.makeText(context, "暂不支持回复评论功能");
+                    public void onClick(View v) {
+                        sendReplyOnClickListener.sendReplyClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getComment_q_user_id(),qaDataDetail.getComments().get(position1).getUser_name());
+                        commentViewHolder.moreComment.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -568,6 +615,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.comment2_like_qa)
         TextView comment2LikeQa;
 
+        @BindView(R.id.comment_more)
+        ImageView commentMore;
+        @BindView(R.id.reply1_more)
+        ImageView reply1More;
+        @BindView(R.id.reply2_more)
+        ImageView reply2More;
+
+        @BindView(R.id.comment_to)
+        RelativeLayout commentTo;
 
         public CommentViewHolder(View itemView){
             super(itemView);
@@ -611,5 +667,16 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface AddLikeReplyOnClickListener{
         void addLikeReplyClickListener(boolean isLike,String replyId);
+    }
+
+    public interface SendReplyOnClickListener{
+        void sendReplyClickListener(String commentId,String toUserId,String toUsername);
+    }
+
+    public interface DeleteCommentOnClickListener{
+        void deleteCommentClickListener(String commentId,String commentUserId,String content,int position);
+    }
+    public interface DeleteReplyOnClickListener{
+        void deleteReplyClickListener(String replyId,String replyUserId,String content,int commentPosition,int replyPosition);
     }
 }

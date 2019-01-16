@@ -72,7 +72,7 @@ public interface HttpService {
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
 
     @GET("getcommentdetail")
-    Observable<BaseResponse<CommentDetail>> getCommentDetail(@Query("commentid") String commentId);
+    Observable<BaseResponse<CommentDetail>> getCommentDetail(@Query("commentid") String commentId,@Query("token") String token);
 
     @POST("addlikeqa")
     Observable<BaseResponse<String>> addLikeQa(@Query("token") String token,@Query("qaid") String qaId);
@@ -89,4 +89,13 @@ public interface HttpService {
     @POST("removelikereply")
     Observable<BaseResponse<String>> removeLikeReply(@Query("token") String token,@Query("replyid") String replyId);
 
+    @POST("sendqacomment")
+    Observable<BaseResponse<String>> sendQaComment(@Query("qaid") String qaId,@Query("token") String token,@Query("content") String content);
+    @POST("sendreply")
+    Observable<BaseResponse<String>> sendReply(@Query("commentid") String commentId,@Query("token") String token,@Query("touserid") String toUserId,@Query("content") String content);
+
+    @POST("deleteqacomment")
+    Observable<BaseResponse<String>> deleteQaComment(@Query("commentid") String commentId,@Query("token") String token);
+    @POST("deletereply")
+    Observable<BaseResponse<String>> deleteReply(@Query("replyId") String replyId,@Query("token") String token);
 }

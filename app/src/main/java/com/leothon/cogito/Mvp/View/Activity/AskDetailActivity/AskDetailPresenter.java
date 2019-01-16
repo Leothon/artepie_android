@@ -60,8 +60,8 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
-    public void loadCommentDetail(String commentId) {
-        iAskDetailModel.getCommentDetail(commentId,this);
+    public void loadCommentDetail(String commentId,String token) {
+        iAskDetailModel.getCommentDetail(commentId,token,this);
     }
 
     @Override
@@ -93,5 +93,25 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     public void removeLikeReply(String token, String replyId) {
 
         iAskDetailModel.removeLikeReply(token,replyId,this);
+    }
+
+    @Override
+    public void sendQaComment(String qaId, String token, String content) {
+        iAskDetailModel.postQaComment(qaId,token,content,this);
+    }
+
+    @Override
+    public void sendReply(String commentId, String token, String toUserId, String content) {
+        iAskDetailModel.postReply(commentId,token,toUserId,content,this);
+    }
+
+    @Override
+    public void deleteQaComment(String commentId, String token) {
+        iAskDetailModel.deleteQaComment(commentId,token,this);
+    }
+
+    @Override
+    public void deleteReply(String replyId, String token) {
+        iAskDetailModel.deleteReply(replyId,token,this);
     }
 }

@@ -47,15 +47,11 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
 
     }
 
-    @Override
-    public void postComment(String fromId, String toId, String content, AskDetailContract.OnAskDetailFinishedListener listener) {
-
-    }
 
     @Override
-    public void getCommentDetail(String commentId, final AskDetailContract.OnAskDetailFinishedListener listener) {
+    public void getCommentDetail(String commentId,String token, final AskDetailContract.OnAskDetailFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getCommentDetail(commentId)
+                .getCommentDetail(commentId,token)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -269,6 +265,135 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
                     public void onNext(BaseResponse baseResponse) {
                         if (baseResponse.isSuccess()){
                             listener.showInfo("已取消");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void postQaComment(String qaId, String token, String content, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .sendQaComment(qaId,token,content)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("评论成功");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void postReply(String commentId, String token, String toUserId, String content,final AskDetailContract.OnAskDetailFinishedListener listener) {
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .sendReply(commentId,token,toUserId,content)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("回复成功");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteQaComment(String commentId, String token,final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .deleteQaComment(commentId,token)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("评论删除成功");
+                        }else {
+                            listener.showInfo("失败，请重试");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteReply(String replyId, String token, final AskDetailContract.OnAskDetailFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .deleteReply(replyId,token)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            listener.showInfo("回复删除成功");
                         }else {
                             listener.showInfo("失败，请重试");
                         }

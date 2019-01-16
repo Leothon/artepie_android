@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -78,7 +80,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         setToolbarSubTitle("");
         setToolbarTitle("");
         swpCommentDetail.setRefreshing(true);
-        askDetailPresenter.loadCommentDetail(bundle.getString("commentId"));
+        askDetailPresenter.loadCommentDetail(bundle.getString("commentId"),activitysharedPreferencesUtils.getParams("token","").toString());
         initPopupWindow();
     }
 
@@ -107,11 +109,35 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
 //                }
 //            }
 //        });
+
+        commentDetailAdapter.setOnClickAddLikeCommentDetail(new CommentDetailAdapter.AddLikeCommentDetailOnClickListener() {
+            @Override
+            public void addLikeCommentDetailClickListener(boolean isLike, String commentId) {
+                Log.e( "点击之后执行","评论");
+                if (isLike){
+                    askDetailPresenter.removeLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }else {
+                    askDetailPresenter.addLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }
+            }
+        });
+
+        commentDetailAdapter.setOnClickAddLikeCommentReply(new CommentDetailAdapter.AddLikeCommentReplyOnClickListener() {
+            @Override
+            public void addLikeCommentReplyClickListener(boolean isLike, String replyId) {
+                Log.e( "点击之后执行","回复");
+                if (isLike){
+                    askDetailPresenter.removeLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }else {
+                    askDetailPresenter.addLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }
+            }
+        });
     }
 
     @Override
     public void onRefresh() {
-        askDetailPresenter.loadCommentDetail(bundle.getString("commentId"));
+        askDetailPresenter.loadCommentDetail(bundle.getString("commentId"),activitysharedPreferencesUtils.getParams("token","").toString());
     }
     @Override
     public void getComment(CommentDetail commentDetail) {
@@ -226,6 +252,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     @Override
     public void showInfo(String msg) {
 
+        CommonUtils.makeText(this,msg);
     }
 
 

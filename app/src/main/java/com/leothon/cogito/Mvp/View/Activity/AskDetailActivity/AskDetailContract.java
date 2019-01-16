@@ -13,8 +13,8 @@ public class AskDetailContract {
         void getQADetail(String token,String qaId,OnAskDetailFinishedListener listener);
         void getMoreComment(String qaId,String currentPage,OnAskDetailFinishedListener listener);
         //TODO 发送评论
-        void postComment(String fromId,String toId,String content,OnAskDetailFinishedListener listener);
-        void getCommentDetail(String commentId,OnAskDetailFinishedListener listener);
+
+        void getCommentDetail(String commentId,String token,OnAskDetailFinishedListener listener);
 
         void addLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
         void removeLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
@@ -24,6 +24,12 @@ public class AskDetailContract {
 
         void addLikeReply(String token,String replyId,OnAskDetailFinishedListener listener);
         void removeLikeReply(String token,String replyId,OnAskDetailFinishedListener listener);
+
+        void postQaComment(String qaId,String token,String content,OnAskDetailFinishedListener listener);
+        void postReply(String commentId,String token,String toUserId,String content,OnAskDetailFinishedListener listener);
+
+        void deleteQaComment(String commentId,String token,OnAskDetailFinishedListener listener);
+        void deleteReply(String replyId,String token,OnAskDetailFinishedListener listener);
     }
 
     public interface IAskDetailView{
@@ -52,12 +58,19 @@ public class AskDetailContract {
         void onDestory();
         void getQADetailData(String token,String qaId);
         void getMoreComment(String qaId,String currentPage);
-        void loadCommentDetail(String commentId);
+        void loadCommentDetail(String commentId,String token);
         void addLikeDetail(String token,String qaId);
         void removeLikeDetail(String token,String qaId);
         void addLikeComment(String token,String commentId);
         void removeLikeComment(String token,String commentId);
         void addLikeReply(String token,String replyId);
         void removeLikeReply(String token,String replyId);
+
+
+        void sendQaComment(String qaId,String token,String content);
+        void sendReply(String commentId,String token,String toUserId,String content);
+
+        void deleteQaComment(String commentId,String token);
+        void deleteReply(String replyId,String token);
     }
 }

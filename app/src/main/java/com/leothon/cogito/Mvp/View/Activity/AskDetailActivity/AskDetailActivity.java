@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.AskDetailAdapter;
@@ -58,7 +62,14 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     private View popview;
     private PopupWindow popupWindow;
 
+    private View morePopview;
+    private PopupWindow morePopupWindow;
+
+    private View moreDismiss;
+    private RelativeLayout copyComment;
+    private RelativeLayout deleteComment;
     private MaterialEditText editComment;
+    private TextView replyToWho;
     private ImageView sendComment;
     private View dismiss;
     private ArrayList<Comment> userComments;
@@ -66,6 +77,8 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     private Intent intent;
     private Bundle bundle;
+
+    private String uuid;
 
     private AskDetailPresenter askDetailPresenter;
     @Override
@@ -76,7 +89,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     public void initData() {
         askDetailPresenter = new AskDetailPresenter(this);
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
-        String uuid = tokenValid.getUid();
+        uuid = tokenValid.getUid();
 
         userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
 
@@ -92,7 +105,8 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         swpAskDetail.setRefreshing(true);
         askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
 
-        initPopupWindow();
+        initReplyPopupWindow();
+        initMorePopupWindow();
     }
 
 
@@ -159,6 +173,82 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 }
             }
         });
+
+        askDetailAdapter.setSendReplyOnClickListener(new AskDetailAdapter.SendReplyOnClickListener() {
+            @Override
+            public void sendReplyClickListener(final String commentId, final String toUserId , String toUsername) {
+                replyToWho.setText("回复给： " + toUsername);
+                showPopWindow();
+                popupInputMethod();
+                sendComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        askDetailPresenter.sendReply(commentId,activitysharedPreferencesUtils.getParams("token","").toString(),toUserId,editComment.getText().toString());
+                        editComment.setText("");
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+
+        askDetailAdapter.setDeleteCommentOnClickListener(new AskDetailAdapter.DeleteCommentOnClickListener() {
+            @Override
+            public void deleteCommentClickListener(final String commentId, String commentUserId, final String content, final int position) {
+                Log.e( "回调之后执行","");
+                if (commentUserId.equals(uuid)){
+                    deleteComment.setVisibility(View.VISIBLE);
+                }
+
+                deleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        askDetailPresenter.deleteQaComment(commentId,activitysharedPreferencesUtils.getParams("token","").toString());
+                        qaDataDetail.getComments().get(position).setComment_q_content("该评论已被删除");
+                        askDetailAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                copyComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(AskDetailActivity.this,"内容已复制");
+                    }
+                });
+
+            }
+        });
+
+        askDetailAdapter.setDeleteReplyOnClickListener(new AskDetailAdapter.DeleteReplyOnClickListener() {
+            @Override
+            public void deleteReplyClickListener(final String replyId, String replyUserId, final String content, final int commentPosition, final int replyPosition) {
+                if (replyUserId.equals(uuid)){
+                    deleteComment.setVisibility(View.VISIBLE);
+                }
+
+                deleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        askDetailPresenter.deleteReply(replyId,activitysharedPreferencesUtils.getParams("token","").toString());
+                        qaDataDetail.getComments().get(commentPosition).getReplies().get(replyPosition).setReply_comment("该回复已被删除");
+                        askDetailAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
+                copyComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(AskDetailActivity.this,"内容已复制");
+                    }
+                });
+
+
+            }
+        });
     }
 
     @Override
@@ -188,12 +278,31 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     @OnClick(R.id.comment_in_detail)
     public void commentTo(View view){
+        replyToWho.setText("回复给： " + qaDataDetail.getQaData().getUser_name());
         showPopWindow();
         popupInputMethod();
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askDetailPresenter.sendQaComment(qaDataDetail.getQaData().getQa_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
+
+                Comment comment = new Comment();
+                comment.setUser_name(userEntity.getUser_name());
+                comment.setUser_icon(userEntity.getUser_icon());
+                comment.setComment_q_time(CommonUtils.getNowTime());
+                comment.setComment_q_like("0");
+                comment.setComment_q_content(editComment.getText().toString());
+                qaDataDetail.getComments().add(comment);
+                askDetailAdapter.notifyDataSetChanged();
+                editComment.setText("");
+                askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
+                popupWindow.dismiss();
+            }
+        });
     }
 
 
-    public void initPopupWindow(){
+    public void initReplyPopupWindow(){
         popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
         popupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -204,36 +313,39 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         editComment = (MaterialEditText)popview.findViewById(R.id.edit_comment);
-        userComments = new ArrayList<>();
+        replyToWho = (TextView)popview.findViewById(R.id.reply_to_who);
         sendComment = (ImageView)popview.findViewById(R.id.send_comment);
         dismiss = (View)popview.findViewById(R.id.dismiss);
-        sendComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO 发送信息给评论
-//                if (!editComment.getText().toString().equals("")){
-//                    String comment = editComment.getText().toString();
-//                    Comment userComment = new Comment();
-//                    userComment.setUser_icon(userEntity.getUser_icon());
-//                    userComment.setUser_name(userEntity.getUser_name());
-//                    userComment.setComment_q_content(comment);
-//                    userComments.add(0,userComment);
-//                    qaDataDetail.setComments(userComments);
-//                    askDetailAdapter.notifyItemInserted(0);
-//                    askDetailAdapter.notifyItemRangeChanged(0,userComments.size());
-//                    rvAskDetail.scrollToPosition(0);
-//                    popupWindow.dismiss();
-//                    editComment.setText("");
-//                }else {
-//                    CommonUtils.makeText(AskDetailActivity.this,"请输入评论内容");
-//                }
 
-            }
-        });
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+
+            }
+        });
+    }
+
+    public void initMorePopupWindow(){
+        morePopview = LayoutInflater.from(this).inflate(R.layout.popup_more_layout,null,false);
+        morePopupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        morePopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        morePopupWindow.setTouchable(true);
+        morePopupWindow.setAnimationStyle(R.style.popupWindow_anim_style);
+        morePopupWindow.setFocusable(true);
+        morePopupWindow.setOutsideTouchable(true);
+        //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        morePopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        moreDismiss = (View)morePopview.findViewById(R.id.more_dismiss);
+        copyComment = (RelativeLayout)morePopview.findViewById(R.id.copy_comment);
+        deleteComment = (RelativeLayout)morePopview.findViewById(R.id.delete_comment);
+
+
+
+        moreDismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                morePopupWindow.dismiss();
 
             }
         });
@@ -254,8 +366,13 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     public void showPopWindow(){
         View rootView = LayoutInflater.from(this).inflate(R.layout.activity_ask_detail,null);
         popupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+
     }
 
+    public void showMorePopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_ask_detail,null);
+        morePopupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+    }
 
     @Override
     public void onBackPressed() {
