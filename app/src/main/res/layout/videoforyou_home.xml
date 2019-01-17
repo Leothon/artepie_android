@@ -20,7 +20,6 @@
                     android:id="@+id/foryou_iv"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/defalutimg"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="8dp"/>
 

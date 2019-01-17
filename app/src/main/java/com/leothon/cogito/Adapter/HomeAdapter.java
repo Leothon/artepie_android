@@ -373,7 +373,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             foryouholder.foryouAuthor.setText(selectClasses.get(videoPosition).getSelectauthor());
             foryouholder.foryouCount.setText(selectClasses.get(videoPosition).getSelectstucount() + "人次已学习");
             String price = selectClasses.get(videoPosition).getSelectprice();
-            if (price.equals("0")){
+            if (price.equals("0.00")){
                 foryouholder.foryouPrice.setText("免费");
             }else {
                 foryouholder.foryouPrice.setText("￥" + price);

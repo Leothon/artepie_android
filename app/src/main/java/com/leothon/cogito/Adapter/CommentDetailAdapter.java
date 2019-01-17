@@ -2,17 +2,21 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.DTO.CommentDetail;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -48,6 +52,23 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.addLikeCommentReplyOnClickListener = addLikeCommentReplyOnClickListener;
     }
 
+    public SendDetailReplyOnClickListener sendDetailReplyOnClickListener;
+
+    public void setSendDetailReplyOnClickListener(SendDetailReplyOnClickListener sendDetailReplyOnClickListener) {
+        this.sendDetailReplyOnClickListener = sendDetailReplyOnClickListener;
+    }
+
+    public DeleteDetailCommentOnClickListener deleteDetailCommentOnClickListener;
+
+    public void setDeleteDetailCommentOnClickListener(DeleteDetailCommentOnClickListener deleteDetailCommentOnClickListener) {
+        this.deleteDetailCommentOnClickListener = deleteDetailCommentOnClickListener;
+    }
+
+    public DeleteDetailReplyOnClickListener deleteDetailReplyOnClickListener;
+
+    public void setDeleteDetailReplyOnClickListener(DeleteDetailReplyOnClickListener deleteDetailReplyOnClickListener) {
+        this.deleteDetailReplyOnClickListener = deleteDetailReplyOnClickListener;
+    }
     public CommentDetailAdapter(CommentDetail  commentDetail, Context context){
         this.commentDetail = commentDetail;
         this.context = context;
@@ -121,6 +142,28 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+
+            commentDetailViewHolder.userIconCommentDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundleto = new Bundle();
+                    if (userId.equals(commentDetail.getComment().getComment_q_user_id())){
+                        bundleto.putString("type","individual");
+                        IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                    }else {
+                        bundleto.putString("type","other");
+                        bundleto.putString("userId",commentDetail.getComment().getComment_q_user_id());
+                        IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                    }
+                }
+            });
+
+            commentDetailViewHolder.detailCommentMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteDetailCommentOnClickListener.deleteDetailCommentClickListener(commentDetail.getComment().getComment_q_id(),commentDetail.getComment().getComment_q_user_id(),commentDetail.getComment().getComment_q_content());
+                }
+            });
         }else if(viewType == HEAD1) {
 
 
@@ -179,6 +222,35 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 }
             });
+            commentDetailRvViewHolder.detailReplyMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteDetailReplyOnClickListener.deleteDetailReplyClickListener(commentDetail.getReplies().get(position1).getReply_id(),commentDetail.getReplies().get(position1).getReply_user_id(),commentDetail.getReplies().get(position1).getReply_comment(),position1);
+                }
+            });
+
+            commentDetailRvViewHolder.replyCommentRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendDetailReplyOnClickListener.sendDetailReplyClickListener(commentDetail.getComment().getComment_q_id(),commentDetail.getReplies().get(position1).getReply_user_id(),commentDetail.getReplies().get(position1).getUser_name());
+                }
+            });
+
+            commentDetailRvViewHolder.replyUserIconCommentDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundleto = new Bundle();
+                    if (userId.equals(commentDetail.getReplies().get(position1).getReply_user_id())){
+                        bundleto.putString("type","individual");
+                        IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                    }else {
+                        bundleto.putString("type","other");
+                        bundleto.putString("userId",commentDetail.getReplies().get(position1).getReply_user_id());
+                        IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                    }
+                }
+            });
+
         }
 
 
@@ -230,6 +302,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
        @BindView(R.id.reply_count_comment_detail)
        TextView replyCountCommentDetail;
 
+       @BindView(R.id.detail_comment_more)
+       ImageView detailCommentMore;
         public CommentDetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -254,6 +328,10 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.like_img_qa_comment_detail_rv)
         ImageView LikeImgCommentDetail;
 
+        @BindView(R.id.detail_reply_more)
+        ImageView detailReplyMore;
+        @BindView(R.id.reply_comment_detail_rv)
+        RelativeLayout replyCommentRl;
 
         public CommentDetailRvViewHolder(View itemView){
             super(itemView);
@@ -282,5 +360,16 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
     public interface AddLikeCommentReplyOnClickListener{
         void addLikeCommentReplyClickListener(boolean isLike,String replyId);
+    }
+
+    public interface SendDetailReplyOnClickListener{
+        void sendDetailReplyClickListener(String commentId,String toUserId,String toUsername);
+    }
+
+    public interface DeleteDetailCommentOnClickListener{
+        void deleteDetailCommentClickListener(String commentId,String commentUserId,String content);
+    }
+    public interface DeleteDetailReplyOnClickListener{
+        void deleteDetailReplyClickListener(String replyId,String replyUserId,String content,int replyPosition);
     }
 }

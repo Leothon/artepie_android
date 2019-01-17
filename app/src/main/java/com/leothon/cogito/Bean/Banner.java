@@ -7,6 +7,15 @@ public class Banner {
     private String banner_img;
     private String banner_url;
     private String banner_type;
+    private String banner_to_class_id;
+
+    public String getBanner_to_class_id() {
+        return banner_to_class_id;
+    }
+
+    public void setBanner_to_class_id(String banner_to_class_id) {
+        this.banner_to_class_id = banner_to_class_id;
+    }
 
     public String getBanner_id() {
         return banner_id;

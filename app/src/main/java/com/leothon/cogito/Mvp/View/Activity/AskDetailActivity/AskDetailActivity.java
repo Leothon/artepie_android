@@ -194,9 +194,12 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         askDetailAdapter.setDeleteCommentOnClickListener(new AskDetailAdapter.DeleteCommentOnClickListener() {
             @Override
             public void deleteCommentClickListener(final String commentId, String commentUserId, final String content, final int position) {
-                Log.e( "回调之后执行","");
+
+                showMorePopWindow();
                 if (commentUserId.equals(uuid)){
                     deleteComment.setVisibility(View.VISIBLE);
+                }else {
+                    deleteComment.setVisibility(View.GONE);
                 }
 
                 deleteComment.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +208,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                         askDetailPresenter.deleteQaComment(commentId,activitysharedPreferencesUtils.getParams("token","").toString());
                         qaDataDetail.getComments().get(position).setComment_q_content("该评论已被删除");
                         askDetailAdapter.notifyDataSetChanged();
+                        morePopupWindow.dismiss();
                     }
                 });
 
@@ -214,6 +218,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
                         CommonUtils.makeText(AskDetailActivity.this,"内容已复制");
+                        morePopupWindow.dismiss();
                     }
                 });
 
@@ -223,8 +228,12 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         askDetailAdapter.setDeleteReplyOnClickListener(new AskDetailAdapter.DeleteReplyOnClickListener() {
             @Override
             public void deleteReplyClickListener(final String replyId, String replyUserId, final String content, final int commentPosition, final int replyPosition) {
+
+                showMorePopWindow();
                 if (replyUserId.equals(uuid)){
                     deleteComment.setVisibility(View.VISIBLE);
+                }else{
+                    deleteComment.setVisibility(View.GONE);
                 }
 
                 deleteComment.setOnClickListener(new View.OnClickListener() {
@@ -328,7 +337,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     public void initMorePopupWindow(){
         morePopview = LayoutInflater.from(this).inflate(R.layout.popup_more_layout,null,false);
-        morePopupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        morePopupWindow = new PopupWindow(morePopview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         morePopupWindow.setBackgroundDrawable(new BitmapDrawable());
         morePopupWindow.setTouchable(true);
         morePopupWindow.setAnimationStyle(R.style.popupWindow_anim_style);

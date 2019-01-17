@@ -94,7 +94,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             int realposition = position - 1;
             final SelectClassHolder selectClassHolder = (SelectClassHolder)holder;
             selectClassHolder.selectClassTitle.setText(selectClass.getVideoClasses().get(realposition).getVideoTitle());
-            if (!selectClass.getSelectprice().equals("0") && realposition > 2){
+            if (!selectClass.getSelectprice().equals("0.00") && realposition > 2){
                 selectClassHolder.selectClassLock.setImageResource(R.drawable.baseline_lock_black_18);
 
             }else {
@@ -107,7 +107,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     int realposition = position - 1;
 
-                    if (realposition > 2 && !selectClass.getSelectprice().equals("0")){
+                    if (realposition > 2 && !selectClass.getSelectprice().equals("0.00")){
                         loadDialog(selectClass);
                     }else {
                         Bundle bundle = new Bundle();

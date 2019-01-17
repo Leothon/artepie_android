@@ -332,8 +332,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 commentViewHolder.commentMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.e( "点击之后执行","");
-                        deleteCommentOnClickListener.deleteCommentClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getUser_name(),qaDataDetail.getComments().get(position1).getComment_q_content(),position1);
+
+                        deleteCommentOnClickListener.deleteCommentClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getComment_q_user_id(),qaDataDetail.getComments().get(position1).getComment_q_content(),position1);
                     }
                 });
                 if (qaDataDetail.getComments().get(position1).getReplies() != null && qaDataDetail.getComments().get(position1).getReplies().size() != 0){
@@ -385,11 +385,26 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     });
 
+                    commentViewHolder.replyUserIcon1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundleto = new Bundle();
+                            if (userId.equals(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id())){
+                                bundleto.putString("type","individual");
+                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                            }else {
+                                bundleto.putString("type","other");
+                                bundleto.putString("userId",qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id());
+                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                            }
+                        }
+                    });
+
                     commentViewHolder.reply1More.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name(),qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment(),position1,0);
+                            deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id(),qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment(),position1,0);
                         }
                     });
 
@@ -460,7 +475,22 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         commentViewHolder.reply2More.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getUser_name(),qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_comment(),position1,1);
+                                deleteReplyOnClickListener.deleteReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_user_id(),qaDataDetail.getComments().get(position1).getReplies().get(1).getReply_comment(),position1,1);
+                            }
+                        });
+
+                        commentViewHolder.replyUserIcon2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundleto = new Bundle();
+                                if (userId.equals(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id())){
+                                    bundleto.putString("type","individual");
+                                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                                }else {
+                                    bundleto.putString("type","other");
+                                    bundleto.putString("userId",qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id());
+                                    IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                                }
                             }
                         });
                         if (replyCount > 2){
@@ -492,6 +522,20 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void onClick(View v) {
                         sendReplyOnClickListener.sendReplyClickListener(qaDataDetail.getComments().get(position1).getComment_q_id(),qaDataDetail.getComments().get(position1).getComment_q_user_id(),qaDataDetail.getComments().get(position1).getUser_name());
                         commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                    }
+                });
+                commentViewHolder.userIconComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundleto = new Bundle();
+                        if (userId.equals(qaDataDetail.getComments().get(position1).getComment_q_user_id())){
+                            bundleto.putString("type","individual");
+                            IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                        }else {
+                            bundleto.putString("type","other");
+                            bundleto.putString("userId",qaDataDetail.getComments().get(position1).getComment_q_user_id());
+                            IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+                        }
                     }
                 });
             }

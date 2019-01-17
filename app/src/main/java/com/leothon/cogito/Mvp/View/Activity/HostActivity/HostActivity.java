@@ -101,7 +101,7 @@ public class HostActivity extends BaseActivity  {
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
         bundle = intent.getExtras();
-        initFragment();
+//        initFragment();
         switch (bundle.getString("type")){
             case "home":
                 focusOnHome();
@@ -242,33 +242,64 @@ public class HostActivity extends BaseActivity  {
             case HOMEPAGE:
                 focusOnHome();
                 StatusBarUtils.transparencyBar(this);
-                transaction.show(homePage);
+                if (homePage == null){
+                    homePage = HomeFragment.newInstance();
+                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
+                }else{
+                    transaction.show(homePage);
+                }
+                //transaction.show(homePage);
                 break;
             case MICCLASSPAGE:
                 focusOnMic();
-                transaction.show(micClassPage);
+                if (micClassPage == null){
+                    micClassPage = MicClassFragment.newInstance();
+                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+                }else{
+                    transaction.show(micClassPage);
+                }
+                //transaction.show(micClassPage);
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ASKPAGE:
                 focusOnAsk();
-                transaction.show(askPage);
+                if (askPage == null){
+                    askPage = AskFragment.newInstance();
+                    transaction.add(R.id.container_home,askPage,ASKPAGE);
+                }else{
+                    transaction.show(askPage);
+                }
+                //transaction.show(askPage);
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case BAGPAGE:
                 focusOnBag();
-                transaction.show(bagPage);
+                if (bagPage == null){
+                    bagPage = BagFragment.newInstance();
+                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
+                }else{
+                    transaction.show(bagPage);
+                }
+                //transaction.show(bagPage);
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ABOUTPAGE:
                 focusOnAbout();
-                transaction.show(aboutPage);
+                if (aboutPage == null){
+                    aboutPage = AboutFragment.newInstance();
+                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+                }else{
+                    transaction.show(aboutPage);
+                }
+                //transaction.show(aboutPage);
                 StatusBarUtils.transparencyBar(this);
                 break;
         }
-        transaction.commitAllowingStateLoss();
+        //transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
     /**

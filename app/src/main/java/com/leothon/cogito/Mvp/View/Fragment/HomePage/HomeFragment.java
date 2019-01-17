@@ -29,6 +29,7 @@ import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
+import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -90,7 +91,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private ArrayList<SelectClass> selectClasses;
 
 
-
+    private ArrayList<com.leothon.cogito.Bean.Banner> banners;
     public HomeFragment() {
     }
 
@@ -138,6 +139,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public void initBanner(ArrayList<com.leothon.cogito.Bean.Banner> banners) {
         bigPics = new ArrayList<>();
+        this.banners = banners;
         for (int i = 0 ; i < banners.size() ; i++){
             bigPics.add(banners.get(i).getBanner_img());
         }
@@ -231,7 +233,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void initBanner(HomeAdapter homeAdapter) {
         View bannerview = View.inflate(getMContext(), R.layout.banner_item, null);
-        Banner banner = (Banner) bannerview.findViewById(R.id.banner_home);
+        final Banner banner = (Banner) bannerview.findViewById(R.id.banner_home);
         homeAdapter.addHeadView0(bannerview);
         banner.setImageUrl(bigPics);
         banner.setOnItemClickListener(new Banner.OnItemClickListener() {
@@ -241,12 +243,17 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                  * 使用position找到数组中图片的地址并进入相应的Activity
                  */
                 //TODO 跳转到对应的显示banner广告的网页
-                String url = "https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db9999_10000%26sec%3D1537954563027%26di%3D9a522f349ecc393514bcf32410b17a97%26imgtype%3D0%26src%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0114905936b857a8012193a3a114c9.jpg%25401280w_1l_2o_100sh.jpg&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D3417683066%2C1421423689%26fm%3D26%26gp%3D0.jpg";
-                String title = "海报";
-                Bundle bundle = new Bundle();
-                bundle.putString("urls", url);
-                bundle.putString("title", title);
-                IntentUtils.getInstence().intent(getMContext(), BannerActivity.class, bundle);
+
+                if (banners.get(position).getBanner_type().equals("img")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("urls", banners.get(position).getBanner_url());
+                    bundle.putString("title", "海报");
+                    IntentUtils.getInstence().intent(getMContext(), BannerActivity.class, bundle);
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("classId", banners.get(position).getBanner_to_class_id());
+                    IntentUtils.getInstence().intent(getMContext(), SelectClassActivity.class, bundle);
+                }
             }
         });
 
