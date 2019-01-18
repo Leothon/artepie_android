@@ -64,7 +64,7 @@ import java.util.Map;
 * 封装一些常用的工具类
 * */
 public class CommonUtils {
-    static public Toast mToast;
+    public static Toast mToast;
     public static final int SHOW_SNACKBAR = 5001;
     public static final int NETTYPE_WIFI = 0x01;
     public static final int NETTYPE_CMWAP = 0x02;

@@ -300,7 +300,7 @@ public class PlayerActivity extends BaseActivity {
                     if (price.equals("0")){
                         intentClass(position);
                     }else {
-                        if (position < 3){
+                        if (position < 1){
                             intentClass(position);
                         }else {
                             loadDialog();
@@ -391,7 +391,7 @@ public class PlayerActivity extends BaseActivity {
             ChooseClass chooseClass = new ChooseClass();
             chooseClass.setPosition(position);
             chooseClass.setCount("第" + CommonUtils.toCharaNumber(j + 1) + "课");
-            if (j >= 3 && !price.equals("0")){
+            if (j > 0 && !price.equals("0")){
                 chooseClass.setLocked(true);
             }else {
                 chooseClass.setLocked(false);

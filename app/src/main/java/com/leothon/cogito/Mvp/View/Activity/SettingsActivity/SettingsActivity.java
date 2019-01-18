@@ -105,7 +105,7 @@ public class SettingsActivity extends BaseActivity {
         Constants.loginStatus = 0;
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
-        BaseApplication.getInstances().getDaoSession().deleteAll(UserEntity.class);
+        getDAOSession().deleteAll(UserEntity.class);
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
         finish();
     }

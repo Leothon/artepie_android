@@ -58,7 +58,7 @@ public class BannerActivity extends BaseActivity {
     }
 
     public void loadImg(String url){
-        ImageLoader.loadImageViewLoading(this,url,contentBanner,R.drawable.musicdefalut,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,url,contentBanner,R.drawable.defalutimg);
     }
 
     @Override

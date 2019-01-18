@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
 import com.leothon.cogito.R;
@@ -30,16 +31,20 @@ import butterknife.ButterKnife;
 public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     private OnItemClickListener onItemClickListener;
-    private SelectClass selectClass;
+    private ClassDetail classDetail;
     private Context context;
 
     private int HEAD = 0;
     private int BODY = 100;
     private View headView;
-    private boolean isFaved = false;
 
-    public SelectClassAdapter(SelectClass selectClass, Context context){
-        this.selectClass = selectClass;
+    public favOnClickListener favOnClickListener;
+
+    public void setFavOnClickListener(favOnClickListener favOnClickListener) {
+        this.favOnClickListener = favOnClickListener;
+    }
+    public SelectClassAdapter(ClassDetail classDetail, Context context){
+        this.classDetail = classDetail;
         this.context =context;
     }
     @Override
@@ -57,24 +62,36 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         int viewType = getItemViewType(position);
         if (viewType == HEAD){
             final SelectHeadHolder selectHeadHolder= (SelectHeadHolder) holder;
-            ImageLoader.loadImageViewwithError(context,selectClass.getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
-            selectHeadHolder.selectTitle.setText(selectClass.getSelectlisttitle());
-            //selectHeadHolder.selectTime.setText(selectClass.getSelecttime());
-            //selectHeadHolder.selectStuCount.setText(selectClass.getSelectstucount());
-            selectHeadHolder.selectAuthor.setText("讲师:" + selectClass.getSelectauthor());
+            ImageLoader.loadImageViewwithError(context,classDetail.getTeaClasss().getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
+            selectHeadHolder.selectTitle.setText(classDetail.getTeaClasss().getSelectlisttitle());
+            selectHeadHolder.selectClassAuthor.setText("讲师 : " + classDetail.getTeaClasss().getSelectauthor());
+            selectHeadHolder.selectClassTime.setText("课程总时长 ：" + classDetail.getTeaClasss().getSelecttime() + "分钟");
+            selectHeadHolder.selectClassDesc.setText(classDetail.getTeaClasss().getSelectdesc());
+            selectHeadHolder.selectClassAuthorDesc.setText(classDetail.getTeaClasss().getSelectauthordes());
+            selectHeadHolder.selectClassLevel.setText(classDetail.getTeaClasss().getSelectscore());
+            if (classDetail.getTeaClasss().isIsfav()){
+                selectHeadHolder.selectClassFav.setImageResource(R.drawable.faved);
+            }else {
+                selectHeadHolder.selectClassFav.setImageResource(R.drawable.fav);
+            }
+            if (classDetail.getTeaClasss().isIsbuy()){
+                selectHeadHolder.selectClassPrice.setText("已购买");
+            }else if (classDetail.getTeaClasss().getSelectprice().equals("0.00")){
+                selectHeadHolder.selectClassPrice.setText("免费");
+            }else {
+                selectHeadHolder.selectClassPrice.setText("￥ " + classDetail.getTeaClasss().getSelectprice());
+            }
             selectHeadHolder.selectClassFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!isFaved){
+                    //TODO 收藏和取消
+                    favOnClickListener.favClickListener(classDetail.getTeaClasss().isIsfav(),classDetail.getTeaClasss().getSelectId());
+                    if (!classDetail.getTeaClasss().isIsfav()){
                         selectHeadHolder.selectClassFav.setImageResource(R.drawable.faved);
-                        isFaved = true;
-                        CommonUtils.makeText(context,"已收藏本套课程");
-                        //TODO 执行收藏操作
+                        classDetail.getTeaClasss().setIsfav(true);
                     }else {
                         selectHeadHolder.selectClassFav.setImageResource(R.drawable.fav);
-                        isFaved = false;
-                        CommonUtils.makeText(context,"已取消收藏本套课程");
-                        //TODO 执行取消收藏操作
+                        classDetail.getTeaClasss().setIsfav(false);
                     }
                 }
             });
@@ -84,7 +101,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     shareText("分享本节课程到",
                             "主题名称",
                             "我正在 @艺派-给生活以艺术 客户端学习《"
-                                    + selectClass.getSelectlisttitle() +
+                                    + classDetail.getTeaClasss().getSelectlisttitle() +
                                     "》这个课程，点击加入体验"
                                     +"https://github.com/Leothon"+
                                     "\n (分享自艺派APP)");
@@ -93,8 +110,9 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }else if (viewType == BODY){
             int realposition = position - 1;
             final SelectClassHolder selectClassHolder = (SelectClassHolder)holder;
-            selectClassHolder.selectClassTitle.setText(selectClass.getVideoClasses().get(realposition).getVideoTitle());
-            if (!selectClass.getSelectprice().equals("0.00") && realposition > 2){
+            selectClassHolder.selectClassTitle.setText(classDetail.getClassDetailLists().get(realposition).getClassd_title());
+
+            if (!classDetail.getTeaClasss().getSelectprice().equals("0.00") && realposition >= 1){
                 selectClassHolder.selectClassLock.setImageResource(R.drawable.baseline_lock_black_18);
 
             }else {
@@ -107,15 +125,12 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     int realposition = position - 1;
 
-                    if (realposition > 2 && !selectClass.getSelectprice().equals("0.00")){
-                        loadDialog(selectClass);
+                    if (realposition >= 1 && !classDetail.getTeaClasss().getSelectprice().equals("0.00")){
+                        loadDialog(classDetail);
                     }else {
                         Bundle bundle = new Bundle();
-                        bundle.putString("imgTitle",selectClass.getVideoClasses().get(realposition).getVideoTitle());
-                        bundle.putString("imgUrls",selectClass.getVideoClasses().get(realposition).getVideoUrl());
-                        bundle.putInt("count",selectClass.getVideoClasses().size());
-                        bundle.putInt("position",realposition);
-                        bundle.putString("price",selectClass.getSelectprice());
+                        bundle.putString("classd_id",classDetail.getClassDetailLists().get(realposition).getClassd_id());
+                        bundle.putString("class_id",classDetail.getTeaClasss().getSelectId());
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                     }
 
@@ -155,7 +170,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             context.startActivity(intent);
         }
     }
-    private void loadDialog(final SelectClass selectData){
+    private void loadDialog(final ClassDetail classDetail){
         final CommonDialog dialog = new CommonDialog(context);
 
 
@@ -169,17 +184,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public void onPositiveClick() {
                         dialog.dismiss();
                         Bundle bundle = new Bundle();
-                        bundle.putString("imgurl",selectData.getSelectbackimg());
-                        bundle.putString("title",selectData.getSelectlisttitle());
-                        bundle.putString("des",selectData.getSelectdesc());
-                        bundle.putString("price",selectData.getSelectprice());
-                        bundle.putString("type","class");
-                        bundle.putString("time","");
-                        bundle.putString("address","");
-                        bundle.putString("count","");
-                        bundle.putString("name","");
-                        bundle.putString("idcard","");
-                        bundle.putString("phone","");
+                        bundle.putString("classId",classDetail.getTeaClasss().getSelectId());
                         IntentUtils.getInstence().intent(context, PayInfoActivity.class,bundle);
                     }
 
@@ -204,7 +209,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return selectClass.getVideoClasses().size() + 1;
+        return classDetail.getClassDetailLists().size() + 1;
     }
 
     public void addHeadView(View view){
@@ -224,12 +229,20 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView selectBackImg;
         @BindView(R.id.select_title_list)
         TextView selectTitle;
-        @BindView(R.id.select_class_time)
-        TextView selectTime;
-        @BindView(R.id.select_class_stucount)
-        TextView selectStuCount;
-        @BindView(R.id.select_class_author)
-        TextView selectAuthor;
+
+
+        @BindView(R.id.home_class_detail_author)
+        TextView selectClassAuthor;
+        @BindView(R.id.home_class_detail_level)
+        TextView selectClassLevel;
+        @BindView(R.id.home_class_detail_price)
+        TextView selectClassPrice;
+        @BindView(R.id.home_class_detail_time)
+        TextView selectClassTime;
+        @BindView(R.id.home_class_detail_author_desc)
+        TextView selectClassAuthorDesc;
+        @BindView(R.id.home_class_detail_desc)
+        TextView selectClassDesc;
 
         @BindView(R.id.select_class_fav)
         ImageView selectClassFav;
@@ -258,5 +271,9 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public interface OnItemClickListener{
         void OnItemClick(int position);
+    }
+
+    public interface favOnClickListener{
+        void favClickListener(boolean isFav,String classId);
     }
 }

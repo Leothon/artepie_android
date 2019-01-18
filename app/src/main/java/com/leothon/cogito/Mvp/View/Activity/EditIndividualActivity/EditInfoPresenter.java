@@ -33,8 +33,9 @@ public class EditInfoPresenter implements EditInfoContract.IEditInfoPresenter,Ed
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iEditInfoView = null;
+        iEditInfoModel = null;
     }
 
     @Override

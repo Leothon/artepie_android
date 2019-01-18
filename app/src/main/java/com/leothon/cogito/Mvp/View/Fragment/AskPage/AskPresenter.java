@@ -36,8 +36,9 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iAskView = null;
+        iAskModel = null;
     }
 
     @Override

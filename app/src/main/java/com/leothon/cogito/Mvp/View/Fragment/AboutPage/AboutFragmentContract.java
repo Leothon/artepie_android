@@ -25,7 +25,7 @@ public class AboutFragmentContract {
     }
 
     public interface IAboutPresenter{
-        void onDestory();
+        void onDestroy();
         void loadUserAll(String token);
     }
 }

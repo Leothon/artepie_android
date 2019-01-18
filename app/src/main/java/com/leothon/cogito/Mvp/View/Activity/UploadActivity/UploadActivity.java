@@ -54,7 +54,7 @@ public class UploadActivity extends BaseActivity {
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {

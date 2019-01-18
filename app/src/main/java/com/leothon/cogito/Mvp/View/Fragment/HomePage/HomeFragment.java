@@ -224,7 +224,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         rvHome.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
-                homePresenter.loadMoreClassData(currentPage * 10);
+                homePresenter.loadMoreClassData(currentPage * 10,fragmentsharedPreferencesUtils.getParams("token","").toString());
                 Log.e( "onLoadMoreData: " ,"页数" + currentPage * 10);
             }
         });
@@ -384,6 +384,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        homePresenter.onDestroy();
+    }
 }

@@ -45,8 +45,9 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iAskDetailView = null;
+        iAskDetailModel = null;
     }
 
     @Override

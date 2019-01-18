@@ -108,7 +108,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
 
     }
     @Override
@@ -193,7 +193,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             userInsert.setUser_icon(icon);
         }
 
-        BaseApplication.getInstances().getDaoSession().update(userInsert);
+        getDAOSession().update(userInsert);
 
         EventBus.getDefault().post(userSend);
         editInfoPresenter.updateUserInfo(userSend);
@@ -604,4 +604,9 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         dialog.cancel();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editInfoPresenter.onDestroy();
+    }
 }

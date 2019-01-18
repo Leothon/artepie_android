@@ -10,7 +10,7 @@ public class HomeFragmentContract {
        //TODO 执行相关数据操作
         void getHomeData(String token,OnHomeFinishedListener listener);
 
-        void getMoreData(int currentPage,OnHomeFinishedListener listener);
+        void getMoreData(int currentPage,String token,OnHomeFinishedListener listener);
     }
 
     public interface IHomeView{
@@ -32,9 +32,9 @@ public class HomeFragmentContract {
     }
 
     public interface IHomePresenter{
-        void onDestory();
+        void onDestroy();
         void loadHomeData(String token);
         void swipeHomeData(String token);
-        void loadMoreClassData(int currentPage);
+        void loadMoreClassData(int currentPage,String token);
     }
 }

@@ -96,7 +96,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {
@@ -359,5 +359,9 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         dialog.cancel();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        askActivityPresenter.onDestroy();
+    }
 }

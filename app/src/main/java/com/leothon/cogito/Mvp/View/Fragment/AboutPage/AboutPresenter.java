@@ -21,8 +21,9 @@ public class AboutPresenter implements AboutFragmentContract.IAboutPresenter,Abo
 
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iAboutView = null;
+        iAboutModel = null;
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.leothon.cogito.Constants;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,14 @@ public class BaseApplication extends Application {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         MultiDex.install(this);
-        instances = this;
+        //instances = this;
         setDatabase();
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
+//        LeakCanary.install(this);
 
     }
 
@@ -70,11 +77,11 @@ public class BaseApplication extends Application {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     //静态单例
-    public static BaseApplication instances;
-
-    public static BaseApplication getInstances(){
-        return instances;
-    }
+//    public static BaseApplication instances;
+//
+//    public static BaseApplication getInstances(){
+//        return instances;
+//    }
 
     /**
      * 设置greenDao

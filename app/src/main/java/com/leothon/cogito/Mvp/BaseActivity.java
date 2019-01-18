@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FitUtils;
@@ -106,6 +107,9 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         baseApplication.finishActivity();
     }
 
+    public DaoSession getDAOSession(){
+        return baseApplication.getDaoSession();
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -222,7 +226,8 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 //        this.unbinder = null;
 
 //        basePresenter.detachWindow();
-
+        Log.e(TAG, "onDestroy: " + "每次销毁都执行");
+        baseApplication = null;
 
 
     }

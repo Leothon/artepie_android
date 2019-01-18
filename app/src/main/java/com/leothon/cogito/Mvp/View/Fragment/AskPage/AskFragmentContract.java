@@ -32,7 +32,7 @@ public class AskFragmentContract {
     }
 
     public interface IAskPresenter{
-        void onDestory();
+        void onDestroy();
         void getAskData(String token);
         void getAskMoreData(int currentPage,String token);
 

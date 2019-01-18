@@ -18,8 +18,33 @@ public class SelectClass  {
     private boolean isfav;
     private String selectdesc;
     private String selectprice;
+    private boolean isbuy;
+    private String selectauthordes;
+    private String selectscore;
 
-    private ArrayList<VideoClass> videoClasses;
+    public String getSelectscore() {
+        return selectscore;
+    }
+
+    public void setSelectscore(String selectscore) {
+        this.selectscore = selectscore;
+    }
+    public String getSelectauthordes() {
+        return selectauthordes;
+    }
+
+    public void setSelectauthordes(String selectauthordes) {
+        this.selectauthordes = selectauthordes;
+    }
+    public boolean isIsbuy() {
+        return isbuy;
+    }
+
+    public void setIsbuy(boolean isbuy) {
+        this.isbuy = isbuy;
+    }
+
+
 
 
     public String getSelectId() {
@@ -45,13 +70,6 @@ public class SelectClass  {
 
     public void setSelectdesc(String selectdesc) {
         this.selectdesc = selectdesc;
-    }
-    public ArrayList<VideoClass> getVideoClasses() {
-        return videoClasses;
-    }
-
-    public void setVideoClasses(ArrayList<VideoClass> videoClasses) {
-        this.videoClasses = videoClasses;
     }
 
     public String getSelectauthor() {
@@ -94,9 +112,10 @@ public class SelectClass  {
         this.selecttime = selecttime;
     }
 
-    public Boolean getIsfav(){
+    public boolean isIsfav() {
         return isfav;
     }
+
     public void setIsfav(boolean isfav) {
         this.isfav = isfav;
     }

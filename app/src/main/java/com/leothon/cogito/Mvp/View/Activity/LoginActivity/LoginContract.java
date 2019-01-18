@@ -73,7 +73,7 @@ public class LoginContract {
     public interface ILoginPresenter{
         void validateCrendentials(User user);
         void registerInfo(User user);
-        void onDestory();
+        void onDestroy();
         void verifyphone(String phoneNumber);
     }
 }

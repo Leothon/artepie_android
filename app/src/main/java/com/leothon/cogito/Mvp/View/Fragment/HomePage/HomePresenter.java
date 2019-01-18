@@ -38,8 +38,9 @@ public class HomePresenter implements HomeFragmentContract.IHomePresenter,HomeFr
 
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iHomeView = null;
+        iHomeModel = null;
     }
 
 
@@ -57,7 +58,7 @@ public class HomePresenter implements HomeFragmentContract.IHomePresenter,HomeFr
     }
 
     @Override
-    public void loadMoreClassData(int currentPage) {
-        iHomeModel.getMoreData(currentPage,this);
+    public void loadMoreClassData(int currentPage,String token) {
+        iHomeModel.getMoreData(currentPage,token,this);
     }
 }

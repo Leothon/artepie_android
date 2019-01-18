@@ -55,7 +55,7 @@ public class AskDetailContract {
     }
 
     public interface IAskDetailPresenter{
-        void onDestory();
+        void onDestroy();
         void getQADetailData(String token,String qaId);
         void getMoreComment(String qaId,String currentPage);
         void loadCommentDetail(String commentId,String token);

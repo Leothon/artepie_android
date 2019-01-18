@@ -7,8 +7,7 @@
         android:id="@+id/dismiss"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/content_comment"
-        android:background="#a6bcbcbc"/>
+        android:layout_above="@+id/content_comment" />
 
     <RelativeLayout
         android:id="@+id/content_comment"

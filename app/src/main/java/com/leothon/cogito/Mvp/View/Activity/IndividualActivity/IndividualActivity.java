@@ -87,7 +87,7 @@ public class IndividualActivity extends BaseActivity {
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {
@@ -220,7 +220,7 @@ public class IndividualActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
-        UserEntity userEntityRe = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        UserEntity userEntityRe = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         individualName.setText(userEntityRe.getUser_name());
 
         try{

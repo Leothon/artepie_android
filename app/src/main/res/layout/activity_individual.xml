@@ -97,7 +97,6 @@
                         android:id="@+id/individual_icon"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
-                        android:src="@drawable/defaulticon"
                         android:scaleType="centerCrop"
                         app:riv_oval="true"
                         app:riv_border_color="@color/white"

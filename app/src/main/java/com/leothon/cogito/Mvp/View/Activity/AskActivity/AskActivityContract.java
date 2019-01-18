@@ -32,7 +32,7 @@ public class AskActivityContract {
     }
 
     public interface IAskActivityPresenter{
-        void onDestory();
+        void onDestroy();
         void uploadFile(String path);
         void sendData(SendQAData sendQAData);
 

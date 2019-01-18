@@ -5,6 +5,7 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
@@ -44,7 +45,7 @@ public interface HttpService {
     Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
 
     @GET("getmoredata")
-    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData(@Query("currentpage") int currentPage);
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreData(@Query("currentpage") int currentPage,@Query("token") String token);
 
     @GET("getuserinfo")
     Observable<BaseResponse<User>> getUserInfo(@Query("token") String token);
@@ -98,4 +99,13 @@ public interface HttpService {
     Observable<BaseResponse<String>> deleteQaComment(@Query("commentid") String commentId,@Query("token") String token);
     @POST("deletereply")
     Observable<BaseResponse<String>> deleteReply(@Query("replyId") String replyId,@Query("token") String token);
+
+    @GET("getclassdetail")
+    Observable<BaseResponse<ClassDetail>> getClassDetail(@Query("token") String token,@Query("classid") String classId);
+
+    @POST("favclass")
+    Observable<BaseResponse<String>> favClass(@Query("token") String token,@Query("classid") String classId);
+    @POST("unfavclass")
+    Observable<BaseResponse<String>> unFavClass(@Query("token") String token,@Query("classid") String classId);
+
 }

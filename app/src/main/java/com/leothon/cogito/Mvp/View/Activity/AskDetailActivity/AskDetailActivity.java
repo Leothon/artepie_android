@@ -91,7 +91,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
 
         swpAskDetail.setProgressViewOffset (false,100,300);
         swpAskDetail.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
@@ -407,6 +407,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        askDetailPresenter.onDestroy();
         GSYVideoManager.releaseAllVideos();
     }
 

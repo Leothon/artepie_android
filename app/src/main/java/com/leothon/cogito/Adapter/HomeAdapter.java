@@ -373,7 +373,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             foryouholder.foryouAuthor.setText(selectClasses.get(videoPosition).getSelectauthor());
             foryouholder.foryouCount.setText(selectClasses.get(videoPosition).getSelectstucount() + "人次已学习");
             String price = selectClasses.get(videoPosition).getSelectprice();
-            if (price.equals("0.00")){
+            if (selectClasses.get(videoPosition).isIsbuy()){
+                foryouholder.foryouPrice.setText("已购买");
+            }else if (price.equals("0.00")){
                 foryouholder.foryouPrice.setText("免费");
             }else {
                 foryouholder.foryouPrice.setText("￥" + price);
@@ -382,18 +384,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     int pos = videoPosition;
-                    if (foryouholder.foryouPrice.getText().toString().equals("免费")){
+                    if (foryouholder.foryouPrice.getText().toString().equals("已购买") || foryouholder.foryouPrice.getText().toString().equals("免费")){
                         Bundle bundle = new Bundle();
                         bundle.putString("classId",selectClasses.get(pos).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        //TODO 跳转支付页面
-                        ClassItem classItem = new ClassItem();
-                        classItem.setClassurl("");
-                        classItem.setClasstitle(foryouholder.foryouTV.getText().toString());
-                        classItem.setAuthorname(foryouholder.foryouAuthor.getText().toString());
-                        classItem.setClassprice(foryouholder.foryouPrice.getText().toString());
-                        loadDialog(classItem);
+                        String classId = selectClasses.get(pos).getSelectId();
+                        loadDialog(classId);
                     }
                 }
             });
@@ -426,7 +423,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //        }
 //    }
 
-    private void loadDialog(final ClassItem classItem){
+    private void loadDialog(final String classId){
         final CommonDialog dialog = new CommonDialog(context);
 
 
@@ -440,10 +437,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     public void onPositiveClick() {
                         dialog.dismiss();
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",classItem.getClassurl());
-                        bundle.putString("title",classItem.getClasstitle());
-                        bundle.putString("author",classItem.getAuthorname());
-                        bundle.putString("price",classItem.getClassprice());
+                        bundle.putString("classId",classId);
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }
 

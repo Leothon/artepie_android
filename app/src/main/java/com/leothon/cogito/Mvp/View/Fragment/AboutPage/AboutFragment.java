@@ -48,6 +48,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
+
 /**
  * created by leothon on 2018.7.29
  * 我的页面fragment
@@ -84,6 +86,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     private UserEntity userEntity;
     private String uuid;
 
+    private BaseApplication baseApplication;
     public AboutFragment() {}
 
 
@@ -112,7 +115,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         TokenValid tokenValid = tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
+        userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
 
 
@@ -163,7 +169,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
-        UserEntity userEntityRe = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        UserEntity userEntityRe = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntityRe.getUser_icon(),userIcon,R.drawable.defaulticon);
         userName.setText(userEntityRe.getUser_name());
         signature.setText(userEntityRe.getUser_signal());
@@ -347,6 +353,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+        aboutPresenter.onDestroy();
+        baseApplication = null;
     }
 
     @Override

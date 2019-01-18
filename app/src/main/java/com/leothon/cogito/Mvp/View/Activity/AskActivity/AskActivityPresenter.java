@@ -33,8 +33,9 @@ public class AskActivityPresenter implements AskActivityContract.IAskActivityPre
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iAskActivityView = null;
+        iAskActivityModel = null;
     }
 
     @Override

@@ -95,8 +95,9 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
 
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         iLoginView = null;
+        iLoginModel = null;
     }
 
     @Override

@@ -91,7 +91,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-        userEntity = BaseApplication.getInstances().getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {
@@ -395,5 +395,9 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     }
 
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        askDetailPresenter.onDestroy();
+    }
 }

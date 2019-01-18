@@ -29,7 +29,7 @@ public class EditInfoContract {
 
     public interface IEditInfoPresenter{
 
-        void onDestory();
+        void onDestroy();
         void updateUserIcon(String path);
 
         void updateUserInfo(User user);
