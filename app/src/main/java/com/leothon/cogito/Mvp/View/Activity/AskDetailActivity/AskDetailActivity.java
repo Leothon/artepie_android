@@ -72,7 +72,6 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     private TextView replyToWho;
     private ImageView sendComment;
     private View dismiss;
-    private ArrayList<Comment> userComments;
     private UserEntity userEntity;
 
     private Intent intent;

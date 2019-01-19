@@ -11,6 +11,7 @@ import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SendQAData;
+import com.leothon.cogito.DTO.VideoDetail;
 
 import java.util.ArrayList;
 
@@ -108,4 +109,9 @@ public interface HttpService {
     @POST("unfavclass")
     Observable<BaseResponse<String>> unFavClass(@Query("token") String token,@Query("classid") String classId);
 
+    @GET("getclassvideo")
+    Observable<BaseResponse<VideoDetail>> getClassVideo(@Query("token") String token,@Query("classdid") String classdId,@Query("classid") String classId);
+
+    @POST("addvideoview")
+    Observable<BaseResponse<String>> addVideoView(@Query("token") String token,@Query("classid") String classId,@Query("classdid") String classdId);
 }

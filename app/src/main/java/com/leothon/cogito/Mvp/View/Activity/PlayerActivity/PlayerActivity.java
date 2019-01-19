@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.PlayerActivity;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +36,10 @@ import com.leothon.cogito.Adapter.ChooseClassAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
 import com.leothon.cogito.Bean.ChooseClass;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.VideoClass;
+import com.leothon.cogito.DTO.VideoDetail;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -42,6 +47,7 @@ import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -94,15 +100,8 @@ import butterknife.OnClick;
  *      （8）观看数
  *      （9）收藏数
  */
-public class PlayerActivity extends BaseActivity {
+public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,PlayerContract.IPlayerView {
 
-
-    //测试视频链接
-    //private String url = "http://www.w3school.com.cn/example/html5/mov_bbb.mp4";
-    //private String url = "http://121.196.199.171:8080/myweb/cogito001.mp4";
-    private String url = "http://www.ddkjplus.com/resource/artvideo000000001.mp4";
-    private String userIcon[] = {"","","","",""};
-    private String username[] = {"赵一","钱二","孙三","李四","周五","吴六","郑七","王八","冯九","陈十","褚十一","卫十二","蒋十三","沈十四","韩十五","杨十六"};
 
     @BindView(R.id.video_toolbar)
     Toolbar toolbar;
@@ -150,6 +149,9 @@ public class PlayerActivity extends BaseActivity {
 
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
+
+    @BindView(R.id.swp_video_comment)
+    SwipeRefreshLayout swpVideoComment;
     private boolean isPlay;
     private boolean isPause;
 
@@ -167,25 +169,16 @@ public class PlayerActivity extends BaseActivity {
     public static final int CURRENT_STATE_AUTO_COMPLETE = 6;
     //错误状态
     public static final int CURRENT_STATE_ERROR = 7;
-    private View empty;
-    private VideoClass videoClass;
     private Intent intent;
     private Bundle bundle;
     private OrientationUtils orientationUtils;
 
-    private View popview;
-    private PopupWindow popupWindow;
-
-    private View dismiss;
-    private MaterialEditText editComment;
-    private ImageView sendComment;
 
     private ArrayList<Comment> userComments;
     private ArrayList<ChooseClass> chooseClasses;
 
     private VideoCommentAdapter videoCommentAdapter;
     private ChooseClassAdapter chooseClassAdapter;
-    private int count = 0;
     private ScrollSpeedLinearLayoutManager scrollSpeedLinearLayoutManager;
     private ImageView imageView;
 
@@ -193,17 +186,51 @@ public class PlayerActivity extends BaseActivity {
     private Bitmap bitmap;
     private int mCurrentState = -1;
 
+    private int ChoosePosition = 0;
+    private PlayerPresenter playerPresenter;
+
+    private View popview;
+    private PopupWindow popupWindow;
+
+    private View morePopview;
+    private PopupWindow morePopupWindow;
+
+    private View moreDismiss;
+    private RelativeLayout copyComment;
+    private RelativeLayout deleteComment;
+    private MaterialEditText editComment;
+    private TextView replyToWho;
+    private ImageView sendComment;
+    private View dismiss;
+    private String uuid;
+    private UserEntity userEntity;
+    private String nowClassDId;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
     }
     private CollapsingToolbarLayoutState state;
 
+
+
+
     private enum CollapsingToolbarLayoutState {
         EXPANDED,
         COLLAPSED,
         INTERNEDIATE
     }
+
+    @Override
+    public void initData() {
+        playerPresenter = new PlayerPresenter(this);
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        uuid = tokenValid.getUid();
+        swpVideoComment.setProgressViewOffset (false,100,300);
+        swpVideoComment.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+        swpVideoComment.setDistanceToTriggerSync(500);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+    }
+
     @Override
     public void initView() {
         //切换课程时候，记得这个要重新初始化，以防止数据被覆盖
@@ -211,9 +238,10 @@ public class PlayerActivity extends BaseActivity {
         StatusBarUtils.transparencyBar(this);
         toolbar.setPadding(0,CommonUtils.getStatusBarHeight(this) - CommonUtils.dip2px(this,3),0,0);
         bundle = intent.getExtras();
-        count = bundle.getInt("count");
-
-        loadAll(bundle.getString("imgTitle"),bundle.getString("imgUrls"),bundle.getInt("count"),bundle.getInt("position"),bundle.getString("price"));
+        nowClassDId = bundle.getString("classdid");
+        //count = bundle.getInt("count");
+        swpVideoComment.setRefreshing(true);
+        playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classdid"),bundle.getString("classid"));
 
 
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -226,6 +254,7 @@ public class PlayerActivity extends BaseActivity {
                 } else {
                     if (!videoScrollView.isNestedScrollingEnabled()){
                         videoScrollView.setNestedScrollingEnabled(true);
+
                     }
 
                     if (verticalOffset == 0) {
@@ -269,6 +298,32 @@ public class PlayerActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),nowClassDId,bundle.getString("classid"));
+
+    }
+
+    @Override
+    public void getVideoDetailInfo(VideoDetail videoDetail) {
+
+        for (int i = 0;i < videoDetail.getClassd_id().size();i ++){
+            if (nowClassDId.equals(videoDetail.getClassd_id().get(i))){
+                ChoosePosition = i;
+            }
+        }
+
+        if (swpVideoComment.isRefreshing()){
+            swpVideoComment.setRefreshing(false);
+        }
+        loadAll(videoDetail,ChoosePosition);
+
+    }
+
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
     @OnClick(R.id.playButton)
     public void playVideo(View v){
         appBar.setExpanded(true);
@@ -276,12 +331,11 @@ public class PlayerActivity extends BaseActivity {
 
     }
 
-    private void loadAll(String title, String img, int count, int position, final String price){
-        videoClass = new VideoClass();
-        loadCommentData(position,price);
-        Loadview(title,img);
-        initPopupWindow();
-        if (count == 1){
+    private void loadAll(final VideoDetail videoDetail,int position){
+        LoadView(videoDetail);
+        initMorePopupWindow();
+        initReplyPopupWindow();
+        if (videoDetail.getClassd_id().size() == 1){
             chooseClass.setVisibility(View.GONE);
         }else {
             chooseClass.setVisibility(View.VISIBLE);
@@ -291,17 +345,38 @@ public class PlayerActivity extends BaseActivity {
 
 
             rvChooseClass.smoothScrollToPosition(position);
+
+            chooseClasses = new ArrayList<>();
+            for (int j = 0;j < videoDetail.getClassd_id().size();j ++){
+                ChooseClass chooseClass = new ChooseClass();
+                chooseClass.setPosition(position);
+                chooseClass.setCount("第" + CommonUtils.toCharaNumber(j + 1) + "课");
+                if (videoDetail.isFree() || videoDetail.isBuy()){
+                    chooseClass.setLocked(false);
+                }else {
+                    if (j > 0) {
+                        chooseClass.setLocked(true);
+                    }else {
+                        chooseClass.setLocked(false);
+                    }
+                }
+                chooseClasses.add(chooseClass);
+            }
+
+
             chooseClassAdapter = new ChooseClassAdapter(this,chooseClasses);
             rvChooseClass.setAdapter(chooseClassAdapter);
             chooseClassAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClickListener(View v, int position) {
 
-                    if (price.equals("0")){
-                        intentClass(position);
+                    if (videoDetail.isBuy() || videoDetail.isFree()){
+                        intentClass(videoDetail.getClassd_id().get(position));
+                        ChoosePosition = position;
                     }else {
                         if (position < 1){
-                            intentClass(position);
+                            intentClass(videoDetail.getClassd_id().get(position));
+                            ChoosePosition = position;
                         }else {
                             loadDialog();
                         }
@@ -350,13 +425,10 @@ public class PlayerActivity extends BaseActivity {
                 .show();
     }
 
-    private void intentClass(int position){
-
-        loadAll(bundle.getString("imgTitle"),bundle.getString("imgUrls"),bundle.getInt("count"),position,bundle.getString("price"));
-
-    }
-    @Override
-    public void initData() {
+    private void intentClass(String classdId){
+        swpVideoComment.setRefreshing(true);
+        nowClassDId = classdId;
+        playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),classdId,bundle.getString("classid"));
 
     }
 
@@ -370,41 +442,6 @@ public class PlayerActivity extends BaseActivity {
         return null;
     }
 
-    /**
-     * 伪数据
-     */
-    public void loadCommentData(int position,String price){
-
-
-        userComments = new ArrayList<>();
-        for (int i = 0;i < username.length;i++){
-            Comment userComment = new Comment();
-            userComment.setUser_icon("");
-            userComment.setUser_name(username[i]);
-            userComment.setComment_q_content("这个视频真精彩");
-            userComments.add(userComment);
-        }
-        videoClass.setUserComments(userComments);
-
-        chooseClasses = new ArrayList<>();
-        for (int j = 0;j < count;j++){
-            ChooseClass chooseClass = new ChooseClass();
-            chooseClass.setPosition(position);
-            chooseClass.setCount("第" + CommonUtils.toCharaNumber(j + 1) + "课");
-            if (j > 0 && !price.equals("0")){
-                chooseClass.setLocked(true);
-            }else {
-                chooseClass.setLocked(false);
-            }
-            chooseClasses.add(chooseClass);
-        }
-
-    }
-
-
-    public void loadVideoData(){
-        //将得到的数据加载到videoClass中再进行数值加载
-    }
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -414,17 +451,21 @@ public class PlayerActivity extends BaseActivity {
 
 
 
-    public void Loadview(String title,String img) {
+    public void LoadView(final VideoDetail videoDetail) {
 
-
-        videoTitle.setText(title);
+        videoAuthorIcon.setImageResource(R.drawable.defaulticon);
+        videoAuthorName.setText("腾格尔");
+        videoTitle.setText(videoDetail.getClassDetailList().getClassd_title());
+        videoDescription.setText(videoDetail.getClassDetailList().getClassd_des());
+        viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
+        favCount.setText(videoDetail.getClassDetailList().getClassd_like());
         imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                bitmap = CommonUtils.getVideoThumbnail(url);
+                bitmap = CommonUtils.getVideoThumbnail(videoDetail.getClassDetailList().getClassd_video());
                 Message msg = new Message();
                 msg.what = COMPLETED;
                 handler.sendMessage(msg);
@@ -448,15 +489,16 @@ public class PlayerActivity extends BaseActivity {
                 .setAutoFullWithSize(true)
                 .setShowFullAnimation(false)
                 .setNeedLockFull(true)
-                .setUrl(url)
+                .setUrl(videoDetail.getClassDetailList().getClassd_video())
                 .setCacheWithPlay(false)
-                .setVideoTitle(title)
+                .setVideoTitle(videoDetail.getClassDetailList().getClassd_title())
                 .setVideoAllCallBack(new GSYSampleCallBack(){
                     @Override
                     public void onPrepared(String url, Object... objects) {
                         super.onPrepared(url, objects);
                         orientationUtils.setEnable(true);
                         isPlay = true;
+                        playerPresenter.addVideoView(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClass_classd_id(),nowClassDId);
                     }
 
                     @Override
@@ -489,15 +531,34 @@ public class PlayerActivity extends BaseActivity {
             }
         });
 
-        loadComment();
+        loadComment(videoDetail.getComments());
 
         commentIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO 弹出评论的窗口
 
+                replyToWho.setText("评论课程 : " + videoDetail.getClassDetailList().getClassd_title());
                 showPopWindow();
                 popupInputMethod();
+                sendComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playerPresenter.sendQaComment(videoDetail.getClassDetailList().getClassd_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
+
+                        Comment comment = new Comment();
+                        comment.setUser_name(userEntity.getUser_name());
+                        comment.setUser_icon(userEntity.getUser_icon());
+                        comment.setComment_q_time(CommonUtils.getNowTime());
+                        comment.setComment_q_like("0");
+                        comment.setComment_q_content(editComment.getText().toString());
+                        videoDetail.getComments().add(comment);
+                        chooseClassAdapter.notifyDataSetChanged();
+                        editComment.setText("");
+                        playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClassd_id(),videoDetail.getClassDetailList().getClass_classd_id());
+                        popupWindow.dismiss();
+                    }
+                });
                 videoPlayer.onVideoPause();
 
 
@@ -515,7 +576,7 @@ public class PlayerActivity extends BaseActivity {
         }
     };
 
-    public void initPopupWindow(){
+    public void initReplyPopupWindow(){
         popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
         popupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -526,38 +587,40 @@ public class PlayerActivity extends BaseActivity {
         //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         editComment = (MaterialEditText)popview.findViewById(R.id.edit_comment);
-
+        replyToWho = (TextView)popview.findViewById(R.id.reply_to_who);
         sendComment = (ImageView)popview.findViewById(R.id.send_comment);
         dismiss = (View)popview.findViewById(R.id.dismiss);
-        sendComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO 发送信息给评论
-                if (!editComment.getText().toString().equals("")){
-                    String comment = editComment.getText().toString();
-                    Comment userComment = new Comment();
-                    userComment.setUser_icon("");
-                    userComment.setUser_name("Leothon");
-                    userComment.setComment_q_content(comment);
-                    userComments.add(0,userComment);
-                    videoClass.setUserComments(userComments);
-                    videoCommentAdapter.notifyItemInserted(0);
-                    videoCommentAdapter.notifyItemRangeChanged(0,userComments.size());
-                    videoCommentList.scrollToPosition(0);
-                    popupWindow.dismiss();
-                    videoPlayer.onVideoResume(true);
-                    editComment.setText("");
-                }else {
-                    CommonUtils.makeText(PlayerActivity.this,"请输入评论内容");
-                }
 
-            }
-        });
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                videoPlayer.onVideoResume(true);
+
+            }
+        });
+    }
+
+    public void initMorePopupWindow(){
+        morePopview = LayoutInflater.from(this).inflate(R.layout.popup_more_layout,null,false);
+        morePopupWindow = new PopupWindow(morePopview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        morePopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        morePopupWindow.setTouchable(true);
+        morePopupWindow.setAnimationStyle(R.style.popupWindow_anim_style);
+        morePopupWindow.setFocusable(true);
+        morePopupWindow.setOutsideTouchable(true);
+        //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        morePopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        moreDismiss = (View)morePopview.findViewById(R.id.more_dismiss);
+        copyComment = (RelativeLayout)morePopview.findViewById(R.id.copy_comment);
+        deleteComment = (RelativeLayout)morePopview.findViewById(R.id.delete_comment);
+
+
+
+        moreDismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                morePopupWindow.dismiss();
+
             }
         });
     }
@@ -576,27 +639,129 @@ public class PlayerActivity extends BaseActivity {
 
     public void showPopWindow(){
         View rootView = LayoutInflater.from(this).inflate(R.layout.activity_player,null);
-        popupWindow.showAtLocation(rootView,Gravity.BOTTOM,0,0);
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+
     }
 
-    public void loadComment(){
-        videoCommentAdapter = new VideoCommentAdapter(this,videoClass.getUserComments());
-        videoCommentAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(View v, int position) {
-                //TODO 未来进行回复评论的操作
-                CommonUtils.makeText(PlayerActivity.this,"回复评论功能暂未开放");
-            }
-        });
-        videoCommentAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClickListener(View v, int position) {
+    public void showMorePopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_player,null);
+        morePopupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+    }
 
-            }
-        });
+    public void loadComment(final ArrayList<Comment> comments){
+        swpVideoComment.setOnRefreshListener(this);
+        videoCommentAdapter = new VideoCommentAdapter(comments,this);
+
         videoCommentList.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
         videoCommentList.setAdapter(videoCommentAdapter);
 
+
+        videoCommentAdapter.setOnClickAddVideoLikeComment(new VideoCommentAdapter.AddVideoLikeCommentOnClickListener() {
+            @Override
+            public void addVideoLikeCommentClickListener(boolean isLike, String commentId) {
+                if (isLike){
+                    playerPresenter.removeLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }else {
+                    playerPresenter.addLikeComment(activitysharedPreferencesUtils.getParams("token","").toString(),commentId);
+                }
+            }
+        });
+
+        videoCommentAdapter.setVideoOnClickAddLikeReply(new VideoCommentAdapter.AddVideoLikeReplyOnClickListener() {
+            @Override
+            public void addVideoLikeReplyClickListener(boolean isLike, String replyId) {
+                if (isLike){
+                    playerPresenter.removeLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }else {
+                    playerPresenter.addLikeReply(activitysharedPreferencesUtils.getParams("token","").toString(),replyId);
+                }
+            }
+        });
+
+        videoCommentAdapter.setVideoSendReplyOnClickListener(new VideoCommentAdapter.SendVideoReplyOnClickListener() {
+            @Override
+            public void sendVideoReplyClickListener(final String commentId, final String toUserId , String toUsername) {
+                replyToWho.setText("回复给： " + toUsername);
+                showPopWindow();
+                popupInputMethod();
+                sendComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        playerPresenter.sendReply(commentId,activitysharedPreferencesUtils.getParams("token","").toString(),toUserId,editComment.getText().toString());
+                        editComment.setText("");
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+
+        videoCommentAdapter.setVideoDeleteCommentOnClickListener(new VideoCommentAdapter.DeleteVideoCommentOnClickListener() {
+            @Override
+            public void deleteVideoCommentClickListener(final String commentId, String commentUserId, final String content, final int position) {
+
+                showMorePopWindow();
+                if (commentUserId.equals(uuid)){
+                    deleteComment.setVisibility(View.VISIBLE);
+                }else {
+                    deleteComment.setVisibility(View.GONE);
+                }
+
+                deleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playerPresenter.deleteQaComment(commentId,activitysharedPreferencesUtils.getParams("token","").toString());
+                        comments.get(position).setComment_q_content("该评论已被删除");
+                        videoCommentAdapter.notifyDataSetChanged();
+                        morePopupWindow.dismiss();
+                    }
+                });
+
+                copyComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(PlayerActivity.this,"内容已复制");
+                        morePopupWindow.dismiss();
+                    }
+                });
+
+            }
+        });
+
+        videoCommentAdapter.setVideoDeleteReplyOnClickListener(new VideoCommentAdapter.DeleteVideoReplyOnClickListener() {
+            @Override
+            public void deleteVideoReplyClickListener(final String replyId, String replyUserId, final String content, final int commentPosition, final int replyPosition) {
+
+                showMorePopWindow();
+                if (replyUserId.equals(uuid)){
+                    deleteComment.setVisibility(View.VISIBLE);
+                }else{
+                    deleteComment.setVisibility(View.GONE);
+                }
+
+                deleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playerPresenter.deleteReply(replyId,activitysharedPreferencesUtils.getParams("token","").toString());
+                        comments.get(commentPosition).getReplies().get(replyPosition).setReply_comment("该回复已被删除");
+                        videoCommentAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
+                copyComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(PlayerActivity.this,"内容已复制");
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -643,6 +808,8 @@ public class PlayerActivity extends BaseActivity {
         if (orientationUtils != null){
             orientationUtils.releaseListener();
         }
+
+        playerPresenter.onDestroy();
     }
 
 

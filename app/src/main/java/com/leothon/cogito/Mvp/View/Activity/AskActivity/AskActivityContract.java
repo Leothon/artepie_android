@@ -9,6 +9,8 @@ public class AskActivityContract {
         void uploadFile(String path,OnAskActivityFinishedListener listener);
 
         void sendQaData(SendQAData sendQAData,OnAskActivityFinishedListener listener);
+
+
     }
 
     public interface IAskActivityView{

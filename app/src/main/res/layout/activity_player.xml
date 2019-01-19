@@ -73,12 +73,17 @@
         layout="@layout/toolbar"
         android:visibility="gone"/>
 
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swp_video_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/video_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -162,7 +167,7 @@
                                 android:id="@+id/view_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="352"
+                                android:text="0"
                                 android:layout_gravity="center"/>
                         </FrameLayout>
                         <FrameLayout
@@ -180,7 +185,7 @@
                                 android:id="@+id/fav_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="120"
+                                android:text="0"
                                 android:layout_gravity="center"/>
                         </FrameLayout>
                     </LinearLayout>
@@ -242,14 +247,18 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_below="@+id/line_divider"
-                android:id="@+id/video_comment_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp">
 
-            </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_below="@+id/line_divider"
+                    android:id="@+id/video_comment_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+
 
 
 
@@ -258,6 +267,7 @@
 
 
     </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.CardView
         android:id="@+id/comment_in"

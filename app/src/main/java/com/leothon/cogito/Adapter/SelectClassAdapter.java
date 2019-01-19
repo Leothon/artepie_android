@@ -129,8 +129,8 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         loadDialog(classDetail);
                     }else {
                         Bundle bundle = new Bundle();
-                        bundle.putString("classd_id",classDetail.getClassDetailLists().get(realposition).getClassd_id());
-                        bundle.putString("class_id",classDetail.getTeaClasss().getSelectId());
+                        bundle.putString("classdid",classDetail.getClassDetailLists().get(realposition).getClassd_id());
+                        bundle.putString("classid",classDetail.getTeaClasss().getSelectId());
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                     }
 

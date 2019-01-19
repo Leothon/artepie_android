@@ -7,10 +7,18 @@ import com.leothon.cogito.Http.BaseResponse;
  */
 public class ChooseClass extends BaseResponse {
 
-    private String name;
-    private String count;
     private int position;
     private boolean isLocked;
+
+    private String count;
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
 
     public void setLocked(boolean locked) {
         isLocked = locked;
@@ -27,19 +35,5 @@ public class ChooseClass extends BaseResponse {
         this.position = position;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCount() {
-        return count;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
-    }
 }

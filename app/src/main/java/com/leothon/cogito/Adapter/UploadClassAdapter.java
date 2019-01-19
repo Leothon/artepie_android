@@ -20,7 +20,7 @@ public class UploadClassAdapter extends BaseAdapter{
     public <T> void convert(BaseViewHolder holder, T bean, int position) {
         ChooseClass titles = (ChooseClass)bean;
         holder.setText(R.id.count_upload, "第" + CommonUtils.toCharaNumber(position+1) + "课");
-        holder.setText(R.id.title_sub_class,titles.getName());
+        holder.setText(R.id.title_sub_class,"");
         holder.getView(R.id.more_class_upload).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

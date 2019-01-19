@@ -102,7 +102,7 @@ public class UploadClassActivity extends BaseActivity {
             Log.e(TAG, "loadConstantsData: "+ uploadSaves.size());
             for (int i=0;i<uploadSaves.size();i++){
                 ChooseClass chooseClass = new ChooseClass();
-                chooseClass.setName(uploadSaves.get(i).getTitle());
+//                chooseClass.setName(uploadSaves.get(i).getTitle());
                 titles.add(chooseClass);
 
             }
