@@ -21,6 +21,15 @@ public class SelectClass  {
     private boolean isbuy;
     private String selectauthordes;
     private String selectscore;
+    private String selectauthorid;
+
+    public String getSelectauthorid() {
+        return selectauthorid;
+    }
+
+    public void setSelectauthorid(String selectauthorid) {
+        this.selectauthorid = selectauthorid;
+    }
 
     public String getSelectscore() {
         return selectscore;

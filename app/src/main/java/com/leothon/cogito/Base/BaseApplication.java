@@ -9,14 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
-import com.leothon.cogito.Utils.CommonUtils;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BaseApplication extends Application {
     private static BaseApplication application;

@@ -11,6 +11,8 @@ import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SendQAData;
+import com.leothon.cogito.DTO.TeaClass;
+import com.leothon.cogito.DTO.TypeClass;
 import com.leothon.cogito.DTO.VideoDetail;
 
 import java.util.ArrayList;
@@ -114,4 +116,13 @@ public interface HttpService {
 
     @POST("addvideoview")
     Observable<BaseResponse<String>> addVideoView(@Query("token") String token,@Query("classid") String classId,@Query("classdid") String classdId);
+
+    @GET("getteaclass")
+    Observable<BaseResponse<TeaClass>> getTeaClass(@Query("token") String token,@Query("teaid") String teaId);
+
+    @GET("getclassbytype")
+    Observable<BaseResponse<TypeClass>> getTypeClass(@Query("token") String token, @Query("type") String type);
+
+    @GET("getbuyclassinfo")
+    Observable<BaseResponse<SelectClass>> getBuyClassInfo(@Query("classid") String classId);
 }

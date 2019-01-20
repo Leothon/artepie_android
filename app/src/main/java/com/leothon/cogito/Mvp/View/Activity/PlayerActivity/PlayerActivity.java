@@ -31,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.Player;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.ChooseClassAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
@@ -44,8 +45,10 @@ import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -412,6 +415,9 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("classId",bundle.getString("classid"));
+                        IntentUtils.getInstence().intent(PlayerActivity.this,PayInfoActivity.class,bundleto);
                         CommonUtils.makeText(PlayerActivity.this,"跳转支付");
                     }
 

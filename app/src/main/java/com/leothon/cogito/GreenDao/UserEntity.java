@@ -26,13 +26,14 @@ public class UserEntity {
     private String user_phone;
     private String user_role;
     private String user_balance;
-    @Generated(hash = 1505854077)
+    private String user_art_coin;
+    @Generated(hash = 723318749)
     public UserEntity(String user_id, String user_name, String user_icon,
             String user_birth, int user_sex, String user_signal,
             String user_address, String user_password, String user_token,
             String user_status, String user_register_time, String user_register_ip,
             String user_lastlogin_time, String user_phone, String user_role,
-            String user_balance) {
+            String user_balance, String user_art_coin) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_icon = user_icon;
@@ -49,6 +50,7 @@ public class UserEntity {
         this.user_phone = user_phone;
         this.user_role = user_role;
         this.user_balance = user_balance;
+        this.user_art_coin = user_art_coin;
     }
     @Generated(hash = 1433178141)
     public UserEntity() {
@@ -149,5 +151,11 @@ public class UserEntity {
     public void setUser_balance(String user_balance) {
         this.user_balance = user_balance;
     }
-
+    public String getUser_art_coin() {
+        return this.user_art_coin;
+    }
+    public void setUser_art_coin(String user_art_coin) {
+        this.user_art_coin = user_art_coin;
+    }
+    
 }

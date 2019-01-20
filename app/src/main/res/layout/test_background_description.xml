@@ -7,21 +7,38 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         app:cardCornerRadius="3dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        app:cardBackgroundColor="@color/dividerColor"
+        app:cardBackgroundColor="@color/white"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true">
-        <TextView
-            android:id="@+id/test_description_list"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="阎维文，1957年8月26日生于山西省平遥县，毕业于中国音乐学院，国家一级演员，中国音乐家协会理事，中央军委政治工作部歌舞团男高音歌唱家。1984年参加第一届青年电视歌手大奖赛 [1]  。1990年获得 全国影视十佳歌手。1996年参加央视元宵联欢晚会并表演小品《打工奇遇》。"
-            android:textSize="@dimen/tipsSize"
-            android:layout_margin="8dp"
-            android:textColor="@color/fontColor" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/test_class_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总课程数 ： 0"
+                android:textColor="@color/black"
+                android:textSize="@dimen/littleTitle"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/test_class_des"
+                android:layout_below="@+id/test_class_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"
+                android:text="类型的介绍"
+                android:padding="8dp"
+                android:layout_margin="2dp"/>
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

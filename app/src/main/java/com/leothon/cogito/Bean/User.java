@@ -1,10 +1,12 @@
 package com.leothon.cogito.Bean;
 
+import com.leothon.cogito.Http.BaseResponse;
+
 /**
  * created by leothon on 2018.8.5
  * 登录用户名和密码
  */
-public class User {
+public class User  extends BaseResponse {
 
     private String user_id;
     private String user_name;
@@ -23,6 +25,16 @@ public class User {
     private String user_role;
     private String user_balance;
     private String verifyCode;
+
+    private String user_art_coin;
+
+    public String getUser_art_coin() {
+        return user_art_coin;
+    }
+
+    public void setUser_art_coin(String user_art_coin) {
+        this.user_art_coin = user_art_coin;
+    }
 
     public String getVerifyCode() {
         return verifyCode;

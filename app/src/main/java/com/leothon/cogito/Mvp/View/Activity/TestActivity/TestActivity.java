@@ -15,11 +15,12 @@ import android.view.View;
 import com.leothon.cogito.Adapter.TestSelfAdapter;
 import com.leothon.cogito.Bean.ClassItem;
 
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TestSelf;
+import com.leothon.cogito.DTO.TypeClass;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
@@ -31,7 +32,7 @@ import butterknife.BindView;
 /**
  * created by leothon on 2018.8.5
  */
-public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,TestContract.ITestView {
 
     private Intent intent;
     private Bundle bundle;
@@ -44,29 +45,62 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     CardView testBar;
 
     private TestSelfAdapter testSelfAdapter;
-    private TestSelf testSelf;
+    private TypeClass typeClass;
     private LinearLayoutManager linearLayoutManager;
+    private TestPresenter testPresenter;
     @Override
     public int initLayout() {
         return R.layout.activity_test;
     }
 
     @Override
+    public void initData() {
+        testPresenter = new TestPresenter(this);
+        swpTest.setProgressViewOffset (false,100,300);
+        swpTest.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+
+
+    }
+    @Override
     public void initView() {
         StatusBarUtils.transparencyBar(this);
 
         intent = getIntent();
         bundle = intent.getExtras();
-        LoadFalseData();
-        initAdapter();
-        setToolbarTitle(testSelf.getTesttitle());
+        //LoadFalseData();
+        //initAdapter();
+        swpTest.setRefreshing(true);
+        testPresenter.loadTypeClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("type"));
         setToolbarSubTitle("");
+        setToolbarTitle(bundle.getString("type"));
     }
 
 
+    @Override
+    public void onRefresh() {
+        testPresenter.loadTypeClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("type"));
+    }
+
+    @Override
+    public void getTypeClass(TypeClass typeClass) {
+
+        if (swpTest.isRefreshing()){
+            swpTest.setRefreshing(false);
+        }
+
+        this.typeClass = typeClass;
+
+        typeClass.setType(bundle.getString("type"));
+        initAdapter();
+    }
+
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
     public void initAdapter(){
             swpTest.setOnRefreshListener(this);
-            testSelfAdapter = new TestSelfAdapter(testSelf,this);
+            testSelfAdapter = new TestSelfAdapter(typeClass,this);
             initHeadView(testSelfAdapter);
             initDesView(testSelfAdapter);
             linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -102,21 +136,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
-    private void LoadFalseData(){
-        ArrayList<ClassItem> classitems = new ArrayList<>();
-        for (int i = 0;i < 20;i++){
-            ClassItem classItem = new ClassItem();
-            classItem.setClasstitle("民族唱法");
-            classItem.setClassdescription("这个是艺考的描述");
-            classItem.setClassprice("0");
-            classItem.setAuthorname("陈独秀");
-            classitems.add(classItem);
-        }
-        testSelf = new TestSelf();
-        testSelf.setTesttitle(bundle.getString("title"));
-        testSelf.setTestdescription(bundle.getString("description"));
-        testSelf.setTestclasses(classitems);
-    }
+
     public void initHeadView(TestSelfAdapter testSelfAdapter){
         View headView = View.inflate(this,R.layout.test_background,null);
         testSelfAdapter.addHeadView(headView);
@@ -127,10 +147,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         testSelfAdapter.addDesView(desView);
     }
 
-    @Override
-    public void initData() {
 
-    }
 
 
     @Override
@@ -161,7 +178,8 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onRefresh() {
-        swpTest.setRefreshing(false);
+    protected void onDestroy() {
+        super.onDestroy();
+        testPresenter.onDestroy();
     }
 }

@@ -54,7 +54,7 @@
                             android:id="@+id/foryou_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20623人次已观看"
+                            android:text="0人次已观看"
                             android:textSize="@dimen/tipsSize"
                             android:textColor="@color/fontColor"
                             />

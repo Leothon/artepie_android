@@ -37,6 +37,8 @@
                 android:text="声乐的历史"
                 android:textSize="@dimen/littleTitle"
                 android:textColor="@color/black" />
+
+
             <TextView
                 android:layout_marginTop="15dp"
                 android:layout_below="@id/class_title"
@@ -46,6 +48,16 @@
                 android:text="声乐的出现过程"
                 android:textSize="@dimen/tipsSize"
                 android:textColor="@color/fontColor"/>
+            <TextView
+                android:layout_below="@+id/class_description"
+                android:layout_marginTop="8dp"
+                android:id="@+id/class_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0人次已观看"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"
+                />
         </RelativeLayout>
 
         <android.support.v7.widget.CardView

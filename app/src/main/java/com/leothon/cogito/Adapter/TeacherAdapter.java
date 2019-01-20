@@ -3,6 +3,7 @@ package com.leothon.cogito.Adapter;
 import android.content.Context;
 
 import com.leothon.cogito.Bean.Teacher;
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.R;
 
 import java.util.ArrayList;
@@ -13,13 +14,13 @@ import java.util.List;
  */
 public class TeacherAdapter extends BaseAdapter {
 
-    public TeacherAdapter(Context context, ArrayList<Teacher> teaList){
-        super(context, R.layout.tea_layout_rv,teaList);
+    public TeacherAdapter(Context context, ArrayList<User> teachers){
+        super(context, R.layout.tea_layout_rv,teachers);
     }
     @Override
     public <T> void convert(BaseViewHolder holder, T bean,int position) {
-        Teacher teacher = (Teacher) bean;
-        holder.setImageResource(R.id.tea_icon,teacher.getResId());
-        holder.setText(R.id.tea_name,teacher.getName());
+        User teacher = (User) bean;
+        holder.setImageUrls(R.id.tea_icon,teacher.getUser_icon());
+        holder.setText(R.id.tea_name,teacher.getUser_name());
     }
 }

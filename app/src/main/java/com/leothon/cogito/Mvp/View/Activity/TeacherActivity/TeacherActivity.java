@@ -20,11 +20,13 @@ import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.Bean.TeacherSelf;
 import com.leothon.cogito.Bean.VideoClass;
+import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -32,11 +34,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,TeacherContract.ITeacherView {
 
 
     private TeacherSelfAdapter teacherSelfAdapter;
-    private TeacherSelf teacherSelf;
+
     @BindView(R.id.swp_tea)
     SwipeRefreshLayout swpTea;
     @BindView(R.id.rv_tea)
@@ -48,28 +50,21 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     private Intent intent;
     private Bundle bundle;
 
-    private String[] title = {"发声位置","咬字问题","共鸣","歌曲的演奏方式","歌唱状态","气息问题","高音","歌曲的认识","中低声区","换声","ae训练法","咽腔肌肉训练","假声","半声","高腔"};
-    private String[] des = {"歌唱中发声位置的一些问题",
-            "在歌唱中怎么做到字正腔圆",
-            "头腔共鸣与胸腔共鸣的区别",
-            "怎么表达不同曲风的方式方法",
-            "歌曲演唱者应保持什么状态",
-            "歌唱中怎么解决气息问题",
-            "解决高音的方式方法",
-            "怎么理解该歌曲",
-            "怎么建立良好的中低声区",
-            "如何建立正确的换声系统",
-            "如何用a和e进行歌唱训练",
-            "如何进行咽腔肌肉的训练",
-            "假声的发声训练",
-            "半声训练的方式方法",
-            "高腔训练的男高音小结"};
-    private String[] price = {"0","0","369","189","459","99","179","179","359","459","399","469","269","329","599"};
+    private TeaClass teaClass;
+    private TeacherPresenter teacherPresenter;
+
+
 
     private LinearLayoutManager linearLayoutManager;
     @Override
     public int initLayout() {
         return R.layout.activity_teacher;
+    }
+    @Override
+    public void initData() {
+        teacherPresenter = new TeacherPresenter(this);
+        swpTea.setProgressViewOffset (false,100,300);
+        swpTea.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
     }
 
     @Override
@@ -77,16 +72,16 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
         StatusBarUtils.transparencyBar(this);
         intent = getIntent();
         bundle = intent.getExtras();
-        loadFalseData();
-        initAdapter();
+        teacherPresenter.loadTeaClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("teacherId"));
+        swpTea.setRefreshing(true);
         setToolbarTitle("");
-        setToolbarSubTitle(teacherSelf.getTeaname());
+
 
     }
 
     public void initAdapter(){
         swpTea.setOnRefreshListener(this);
-        teacherSelfAdapter = new TeacherSelfAdapter(teacherSelf,this);
+        teacherSelfAdapter = new TeacherSelfAdapter(teaClass,this);
         initHeadView(teacherSelfAdapter);
         initDesView(teacherSelfAdapter);
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -106,7 +101,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
                         teaBar.setVisibility(View.VISIBLE);
                         teaBar.setTranslationY(CommonUtils.getStatusBarHeight(TeacherActivity.this) - CommonUtils.dip2px(TeacherActivity.this,3));
                         teacherIcon.setVisibility(View.VISIBLE);
-                        teacherIcon.setImageResource(teacherSelf.getTeaicon());
+                        ImageLoader.loadImageViewThumbnailwitherror(TeacherActivity.this,teaClass.getTeacher().getUser_icon(),teacherIcon,R.drawable.defaulticon);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                             StatusBarUtils.setStatusBarColor(TeacherActivity.this,R.color.white);
@@ -123,7 +118,20 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
     }
 
+    @Override
+    public void getTeacherClass(TeaClass teaClass) {
+        setToolbarSubTitle(teaClass.getTeacher().getUser_name());
+        if (swpTea.isRefreshing()){
+            swpTea.setRefreshing(false);
+        }
+        this.teaClass = teaClass;
+        initAdapter();
+    }
 
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
 
 
     public void initHeadView(TeacherSelfAdapter teacherSelfAdapter){
@@ -136,27 +144,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
         teacherSelfAdapter.addDesView(desView);
     }
 
-    private void loadFalseData(){
-        ArrayList<ClassItem> classitems = new ArrayList<>();
-        for (int i = 0;i < 15;i++){
-            ClassItem classItem = new ClassItem();
-            classItem.setClasstitle(title[i]);
-            classItem.setClassdescription(des[i]);
-            classItem.setClassprice(price[i]);
-            classItem.setAuthorname(bundle.getString("name"));
-            classItem.setClassurl("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fchina-ljsw.com%2Fupdate%2F3%2Fbb5f8d46b790e71e34.jpg&thumburl=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D494318182%2C3784477290%26fm%3D27%26gp%3D0.jpg");
-            classitems.add(classItem);
-        }
-        teacherSelf = new TeacherSelf();
-        teacherSelf.setTeaname(bundle.getString("name"));
-        teacherSelf.setTeadescription(bundle.getString("description"));
-        teacherSelf.setTeaicon(bundle.getInt("icon"));
-        teacherSelf.setClassItems(classitems);
-    }
-    @Override
-    public void initData() {
 
-    }
 
     @Override
     public BasePresenter initPresenter() {
@@ -169,6 +157,11 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        teacherPresenter.onDestroy();
+    }
 
     @Override
     public void showLoading() {
@@ -187,6 +180,8 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        swpTea.setRefreshing(false);
+        teacherPresenter.loadTeaClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("teacherId"));
     }
+
+
 }

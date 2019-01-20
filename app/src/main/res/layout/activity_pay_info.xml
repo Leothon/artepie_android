@@ -23,73 +23,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="@color/dividerColor"/>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:elevation="3dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ripple">
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent">
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/pay_info_img"
-                        app:riv_corner_radius="3dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentTop="true"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/defalutimg"/>
-                </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/title_pay_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:text="课程的名字"
-                        android:layout_marginTop="10dp"/>
-                    <TextView
-                        android:id="@+id/des_pay_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:text="课程的描述"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="5dp"/>
-                </LinearLayout>
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/pay_info_img"
+                    app:riv_corner_radius="5dp"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/defalutimg"/>
+
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent">
+                    android:layout_toRightOf="@+id/pay_info_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+                    <TextView
+                        android:id="@+id/pay_info_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="课程的名字"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/appBarSize"/>
+                    <TextView
+                        android:layout_below="@+id/pay_info_title"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/pay_info_des"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="课程的描述"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/littleTitle"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp">
                     <Button
-                        android:id="@+id/show_price_pay_info"
+                        android:id="@+id/pay_info_show_price"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:background="@drawable/btnbackground"
                         android:text="￥386"
                         android:textColor="@color/white"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_alignParentEnd="true"/>
                     <TextView
+                        android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="可使用艺币折扣"
-                        android:layout_below="@+id/show_price_pay_info"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_below="@+id/pay_info_show_price"
+                        android:layout_alignParentEnd="true"/>
                 </RelativeLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -112,7 +104,7 @@
                     android:id="@+id/art_coin_use_rebate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20"
+                    android:text="0"
                     android:layout_centerInParent="true"
                     android:layout_toLeftOf="@+id/pay_info_right"
                     android:layout_marginRight="20dp"/>
@@ -126,96 +118,192 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/dividerColor"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="请选择支付方式"
+                android:gravity="center"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/littleTitle"
+                android:padding="10dp"/>
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/dividerColor"/>
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/account_pay"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/ripple">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="账户余额支付"-->
+                    <!--android:textSize="@dimen/contentSize"-->
+                    <!--android:textColor="@color/fontColor"-->
+                    <!--android:layout_margin="15dp"/>-->
+                <!--<com.leothon.cogito.Weight.MDCheckBox-->
+                    <!--android:id="@+id/account_pay_check"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--app:color_background="@color/colorPrimary"-->
+                    <!--app:color_border="@color/fontColor"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:layout_marginEnd="20dp"-->
+                    <!--app:size="24dp" />-->
+            <!--</RelativeLayout>-->
+            <View
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/dividerColor"/>
 
-
-            <LinearLayout
-                android:id="@+id/activity_layout_pay_info"
+            <RelativeLayout
+                android:id="@+id/wechat_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerColor"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:background="@drawable/ripple"
-                    android:clickable="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="时间："
-                        android:textColor="@color/fontColor"/>
-                    <TextView
-                        android:id="@+id/activity_time_pay_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2018-9-21 13:00"
-                        android:textColor="@color/fontColor"
-                        android:layout_centerInParent="true"/>
-                </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerColor"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:background="@drawable/ripple"
-                    android:clickable="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="地点："
-                        android:textColor="@color/fontColor"/>
-                    <TextView
-                        android:id="@+id/activity_address_pay_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="北京朝阳区"
-                        android:textColor="@color/fontColor"
-                        android:layout_centerInParent="true"/>
-                </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerColor"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:background="@drawable/ripple"
-                    android:clickable="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="参加人数："
-                        android:textColor="@color/fontColor"/>
-                    <TextView
-                        android:id="@+id/activity_person_count_pay_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2 人"
-                        android:textColor="@color/fontColor"
-                        android:layout_centerInParent="true"/>
-                </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/dividerColor"/>
+                android:background="@drawable/ripple">
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请确认信息无误之后，确认提交"
-                    android:layout_gravity="center" />
-            </LinearLayout>
+                    android:text="微信支付"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:layout_margin="15dp"/>
+                <com.leothon.cogito.Weight.MDCheckBox
+                    android:id="@+id/wechat_pay_check"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:color_background="@color/colorPrimary"
+                    app:color_border="@color/fontColor"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="20dp"
+                    app:size="24dp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+            <RelativeLayout
+                android:id="@+id/ali_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付宝支付"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:layout_margin="15dp"/>
+                <com.leothon.cogito.Weight.MDCheckBox
+                    android:id="@+id/ali_pay_check"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:color_background="@color/colorPrimary"
+                    app:color_border="@color/fontColor"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="20dp"
+                    app:size="24dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/activity_layout_pay_info"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_marginTop="20dp">-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/dividerColor"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="15dp"-->
+                    <!--android:background="@drawable/ripple"-->
+                    <!--android:clickable="true">-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="时间："-->
+                        <!--android:textColor="@color/fontColor"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/activity_time_pay_info"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="2018-9-21 13:00"-->
+                        <!--android:textColor="@color/fontColor"-->
+                        <!--android:layout_centerInParent="true"/>-->
+                <!--</RelativeLayout>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/dividerColor"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="15dp"-->
+                    <!--android:background="@drawable/ripple"-->
+                    <!--android:clickable="true">-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="地点："-->
+                        <!--android:textColor="@color/fontColor"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/activity_address_pay_info"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="北京朝阳区"-->
+                        <!--android:textColor="@color/fontColor"-->
+                        <!--android:layout_centerInParent="true"/>-->
+                <!--</RelativeLayout>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/dividerColor"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="15dp"-->
+                    <!--android:background="@drawable/ripple"-->
+                    <!--android:clickable="true">-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="参加人数："-->
+                        <!--android:textColor="@color/fontColor"/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/activity_person_count_pay_info"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="2 人"-->
+                        <!--android:textColor="@color/fontColor"-->
+                        <!--android:layout_centerInParent="true"/>-->
+                <!--</RelativeLayout>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/dividerColor"/>-->
+                <!--<TextView-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="请确认信息无误之后，确认提交"-->
+                    <!--android:layout_gravity="center" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 

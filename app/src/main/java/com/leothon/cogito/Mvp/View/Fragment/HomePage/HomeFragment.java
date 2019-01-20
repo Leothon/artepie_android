@@ -45,11 +45,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.annotations.Nullable;
-
-import static com.leothon.cogito.Constants.teacherDescription;
-import static com.leothon.cogito.Constants.teacherIconList;
-import static com.leothon.cogito.Constants.teacherNameList;
 
 /**
  * created by leothon on 2018.7.29
@@ -57,13 +52,8 @@ import static com.leothon.cogito.Constants.teacherNameList;
  */
 public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeAdapter.OnItemClickListener,View.OnClickListener,HomeFragmentContract.IHomeView{
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private List<String> bigPics;
 
-    private List<String> allDatas;
-
-    private ArrayList<Teacher> teachers = new ArrayList<>();
 
     @BindView(R.id.search_top)
     CardView searchTop;
@@ -269,24 +259,15 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         teaRV.setLayoutManager(linearLayoutManager);
 
-        initTeacherData();
-        TeacherAdapter teacherAdapter = new TeacherAdapter(getMContext(), teachers);
+        TeacherAdapter teacherAdapter = new TeacherAdapter(getMContext(),homeData.getTeachers());
         teaRV.setAdapter(teacherAdapter);
         teacherAdapter.setOnItemClickListener(new TeacherAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
-                //根据position，选出对应的老师，并进入下一个页面
-                //TODO 跳转到老师的页面
-                //CommonUtils.makeText(getMContext(),"点击的是" + teacherNameList[position] + "老师");
-                if (position == 10) {
-                    CommonUtils.makeText(getMContext(), "点击了更多老师");
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("name", teacherNameList[position]);
-                    bundle.putInt("icon", teacherIconList[position]);
-                    bundle.putString("description", teacherDescription[position]);
-                    IntentUtils.getInstence().intent(getMContext(), TeacherActivity.class, bundle);
-                }
+
+                Bundle bundle = new Bundle();
+                bundle.putString("teacherId",homeData.getTeachers().get(position).getUser_id());
+                IntentUtils.getInstence().intent(getMContext(), TeacherActivity.class, bundle);
 
             }
         });
@@ -300,17 +281,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeAdapter.addHeadView1(teacherView);
     }
 
-    /**
-     * 加载本地的数据，若未来需要加载网络数据，则直接获取网络的teachernamelist即可
-     */
-    public void initTeacherData() {
-        for (int i = 0; i < teacherNameList.length; i++) {
-            Teacher teacher = new Teacher();
-            teacher.setName(teacherNameList[i]);
-            teacher.setResId(teacherIconList[i]);
-            teachers.add(teacher);
-        }
-    }
 
     private void initTest(HomeAdapter homeAdapter) {
         View testView = View.inflate(getMContext(), R.layout.test_home, null);

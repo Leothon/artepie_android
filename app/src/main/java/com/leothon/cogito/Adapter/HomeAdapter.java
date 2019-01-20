@@ -117,8 +117,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[0]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[0]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -126,8 +125,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[1]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[1]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -135,8 +133,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[2]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[2]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -144,8 +141,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[3]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[3]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -153,8 +149,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[4]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[4]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -162,8 +157,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[5]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[5]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -171,8 +165,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[6]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[6]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });
@@ -180,8 +173,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", testesName[7]);
-                    bundle.putString("description", "这里显示各种曲目的介绍");
+                    bundle.putString("type", testesName[7]);
                     IntentUtils.getInstence().intent(context, TestActivity.class, bundle);
                 }
             });

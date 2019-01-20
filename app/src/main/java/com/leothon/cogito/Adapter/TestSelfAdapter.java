@@ -13,20 +13,25 @@ import android.widget.TextView;
 import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.TeacherSelf;
 import com.leothon.cogito.Bean.TestSelf;
+import com.leothon.cogito.DTO.TypeClass;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.lang.reflect.Type;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
-    private TestSelf testSelf;
+    private TypeClass typeClass;
     private Context context;
 
     private int HEAD = 0;
@@ -35,8 +40,8 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private View headView;
     private View descriptionView;
 
-    public TestSelfAdapter(TestSelf testSelf, Context context){
-        this.testSelf = testSelf;
+    public TestSelfAdapter(TypeClass typeClass, Context context){
+        this.typeClass = typeClass;
         this.context =context;
     }
     @Override
@@ -56,44 +61,56 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int viewType = getItemViewType(position);
         if (viewType == HEAD){
             TestHeadHolder testHeadHolder= (TestHeadHolder) holder;
-            testHeadHolder.testTitle.setText(testSelf.getTesttitle());
+            testHeadHolder.testTitle.setText(typeClass.getType());
             testHeadHolder.testBackImg.setImageResource(R.drawable.activityback);
         }else if (viewType == DESCRIPTION){
             TestDesHolder testDesHolder = (TestDesHolder)holder;
-
-            testDesHolder.testDescription.setText(testSelf.getTestdescription());
+            testDesHolder.testClassCount.setText("总课程数 ： " + typeClass.getTypeClassCount());
+            testDesHolder.testClassDes.setText("显示描述");
         }else if (viewType == BODY){
-            int realposition = position - 2;
-            ClassItemHolder classItemHolder = (ClassItemHolder)holder;
-            classItemHolder.classTitle.setText(testSelf.getTestclasses().get(realposition).getClasstitle());
-            classItemHolder.classDescription.setText(testSelf.getTestclasses().get(realposition).getClassdescription());
-            if (testSelf.getTestclasses().get(realposition).getClassprice().equals("0")){
+            final int realposition = position - 2;
+            final ClassItemHolder classItemHolder = (ClassItemHolder)holder;
+            classItemHolder.classTitle.setText(typeClass.getTypeClass().get(realposition).getSelectlisttitle());
+            classItemHolder.classDescription.setText(typeClass.getTypeClass().get(realposition).getSelectdesc());
+            classItemHolder.classCount.setText(typeClass.getTypeClass().get(realposition).getSelectstucount() + "人次已学习");
+            ImageLoader.loadImageViewThumbnailwitherror(context,typeClass.getTypeClass().get(realposition).getSelectbackimg(),classItemHolder.classImg,R.drawable.defalutimg);
+            if (typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00")){
                 classItemHolder.classPrice.setText("免费");
+            }else if (typeClass.getTypeClass().get(realposition).isIsbuy()){
+                classItemHolder.classPrice.setText("已购买");
             }else {
-                classItemHolder.classPrice.setText("￥" + testSelf.getTestclasses().get(realposition).getClassprice());
+                classItemHolder.classPrice.setText("￥" + typeClass.getTypeClass().get(realposition).getSelectprice());
             }
 
-            classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    int realposition = position -2;
-                    if (testSelf.getTestclasses().get(realposition).getClassprice().equals("0")){
-                        Bundle bundle = new Bundle();
-                        bundle.putString("url",testSelf.getTestclasses().get(realposition).getClassurl());
-                        bundle.putString("title",testSelf.getTestclasses().get(realposition).getClasstitle());
-                        bundle.putString("author",testSelf.getTestclasses().get(realposition).getAuthorname());
-                        bundle.putString("price",testSelf.getTestclasses().get(realposition).getClassprice());
-                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
-                    }else {
-                        //TODO 跳转支付页面
-                        loadDialog(testSelf.getTestclasses().get(realposition));
+                public void onClick(View v) {
+                    if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00")){
+
+                        loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
                     }
                 }
             });
+            classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int realposition = position - 2;
+
+                    if (classItemHolder.classPrice.getText().toString().equals("已购买") || classItemHolder.classPrice.getText().toString().equals("免费")){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }else {
+                        loadDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+                    }
+
+                }
+            });
+
         }
     }
 
-    private void loadDialog(final ClassItem classItem){
+    private void loadDialog(final String classId){
         final CommonDialog dialog = new CommonDialog(context);
 
 
@@ -107,11 +124,36 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     public void onPositiveClick() {
                         dialog.dismiss();
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",classItem.getClassurl());
-                        bundle.putString("title",classItem.getClasstitle());
-                        bundle.putString("author",classItem.getAuthorname());
-                        bundle.putString("price",classItem.getClassprice());
+                        bundle.putString("classId",classId);
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
+
+    private void loadPayDialog(final String classId){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("是否购买本课程？")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("购买")
+                .setNegtive("再看看")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",classId);
+                        IntentUtils.getInstence().intent(context, PayInfoActivity.class,bundle);
                     }
 
                     @Override
@@ -136,7 +178,7 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return testSelf.getTestclasses().size() + 2;
+        return typeClass.getTypeClass().size() + 2;
     }
 
     public void addHeadView(View view){
@@ -168,8 +210,10 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
 
-        @BindView(R.id.test_description_list)
-        TextView testDescription;
+        @BindView(R.id.test_class_count)
+        TextView testClassCount;
+        @BindView(R.id.test_class_des)
+        TextView testClassDes;
         public TestDesHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -186,6 +230,8 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RoundedImageView classImg;
         @BindView(R.id.class_price)
         TextView classPrice;
+        @BindView(R.id.class_count)
+        TextView classCount;
         public ClassItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

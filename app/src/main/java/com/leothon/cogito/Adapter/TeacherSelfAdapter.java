@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.TeacherSelf;
+import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
  */
 public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    private TeacherSelf teacherSelfs;
+    private TeaClass teaClass;
     private Context context;
 
     private int HEAD = 0;
@@ -41,8 +42,8 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int BODY = 100;
     private View headView;
     private View descriptionView;
-    public TeacherSelfAdapter(TeacherSelf teacherSelfs, Context context){
-        this.teacherSelfs = teacherSelfs;
+    public TeacherSelfAdapter(TeaClass teaClass, Context context){
+        this.teaClass = teaClass;
         this.context =context;
     }
     @Override
@@ -62,37 +63,47 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         int viewType = getItemViewType(position);
         if (viewType == HEAD){
             TeacherHeadHolder teacherHeadHolder = (TeacherHeadHolder)holder;
-            teacherHeadHolder.teaIcon.setImageResource(teacherSelfs.getTeaicon());
-            teacherHeadHolder.teaName.setText(teacherSelfs.getTeaname());
+            ImageLoader.loadImageViewThumbnailwitherror(context,teaClass.getTeacher().getUser_icon(),teacherHeadHolder.teaIcon,R.drawable.defaulticon);
+            teacherHeadHolder.teaName.setText(teaClass.getTeacher().getUser_name());
         }else if (viewType == DESCRIPTION){
             TeacherDesHolder teacherDesHolder = (TeacherDesHolder)holder;
-            teacherDesHolder.teaDescription.setText(teacherSelfs.getTeadescription());
+            teacherDesHolder.teaDescription.setText(teaClass.getTeacher().getUser_signal());
         }else if (viewType == BODY){
-            int realposition = position - 2;
-            ClassItemHolder classItemHolder = (ClassItemHolder)holder;
-            classItemHolder.classTitle.setText(teacherSelfs.getClassItems().get(realposition).getClasstitle());
-            classItemHolder.classDescription.setText(teacherSelfs.getClassItems().get(realposition).getClassdescription());
-            ImageLoader.loadImageViewThumbnailwitherror(context,teacherSelfs.getClassItems().get(realposition).getClassurl(),classItemHolder.classImg,R.drawable.defalutimg);
-            if (teacherSelfs.getClassItems().get(realposition).getClassprice().equals("0")){
+            final int realposition = position - 2;
+            final ClassItemHolder classItemHolder = (ClassItemHolder)holder;
+            classItemHolder.classTitle.setText(teaClass.getTeaClassses().get(realposition).getSelectlisttitle());
+            classItemHolder.classDescription.setText(teaClass.getTeaClassses().get(realposition).getSelectdesc());
+            classItemHolder.classCount.setText(teaClass.getTeaClassses().get(realposition).getSelectstucount() + "人次已学习");
+            ImageLoader.loadImageViewThumbnailwitherror(context,teaClass.getTeaClassses().get(realposition).getSelectbackimg(),classItemHolder.classImg,R.drawable.defalutimg);
+            if (teaClass.getTeaClassses().get(realposition).getSelectprice().equals("0.00")){
                 classItemHolder.classPrice.setText("免费");
+            }else if (teaClass.getTeaClassses().get(realposition).isIsbuy()){
+                classItemHolder.classPrice.setText("已购买");
+
             }else {
-                classItemHolder.classPrice.setText("￥" + teacherSelfs.getClassItems().get(realposition).getClassprice());
+                classItemHolder.classPrice.setText("￥" + teaClass.getTeaClassses().get(realposition).getSelectprice());
             }
 
+            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!teaClass.getTeaClassses().get(realposition).isIsbuy() && !teaClass.getTeaClassses().get(realposition).getSelectprice().equals("0.00")){
+
+                        loadPayDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+                    }
+                }
+            });
             classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int realposition = position - 2;
-                    if (teacherSelfs.getClassItems().get(realposition).getClassprice().equals("0")){
+
+                    if (classItemHolder.classPrice.getText().toString().equals("已购买") || classItemHolder.classPrice.getText().toString().equals("免费")){
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",teacherSelfs.getClassItems().get(realposition).getClassurl());
-                        bundle.putString("title",teacherSelfs.getClassItems().get(realposition).getClasstitle());
-                        bundle.putString("author",teacherSelfs.getClassItems().get(realposition).getAuthorname());
-                        bundle.putString("price",teacherSelfs.getClassItems().get(realposition).getClassprice());
-                        bundle.putString("desc",teacherSelfs.getClassItems().get(realposition).getClassdescription());
+                        bundle.putString("classId",teaClass.getTeaClassses().get(realposition).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        loadDialog(teacherSelfs.getClassItems().get(realposition));
+                        loadDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
                     }
 
                 }
@@ -100,7 +111,7 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private void loadDialog(final ClassItem classItem){
+    private void loadDialog(final String classId){
         final CommonDialog dialog = new CommonDialog(context);
 
 
@@ -114,12 +125,36 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public void onPositiveClick() {
                         dialog.dismiss();
                         Bundle bundle = new Bundle();
-                        bundle.putString("url",classItem.getClassurl());
-                        bundle.putString("title",classItem.getClasstitle());
-                        bundle.putString("author",classItem.getAuthorname());
-                        bundle.putString("price",classItem.getClassprice());
-                        bundle.putString("desc",classItem.getClassdescription());
+                        bundle.putString("classId",classId);
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
+
+    private void loadPayDialog(final String classId){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("是否购买本课程？")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("购买")
+                .setNegtive("再看看")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",classId);
+                        IntentUtils.getInstence().intent(context, PayInfoActivity.class,bundle);
                     }
 
                     @Override
@@ -144,7 +179,7 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return teacherSelfs.getClassItems().size() + 2;
+        return teaClass.getTeaClassses().size() + 2;
     }
 
     public void addHeadView(View view){
@@ -193,6 +228,8 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         RoundedImageView classImg;
         @BindView(R.id.class_price)
         TextView classPrice;
+        @BindView(R.id.class_count)
+        TextView classCount;
         public ClassItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
