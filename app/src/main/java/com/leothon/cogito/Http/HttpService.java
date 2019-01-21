@@ -1,6 +1,7 @@
 package com.leothon.cogito.Http;
 
 
+import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
@@ -125,4 +126,23 @@ public interface HttpService {
 
     @GET("getbuyclassinfo")
     Observable<BaseResponse<SelectClass>> getBuyClassInfo(@Query("classid") String classId);
+
+    @GET("isqqregister")
+    Observable<BaseResponse<String>> isQQRegister(@Query("accesstoken") String accessToken);
+
+    @POST("qquserregister")
+    Observable<BaseResponse<User>> qqUserRegister(@Body User user);
+
+    @GET("getuserinfobyqq")
+    Observable<BaseResponse<User>> getUserInfoByQQ(@Query("accesstoken") String accessToken);
+
+    @GET("getfavclassbyuid")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getFavClassByUid(@Query("token") String token);
+
+
+    @GET("getclassviewhis")
+    Observable<BaseResponse<ArrayList<ClassDetailList>>> getClassViewHis(@Query("token") String token);
+
+    @POST("removeclassviewhis")
+    Observable<BaseResponse<String>> removeClassViewHis(@Query("token") String token,@Query("classdid") String classdId);
 }

@@ -50,6 +50,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     private Intent intent;
     private Bundle bundle;
 
+    private boolean isLogin;
     private TeaClass teaClass;
     private TeacherPresenter teacherPresenter;
 
@@ -81,7 +82,12 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
     public void initAdapter(){
         swpTea.setOnRefreshListener(this);
-        teacherSelfAdapter = new TeacherSelfAdapter(teaClass,this);
+        if (getLoginStatus() == 1){
+            isLogin = true;
+        }else {
+            isLogin = false;
+        }
+        teacherSelfAdapter = new TeacherSelfAdapter(teaClass,this,isLogin);
         initHeadView(teacherSelfAdapter);
         initDesView(teacherSelfAdapter);
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);

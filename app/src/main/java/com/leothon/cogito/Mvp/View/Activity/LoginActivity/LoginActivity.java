@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,10 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.User;
@@ -28,11 +31,23 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.KeyStore;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.7.24
@@ -79,8 +94,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     RoundedImageView qqLogin;
     @BindView(R.id.wechat_login)
     RoundedImageView wechatLogin;
-    @BindView(R.id.weibo_login)
-    RoundedImageView weiboLogin;
+//    @BindView(R.id.weibo_login)
+//    RoundedImageView weiboLogin;
 
 
 
@@ -93,8 +108,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private String rephone;
     private String reverifyCode;
 
+
+    private Tencent mTencent;
+    private BaseUiListener mIUiListener;
+    private UserInfo mUserInfo;
     public int T = 60;
 
+
+    private Object loginSuccessResult;
     ZLoadingDialog dialog = new ZLoadingDialog(LoginActivity.this);
     private Handler mHandler = new Handler();
 
@@ -103,6 +124,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @Override
     public int initLayout() {
         return R.layout.activity_login;
+    }
+
+    @Override
+    public void initData() {
+        loginPresenter = new LoginPresenter(this);
+        mTencent = Tencent.createInstance(Constants.APP_ID,LoginActivity.this.getApplicationContext());
+        activitysharedPreferencesUtils.clear();
     }
 
     @Override
@@ -119,8 +147,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
                 Bundle bundle = new Bundle();
                 bundle.putString("type","home");
+                activitysharedPreferencesUtils.setParams("token",Constants.visitor_token);
                 IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class,bundle);
-                Constants.loginStatus = 0;
+
+                setLoginStatus(0);
                 finish();
 
             }
@@ -248,17 +278,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @OnClick(R.id.qq_login)
     public void qqLogin(View view){
         //TODO 使用QQ登录
+        showLoadingAnim();
+        mIUiListener = new BaseUiListener();
+        //all表示获取所有权限
+        mTencent.login(LoginActivity.this,"all", mIUiListener);
     }
-    @OnClick(R.id.weibo_login)
-    public void weiboLogin(View view){
-        //TODO 使用微博登录
-    }
+//    @OnClick(R.id.weibo_login)
+//    public void weiboLogin(View view){
+//
+//    }
 
 
-    @Override
-    public void initData() {
-        loginPresenter = new LoginPresenter(this);
-    }
+
 
     @Override
     public void setUsernameORPassWordEmpty() {
@@ -317,11 +348,52 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         LoginSuccess();
     }
 
+    @Override
+    public void isQQRegisterResult(String msg) {
+        if (msg.equals("0")){
+            //TODO QQ注册过
+
+            loginPresenter.loginByQQ(mTencent.getAccessToken());
+
+        }else if (msg.equals("1")){
+            //TODO 未注册过
+            User user = new User();
+            JSONObject jsonObject = (JSONObject)loginSuccessResult;
+            try {
+                user.setUser_icon(jsonObject.getString("figureurl_2"));
+                user.setUser_name(jsonObject.getString("nickname"));
+                if (jsonObject.getString("gender").equals("男")){
+                    user.setUser_sex(1);
+                }else if (jsonObject.getString("gender").equals("女")){
+                    user.setUser_sex(2);
+                }else {
+                    user.setUser_sex(0);
+                }
+                user.setTencent_token(mTencent.getAccessToken());
+                loginPresenter.qqUserRegister(user);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }else {
+            CommonUtils.makeText(this,"未知错误");
+        }
+    }
+
+    @Override
+    public void qqUserRegisterSuccess(User user) {
+        //TODO 登录就完了
+        UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
+        getDAOSession().insert(userEntity);
+        hideLoadingAnim();
+        LoginSuccess();
+    }
+
     private void LoginSuccess(){
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
-        Constants.loginStatus = 1;//表示登录成功
+        setLoginStatus(1);//表示登录成功
         finish();
     }
 
@@ -432,5 +504,79 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     private void hideLoadingAnim(){
         dialog.cancel();
+    }
+
+
+    /**
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消
+     */
+    private class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            CommonUtils.makeText(LoginActivity.this,"授权成功");
+            Log.e(TAG, "response:" + response);
+            JSONObject obj = (JSONObject) response;
+            try {
+                String openID = obj.getString("openid");
+                final String accessToken = obj.getString("access_token");
+                String expires = obj.getString("expires_in");
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken,expires);
+                QQToken qqToken = mTencent.getQQToken();
+                mUserInfo = new UserInfo(getApplicationContext(),qqToken);
+                mUserInfo.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        //CommonUtils.makeText(LoginActivity.this,"登录成功");
+                        loginSuccessResult = response;
+                        loginPresenter.isQQRegister(accessToken);
+                        //Log.e(TAG,"登录成功" + response.toString());
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+                        CommonUtils.makeText(LoginActivity.this,"登录失败请重试");
+                        Log.e(TAG,"登录失败" + uiError.toString());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e(TAG,"登录取消");
+
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(LoginActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(LoginActivity.this, "授权取消", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    /**
+     * 在调用Login的Activity或者Fragment中重写onActivityResult方法
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Tencent.onActivityResultData(requestCode,resultCode,data,mIUiListener);
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

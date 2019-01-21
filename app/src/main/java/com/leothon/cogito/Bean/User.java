@@ -28,6 +28,18 @@ public class User  extends BaseResponse {
 
     private String user_art_coin;
 
+    private String tencent_token;
+
+    public String getTencent_token() {
+        return tencent_token;
+    }
+
+    public void setTencent_token(String tencent_token) {
+        this.tencent_token = tencent_token;
+    }
+
+
+
     public String getUser_art_coin() {
         return user_art_coin;
     }

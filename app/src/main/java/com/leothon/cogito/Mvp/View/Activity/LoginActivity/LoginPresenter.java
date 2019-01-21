@@ -77,6 +77,20 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
+    @Override
+    public void isQQRegisterResult(String msg) {
+        if (iLoginView != null){
+            iLoginView.isQQRegisterResult(msg);
+        }
+    }
+
+    @Override
+    public void qqUserRegisterSuccess(User user) {
+        if (iLoginView != null){
+            iLoginView.qqUserRegisterSuccess(user);
+        }
+    }
+
     /**
      * 在presenter中调用model中的登录
      * @param user
@@ -103,6 +117,22 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     @Override
     public void verifyphone(String phoneNumber) {
         iLoginModel.verifyPhonenumber(phoneNumber,this);
+    }
+
+    @Override
+    public void isQQRegister(String accessToken) {
+        iLoginModel.isQQRegister(accessToken,this);
+    }
+
+    @Override
+    public void qqUserRegister(User user) {
+
+        iLoginModel.qqUserRegister(user,this);
+    }
+
+    @Override
+    public void loginByQQ(String accessToken) {
+        iLoginModel.loginByQQ(accessToken,this);
     }
 
 }

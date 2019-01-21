@@ -2,6 +2,8 @@ package com.leothon.cogito.Mvp;
 
 
 import android.Manifest;
+import android.app.Application;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -98,6 +100,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
     }
 
+
     public void addActivity(){
         baseApplication.addActivity(context);
     }
@@ -120,6 +123,13 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         }
     }
 
+    public int getLoginStatus(){
+        return baseApplication.getLoginStatus();
+    }
+
+    public void setLoginStatus(int status){
+        baseApplication.setLoginStatus(status);
+    }
     @Override
     protected void onResume() {
         super.onResume();

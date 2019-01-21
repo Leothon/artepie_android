@@ -48,6 +48,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String userId;
 
+    private boolean isLogin;
 
 
     public AddVideoLikeCommentOnClickListener addVideoLikeCommentOnClickListener;
@@ -77,9 +78,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setVideoDeleteReplyOnClickListener(DeleteVideoReplyOnClickListener deleteVideoReplyOnClickListener) {
         this.deleteVideoReplyOnClickListener = deleteVideoReplyOnClickListener;
     }
-    public VideoCommentAdapter(ArrayList<Comment> comments, Context context){
+    public VideoCommentAdapter(ArrayList<Comment> comments, Context context,boolean isLogin){
         this.comments = comments;
         this.context = context;
+        this.isLogin = isLogin;
     }
 
     @Override
@@ -111,39 +113,49 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             commentViewHolder.likeImgQa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addVideoLikeCommentOnClickListener.addVideoLikeCommentClickListener(comments.get(position).isComment_liked(),comments.get(position).getComment_q_id());
-                    if (!comments.get(position).isComment_liked()){
-                        commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
 
-                        String like = commentViewHolder.commentLikeQa.getText().toString();
-                        if (like.equals("喜欢")){
-                            int likeint = 1;
-                            commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
+                    if (isLogin){
+                        addVideoLikeCommentOnClickListener.addVideoLikeCommentClickListener(comments.get(position).isComment_liked(),comments.get(position).getComment_q_id());
+                        if (!comments.get(position).isComment_liked()){
+                            commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+
+                            String like = commentViewHolder.commentLikeQa.getText().toString();
+                            if (like.equals("喜欢")){
+                                int likeint = 1;
+                                commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
+                            }else {
+                                int likeint = Integer.parseInt(like) + 1;
+                                commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
+                            }
+                            comments.get(position).setComment_liked(true);
                         }else {
-                            int likeint = Integer.parseInt(like) + 1;
-                            commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
+                            commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
+                            String like = commentViewHolder.commentLikeQa.getText().toString();
+
+                            int likeint = Integer.parseInt(like) - 1;
+                            if (likeint == 0){
+                                commentViewHolder.commentLikeQa.setText("喜欢");
+                            }else {
+                                commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
+                            }
+                            comments.get(position).setComment_liked(false);
                         }
-                        comments.get(position).setComment_liked(true);
                     }else {
-                        commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
-                        String like = commentViewHolder.commentLikeQa.getText().toString();
-
-                        int likeint = Integer.parseInt(like) - 1;
-                        if (likeint == 0){
-                            commentViewHolder.commentLikeQa.setText("喜欢");
-                        }else {
-                            commentViewHolder.commentLikeQa.setText(Integer.toString(likeint));
-                        }
-                        comments.get(position).setComment_liked(false);
+                        CommonUtils.loadinglogin(context);
                     }
                 }
+
             });
 
             commentViewHolder.commentMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isLogin){
+                        deleteVideoCommentOnClickListener.deleteVideoCommentClickListener(comments.get(position).getComment_q_id(),comments.get(position).getComment_q_user_id(),comments.get(position).getComment_q_content(),position);
 
-                    deleteVideoCommentOnClickListener.deleteVideoCommentClickListener(comments.get(position).getComment_q_id(),comments.get(position).getComment_q_user_id(),comments.get(position).getComment_q_content(),position);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
                 }
             });
             if (comments.get(position).getReplies() != null && comments.get(position).getReplies().size() != 0){
@@ -167,30 +179,35 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 commentViewHolder.like1ImgQa.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(0).isReply_liked(),comments.get(position).getReplies().get(0).getReply_id());
-                        if (!comments.get(position).getReplies().get(0).isReply_liked()){
-                            commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
 
-                            String like = commentViewHolder.comment1LikeQa.getText().toString();
-                            if (like.equals("喜欢")){
-                                int likeint = 1;
-                                commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
+                        if (isLogin){
+                            addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(0).isReply_liked(),comments.get(position).getReplies().get(0).getReply_id());
+                            if (!comments.get(position).getReplies().get(0).isReply_liked()){
+                                commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+
+                                String like = commentViewHolder.comment1LikeQa.getText().toString();
+                                if (like.equals("喜欢")){
+                                    int likeint = 1;
+                                    commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
+                                }else {
+                                    int likeint = Integer.parseInt(like) + 1;
+                                    commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
+                                }
+                                comments.get(position).getReplies().get(0).setReply_liked(true);
                             }else {
-                                int likeint = Integer.parseInt(like) + 1;
-                                commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
+                                commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
+                                String like = commentViewHolder.comment1LikeQa.getText().toString();
+
+                                int likeint = Integer.parseInt(like) - 1;
+                                if (likeint == 0){
+                                    commentViewHolder.comment1LikeQa.setText("喜欢");
+                                }else {
+                                    commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
+                                }
+                                comments.get(position).getReplies().get(0).setReply_liked(false);
                             }
-                            comments.get(position).getReplies().get(0).setReply_liked(true);
                         }else {
-                            commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
-                            String like = commentViewHolder.comment1LikeQa.getText().toString();
-
-                            int likeint = Integer.parseInt(like) - 1;
-                            if (likeint == 0){
-                                commentViewHolder.comment1LikeQa.setText("喜欢");
-                            }else {
-                                commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
-                            }
-                            comments.get(position).getReplies().get(0).setReply_liked(false);
+                            CommonUtils.loadinglogin(context);
                         }
                     }
                 });
@@ -198,6 +215,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 commentViewHolder.replyUserIcon1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Bundle bundleto = new Bundle();
                         if (userId.equals(comments.get(position).getReplies().get(0).getReply_user_id())){
                             bundleto.putString("type","individual");
@@ -214,15 +232,25 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onClick(View v) {
 
-                        deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(0).getReply_id(),comments.get(position).getReplies().get(0).getReply_user_id(),comments.get(position).getReplies().get(0).getReply_comment(),position,0);
+                        if (isLogin){
+                            deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(0).getReply_id(),comments.get(position).getReplies().get(0).getReply_user_id(),comments.get(position).getReplies().get(0).getReply_comment(),position,0);
+
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
                     }
                 });
 
                 commentViewHolder.firstReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        commentViewHolder.moreComment.setVisibility(View.VISIBLE);
-                        sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(0).getReply_user_id(),comments.get(position).getReplies().get(0).getUser_name());
+                        if (isLogin){
+                            commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                            sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(0).getReply_user_id(),comments.get(position).getReplies().get(0).getUser_name());
+
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
                     }
                 });
                 if (replyCount >= 2){
@@ -246,46 +274,61 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     commentViewHolder.like2ImgQa.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(1).isReply_liked(),comments.get(position).getReplies().get(1).getReply_id());
-                            if (!comments.get(position).getReplies().get(1).isReply_liked()){
-                                commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+                            if (isLogin){
+                                addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(1).isReply_liked(),comments.get(position).getReplies().get(1).getReply_id());
+                                if (!comments.get(position).getReplies().get(1).isReply_liked()){
+                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
 
-                                String like = commentViewHolder.comment2LikeQa.getText().toString();
-                                if (like.equals("喜欢")){
-                                    int likeint = 1;
-                                    commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
+                                    if (like.equals("喜欢")){
+                                        int likeint = 1;
+                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+                                    }else {
+                                        int likeint = Integer.parseInt(like) + 1;
+                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+                                    }
+                                    comments.get(position).getReplies().get(1).setReply_liked(true);
                                 }else {
-                                    int likeint = Integer.parseInt(like) + 1;
-                                    commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
+                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
+
+                                    int likeint = Integer.parseInt(like) - 1;
+                                    if (likeint == 0){
+                                        commentViewHolder.comment2LikeQa.setText("喜欢");
+                                    }else {
+                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+                                    }
+                                    comments.get(position).getReplies().get(1).setReply_liked(false);
                                 }
-                                comments.get(position).getReplies().get(1).setReply_liked(true);
                             }else {
-                                commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
-                                String like = commentViewHolder.comment2LikeQa.getText().toString();
-
-                                int likeint = Integer.parseInt(like) - 1;
-                                if (likeint == 0){
-                                    commentViewHolder.comment2LikeQa.setText("喜欢");
-                                }else {
-                                    commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
-                                }
-                                comments.get(position).getReplies().get(1).setReply_liked(false);
+                                CommonUtils.loadinglogin(context);
                             }
+
                         }
                     });
 
                     commentViewHolder.secondReply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            commentViewHolder.moreComment.setVisibility(View.VISIBLE);
-                            sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getUser_name());
+                            if (isLogin){
+                                commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                                sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getUser_name());
+
+                            }else {
+                                CommonUtils.loadinglogin(context);
+                            }
                         }
                     });
 
                     commentViewHolder.reply2More.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(1).getReply_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getReply_comment(),position,1);
+                            if (isLogin){
+                                deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(1).getReply_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getReply_comment(),position,1);
+
+                            }else {
+                                CommonUtils.loadinglogin(context);
+                            }
                         }
                     });
 
@@ -314,9 +357,14 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 commentViewHolder.moreComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("commentId",comments.get(position).getComment_q_id());
-                        IntentUtils.getInstence().intent(context,CommentDetailActivity.class,bundle);
+                        if (isLogin){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("commentId",comments.get(position).getComment_q_id());
+                            IntentUtils.getInstence().intent(context,CommentDetailActivity.class,bundle);
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
                     }
                 });
 
@@ -333,8 +381,13 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             commentViewHolder.commentTo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getComment_q_user_id(),comments.get(position).getUser_name());
-                    commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                    if (isLogin){
+                        sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getComment_q_user_id(),comments.get(position).getUser_name());
+                        commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
+
                 }
             });
             commentViewHolder.userIconComment.setOnClickListener(new View.OnClickListener() {

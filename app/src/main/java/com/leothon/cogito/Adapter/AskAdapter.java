@@ -72,9 +72,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private int HEAD1 = 1;
 
     private String userId;
-    public AskAdapter(Context context, ArrayList<QAData> asks){
+    private boolean isLogin;
+    public AskAdapter(Context context, ArrayList<QAData> asks,boolean isLogin){
         this.context = context;
         this.asks = asks;
+        this.isLogin = isLogin;
         inflater = LayoutInflater.from(context);
 
     }
@@ -174,8 +176,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     Bundle bundleto = new Bundle();
-
-
                     bundleto.putString("qaId",ask.getQa_id());
                     IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
                 }
@@ -189,44 +189,49 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                 @Override
                 public void onClick(View v) {
-                    addLikeOnClickListener.addLikeClickListener(ask.isLiked(),ask.getQa_id());
+                    if (isLogin){
+                        addLikeOnClickListener.addLikeClickListener(ask.isLiked(),ask.getQa_id());
 
-                    if (!ask.isLiked()) {
+                        if (!ask.isLiked()) {
 
-                        Drawable drawableLeft = context.getResources().getDrawable(
-                                R.drawable.baseline_favorite_black_18);
+                            Drawable drawableLeft = context.getResources().getDrawable(
+                                    R.drawable.baseline_favorite_black_18);
 
-                        askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
-                                null, null, null);
-                        String like = askViewHolder.likeAsk.getText().toString();
-                        if (like.equals("喜欢")) {
-                            int likeint = 1;
-                            askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                            askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                                    null, null, null);
+                            String like = askViewHolder.likeAsk.getText().toString();
+                            if (like.equals("喜欢")) {
+                                int likeint = 1;
+                                askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                            } else {
+                                int likeint = Integer.parseInt(like) + 1;
+                                askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                            }
+                            ask.setLiked(true);
+                            //TODO 加载点赞
+
+
                         } else {
-                            int likeint = Integer.parseInt(like) + 1;
-                            askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                            Drawable drawableLeft = context.getResources().getDrawable(
+                                    R.drawable.baseline_favorite_border_black_18);
+
+                            askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                                    null, null, null);
+                            String like = askViewHolder.likeAsk.getText().toString();
+
+                            int likeint = Integer.parseInt(like) - 1;
+                            if (likeint == 0) {
+                                askViewHolder.likeAsk.setText("喜欢");
+                            } else {
+                                askViewHolder.likeAsk.setText(Integer.toString(likeint));
+                            }
+                            ask.setLiked(false);
+                            //TODO 取消点赞
                         }
-                        ask.setLiked(true);
-                        //TODO 加载点赞
-
-
-                    } else {
-                        Drawable drawableLeft = context.getResources().getDrawable(
-                                R.drawable.baseline_favorite_border_black_18);
-
-                        askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
-                                null, null, null);
-                        String like = askViewHolder.likeAsk.getText().toString();
-
-                        int likeint = Integer.parseInt(like) - 1;
-                        if (likeint == 0) {
-                            askViewHolder.likeAsk.setText("喜欢");
-                        } else {
-                            askViewHolder.likeAsk.setText(Integer.toString(likeint));
-                        }
-                        ask.setLiked(false);
-                        //TODO 取消点赞
+                    }else {
+                        CommonUtils.loadinglogin(context);
                     }
+
                 }
             });
 
@@ -257,9 +262,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundleto = new Bundle();
-                    bundleto.putString("qaId",ask.getQa_id());
-                    IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                    if (isLogin){
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("qaId",ask.getQa_id());
+                        IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
+
 
                 }
             });

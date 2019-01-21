@@ -261,17 +261,17 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/weibo_login"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/weibo"
-            app:riv_oval="true"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+        <!--<com.makeramen.roundedimageview.RoundedImageView-->
+            <!--android:id="@+id/weibo_login"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@drawable/weibo"-->
+            <!--app:riv_oval="true"/>-->
+        <!--<View-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"/>-->
     </LinearLayout>
 
 </RelativeLayout>

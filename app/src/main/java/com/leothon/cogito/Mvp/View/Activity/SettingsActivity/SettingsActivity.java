@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
@@ -20,9 +21,12 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.tencent.tauth.Tencent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.8.9
@@ -43,6 +47,11 @@ public class SettingsActivity extends BaseActivity {
 
     private Intent intent;
     private Bundle bundle;
+
+    private Tencent mTencent;
+
+    private BaseApplication baseApplication;
+
     @Override
     public int initLayout() {
         return R.layout.activity_settings;
@@ -102,16 +111,22 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.log_out_settings)
     public void logout(View view){
-        Constants.loginStatus = 0;
+        setLoginStatus(0);
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
         getDAOSession().deleteAll(UserEntity.class);
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
+        mTencent.logout(this);
+
         finish();
     }
     @Override
     public void initData() {
+        mTencent = Tencent.createInstance(Constants.APP_ID,SettingsActivity.this.getApplicationContext());
 
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
     }
 
     @Override

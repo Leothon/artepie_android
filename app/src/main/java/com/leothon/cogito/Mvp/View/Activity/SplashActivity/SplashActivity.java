@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.verifyCode;
 import com.leothon.cogito.Constants;
@@ -35,11 +36,17 @@ import io.reactivex.disposables.Disposable;
 public class SplashActivity extends AppCompatActivity {
 
     TokenValid tokenValid = null;
+    private BaseApplication baseApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
+
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
+
 
         tokenValid = new TokenValid();
         new Handler().postDelayed(new Runnable() {
@@ -54,7 +61,8 @@ public class SplashActivity extends AppCompatActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("type","home");
                         IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
-                        Constants.loginStatus = 1;//表示登录成功
+                        baseApplication.setLoginStatus(1);//表示登录成功
+                        baseApplication = null;
                         finish();
                     }
 
@@ -62,9 +70,16 @@ public class SplashActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("mark", "normal");
                     IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
+                    baseApplication = null;
                     finish();
                 }
             }
         },3000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        baseApplication = null;
     }
 }

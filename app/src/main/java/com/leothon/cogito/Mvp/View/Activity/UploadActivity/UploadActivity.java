@@ -82,7 +82,8 @@ public class UploadActivity extends BaseActivity {
         }
     }
     private void initAdapter(){
-        uploadAdapter = new AskAdapter(this,askArrayList);
+
+        uploadAdapter = new AskAdapter(this,askArrayList,true);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvUpload.setLayoutManager(mlinearLayoutManager);
         rvUpload.setAdapter(uploadAdapter);

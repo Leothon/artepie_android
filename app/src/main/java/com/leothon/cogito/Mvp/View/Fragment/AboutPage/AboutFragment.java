@@ -118,7 +118,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
-        userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        if (baseApplication.getLoginStatus() == 1){
+            userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        }
+
     }
 
 
@@ -144,8 +147,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         search.setBackgroundColor(getResources().getColor(R.color.alpha));
         searchTitle.setText("搜索相关内容");
         //TODO 根据登录信息来设定用户的各种信息
-        Log.e("登录状态", " "+Constants.loginStatus);
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             userName.setText("未登录");
             userIcon.setImageResource(R.drawable.defaulticon);
             signature.setText("");
@@ -260,11 +262,11 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @OnClick(R.id.settings_about)
     public void settingsClick(View v){
         //TODO 设置
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             Bundle bundleto = new Bundle();
             bundleto.putBoolean("loginstatus",false);
             IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
-        }else if (Constants.loginStatus == 1){
+        }else if (baseApplication.getLoginStatus() == 1){
             Bundle bundleto = new Bundle();
             bundleto.putBoolean("loginstatus",true);
             IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
@@ -280,9 +282,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
 
     private void toPersonPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             Bundle bundleto = new Bundle();
             bundleto.putString("type","individual");
             IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleto);
@@ -290,48 +292,48 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
 
     private void toFavPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             IntentUtils.getInstence().intent(getMContext(), FavActivity.class);
         }
     }
 
     private void toDownloadPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
         }
     }
 
     private void toUploadPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             //TODO 进入我的发布页面，显示我发布过的内容
 
             IntentUtils.getInstence().intent(getMContext(), UploadActivity.class);
         }
     }
     private void toHistoryPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
         }
     }
     private void toWalletPage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             IntentUtils.getInstence().intent(getMContext(), WalletActivity.class);
         }
     }
     private void toNoticePage(){
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus ==1){
+        }else if (baseApplication.getLoginStatus() ==1){
             IntentUtils.getInstence().intent(getMContext(), NoticeActivity.class);
         }
     }
@@ -353,7 +355,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
-        aboutPresenter.onDestroy();
+        //aboutPresenter.onDestroy();
         baseApplication = null;
     }
 

@@ -33,6 +33,12 @@ public class LoginContract {
 
         void verifyPhonenumber(String phoneNumber,OnLoginFinishedListener listener);
 
+
+        void isQQRegister(String accessToken,OnLoginFinishedListener listener);
+
+        void qqUserRegister(User user,OnLoginFinishedListener listener);
+
+        void loginByQQ(String accessToken,OnLoginFinishedListener listener);
     }
 
     public interface ILoginView{
@@ -54,6 +60,11 @@ public class LoginContract {
         void showFailInfo(String err);
 
         void registerORloginSuccess(User user);
+
+        void isQQRegisterResult(String msg);
+
+        void qqUserRegisterSuccess(User user);
+
     }
 
     public interface OnLoginFinishedListener {
@@ -68,6 +79,8 @@ public class LoginContract {
         void onPhoneIllegal();
         void showFailInfo(String err);
         void verifysuccess(String code);
+        void isQQRegisterResult(String msg);
+        void qqUserRegisterSuccess(User user);
     }
 
     public interface ILoginPresenter{
@@ -75,5 +88,8 @@ public class LoginContract {
         void registerInfo(User user);
         void onDestroy();
         void verifyphone(String phoneNumber);
+        void isQQRegister(String accessToken);
+        void qqUserRegister(User user);
+        void loginByQQ(String accessToken);
     }
 }

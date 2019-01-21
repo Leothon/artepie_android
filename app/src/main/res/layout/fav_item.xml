@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="4dp"
         android:background="@color/dividerColor"
         />
 
@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/ripple"
-        android:elevation="3dp">
+        android:background="@drawable/ripple">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/fav_img_fav"
             android:layout_width="0dp"
@@ -73,5 +72,10 @@
         </RelativeLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/dividerColor"
+        />
 
 </LinearLayout>

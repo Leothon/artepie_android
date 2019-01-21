@@ -34,7 +34,7 @@ greendao {
 dependencies {
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '4.23'
+    compile 'com.nimbusds:nimbus-jose-jwt:4.23'
     compile 'com.android.support:support-v13:28.0.0-alpha3'
     compile 'com.android.support:support-v4:28.0.0-alpha3'
     testCompile 'junit:junit:4.12'
@@ -50,35 +50,28 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.android.support:appcompat-v7:28.0.0-alpha3'
     compile 'com.android.support:design:28.0.0-alpha3'
-    implementation('com.github.bumptech.glide:glide:4.8.0')
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
     compile 'pub.devrel:easypermissions:0.1.5'
     compile 'com.android.support:recyclerview-v7:28.0.0-alpha3'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.shuyu:gsyVideoPlayer-java:5.0.2'
-
     //根据你的需求
     compile 'com.shuyu:gsyVideoPlayer-armv5:5.0.2'
     compile 'com.shuyu:gsyVideoPlayer-armv7a:5.0.2'
     compile 'com.shuyu:gsyVideoPlayer-arm64:5.0.2'
-
     compile 'com.android.support:multidex:1.0.3'
-
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
-
     compile 'com.github.medyo:android-about-page:1.2.4'
-
     compile 'com.zyao89:zloading:1.2.0'
     compile 'com.android.support:gridlayout-v7:28.0.0-alpha3'
     compile 'org.greenrobot:eventbus:3.0.0'
-
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'org.greenrobot:greendao-generator:3.2.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
-
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    implementation files('libs/open_sdk_r6008_lite.jar')
 }

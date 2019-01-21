@@ -208,6 +208,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     private String uuid;
     private UserEntity userEntity;
     private String nowClassDId;
+
+    private boolean isLogin;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
@@ -231,7 +233,10 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         swpVideoComment.setProgressViewOffset (false,100,300);
         swpVideoComment.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         swpVideoComment.setDistanceToTriggerSync(500);
-        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        if (getLoginStatus() == 1){
+            userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        }
+
     }
 
     @Override
@@ -543,29 +548,34 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
             @Override
             public void onClick(View view) {
                 //TODO 弹出评论的窗口
+                if (getLoginStatus() == 1){
+                    replyToWho.setText("评论课程 : " + videoDetail.getClassDetailList().getClassd_title());
+                    showPopWindow();
+                    popupInputMethod();
+                    sendComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            playerPresenter.sendQaComment(videoDetail.getClassDetailList().getClassd_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
 
-                replyToWho.setText("评论课程 : " + videoDetail.getClassDetailList().getClassd_title());
-                showPopWindow();
-                popupInputMethod();
-                sendComment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        playerPresenter.sendQaComment(videoDetail.getClassDetailList().getClassd_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
+                            Comment comment = new Comment();
+                            comment.setUser_name(userEntity.getUser_name());
+                            comment.setUser_icon(userEntity.getUser_icon());
+                            comment.setComment_q_time(CommonUtils.getNowTime());
+                            comment.setComment_q_like("0");
+                            comment.setComment_q_content(editComment.getText().toString());
+                            videoDetail.getComments().add(comment);
+                            chooseClassAdapter.notifyDataSetChanged();
+                            editComment.setText("");
+                            playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClassd_id(),videoDetail.getClassDetailList().getClass_classd_id());
+                            popupWindow.dismiss();
+                        }
+                    });
+                    videoPlayer.onVideoPause();
+                }else {
+                    CommonUtils.loadinglogin(PlayerActivity.this);
+                }
 
-                        Comment comment = new Comment();
-                        comment.setUser_name(userEntity.getUser_name());
-                        comment.setUser_icon(userEntity.getUser_icon());
-                        comment.setComment_q_time(CommonUtils.getNowTime());
-                        comment.setComment_q_like("0");
-                        comment.setComment_q_content(editComment.getText().toString());
-                        videoDetail.getComments().add(comment);
-                        chooseClassAdapter.notifyDataSetChanged();
-                        editComment.setText("");
-                        playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClassd_id(),videoDetail.getClassDetailList().getClass_classd_id());
-                        popupWindow.dismiss();
-                    }
-                });
-                videoPlayer.onVideoPause();
+
 
 
 
@@ -656,7 +666,12 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     public void loadComment(final ArrayList<Comment> comments){
         swpVideoComment.setOnRefreshListener(this);
-        videoCommentAdapter = new VideoCommentAdapter(comments,this);
+        if (getLoginStatus() == 1){
+            isLogin = true;
+        }else {
+            isLogin = false;
+        }
+        videoCommentAdapter = new VideoCommentAdapter(comments,this,isLogin);
 
         videoCommentList.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
         videoCommentList.setAdapter(videoCommentAdapter);

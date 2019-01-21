@@ -1,5 +1,6 @@
 package com.leothon.cogito.Adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.ClassItem;
 import com.leothon.cogito.Bean.TeacherSelf;
 import com.leothon.cogito.DTO.TeaClass;
@@ -42,9 +44,11 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int BODY = 100;
     private View headView;
     private View descriptionView;
-    public TeacherSelfAdapter(TeaClass teaClass, Context context){
+    private boolean isLogin;
+    public TeacherSelfAdapter(TeaClass teaClass, Context context,boolean isLogin){
         this.teaClass = teaClass;
         this.context =context;
+        this.isLogin = isLogin;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,10 +91,22 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (!teaClass.getTeaClassses().get(realposition).isIsbuy() && !teaClass.getTeaClassses().get(realposition).getSelectprice().equals("0.00")){
 
-                        loadPayDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+                        if (isLogin){
+                            loadPayDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",teaClass.getTeaClassses().get(realposition).getSelectId());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }
+
+
                 }
             });
             classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +119,12 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         bundle.putString("classId",teaClass.getTeaClassses().get(realposition).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        loadDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+                        if (isLogin){
+                            loadDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
                     }
 
                 }

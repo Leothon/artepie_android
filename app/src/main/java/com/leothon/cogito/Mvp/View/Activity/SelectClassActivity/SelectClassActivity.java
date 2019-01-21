@@ -90,7 +90,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void showInfo(String msg) {
-
+        CommonUtils.makeText(this,msg);
     }
 
 //    public void loadfalsedata(){

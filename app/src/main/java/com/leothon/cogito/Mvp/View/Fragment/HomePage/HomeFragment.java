@@ -46,6 +46,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
+
 /**
  * created by leothon on 2018.7.29
  * 首页的fragment
@@ -80,8 +82,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private HomeData homeData;
     private ArrayList<SelectClass> selectClasses;
 
+    private BaseApplication baseApplication;
 
     private ArrayList<com.leothon.cogito.Bean.Banner> banners;
+
+    private boolean isLogin;
     public HomeFragment() {
     }
 
@@ -115,6 +120,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homePresenter = new HomePresenter(this);
         homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swp.setRefreshing(true);
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
     }
     @Override
     protected void initView() {
@@ -172,8 +180,12 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
     public void initAdapter() {
         swp.setOnRefreshListener(this);
-
-        homeAdapter = new HomeAdapter(homeData, selectClasses,getMContext());
+        if (baseApplication.getLoginStatus() == 1){
+            isLogin = true;
+        }else {
+            isLogin = false;
+        }
+        homeAdapter = new HomeAdapter(homeData, selectClasses,getMContext(),isLogin);
         homeAdapter.setmOnItemClickLitener(this);
         initBanner(homeAdapter);
         initTea(homeAdapter);
@@ -358,5 +370,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onDestroy() {
         super.onDestroy();
         homePresenter.onDestroy();
+        baseApplication = null;
     }
 }

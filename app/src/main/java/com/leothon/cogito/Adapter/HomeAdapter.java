@@ -55,9 +55,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private ArrayList<SelectClass> selectClasses;
 
-    public HomeAdapter(HomeData allDatas, ArrayList<SelectClass> selectClasses,Context context){
+    private boolean isLogin;
+    public HomeAdapter(HomeData allDatas, ArrayList<SelectClass> selectClasses,Context context,boolean isLogin){
         this.allDatas = allDatas;
         this.context = context;
+        this.isLogin = isLogin;
         this.selectClasses = selectClasses;
     }
     private int HEAD0 = 0;
@@ -381,8 +383,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                         bundle.putString("classId",selectClasses.get(pos).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        String classId = selectClasses.get(pos).getSelectId();
-                        loadDialog(classId);
+                        if (isLogin){
+                            String classId = selectClasses.get(pos).getSelectId();
+                            loadDialog(classId);
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
                     }
                 }
             });

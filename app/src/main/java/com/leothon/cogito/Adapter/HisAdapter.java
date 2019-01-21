@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.Fav;
 import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
@@ -28,10 +29,17 @@ import butterknife.ButterKnife;
  */
 public class HisAdapter extends RecyclerView.Adapter {
     private Context context;
-    private ArrayList<VideoClass> videoClasses;
-    public HisAdapter(Context context, ArrayList<VideoClass> videoClasses){
+    private ArrayList<ClassDetailList> classDetailLists;
+
+
+    public removeViewOnClickListener removeViewOnClickListener;
+
+    public void setRemoveViewClick(removeViewOnClickListener removeViewOnClickListener) {
+        this.removeViewOnClickListener = removeViewOnClickListener;
+    }
+    public HisAdapter(Context context, ArrayList<ClassDetailList> classDetailLists){
         this.context = context;
-        this.videoClasses = videoClasses;
+        this.classDetailLists = classDetailLists;
     }
 
     @Override
@@ -41,21 +49,21 @@ public class HisAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        VideoClass videoClass = videoClasses.get(position);
+        final ClassDetailList classDetailList = classDetailLists.get(position);
         HisViewHolder hisViewHolder = (HisViewHolder) holder;
 
 
-        ImageLoader.loadImageViewThumbnailwitherror(context,videoClass.getVideoUrl(),hisViewHolder.favImg,R.drawable.defalutimg);
-        hisViewHolder.favTitle.setText(videoClass.getVideoTitle());
-        hisViewHolder.favDes.setText(videoClass.getVideoDescription());
+        ImageLoader.loadImageViewThumbnailwitherror(context,"",hisViewHolder.favImg,R.drawable.defalutimg);
+        hisViewHolder.favTitle.setText(classDetailList.getClassd_title());
+        hisViewHolder.favDes.setText(classDetailList.getClassd_des());
         hisViewHolder.favClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO 删除该条浏览历史
-
-                videoClasses.remove(position);
+                removeViewOnClickListener.removeViewClickListener(classDetailList.getClassd_id());
+                classDetailLists.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,videoClasses.size());
+                notifyItemRangeChanged(position,classDetailLists.size());
             }
         });
 
@@ -64,8 +72,8 @@ public class HisAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 //TODO 跳转相关页面
                 Bundle bundle = new Bundle();
-                bundle.putString("imgUrls",videoClasses.get(position).getVideoUrl());
-                bundle.putString("imgTitle",videoClasses.get(position).getVideoTitle());
+                bundle.putString("classid",classDetailList.getClass_classd_id());
+                bundle.putString("classdid",classDetailList.getClassd_id());
                 IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
             }
         });
@@ -77,7 +85,7 @@ public class HisAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return videoClasses.size();
+        return classDetailLists.size();
     }
 
 
@@ -98,5 +106,9 @@ public class HisAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this,itemView);
 
         }
+    }
+
+    public interface removeViewOnClickListener{
+        void removeViewClickListener(String classdId);
     }
 }

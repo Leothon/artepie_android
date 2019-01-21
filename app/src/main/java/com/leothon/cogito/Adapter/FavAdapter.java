@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Bean.Fav;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
@@ -37,12 +38,16 @@ public class FavAdapter extends RecyclerView.Adapter{
 
 
     private Context context;
-    private ArrayList<Fav> favs;
-    public FavAdapter(Context context, ArrayList<Fav> favs){
+    private ArrayList<SelectClass> selectClasses;
+    public FavAdapter(Context context, ArrayList<SelectClass> selectClasses){
         this.context = context;
-        this.favs = favs;
+        this.selectClasses = selectClasses;
     }
+    public removeFavOnClickListener removeFavOnClickListener;
 
+    public void setRemoveFavClick(removeFavOnClickListener removeFavOnClickListener) {
+        this.removeFavOnClickListener = removeFavOnClickListener;
+    }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FavViewHolder(LayoutInflater.from(context).inflate(R.layout.fav_item,parent,false));
@@ -50,18 +55,16 @@ public class FavAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Fav fav = favs.get(position);
+        final SelectClass selectClass = selectClasses.get(position);
         FavViewHolder favViewHolder = (FavViewHolder) holder;
 
 
-        ImageLoader.loadImageViewThumbnailwitherror(context,fav.getFavurl(),favViewHolder.favImg,R.drawable.defalutimg);
-        favViewHolder.favTitle.setText(fav.getTitle());
-        favViewHolder.favDes.setText(fav.getDescription());
+        ImageLoader.loadImageViewThumbnailwitherror(context,selectClass.getSelectbackimg(),favViewHolder.favImg,R.drawable.defalutimg);
+        favViewHolder.favTitle.setText(selectClass.getSelectlisttitle());
+        favViewHolder.favDes.setText(selectClass.getSelectdesc());
         favViewHolder.favClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 取消收藏
-
                 loadDialog(position);
             }
         });
@@ -69,11 +72,8 @@ public class FavAdapter extends RecyclerView.Adapter{
         favViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 跳转相关页面
                 Bundle bundle = new Bundle();
-                bundle.putString("url",favs.get(position).getFavurl());
-                bundle.putString("title",favs.get(position).getTitle());
-                bundle.putString("author",favs.get(position).getAuthor());
+                bundle.putString("classId",selectClass.getSelectId());
                 IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
             }
         });
@@ -85,7 +85,7 @@ public class FavAdapter extends RecyclerView.Adapter{
         final CommonDialog dialog = new CommonDialog(context);
 
 
-        dialog.setMessage("您确定要取消收藏《" + favs.get(position).getTitle() + "》这门课程吗？")
+        dialog.setMessage("您确定要取消收藏《" + selectClasses.get(position).getSelectlisttitle() + "》这门课程吗？")
                 .setTitle("提示")
                 .setSingle(false)
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
@@ -93,9 +93,10 @@ public class FavAdapter extends RecyclerView.Adapter{
                     public void onPositiveClick() {
                         dialog.dismiss();
                         //TODO 删除该收藏
-                        favs.remove(position);
+                        removeFavOnClickListener.removeFavClickListener(selectClasses.get(position).getSelectId());
+                        selectClasses.remove(position);
                         notifyItemRemoved(position);
-                        notifyItemRangeChanged(position,favs.size());
+                        notifyItemRangeChanged(position,selectClasses.size());
                     }
 
                     @Override
@@ -111,7 +112,7 @@ public class FavAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return favs.size();
+        return selectClasses.size();
     }
 
 
@@ -134,5 +135,7 @@ public class FavAdapter extends RecyclerView.Adapter{
         }
     }
 
-
+    public interface removeFavOnClickListener{
+        void removeFavClickListener(String classId);
+    }
 }

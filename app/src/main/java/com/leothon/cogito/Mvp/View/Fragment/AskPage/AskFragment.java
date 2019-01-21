@@ -24,6 +24,7 @@ import android.widget.Toolbar;
 
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.7.29
@@ -78,6 +81,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private HostActivity hostActivity;
     private Animation viewShowAnim;
     private Animation viewHideAnim;
+    private BaseApplication baseApplication;
+
+    private boolean isLogin;
     public AskFragment() {}
 
     /**
@@ -106,7 +112,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         askPresenter = new AskPresenter(this);
         swpAsk.setProgressViewOffset (false,100,300);
         swpAsk.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
-
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
     }
     @Override
     protected void initView() {
@@ -164,7 +172,12 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     }
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
-        askAdapter = new AskAdapter(getMContext(),asks);
+        if (baseApplication.getLoginStatus() == 1){
+            isLogin = true;
+        }else {
+            isLogin = false;
+        }
+        askAdapter = new AskAdapter(getMContext(),asks,isLogin);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(getMContext(),LinearLayoutManager.VERTICAL,false);
         rvAsk.setLayoutManager(mlinearLayoutManager);
         rvAsk.setAdapter(askAdapter);
@@ -240,9 +253,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @OnClick(R.id.float_btn)
     public void addcontent(View view){
 
-        if (Constants.loginStatus == 0){
+        if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
-        }else if (Constants.loginStatus == 1){
+        }else if (baseApplication.getLoginStatus() == 1){
             IntentUtils.getInstence().intent(getMContext(), AskActivity.class);
         }
 
@@ -277,6 +290,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             EventBus.getDefault().unregister(this);
         }
         askPresenter.onDestroy();
+
+        baseApplication = null;
     }
 
 

@@ -39,10 +39,11 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int BODY = 100;
     private View headView;
     private View descriptionView;
-
-    public TestSelfAdapter(TypeClass typeClass, Context context){
+    private boolean isLogin;
+    public TestSelfAdapter(TypeClass typeClass, Context context,boolean isLogin){
         this.typeClass = typeClass;
         this.context =context;
+        this.isLogin = isLogin;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,7 +88,16 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00")){
 
-                        loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+                        if (isLogin){
+                            loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }
                 }
             });

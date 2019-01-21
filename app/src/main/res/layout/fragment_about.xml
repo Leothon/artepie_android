@@ -103,7 +103,7 @@
                         android:id="@+id/fav_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/faved"
+                        android:src="@drawable/favicon"
                         android:tint="@color/colorPrimary"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"/>

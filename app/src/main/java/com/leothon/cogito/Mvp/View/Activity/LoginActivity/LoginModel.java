@@ -116,4 +116,95 @@ public class LoginModel implements LoginContract.ILoginModel {
                     }
         });
     }
+
+    @Override
+    public void isQQRegister(String accessToken, final LoginContract.OnLoginFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .isQQRegister(accessToken)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        String info = baseResponse.getError();
+                        listener.isQQRegisterResult(info);
+                    }
+                });
+    }
+
+    @Override
+    public void qqUserRegister(User user, final LoginContract.OnLoginFinishedListener listener) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .qqUserRegister(user)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        User user = (User)baseResponse.getData();
+                        sharedPreferencesUtils.setParams("token",user.getUser_token());
+                        listener.qqUserRegisterSuccess(user);
+                    }
+                });
+    }
+
+    @Override
+    public void loginByQQ(String accessToken, final LoginContract.OnLoginFinishedListener listener) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getUserInfoByQQ(accessToken)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        User user = (User)baseResponse.getData();
+                        sharedPreferencesUtils.setParams("token",user.getUser_token());
+                        listener.qqUserRegisterSuccess(user);
+                    }
+                });
+    }
 }

@@ -17,6 +17,17 @@ import java.util.ArrayList;
 public class BaseApplication extends Application {
     private static BaseApplication application;
 
+
+    private int loginStatus;
+
+    public int getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(int loginStatus) {
+        this.loginStatus = loginStatus;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,6 +38,8 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         //instances = this;
         setDatabase();
+
+        setLoginStatus(0);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.

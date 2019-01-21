@@ -44,6 +44,8 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @BindView(R.id.test_bar)
     CardView testBar;
 
+    private boolean isLogin;
+
     private TestSelfAdapter testSelfAdapter;
     private TypeClass typeClass;
     private LinearLayoutManager linearLayoutManager;
@@ -100,7 +102,12 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
     public void initAdapter(){
             swpTest.setOnRefreshListener(this);
-            testSelfAdapter = new TestSelfAdapter(typeClass,this);
+            if (getLoginStatus() == 1){
+                isLogin = true;
+            }else {
+                isLogin = false;
+            }
+            testSelfAdapter = new TestSelfAdapter(typeClass,this,isLogin);
             initHeadView(testSelfAdapter);
             initDesView(testSelfAdapter);
             linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
