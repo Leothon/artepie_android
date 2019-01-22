@@ -59,7 +59,8 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
                                     Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                     Manifest.permission.CALL_PHONE,
-                                    Manifest.permission.CAMERA};
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.READ_PHONE_STATE};
     protected final String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.toolbar)

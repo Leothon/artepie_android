@@ -227,7 +227,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void onLoadMoreData(int currentPage) {
                 homePresenter.loadMoreClassData(currentPage * 10,fragmentsharedPreferencesUtils.getParams("token","").toString());
-                Log.e( "onLoadMoreData: " ,"页数" + currentPage * 10);
             }
         });
     }

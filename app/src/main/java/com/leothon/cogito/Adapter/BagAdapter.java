@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -32,7 +29,9 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.leothon.cogito.Bean.BagBuy;
 
-import com.leothon.cogito.Bean.studyLine;
+import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Bean.StudyLine;
+import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -40,27 +39,22 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 
 import com.leothon.cogito.Utils.IntentUtils;
 
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import freemarker.template.utility.DateUtil;
 
 /**
  * created by leothon on 2018.8.10
  */
 public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    private ArrayList<BagBuy> bagBuyclass;
-    private ArrayList<BagBuy> recommendclass;
+    private BagPageData bagPageData;
 
     private Context context;
     private int HEAD0 = 0;
@@ -77,10 +71,11 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private LimitLine limitLine;        //限制线
 
 
-    public BagAdapter(ArrayList<BagBuy> bagBuyclass,ArrayList<BagBuy> recommendclass, Context context){
-        this.bagBuyclass = bagBuyclass;
-        this.recommendclass = recommendclass;
+    private boolean isLogin;
+    public BagAdapter(BagPageData bagPageData, Context context,boolean isLogin){
+        this.bagPageData = bagPageData;
         this.context = context;
+        this.isLogin = isLogin;
     }
 
     @Override
@@ -88,7 +83,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         if (viewType == HEAD0) {
             return new BuyClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.studyline,parent,false));
         }else if(viewType == HEAD1){
-            return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.mic2_item,parent,false));
+            return new BuyClassHolder(LayoutInflater.from(context).inflate(R.layout.class_item,parent,false));
         }else if (viewType == HEAD2){
             return new RecommentClassTitleHolder(LayoutInflater.from(context).inflate(R.layout.dividerview,parent,false));
         }else if (viewType == HEAD3){
@@ -106,42 +101,37 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             buyClassTitleHolder.dividerBuy.setText("已订阅课程");
             buyClassTitleHolder.topDiv.setVisibility(View.VISIBLE);
 
-            List<studyLine> lists = new ArrayList<>();
-
-            for (int i = 0;i < 7;i ++){
-                studyLine studyline = new studyLine();
-
-                studyline.setClassCount((int)(Math.random()*10));
+            StudyLine studyline = bagPageData.getStudyLine();
+            ArrayList<String> days = new ArrayList<>();
+            for (int i = 0;i < bagPageData.getStudyLine().getClassCountDat().size();i ++){
                 if (i == 6){
-                    studyline.setDate("今天");
+                    days.add("今天");
                 }else {
-                    studyline.setDate(CommonUtils.getTime(i - 6));
+                    days.add(CommonUtils.getTime(i - 6));
                 }
-                lists.add(studyline);
             }
-            initChart(buyClassTitleHolder.studyLine,lists);
-            showLineChart(buyClassTitleHolder.studyLine,lists);
+            buyClassTitleHolder.studyCountLine.setText("总学习课程 ：" + bagPageData.getStudyLine().getClassCount() + "个");
+            studyline.setDate(days);
+            initChart(buyClassTitleHolder.studyLine,studyline);
+            showLineChart(buyClassTitleHolder.studyLine,studyline);
             Drawable drawable = CommonUtils.getContext().getResources().getDrawable(R.drawable.fade_orange);
             setChartFillDrawable(buyClassTitleHolder.studyLine,drawable);
         }else if(viewType == HEAD1){
             int position1 = position - 1;
+            final SelectClass buyClass = bagPageData.getTeaClassses().get(position1);
             BuyClassHolder buyClassHolder = (BuyClassHolder)holder;
-            ImageLoader.loadImageViewThumbnailwitherror(context,bagBuyclass.get(position1).getImgurl(),buyClassHolder.classbagImg,R.drawable.defalutimg);
-            buyClassHolder.classbagTitle.setText(bagBuyclass.get(position1).getTitle());
-            buyClassHolder.classbagAuthor.setText(bagBuyclass.get(position1).getDescription());
-            buyClassHolder.classbagPrice.setVisibility(View.GONE);
-            buyClassHolder.classbagTime.setText(bagBuyclass.get(position1).getClassCount());
-            buyClassHolder.classbagCount.setText(bagBuyclass.get(position1).getTime());
+            ImageLoader.loadImageViewThumbnailwitherror(context,buyClass.getSelectbackimg(),buyClassHolder.classImg,R.drawable.defalutimg);
+            buyClassHolder.classCount.setText(buyClass.getSelectstucount() + "人次已学习");
+            buyClassHolder.classDescription.setText(buyClass.getSelectdesc());
+            buyClassHolder.classPrice.setVisibility(View.GONE);
+            buyClassHolder.classTitle.setText(buyClass.getSelectlisttitle());
             buyClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //TODO 跳转到课程分类
                     int position1 = position - 1;
                     Bundle bundle = new Bundle();
-                    bundle.putString("url",bagBuyclass.get(position1).getImgurl());
-                    bundle.putString("title",bagBuyclass.get(position1).getTitle());
-                    bundle.putString("author",bagBuyclass.get(position1).getAuthor());
-                    bundle.putString("price","0");
+                    bundle.putString("classId",buyClass.getSelectId());
                     IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });
@@ -150,20 +140,46 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             recommentClassTitleHolder.dividerRe.setText("为您推荐课程");
             recommentClassTitleHolder.topDiv.setVisibility(View.VISIBLE);
         }else if (viewType == HEAD3){
-            int position2 = position - (bagBuyclass.size() + 2);
-            RecommentClassHolder recommentClassHolder = (RecommentClassHolder)holder;
-            ImageLoader.loadImageViewThumbnailwitherror(context,recommendclass.get(position2).getImgurl(),recommentClassHolder.recommentImg,R.drawable.defalutimg);
-            //recommentClassHolder.playMark.setVisibility(View.GONE);
-            recommentClassHolder.recommentTv.setText(recommendclass.get(position2).getTitle());
+            final int position2 = position - (bagPageData.getTeaClassses().size() + 2);
+            final RecommentClassHolder recommentClassHolder = (RecommentClassHolder)holder;
+            final SelectClass fineClass = bagPageData.getFineClasses().get(position2);
+            ImageLoader.loadImageViewThumbnailwitherror(context,fineClass.getSelectbackimg(),recommentClassHolder.foryouIV,R.drawable.defalutimg);
+            recommentClassHolder.foryouTV.setText(fineClass.getSelectlisttitle());
+            recommentClassHolder.foryouAuthor.setText(fineClass.getSelectauthor());
+            recommentClassHolder.foryouCount.setText(fineClass.getSelectstucount() + "人次已学习");
+            String price = fineClass.getSelectprice();
+            if (fineClass.isIsbuy()){
+                recommentClassHolder.foryouPrice.setText("已购买");
+            }else if (price.equals("0.00")){
+                recommentClassHolder.foryouPrice.setText("免费");
+            }else {
+                recommentClassHolder.foryouPrice.setText("￥" + price);
+            }
             recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position2 = position - (bagBuyclass.size() + 2);
+                    int pos = position2;
+                    if (recommentClassHolder.foryouPrice.getText().toString().equals("已购买") || recommentClassHolder.foryouPrice.getText().toString().equals("免费")){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",fineClass.getSelectId());
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }else {
+                        if (isLogin){
+                            String classId = fineClass.getSelectId();
+                            loadDialog(classId);
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
+                    }
+                }
+            });
+            recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position2 = position - (bagPageData.getTeaClassses().size() + 2);
                     Bundle bundle = new Bundle();
-                    bundle.putString("url",recommendclass.get(position2).getImgurl());
-                    bundle.putString("title",recommendclass.get(position2).getTitle());
-                    bundle.putString("author",recommendclass.get(position2).getAuthor());
-                    bundle.putString("price",recommendclass.get(position2).getPrice());
+                    bundle.putString("classId",fineClass.getSelectId());
                     IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });
@@ -174,36 +190,43 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     }
 
-//    @Override
-//    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-//        super.onAttachedToRecyclerView(recyclerView);
-//        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-//        if (manager instanceof GridLayoutManager){
-//            final GridLayoutManager gridLayoutManager = ((GridLayoutManager)manager);
-//            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                @Override
-//                public int getSpanSize(int position) {
-//                    int type = getItemViewType(position);
-//                    if (type == HEAD3){
-//                        return 1;
-//                    }else {
-//                        return 2;
-//                    }
-//
-//                }
-//            });
-//        }
-//    }
+    private void loadDialog(final String classId){
+        final CommonDialog dialog = new CommonDialog(context);
+
+
+        dialog.setMessage("该课程是付费课程，您尚未订阅")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("试看前几节")
+                .setNegtive("返回")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("classId",classId);
+                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0 ) {
             return HEAD0;
-        }else if (position <= bagBuyclass.size() && position != 0){
+        }else if (position <= bagPageData.getTeaClassses().size() && position != 0){
             return HEAD1;
-        }else if (position == bagBuyclass.size() + 1){
+        }else if (position == bagPageData.getTeaClassses().size() + 1){
             return HEAD2;
-        }else if (position <= (recommendclass.size() + bagBuyclass.size() + 1) && position != 0){
+        }else if (position <= (bagPageData.getFineClasses().size() + bagPageData.getTeaClassses().size() + 1) && position != 0){
             return HEAD3;
         }else {
             return HEAD4;
@@ -213,7 +236,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     @Override
     public int getItemCount() {
-        return bagBuyclass.size() + recommendclass.size() + 3;
+        return bagPageData.getTeaClassses().size() + bagPageData.getFineClasses().size() + 3;
     }
 
     @Override
@@ -233,36 +256,31 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         View bottomDiv;
         @BindView(R.id.study_line)
         LineChart studyLine;
+        @BindView(R.id.study_count_line)
+        TextView studyCountLine;
         public BuyClassTitleHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
     }
-
-
     class BuyClassHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.mic2_img)
-        RoundedImageView classbagImg;
-        @BindView(R.id.mic2_author)
-        TextView classbagAuthor;
-        @BindView(R.id.mic2_title)
-        TextView classbagTitle;
-        @BindView(R.id.mic2_class_count)
-        TextView classbagCount;
-        @BindView(R.id.mic2_time)
-        TextView classbagTime;
-        @BindView(R.id.mic2_class_price)
-        TextView classbagPrice;
-        @BindView(R.id.mic2_divider)
-        TextView classbagDivider;
-
-
-        public BuyClassHolder(View itemView){
+        @BindView(R.id.class_title)
+        TextView classTitle;
+        @BindView(R.id.class_description)
+        TextView classDescription;
+        @BindView(R.id.class_img)
+        RoundedImageView classImg;
+        @BindView(R.id.class_price)
+        TextView classPrice;
+        @BindView(R.id.class_count)
+        TextView classCount;
+        public BuyClassHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
     }
+
 
     class RecommentClassTitleHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.divider_title)
@@ -276,15 +294,18 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             ButterKnife.bind(this,itemView);
         }
     }
+
     class RecommentClassHolder extends RecyclerView.ViewHolder{
-
         @BindView(R.id.foryou_iv)
-        RoundedImageView recommentImg;
+        ImageView foryouIV;
         @BindView(R.id.foryou_tv)
-        TextView recommentTv;
-//        @BindView(R.id.play_mark)
-//        ImageView playMark;
-
+        TextView foryouTV;
+        @BindView(R.id.foryou_price)
+        TextView foryouPrice;
+        @BindView(R.id.foryou_author)
+        TextView foryouAuthor;
+        @BindView(R.id.foryou_count)
+        TextView foryouCount;
         public RecommentClassHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -313,7 +334,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     /**
      * 初始化图表
      */
-    private void initChart(LineChart lineChart,List<studyLine> lines) {
+    private void initChart(LineChart lineChart,StudyLine lines) {
         /***图表设置***/
         //是否展示网格线
         lineChart.setDrawGridBackground(false);
@@ -417,13 +438,11 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
      */
-    public void showLineChart(LineChart lineChart,final List<studyLine> dataList) {
+    public void showLineChart(LineChart lineChart,final StudyLine dataList) {
         List<Entry> entries = new ArrayList<>();
-        Log.e("测试", "数量: " + dataList.size());
-        for (int i = 0; i < dataList.size(); i++) {
-            studyLine data = dataList.get(i);
+        for (int i = 0; i < dataList.getClassCountDat().size(); i++) {
 
-            Entry entry = new Entry(i, (float) data.getClassCount());
+            Entry entry = new Entry(i, Float.valueOf(dataList.getClassCountDat().get(i)));
             entries.add(entry);
 
         }
@@ -432,7 +451,8 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                String date = dataList.get((int) value % dataList.size()).getDate();
+                String date = dataList.getDate().get((int) value % dataList.getClassCountDat().size());
+
                 return date;
             }
         });

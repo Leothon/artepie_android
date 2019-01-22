@@ -6,6 +6,7 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
@@ -72,6 +73,12 @@ public interface HttpService {
     @GET("getmorequestion")
     Observable<BaseResponse<ArrayList<QAData>>> getMoreQAData(@Query("currentpage") int currentPage,@Query("token") String token);
 
+
+    @GET("getquestionbyid")
+    Observable<BaseResponse<ArrayList<QAData>>> getQADataById(@Query("token") String token);
+
+    @GET("getmorequestionbyid")
+    Observable<BaseResponse<ArrayList<QAData>>> getMoreQADataById(@Query("currentpage") int currentPage,@Query("token") String token);
 
     @GET("getqadetail")
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
@@ -145,4 +152,7 @@ public interface HttpService {
 
     @POST("removeclassviewhis")
     Observable<BaseResponse<String>> removeClassViewHis(@Query("token") String token,@Query("classdid") String classdId);
+
+    @GET("getbagpagedata")
+    Observable<BaseResponse<BagPageData>> getBagPageData(@Query("token") String token);
 }

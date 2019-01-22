@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.UploadActivity;
 
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +15,12 @@ import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -25,16 +28,19 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class UploadActivity extends BaseActivity {
+public class UploadActivity extends BaseActivity implements UploadContract.IUploadView,SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.rv_upload)
     RecyclerView rvUpload;
-
+    @BindView(R.id.swp_upload)
+    SwipeRefreshLayout swpUpload;
     private AskAdapter uploadAdapter;
     private ArrayList<QAData> askArrayList;
 
-    private UserEntity userEntity;
+    //private UserEntity userEntity;
+
+    private UploadPresenter uploadPresenter;
     @Override
     public BasePresenter initPresenter() {
         return null;
@@ -51,38 +57,50 @@ public class UploadActivity extends BaseActivity {
     }
     @Override
     public void initData() {
-        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
-        String uuid = tokenValid.getUid();
-
-        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        swpUpload.setProgressViewOffset (false,100,300);
+        swpUpload.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+//        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+//        String uuid = tokenValid.getUid();
+        uploadPresenter = new UploadPresenter(this);
+        //userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("我发布的内容");
-        loadFalseData();
+        swpUpload.setRefreshing(true);
+        uploadPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+    }
+
+    @Override
+    public void loadAskData(ArrayList<QAData> qaData) {
+        askArrayList = qaData;
+        if (swpUpload.isRefreshing()){
+            swpUpload.setRefreshing(false);
+        }
         initAdapter();
     }
 
+    @Override
+    public void onRefresh() {
+        uploadPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+    }
 
-    private void loadFalseData(){
-        askArrayList = new ArrayList<>();
-        for (int i = 0 ;i < 10;i++){
-            QAData qaData = new QAData();
-
-            qaData.setUser_icon(userEntity.getUser_icon());
-            qaData.setUser_name(userEntity.getUser_name());
-            qaData.setUser_signal(userEntity.getUser_signal());
-            qaData.setQa_content("发布一条视频");
-            qaData.setQa_like("45");
-            qaData.setQa_comment("1");
-            qaData.setQa_video("");
-            qaData.setQa_video_cover(Api.ComUrl + "resource/home1.jpg");
-            askArrayList.add(qaData);
+    @Override
+    public void loadAskMoreData(ArrayList<QAData> qaData) {
+        for (int i = 0;i < qaData.size(); i++){
+            askArrayList.add(qaData.get(i));
+            uploadAdapter.notifyDataSetChanged();
         }
     }
-    private void initAdapter(){
 
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
+    private void initAdapter(){
+        swpUpload.setOnRefreshListener(this);
         uploadAdapter = new AskAdapter(this,askArrayList,true);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvUpload.setLayoutManager(mlinearLayoutManager);
@@ -105,6 +123,24 @@ public class UploadActivity extends BaseActivity {
                 }
             }
         });
+
+        uploadAdapter.setOnClickaddLike(new AskAdapter.addLikeOnClickListener() {
+            @Override
+            public void addLikeClickListener(boolean isLike,String qaId) {
+                if (isLike){
+                    uploadPresenter.removeLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }else {
+                    uploadPresenter.addLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                }
+            }
+        });
+
+        rvUpload.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                uploadPresenter.getAskMoreData(currentPage * 15,activitysharedPreferencesUtils.getParams("token","").toString());
+            }
+        });
     }
 
 
@@ -121,5 +157,12 @@ public class UploadActivity extends BaseActivity {
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        uploadPresenter.onDestroy();
     }
 }
