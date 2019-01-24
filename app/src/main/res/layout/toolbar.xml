@@ -36,7 +36,7 @@
             android:text="title"
             android:scrollHorizontally="true"
             android:textColor="@color/fontColor"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
