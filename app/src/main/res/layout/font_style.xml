@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/btn_bold"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/style_b"
+        android:tint="@color/fontColor" />
+
+    <ImageView
+        android:id="@+id/btn_italic"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/style_i"
+        android:tint="@color/fontColor"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/btn_bold"/>
+
+    <ImageView
+        android:id="@+id/btn_underline"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/style_u"
+        android:tint="@color/fontColor"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/btn_italic"/>
+
+    <ImageView
+        android:id="@+id/btn_streak"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/style_s"
+        android:tint="@color/fontColor"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/btn_underline"/>
+</RelativeLayout>

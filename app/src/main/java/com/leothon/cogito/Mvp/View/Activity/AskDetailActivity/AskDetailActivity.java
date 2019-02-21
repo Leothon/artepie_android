@@ -23,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.AskDetailAdapter;
 import com.leothon.cogito.Base.BaseApplication;
@@ -59,6 +60,11 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     private QADataDetail qaDataDetail;
     private AskDetailAdapter askDetailAdapter;
 
+
+
+    public static final int SCROLL_STATE_IDLE = 0;
+    public static final int SCROLL_STATE_DRAGGING = 1;
+    public static final int SCROLL_STATE_SETTLING = 2;
     private View popview;
     private PopupWindow popupWindow;
 
@@ -137,6 +143,42 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                         askDetailAdapter.notifyDataSetChanged();
                     }
                 }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                switch (newState){
+                    case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
+                        //当屏幕停止滚动，加载图片
+                        try {
+                            if(AskDetailActivity.this != null) Glide.with(AskDetailActivity.this).resumeRequests();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_DRAGGING: // The RecyclerView is currently being dragged by outside input such as user touch input.
+                        //当屏幕滚动且用户使用的触碰或手指还在屏幕上，停止加载图片
+                        try {
+                            if(AskDetailActivity.this != null) Glide.with(AskDetailActivity.this).pauseRequests();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_SETTLING: // The RecyclerView is currently animating to a final position while not under outside control.
+                        //由于用户的操作，屏幕产生惯性滑动，停止加载图片
+                        try {
+                            if(AskDetailActivity.this != null) Glide.with(AskDetailActivity.this).pauseRequests();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+
             }
         });
 

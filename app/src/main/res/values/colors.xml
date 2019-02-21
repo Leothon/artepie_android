@@ -31,4 +31,8 @@
     <color name="rainbow_cyanogen">#00FFFF</color>
     <color name="rainbow_blue">#0000FF</color>
     <color name="rainbow_purple">#8B00FF</color>
+
+
+
+    <color name="test">#8B00FF</color>
 </resources>

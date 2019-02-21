@@ -385,8 +385,10 @@ public class CommonUtils {
      * @param string
      */
     public static void makeText(Context context, String string) {
+
+        Context context1 = context.getApplicationContext();
         if (mToast == null) {
-            mToast = Toast.makeText(context, string, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(context1, string, Toast.LENGTH_SHORT);
         }
         mToast.setText(string);
         mToast.show();

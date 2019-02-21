@@ -72,8 +72,6 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     public SharedPreferencesUtils activitysharedPreferencesUtils;
 
 
-    private static long startTime = 0;
-    private static long endTime = 0;
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +117,12 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         if (null != getToolbar() && isShowBacking()){
             showBack();
         }
-        if (!CommonUtils.netIsConnected(this)){
-            CommonUtils.makeText(this,"当前网络不可用");
+        if (CommonUtils.netIsConnected(this) && CommonUtils.getNetworkType(this) != 1){
+            CommonUtils.makeText(this,"注意，你现在使用的是4G网络。");
+        }else if (!CommonUtils.netIsConnected(this)){
+            CommonUtils.makeText(this,"无网络连接");
         }
+
     }
 
     public int getLoginStatus(){
@@ -134,14 +135,11 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = CommonUtils.getSystemTime();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        endTime = CommonUtils.getSystemTime();
-        Constants.onlineTime = Constants.onlineTime + (endTime - startTime);
     }
 
     public abstract int initLayout();
@@ -227,9 +225,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
 
         super.onDestroy();
-        if (baseApplication.getCount() == 0){
-            Log.e(TAG, "在线时长(全退出)"+CommonUtils.msTomin(Constants.onlineTime));
-        }
+
 //        if (unbinder != null && unbinder != Unbinder.EMPTY){
 //            unbinder.unbind();
 //        }

@@ -114,4 +114,14 @@ public class ClassListFragment extends BaseFragment implements SwipeRefreshLayou
     public void onRefresh() {
         swpFragment.setRefreshing(false);
     }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            //Fragment隐藏时调用
+        }else {
+            //Fragment显示时调用
+        }
+
+    }
 }

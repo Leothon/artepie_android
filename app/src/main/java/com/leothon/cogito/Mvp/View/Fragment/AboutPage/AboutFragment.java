@@ -163,9 +163,13 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden){
+        if (hidden){
+            //Fragment隐藏时调用
+        }else {
+            //Fragment显示时调用
 
         }
+
     }
 
 

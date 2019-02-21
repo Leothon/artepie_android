@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="10dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/article_img"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/defalutimg"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius_top_left="10dp"
+            app:riv_corner_radius_top_right="10dp"/>
+        <TextView
+            android:id="@+id/article_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/black"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@+id/article_img"/>
+
+        <TextView
+            android:id="@+id/article_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="内容只显示三行"
+            android:maxLines="3"
+            android:textSize="@dimen/tipsSize"
+            android:textColor="@color/fontColor"
+            android:paddingStart="15dp"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="15dp"
+            android:layout_below="@+id/article_title"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/article_content"
+            android:background="@color/dividerColor"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/article_content"
+            android:padding="4dp">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/article_author_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/defaulticon"
+                app:riv_oval="true"/>
+            <TextView
+                android:id="@+id/article_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="作者"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:textSize="12sp"
+                android:layout_toRightOf="@+id/article_author_icon" />
+
+            <TextView
+                android:id="@+id/article_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="02-13 14：25"
+                android:layout_marginEnd="5dp"
+                android:textSize="12sp"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -132,22 +132,22 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 //imageView.setImageResource(R.drawable.activityback);
                 //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
                 imageView.setTag(ask.getQa_video());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        bitmap = CommonUtils.getVideoThumbnail(ask.getQa_video());
-                        Message msg = new Message();
-                        msg.what = COMPLETED;
-                        handler.sendMessage(msg);
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        bitmap = CommonUtils.getVideoThumbnail(ask.getQa_video());
+//                        Message msg = new Message();
+//                        msg.what = COMPLETED;
+//                        handler.sendMessage(msg);
+//                    }
+//                }).start();
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-                if (imageView.getTag().equals(ask.getQa_video())){
-                    gsyVideoOption.setThumbImageView(imageView);
-                }
+//                if (imageView.getTag().equals(ask.getQa_video())){
+//                    gsyVideoOption.setThumbImageView(imageView);
+//                }
                 gsyVideoOption
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
@@ -281,14 +281,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == COMPLETED) {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
-    };
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == COMPLETED) {
+//                imageView.setImageBitmap(bitmap);
+//            }
+//        }
+//    };
 
 
     private void intoIndividual(QAData ask){

@@ -11,6 +11,7 @@ import android.support.multidex.MultiDex;
 
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 

@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,9 +138,15 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden){
-
+        if (hidden){
+            //Fragment隐藏时调用
+            return;
+        }else {
+            //Fragment显示时调用
+//            askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+//            swpAsk.setRefreshing(true);
         }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -174,10 +174,14 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden){
-
+        if (hidden){
+            //Fragment隐藏时调用
+        }else {
+            //Fragment显示时调用
         }
+
     }
+
     public void initAdapter() {
         swp.setOnRefreshListener(this);
         if (baseApplication.getLoginStatus() == 1){
