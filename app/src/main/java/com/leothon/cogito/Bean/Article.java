@@ -3,12 +3,31 @@ package com.leothon.cogito.Bean;
 import com.leothon.cogito.Http.BaseResponse;
 
 public class Article extends BaseResponse {
+
+    private String articleId;
     private String articleImg;
     private String articleTitle;
     private String articleContent;
     private String articleAuthorIcon;
     private String articleAuthorName;
     private String articleTime;
+    private String articleAuthorId;
+
+    public String getArticleAuthorId() {
+        return articleAuthorId;
+    }
+
+    public void setArticleAuthorId(String articleAuthorId) {
+        this.articleAuthorId = articleAuthorId;
+    }
+
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
+    }
 
     public String getArticleAuthorIcon() {
         return articleAuthorIcon;

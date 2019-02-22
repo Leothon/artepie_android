@@ -1,11 +1,13 @@
 package com.leothon.cogito.Http;
 
 
+import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Bean.verify;
+import com.leothon.cogito.DTO.ArticleData;
 import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.DTO.CommentDetail;
@@ -155,4 +157,13 @@ public interface HttpService {
 
     @GET("getbagpagedata")
     Observable<BaseResponse<BagPageData>> getBagPageData(@Query("token") String token);
+
+    @GET("getarticledata")
+    Observable<BaseResponse<ArticleData>> getArticleData(@Query("token") String token);
+
+    @GET("getarticledetail")
+    Observable<BaseResponse<Article>> getArticleDetail(@Query("token") String token,@Query("articleid") String articleId);
+
+    @POST("uploadarticle")
+    Observable<BaseResponse<String>> uploadArticle(@Body Article Article);
 }

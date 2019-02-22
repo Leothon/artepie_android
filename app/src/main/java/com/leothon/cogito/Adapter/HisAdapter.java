@@ -59,7 +59,6 @@ public class HisAdapter extends RecyclerView.Adapter {
         hisViewHolder.favClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 删除该条浏览历史
                 removeViewOnClickListener.removeViewClickListener(classDetailList.getClassd_id());
                 classDetailLists.remove(position);
                 notifyItemRemoved(position);
@@ -70,7 +69,6 @@ public class HisAdapter extends RecyclerView.Adapter {
         hisViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 跳转相关页面
                 Bundle bundle = new Bundle();
                 bundle.putString("classid",classDetailList.getClass_classd_id());
                 bundle.putString("classdid",classDetailList.getClassd_id());

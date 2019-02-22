@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
+import com.leothon.cogito.Bean.Article;
+
 public class WriteArticlePresenter implements WriteArticleContract.IWriteArticlePresenter,WriteArticleContract.OnWriteArticleFinishedListener {
     private WriteArticleContract.IWriteArticleView iWriteArticleView;
     private WriteArticleContract.IWriteArticleModel iWriteArticleModel;
@@ -7,6 +9,13 @@ public class WriteArticlePresenter implements WriteArticleContract.IWriteArticle
     public WriteArticlePresenter(WriteArticleContract.IWriteArticleView iWriteArticleView){
         this.iWriteArticleView = iWriteArticleView;
         this.iWriteArticleModel = new WriteArticleModel();
+    }
+
+    @Override
+    public void isUploadSuccess(String info) {
+        if (iWriteArticleView != null){
+            iWriteArticleView.isUploadSuccess(info);
+        }
     }
 
     @Override
@@ -21,6 +30,11 @@ public class WriteArticlePresenter implements WriteArticleContract.IWriteArticle
         if (iWriteArticleView != null){
             iWriteArticleView.showInfo(msg);
         }
+    }
+
+    @Override
+    public void uploadArticleInfo(Article article) {
+        iWriteArticleModel.uploadArticle(article,this);
     }
 
     @Override

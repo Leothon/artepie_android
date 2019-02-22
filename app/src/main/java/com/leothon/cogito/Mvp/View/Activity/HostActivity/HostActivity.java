@@ -1,21 +1,17 @@
 package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -23,14 +19,11 @@ import com.leothon.cogito.Mvp.View.Fragment.AboutPage.AboutFragment;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
 import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
-import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
+import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 
 import java.util.ArrayList;
@@ -68,7 +61,7 @@ public class HostActivity extends BaseActivity  {
     CardView barHost;
     //private  Fragment  currentFragment = new Fragment();
 //    Fragment homePage = HomeFragment.newInstance();
-//    Fragment micClassPage = MicClassFragment.newInstance();
+//    Fragment micClassPage = ArticleListFragment.newInstance();
 //    Fragment askPage = AskFragment.newInstance();
 //    Fragment bagPage = BagFragment.newInstance();
 //    Fragment aboutPage = AboutFragment.newInstance();
@@ -242,7 +235,7 @@ public class HostActivity extends BaseActivity  {
             case MICCLASSPAGE:
                 focusOnMic();
                 if (micClassPage == null){
-                    micClassPage = MicClassFragment.newInstance();
+                    micClassPage = ArticleListFragment.newInstance();
                     transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
                 }else{
                     transaction.show(micClassPage);

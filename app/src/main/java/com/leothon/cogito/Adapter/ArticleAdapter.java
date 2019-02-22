@@ -12,6 +12,7 @@ import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.Banner;
 import com.leothon.cogito.DTO.ArticleData;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -31,8 +32,7 @@ public class ArticleAdapter extends BaseAdapter {
         holder.setImageUrls(R.id.article_img,article.getArticleImg());
         holder.setImageUrls(R.id.article_author_icon,article.getArticleAuthorIcon());
         holder.setText(R.id.article_author,article.getArticleAuthorName());
-        holder.setText(R.id.article_time,article.getArticleTime());
-        holder.setText(R.id.article_content,article.getArticleContent());
+        holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
         holder.setText(R.id.article_title,article.getArticleTitle());
 
     }

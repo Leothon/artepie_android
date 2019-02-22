@@ -84,7 +84,6 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             selectHeadHolder.selectClassFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 收藏和取消
                     favOnClickListener.favClickListener(classDetail.getTeaClasss().isIsfav(),classDetail.getTeaClasss().getSelectId());
                     if (!classDetail.getTeaClasss().isIsfav()){
                         selectHeadHolder.selectClassFav.setImageResource(R.drawable.faved);

@@ -92,7 +92,6 @@ public class FavAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
-                        //TODO 删除该收藏
                         removeFavOnClickListener.removeFavClickListener(selectClasses.get(position).getSelectId());
                         selectClasses.remove(position);
                         notifyItemRemoved(position);

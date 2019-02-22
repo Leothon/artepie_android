@@ -128,7 +128,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             buyClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 跳转到课程分类
                     int position1 = position - 1;
                     Bundle bundle = new Bundle();
                     bundle.putString("classId",buyClass.getSelectId());

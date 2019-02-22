@@ -82,7 +82,6 @@ public class DownloadAdapter extends RecyclerView.Adapter {
         downloadViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 跳转相关页面
 //                Bundle bundle = new Bundle();
 //                bundle.putString("url",downloads.get(position).getFavurl());
 //                bundle.putString("title",downloads.get(position).getTitle());

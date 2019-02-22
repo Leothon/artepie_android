@@ -208,7 +208,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                                 askViewHolder.likeAsk.setText(Integer.toString(likeint));
                             }
                             ask.setLiked(true);
-                            //TODO 加载点赞
 
 
                         } else {
@@ -226,7 +225,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                                 askViewHolder.likeAsk.setText(Integer.toString(likeint));
                             }
                             ask.setLiked(false);
-                            //TODO 取消点赞
                         }
                     }else {
                         CommonUtils.loadinglogin(context);
@@ -238,7 +236,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 跳转个人主页
 
                    intoIndividual(ask);
                 }
@@ -246,14 +243,12 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.userName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 跳转个人主页
                     intoIndividual(ask);
                 }
             });
             askViewHolder.userDes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 跳转个人主页
                    intoIndividual(ask);
                 }
             });

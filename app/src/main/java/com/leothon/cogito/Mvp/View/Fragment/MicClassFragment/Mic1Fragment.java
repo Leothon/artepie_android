@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.leothon.cogito.Adapter.Mic1ClassAdapter;
 import com.leothon.cogito.Bean.MicClass;
 import com.leothon.cogito.Mvp.BaseFragment;
-import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
+import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
 
 import java.util.ArrayList;
@@ -158,11 +158,11 @@ public class Mic1Fragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void animationHide(){
-        ((MicClassFragment) (Mic1Fragment.this.getParentFragment())).hideTab();
+        ((ArticleListFragment) (Mic1Fragment.this.getParentFragment())).hideTab();
     }
 
     private void animationShow(){
-        ((MicClassFragment) (Mic1Fragment.this.getParentFragment())).showTab();
+        ((ArticleListFragment) (Mic1Fragment.this.getParentFragment())).showTab();
     }
     @Override
     public void onRefresh() {

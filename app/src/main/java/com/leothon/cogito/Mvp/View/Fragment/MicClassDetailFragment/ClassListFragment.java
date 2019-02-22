@@ -1,17 +1,11 @@
 package com.leothon.cogito.Mvp.View.Fragment.MicClassDetailFragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.DetailClassAdapter;
@@ -19,11 +13,8 @@ import com.leothon.cogito.Bean.DetailClass;
 
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.MicClassActivity.Mic2ClassActivity;
-import com.leothon.cogito.Mvp.View.Fragment.MicClassFragment.Mic1Fragment;
-import com.leothon.cogito.Mvp.View.Fragment.MicClassPage.MicClassFragment;
 import com.leothon.cogito.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;

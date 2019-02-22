@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
+import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -45,6 +46,37 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
                         String url = baseResponse.getError();
 
                         listener.getUploadImgUrl(url);
+                    }
+                });
+    }
+
+    @Override
+    public void uploadArticle(Article article, final WriteArticleContract.OnWriteArticleFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .uploadArticle(article)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        String url = baseResponse.getError();
+
+                        listener.isUploadSuccess(url);
                     }
                 });
     }

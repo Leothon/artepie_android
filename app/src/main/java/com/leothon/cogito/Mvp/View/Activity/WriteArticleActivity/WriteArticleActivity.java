@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -23,6 +25,7 @@ import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassContr
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FontStyle;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.FontStyleMenu;
 import com.leothon.cogito.View.RichEditTextView;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -35,6 +38,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -189,6 +194,15 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     }
 
     @Override
+    public void isUploadSuccess(String info) {
+        hideLoadingAnim();
+        CommonUtils.makeText(this,"文章发布成功");
+        Article article = new Article();
+        EventBus.getDefault().post(article);
+        super.onBackPressed();
+    }
+
+    @Override
     public void getUploadImgUrl(String url) {
         String urlPath = Api.ComUrl + "resource/" + url;
         writeArticleContent.setImg(urlPath);
@@ -212,7 +226,26 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     public void sendArticle(View view){
         //TODO 发送文章
 
-        Log.e(TAG, CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE));
+        Article article = new Article();
+        if (!writeArticleContent.getText().toString().equals("") && !writeArticleTitle.getText().toString().equals("")){
+
+            String articleImg = CommonUtils.getImgStr(CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)).get(0);
+            if (!articleImg.equals("")){
+                article.setArticleImg(articleImg);
+            }
+
+
+            article.setArticleTitle(writeArticleTitle.getText().toString());
+            article.setArticleContent(CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE));
+            TokenValid tokenValid  = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+            String uuid = tokenValid.getUid();
+            article.setArticleAuthorId(uuid);
+            writeArticlePresenter.uploadArticleInfo(article);
+            showLoadingAnim();
+        }else {
+            CommonUtils.makeText(this,"请完成文章所有内容后提交！");
+        }
+
     }
     private void loadDialog(){
         final CommonDialog dialog = new CommonDialog(this);
@@ -238,7 +271,11 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
                 .show();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        writeArticlePresenter.onDestroy();
+    }
 
     @Override
     public BasePresenter initPresenter() {

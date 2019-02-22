@@ -268,7 +268,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //            classHolder classholder = (classHolder) holder;
 //            classholder.tagnameInClass.setText("公益讲堂");
 //
-//             //TODO 需要判定是讲课还是活动，分别进行跳转
+//
 //            classholder.class1.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
@@ -357,7 +357,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         else if (viewType == HEAD5){
             return;
         }else if (viewType == HEAD6){
-            //TODO 增加更多的数据显示
             final foryouHolder foryouholder = (foryouHolder) holder;
             final int videoPosition = position - 4;
             //foryouholder.foryouIV.setTag(videoPosition);

@@ -156,7 +156,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.contentDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO 回调接口，实现点击滑到评论
                 }
             });
             detailViewHolder.likeDetail.setOnClickListener(new View.OnClickListener() {

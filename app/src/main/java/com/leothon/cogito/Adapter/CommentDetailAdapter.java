@@ -126,7 +126,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                             commentDetailViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
                         }
                         commentDetail.getComment().setComment_liked(true);
-                        //TODO 加载点赞
                     }else {
                         commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
                         String like =commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
@@ -138,7 +137,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                             commentDetailViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
                         }
                         commentDetail.getComment().setComment_liked(false);
-                        //TODO 取消点赞
                     }
                 }
             });
@@ -205,7 +203,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                             commentDetailRvViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
                         }
                         commentDetail.getReplies().get(position1).setReply_liked(true);
-                        //TODO 加载点赞
                     } else {
                         commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
                         String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
@@ -217,7 +214,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                             commentDetailRvViewHolder.commentLikeCommentDetail.setText(Integer.toString(likeint));
                         }
                         commentDetail.getReplies().get(position1).setReply_liked(false);
-                        //TODO 取消点赞
                     }
 
                 }
