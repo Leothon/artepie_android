@@ -84,7 +84,8 @@ public interface HttpService {
 
     @GET("getqadetail")
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
-
+    @GET("getqainfo")
+    Observable<BaseResponse<QAData>> getQA(@Query("token") String token,@Query("qaid") String qaId);
     @GET("getcommentdetail")
     Observable<BaseResponse<CommentDetail>> getCommentDetail(@Query("commentid") String commentId,@Query("token") String token);
 
@@ -166,4 +167,7 @@ public interface HttpService {
 
     @POST("uploadarticle")
     Observable<BaseResponse<String>> uploadArticle(@Body Article Article);
+
+    @POST("sendre")
+    Observable<BaseResponse<String>> sendRe(@Query("token") String token,@Query("content") String content,@Query("qaid") String qaId);
 }

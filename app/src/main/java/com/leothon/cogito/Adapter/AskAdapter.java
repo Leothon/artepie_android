@@ -2,22 +2,31 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
@@ -104,7 +113,31 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUser_icon(),askViewHolder.userIcon,R.drawable.defaulticon);
             askViewHolder.userName.setText(ask.getUser_name());
             askViewHolder.userDes.setText(ask.getUser_signal());
-            askViewHolder.contentAsk.setText(ask.getQa_content());
+
+            if (ask.getReQA().size() > 1){
+
+                String re = ask.getQa_content();
+                for (int i = 0;i < ask.getReQA().size() - 1;i ++){
+                    re = re + " //@" + ask.getReQA().get(i).getUser_name() + ": " + ask.getReQA().get(i).getQa_content();
+
+                }
+                SpannableString spannableString = new SpannableString(re);
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+//                for (int i = 0;i < ask.getReQA().size() - 1;i ++){
+//
+////                    MyClickableSpan clickableSpan = new MyClickableSpan(ask.getReQA().get(i));
+////                    spannableString.setSpan(clickableSpan, re.indexOf("//"), re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//                }
+
+                askViewHolder.contentAsk.setText(spannableString);
+
+            }else {
+                askViewHolder.contentAsk.setText(ask.getQa_content());
+            }
+
+
 
             if (ask.getQa_like() == null && ask.getQa_like().equals("0")){
                 askViewHolder.likeAsk.setText("喜欢");
@@ -129,25 +162,15 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
                 imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                //imageView.setImageResource(R.drawable.activityback);
-                //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
+                ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
                 imageView.setTag(ask.getQa_video());
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        bitmap = CommonUtils.getVideoThumbnail(ask.getQa_video());
-//                        Message msg = new Message();
-//                        msg.what = COMPLETED;
-//                        handler.sendMessage(msg);
-//                    }
-//                }).start();
+
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-//                if (imageView.getTag().equals(ask.getQa_video())){
-//                    gsyVideoOption.setThumbImageView(imageView);
-//                }
+                if (imageView.getTag().equals(ask.getQa_video())){
+                    gsyVideoOption.setThumbImageView(imageView);
+                }
                 gsyVideoOption
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
@@ -268,6 +291,86 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                 }
             });
+
+
+            if (ask.getReQA().size() != 0){
+                askViewHolder.reContentLL.setVisibility(View.VISIBLE);
+                final QAData reShowQA = ask.getReQA().get(ask.getReQA().size() - 1);
+                askViewHolder.reUserName.setText("@" + reShowQA.getUser_name());
+                askViewHolder.reContent.setText(reShowQA.getQa_content());
+                if (reShowQA.getQa_like().equals("") && reShowQA.getQa_like() == null){
+                    askViewHolder.reLike.setText("喜欢：0");
+                }else {
+                    askViewHolder.reLike.setText("喜欢：" + reShowQA.getQa_like());
+                }
+                if (reShowQA.getQa_comment().equals("") && reShowQA.getQa_comment() == null){
+                    askViewHolder.reComment.setText("评论：0");
+                }else {
+                    askViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
+                }
+                if (reShowQA.getQa_video() != null) {
+                    askViewHolder.reVideo.setVisibility(View.VISIBLE);
+                    imageView = new ImageView(context);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), imageView, R.drawable.defalutimg);
+                    imageView.setTag(reShowQA.getQa_video());
+
+
+
+                    GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+                if (imageView.getTag().equals(reShowQA.getQa_video())){
+                    gsyVideoOption.setThumbImageView(imageView);
+                }
+                    gsyVideoOption
+                            .setIsTouchWiget(true)
+                            .setRotateViewAuto(true)
+                            .setLockLand(false)
+                            .setAutoFullWithSize(true)
+                            .setShowFullAnimation(false)
+                            .setNeedLockFull(true)
+                            .setUrl(ask.getQa_video())
+                            .setCacheWithPlay(false)
+                            .setVideoTitle("")
+                            .build(askViewHolder.reVideo);
+                    askViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
+                    askViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
+
+                }else {
+                    askViewHolder.reVideo.setVisibility(View.GONE);
+                }
+
+                askViewHolder.reContentLL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isLogin){
+                            Bundle bundleto = new Bundle();
+                            bundleto.putString("qaId",reShowQA.getQa_id());
+                            IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
+                    }
+                });
+            }else {
+                askViewHolder.reContentLL.setVisibility(View.GONE);
+            }
+
+
+            askViewHolder.reBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isLogin){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("type","re");
+                        bundle.putString("qaId",ask.getQa_id());
+                        IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
+                }
+            });
         }else if(viewType == HEAD1){
             return;
         }
@@ -276,14 +379,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     }
 
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            if (msg.what == COMPLETED) {
-//                imageView.setImageBitmap(bitmap);
-//            }
-//        }
-//    };
 
 
     private void intoIndividual(QAData ask){
@@ -301,10 +396,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
 
-//    public ImageView addImageView(){
-//        ImageView imageView = new ImageView(context);
-//        return imageView;
-//    }
+
     @Override
     public int getItemCount() {
         return asks.size() + 1;
@@ -341,7 +433,26 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.more_ask)
         ImageView moreAsk;
 
+        @BindView(R.id.re_btn)
+        ImageView reBtn;
 
+        @BindView(R.id.re_content_ll)
+        RelativeLayout reContentLL;
+
+        @BindView(R.id.re_user_name)
+        TextView reUserName;
+
+        @BindView(R.id.re_content)
+        TextView reContent;
+
+        @BindView(R.id.re_like)
+        TextView reLike;
+
+        @BindView(R.id.re_comment)
+        TextView reComment;
+
+        @BindView(R.id.re_video_player)
+        StandardGSYVideoPlayer reVideo;
 
         @BindView(R.id.video_item_player)
         StandardGSYVideoPlayer gsyVideoPlayer;
@@ -373,5 +484,26 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     public interface addLikeOnClickListener{
         void addLikeClickListener(boolean isLike,String qaId);
+    }
+
+    class MyClickableSpan extends ClickableSpan {
+
+        private QAData qaData;
+
+        public MyClickableSpan(QAData qaData) {
+            this.qaData = qaData;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+
+            intoIndividual(qaData);
+
+        }
     }
 }

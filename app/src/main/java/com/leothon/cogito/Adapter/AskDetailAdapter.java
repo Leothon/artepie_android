@@ -2,6 +2,7 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,9 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +25,10 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.BagBuy;
+import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
+import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
@@ -127,7 +134,28 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getUser_icon(), detailViewHolder.userIcon, R.drawable.defaulticon);
             detailViewHolder.userName.setText(qaDataDetail.getQaData().getUser_name());
             detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
-            detailViewHolder.contentDetail.setText(qaDataDetail.getQaData().getQa_content());
+            if (qaDataDetail.getQaData().getReQA().size() > 1){
+
+                String re = qaDataDetail.getQaData().getQa_content();
+                for (int i = 0;i < qaDataDetail.getQaData().getReQA().size() - 1;i ++){
+                    re = re + " //@" + qaDataDetail.getQaData().getReQA().get(i).getUser_name() + ": " + qaDataDetail.getQaData().getReQA().get(i).getQa_content();
+
+                }
+                SpannableString spannableString = new SpannableString(re);
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+
+//                for (int i = 0;i < qaDataDetail.getQaData().getReQA().size() - 1;i ++){
+////                    MyClickableSpan clickableSpan = new MyClickableSpan(ask.getReQA().get(i));
+////                    spannableString.setSpan(clickableSpan, re.indexOf("//"), re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//                }
+
+                detailViewHolder.contentDetail.setText(spannableString);
+
+            }else {
+                detailViewHolder.contentDetail.setText(qaDataDetail.getQaData().getQa_content());
+            }
 
             if (qaDataDetail.getQaData().getQa_like() == null && qaDataDetail.getQaData().getQa_like().equals("0")) {
                 detailViewHolder.likeDetail.setText("喜欢");
@@ -202,16 +230,13 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        bitmap = CommonUtils.getVideoThumbnail(qaDataDetail.getQaData().getQa_video());
-//                        Message msg = new Message();
-//                        msg.what = COMPLETED;
-//                        handler.sendMessage(msg);
-//                    }
-//                }).start();
+
+                ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getQa_video_cover(), imageView, R.drawable.defalutimg);
+                imageView.setTag(qaDataDetail.getQaData().getQa_video());
+
+
+
+
                 detailViewHolder.VideoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -221,7 +246,10 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-                gsyVideoOption.setThumbImageView(imageView)
+                if (imageView.getTag().equals(qaDataDetail.getQaData().getQa_video())){
+                    gsyVideoOption.setThumbImageView(imageView);
+                }
+                gsyVideoOption
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
                         .setLockLand(false)
@@ -268,7 +296,73 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
             });
+            if (qaDataDetail.getQaData().getReQA().size() != 0){
+                detailViewHolder.reContentLL.setVisibility(View.VISIBLE);
+                final QAData reShowQA = qaDataDetail.getQaData().getReQA().get(qaDataDetail.getQaData().getReQA().size() - 1);
+                detailViewHolder.reUserName.setText("@" + reShowQA.getUser_name());
+                detailViewHolder.reContent.setText(reShowQA.getQa_content());
+                if (reShowQA.getQa_like().equals("") && reShowQA.getQa_like() == null){
+                    detailViewHolder.reLike.setText("喜欢：0");
+                }else {
+                    detailViewHolder.reLike.setText("喜欢：" + reShowQA.getQa_like());
+                }
+                if (reShowQA.getQa_comment().equals("") && reShowQA.getQa_comment() == null){
+                    detailViewHolder.reComment.setText("评论：0");
+                }else {
+                    detailViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
+                }
+                if (reShowQA.getQa_video() != null) {
+                    detailViewHolder.reVideo.setVisibility(View.VISIBLE);
+                    imageView = new ImageView(context);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getQa_video_cover(), imageView, R.drawable.defalutimg);
+                    imageView.setTag(qaDataDetail.getQaData().getQa_video());
 
+
+
+                    GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+                if (imageView.getTag().equals(qaDataDetail.getQaData().getQa_video())){
+                    gsyVideoOption.setThumbImageView(imageView);
+                }
+                    gsyVideoOption
+                            .setIsTouchWiget(true)
+                            .setRotateViewAuto(true)
+                            .setLockLand(false)
+                            .setAutoFullWithSize(true)
+                            .setShowFullAnimation(false)
+                            .setNeedLockFull(true)
+                            .setUrl(qaDataDetail.getQaData().getQa_video())
+                            .setCacheWithPlay(false)
+                            .setVideoTitle("")
+                            .build(detailViewHolder.reVideo);
+                    detailViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
+                    detailViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
+
+                }else {
+                    detailViewHolder.reVideo.setVisibility(View.GONE);
+                }
+
+                detailViewHolder.reContentLL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("qaId",reShowQA.getQa_id());
+                        IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                    }
+                });
+            }else {
+                detailViewHolder.reContentLL.setVisibility(View.GONE);
+            }
+
+            detailViewHolder.reBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("type","re");
+                        bundle.putString("qaId",qaDataDetail.getQaData().getQa_id());
+                        IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+                }
+            });
         } else if (viewType == HEAD1) {
 
 
@@ -527,6 +621,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     }
                 });
+
+
             }
 
 
@@ -591,6 +687,25 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.comment_ask_detail)
         TextView commentDetail;
 
+        @BindView(R.id.re_btn_detail)
+        ImageView reBtn;
+        @BindView(R.id.re_detail_ll)
+        RelativeLayout reContentLL;
+
+        @BindView(R.id.re_detail_user_name)
+        TextView reUserName;
+
+        @BindView(R.id.re_detail_content)
+        TextView reContent;
+
+        @BindView(R.id.re_detail_like)
+        TextView reLike;
+
+        @BindView(R.id.re_detail_comment)
+        TextView reComment;
+
+        @BindView(R.id.re_detail_video_player)
+        StandardGSYVideoPlayer reVideo;
         public DetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

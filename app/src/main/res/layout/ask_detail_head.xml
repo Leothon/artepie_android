@@ -67,8 +67,60 @@
             android:textSize="@dimen/contentSize"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:textColor="@color/fontColor"/>
+            android:textColor="@color/black"/>
+        <RelativeLayout
+            android:id="@+id/re_detail_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recontentback"
+            android:layout_margin="5dp"
+            android:visibility="visible"
+            android:padding="3dp">
 
+            <TextView
+                android:id="@+id/re_detail_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#Leothon: "
+                android:textColor="@color/actionsheet_blue"
+                android:padding="5dp"/>
+            <TextView
+                android:id="@+id/re_detail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="内容"
+                android:layout_below="@+id/re_detail_user_name"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/black"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/re_detail_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点赞"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/tipsSize"
+                android:layout_below="@+id/re_detail_content"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/re_detail_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/tipsSize"
+                android:layout_below="@+id/re_detail_content"
+                android:layout_toRightOf="@+id/re_detail_like"
+                android:padding="5dp"/>
+            <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+                android:layout_below="@+id/re_detail_like"
+                android:layout_margin="8dp"
+                android:id="@+id/re_detail_video_player"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/post_media_height"/>
+        </RelativeLayout>
         <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
             android:layout_marginTop="10dp"
             android:id="@+id/detail_video_player"
@@ -110,6 +162,16 @@
             android:text="评论"
             android:textSize="@dimen/tipsSize"
             android:textColor="@color/fontColor"/>
+
+        <ImageView
+            android:id="@+id/re_btn_detail"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/retw"
+            android:tint="@color/fontColor"
+            android:layout_toRightOf="@+id/comment_ask_detail"
+            android:layout_marginLeft="20dp"
+            android:padding="3dp"/>
     </RelativeLayout>
 
     <View

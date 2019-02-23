@@ -102,12 +102,30 @@
                     android:src="@drawable/video_play_normal"
                     android:layout_centerInParent="true"/>
             </RelativeLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ask_img_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            </LinearLayout>
+                android:orientation="horizontal"
+                android:background="@drawable/recontentback"
+                android:layout_margin="20dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/write_re_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#Leothon"
+                    android:textColor="@color/actionsheet_blue"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/write_re_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="内容"
+                    android:layout_below="@+id/write_re_user_name"/>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

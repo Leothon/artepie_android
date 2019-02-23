@@ -263,7 +263,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
         }else if (baseApplication.getLoginStatus() == 1){
-            IntentUtils.getInstence().intent(getMContext(), AskActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("type","write");
+            IntentUtils.getInstence().intent(getMContext(), AskActivity.class,bundle);
         }
 
 

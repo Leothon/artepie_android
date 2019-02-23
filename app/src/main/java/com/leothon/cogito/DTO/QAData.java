@@ -1,5 +1,7 @@
 package com.leothon.cogito.DTO;
 
+import java.util.ArrayList;
+
 public class QAData {
     private String qa_id;
     private String qa_user_id;
@@ -17,6 +19,25 @@ public class QAData {
     private boolean liked;
     private String qa_video_cover;
 
+    private String qa_re_id;
+
+    public String getQa_re_id() {
+        return qa_re_id;
+    }
+
+    public void setQa_re_id(String qa_re_id) {
+        this.qa_re_id = qa_re_id;
+    }
+
+    private ArrayList<QAData> reQA;
+
+    public ArrayList<QAData> getReQA() {
+        return reQA;
+    }
+
+    public void setReQA(ArrayList<QAData> reQA) {
+        this.reQA = reQA;
+    }
 
     public boolean isLiked() {
         return liked;

@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SendQAData;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
@@ -67,16 +71,25 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @BindView(R.id.ask_content)
     MaterialEditText askContent;
     @BindView(R.id.ask_img_layout)
-    LinearLayout askImgLayout;
+    RelativeLayout askImgLayout;
     @BindView(R.id.upload_cover_ll)
     RelativeLayout uploadCover;
     @BindView(R.id.upload_cover_img)
     RoundedImageView uploadImgCover;
 
+    @BindView(R.id.write_re_user_name)
+    TextView reUserName;
+    @BindView(R.id.write_re_content)
+    TextView reContent;
     @BindView(R.id.delete_video)
     ImageView deleteVideo;
     String filePath = "";
+
+    private Bundle bundle;
+    private Intent intent;
     private UserEntity userEntity;
+
+    private String coverImg = "";
 
     private static int VIDEO = PictureMimeType.ofVideo();
     private static int AUDIO = PictureMimeType.ofAudio();
@@ -100,8 +113,23 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     }
     @Override
     public void initView() {
+        intent = getIntent();
+        bundle = intent.getExtras();
+
+        if (bundle.getString("type").equals("re")){
+            askAddImg.setVisibility(View.GONE);
+            askAddSound.setVisibility(View.GONE);
+            setToolbarTitle("转发");
+
+            askActivityPresenter.getReInfo(bundle.getString("qaId"),activitysharedPreferencesUtils.getParams("token","").toString());
+
+        }else {
+            askAddImg.setVisibility(View.VISIBLE);
+            askAddSound.setVisibility(View.VISIBLE);
+            setToolbarTitle("");
+        }
         setToolbarSubTitle("");
-        setToolbarTitle("");
+
         Icon.setVisibility(View.VISIBLE);
         ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),Icon,R.drawable.defaulticon);
         send.setVisibility(View.VISIBLE);
@@ -190,22 +218,37 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @OnClick(R.id.send_icon)
     public void sendAsk(View view){
 
-        sendQAData = new SendQAData();
-        sendQAData.setToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        if (bundle.getString("type").equals("re")){
 
-        sendQAData.setQa_content(askContent.getText().toString());
-        if (askContent.getText().toString().equals("")){
-            CommonUtils.makeText(this,"请输入问题描述");
-        }else if (askContent.getText().toString().length() > 140){
-            CommonUtils.makeText(this,"最多字数限制为140字");
-        }else {
+            String content = askContent.getText().toString();
+            if (content.contains("//@")){
+                content = content.substring(0,content.indexOf("//@"));
+            }
+
+
+
+            askActivityPresenter.reContent(activitysharedPreferencesUtils.getParams("token","").toString(),content,bundle.getString("qaId"));
             showLoadingAnim();
-            if (filePath.equals("")){
-                askActivityPresenter.sendData(sendQAData);
+        }else {
+            sendQAData = new SendQAData();
+            sendQAData.setToken(activitysharedPreferencesUtils.getParams("token","").toString());
+
+            sendQAData.setQa_video_cover(coverImg);
+            sendQAData.setQa_content(askContent.getText().toString());
+            if (askContent.getText().toString().equals("")){
+                CommonUtils.makeText(this,"请输入问题描述");
+            }else if (askContent.getText().toString().length() > 140){
+                CommonUtils.makeText(this,"最多字数限制为140字");
             }else {
-                askActivityPresenter.uploadFile(filePath);
+                showLoadingAnim();
+                if (filePath.equals("")){
+                    askActivityPresenter.sendData(sendQAData);
+                }else {
+                    askActivityPresenter.uploadFile(filePath);
+                }
             }
         }
+
     }
 
     @OnClick(R.id.ask_add_sound)
@@ -238,6 +281,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @Override
     public void sendSuccess(String msg) {
         EventBus.getDefault().post(msg);
+        hideLoadingAnim();
         PictureFileUtils.deleteCacheDirFile(AskActivity.this);
         super.onBackPressed();
     }
@@ -245,6 +289,63 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @Override
     public void showInfo(String msg) {
         CommonUtils.makeText(this,msg);
+    }
+
+    @Override
+    public void getReInfo(QAData qaData) {
+        askImgLayout.setVisibility(View.VISIBLE);
+        if (qaData.getReQA().size() == 0){
+            reUserName.setText("@" + qaData.getUser_name());
+            reContent.setText(qaData.getQa_content());
+        }else if (qaData.getReQA().size() == 1){
+            reUserName.setText("@" + qaData.getReQA().get(0).getUser_name());
+            reContent.setText(qaData.getReQA().get(0).getQa_content());
+            String content = "//@" + qaData.getUser_name() + ":" + qaData.getQa_content();
+            SpannableString spannableString = new SpannableString(content);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+            spannableString.setSpan(colorSpan, content.indexOf("@"),content.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            askContent.setText(spannableString);
+            askContent.setSelection(0);
+        }else {
+            reUserName.setText("@" + qaData.getReQA().get(qaData.getReQA().size() - 1).getUser_name());
+            reContent.setText(qaData.getReQA().get(qaData.getReQA().size() - 1).getQa_content());
+            int reSize = qaData.getReQA().size();
+            String re = "//@" + qaData.getUser_name() + ":" + qaData.getQa_content();
+            for (int i = 0;i < reSize - 1;i ++){
+                re = re + " //@" + qaData.getReQA().get(i).getUser_name() + ": " + qaData.getReQA().get(i).getQa_content();
+
+            }
+            SpannableString spannableString = new SpannableString(re);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+
+            spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//            for (int i = 0;i < qaData.getReQA().size() - 1;i ++){
+//
+////                MyClickableSpan clickableSpan = new MyClickableSpan(ask.getReQA().get(i));
+////                spannableString.setSpan(clickableSpan, re.indexOf("//"), re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//            }
+
+            askContent.setText(spannableString);
+            askContent.setSelection(0);
+
+        }
+
+
+    }
+
+    @Override
+    public void reSuccess(String msg) {
+        hideLoadingAnim();
+        EventBus.getDefault().post(msg);
+        super.onBackPressed();
+    }
+
+    @Override
+    public void getImgUrl(String url) {
+
+        hideLoadingAnim();
+
+        coverImg = Api.ComUrl + "resource/" + url;
     }
 
 
@@ -311,6 +412,8 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                     filePath = selectList.get(0).getPath();
                     uploadCover.setVisibility(View.VISIBLE);
                     uploadImgCover.setImageBitmap(CommonUtils.getVideoThumb(filePath));
+                    askActivityPresenter.uploadVideoImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(filePath)));
+                    showLoadingAnim();
                     break;
             }
         }
