@@ -257,6 +257,11 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
 
     }
 
+    @Override
+    public void deleteSuccess(String msg) {
+
+    }
+
     @OnClick(R.id.comment_in_comment_detail)
     public void CommentSendToCommentDetail(View view){
 

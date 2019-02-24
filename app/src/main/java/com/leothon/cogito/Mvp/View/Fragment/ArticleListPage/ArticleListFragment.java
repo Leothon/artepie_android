@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.ArticleListPage;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -8,13 +9,20 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.DTO.ArticleData;
 import com.leothon.cogito.Mvp.BaseFragment;
@@ -34,6 +42,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.7.29
@@ -87,7 +97,10 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     private Animation hideAnimation;
     private static int THRESHOLD_OFFSET = 10;
 
+    private BaseApplication baseApplication;
     private ArticleListPresenter articleListPresenter;
+
+
 
 
 
@@ -126,7 +139,9 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
     @Override
     protected void initData() {
-
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getApplication();
+        }
         swpArticle.setProgressViewOffset (false,100,300);
         swpArticle.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         EventBus.getDefault().register(this);
@@ -260,7 +275,12 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     }
 
     private void toWriteArticle(){
-        IntentUtils.getInstence().intent(getMContext(),WriteArticleActivity.class);
+        if (baseApplication.getLoginStatus() == 1){
+            IntentUtils.getInstence().intent(getMContext(),WriteArticleActivity.class);
+        }else {
+            CommonUtils.loadinglogin(getMContext());
+        }
+
     }
     @Override
     public void onRefresh() {
@@ -289,7 +309,6 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
 
 
-
     @Override
     public void showInfo(String msg) {
         CommonUtils.makeText(getMContext(),msg);
@@ -298,6 +317,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     @Override
     public void onDestroy() {
         super.onDestroy();
+        baseApplication = null;
         articleListPresenter.onDestroy();
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);

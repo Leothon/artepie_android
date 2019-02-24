@@ -45,6 +45,13 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
+    public void deleteSuccess(String msg) {
+        if (iAskDetailView != null){
+            iAskDetailView.deleteSuccess(msg);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         iAskDetailView = null;
         iAskDetailModel = null;
@@ -114,5 +121,10 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     @Override
     public void deleteReply(String replyId, String token) {
         iAskDetailModel.deleteReply(replyId,token,this);
+    }
+
+    @Override
+    public void deleteQa(String token, String qaId) {
+        iAskDetailModel.deleteQa(token,qaId,this);
     }
 }

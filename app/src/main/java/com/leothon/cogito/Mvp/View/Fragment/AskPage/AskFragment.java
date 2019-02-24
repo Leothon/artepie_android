@@ -1,7 +1,10 @@
 package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 
+
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -13,13 +16,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -27,6 +35,7 @@ import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Ask;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
@@ -38,6 +47,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -85,6 +95,14 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private BaseApplication baseApplication;
 
     private boolean isLogin;
+
+    private TextView deleteContent;
+    private TextView copyContent;
+    private RelativeLayout dismiss;
+    private View popview;
+    private PopupWindow popupWindow;
+
+    String uuid;
     public AskFragment() {}
 
     /**
@@ -111,6 +129,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     protected void initData() {
         EventBus.getDefault().register(this);
         askPresenter = new AskPresenter(this);
+        initMorePopupWindow();
+        TokenValid tokenValid = tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        uuid = tokenValid.getUid();
         swpAsk.setProgressViewOffset (false,100,300);
         swpAsk.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         if (baseApplication == null){
@@ -152,6 +173,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String msg){
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+        CommonUtils.makeText(getMContext(),msg);
     }
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {
@@ -171,12 +193,44 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         }
     }
 
+    public void initMorePopupWindow(){
+        popview = LayoutInflater.from(getMContext()).inflate(R.layout.qa_more_pop,null,false);
+        popupWindow = new PopupWindow(popview,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setAnimationStyle(R.style.popupQAWindow_anim_style);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+        dismiss = (RelativeLayout) popview.findViewById(R.id.miss_pop_more);
+        deleteContent = (TextView)popview.findViewById(R.id.delete_content_this);
+        copyContent = (TextView)popview.findViewById(R.id.copy_content_this);
+
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+
+            }
+        });
+    }
+    public void showPopWindow(){
+        View rootView = LayoutInflater.from(getMContext()).inflate(R.layout.fragment_ask,null);
+        popupWindow.showAtLocation(rootView, Gravity.CENTER,0,0);
+
+    }
 
     @Override
     public void showInfo(String msg) {
         CommonUtils.makeText(getMContext(),msg);
     }
+
+    @Override
+    public void deleteSuccess(String msg) {
+        CommonUtils.makeText(getMContext(),"删除成功");
+    }
+
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
         if (baseApplication.getLoginStatus() == 1){
@@ -233,6 +287,38 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 }else {
                     askPresenter.addLiked(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
                 }
+            }
+        });
+
+        askAdapter.setDeleteQaOnClickListener(new AskAdapter.DeleteQaOnClickListener() {
+            @Override
+            public void deleteQaClickListener(final String qaId, String qaUserId,final String content,final int position) {
+                showPopWindow();
+                if (qaUserId.equals(uuid)){
+                    deleteContent.setVisibility(View.VISIBLE);
+                }else {
+                    deleteContent.setVisibility(View.GONE);
+                }
+
+                deleteContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        askPresenter.deleteQa(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
+                        asks.remove(position);
+                        askAdapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
+                    }
+                });
+
+                copyContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getMContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(getMContext(),"内容已复制");
+                        popupWindow.dismiss();
+                    }
+                });
             }
         });
 

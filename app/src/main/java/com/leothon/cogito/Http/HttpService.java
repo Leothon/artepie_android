@@ -170,4 +170,10 @@ public interface HttpService {
 
     @POST("sendre")
     Observable<BaseResponse<String>> sendRe(@Query("token") String token,@Query("content") String content,@Query("qaid") String qaId);
+
+    @POST("deleteqa")
+    Observable<BaseResponse<String>> deleteQa(@Query("token") String token,@Query("qaid") String qaId);
+
+    @POST("deletearticle")
+    Observable<BaseResponse<String>> deleteArticle(@Query("token") String token,@Query("articleid") String articleId);
 }

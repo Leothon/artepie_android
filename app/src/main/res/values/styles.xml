@@ -41,6 +41,11 @@
         <item name="android:windowExitAnimation">@anim/popup_out</item>
     </style>
 
+    <style name="popupQAWindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/view_scale_show</item>
+        <item name="android:windowExitAnimation">@anim/view_scale_hide</item>
+    </style>
+
     <style name="CustomDialog" parent="android:style/Theme.Dialog">
         <!--背景颜色及和透明程度-->
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -27,6 +27,13 @@ public class ArticlePresenter implements ArticleContract.IArticlePresenter,Artic
     }
 
     @Override
+    public void deleteSuccess(String msg) {
+        if (iArticleView != null){
+            iArticleView.deleteSuccess(msg);
+        }
+    }
+
+    @Override
     public void loadArticle(String articleId,String token) {
         iArticleModel.getArticleInfo(articleId,token,this);
     }
@@ -35,5 +42,10 @@ public class ArticlePresenter implements ArticleContract.IArticlePresenter,Artic
     public void onDestroy() {
         iArticleModel = null;
         iArticleView = null;
+    }
+
+    @Override
+    public void deleteArticle(String token, String articleId) {
+        iArticleModel.deleteArticle(token,articleId,this);
     }
 }

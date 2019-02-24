@@ -14,6 +14,8 @@ public class AskFragmentContract {
 
         void addLike(String token,String qaId,OnAskFinishedListener listener);
         void removeLike(String token,String qaId,OnAskFinishedListener listener);
+
+        void deleteQa(String token,String qaId,OnAskFinishedListener listener);
     }
 
     public interface IAskView{
@@ -22,12 +24,14 @@ public class AskFragmentContract {
         void loadAskData(ArrayList<QAData> qaData);
         void loadAskMoreData(ArrayList<QAData> qaData);
         void showInfo(String msg);
+        void deleteSuccess(String msg);
     }
 
     public interface OnAskFinishedListener {
         void loadAskData(ArrayList<QAData> qaData);
         void loadAskMoreData(ArrayList<QAData> qaData);
         void showInfo(String msg);
+        void deleteSuccess(String msg);
 
     }
 
@@ -38,5 +42,6 @@ public class AskFragmentContract {
 
         void addLiked(String token,String qaId);
         void removeLiked(String token,String qaId);
+        void deleteQa(String token,String qaId);
     }
 }

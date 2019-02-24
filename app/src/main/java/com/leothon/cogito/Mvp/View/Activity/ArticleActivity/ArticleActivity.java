@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.ArticleActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,10 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -19,14 +28,17 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.RichEditTextView;
 import com.leothon.cogito.handle.CustomHtml;
 import com.leothon.cogito.handle.RichEditImageGetter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ArticleActivity extends BaseActivity implements ArticleContract.IArticleView,SwipeRefreshLayout.OnRefreshListener {
 
@@ -58,6 +70,15 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @BindView(R.id.title_article_detail)
     TextView titleArticleDetail;
 
+    @BindView(R.id.more_about_article)
+    ImageView moreAboutArticle;
+
+    private TextView deleteContent;
+    private TextView copyContent;
+    private RelativeLayout dismissArt;
+    private View popviewArt;
+    private PopupWindow popupWindowArt;
+
     private ArticlePresenter articlePresenter;
 
     private Bundle bundle;
@@ -65,6 +86,10 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     @BindView(R.id.article_detail_bar)
     Toolbar toolbar;
+
+    String uuid;
+
+    private Article article;
 
     private CollapsingToolbarLayoutState state;
 
@@ -88,6 +113,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         if (toolbar != null){
             setSupportActionBar(toolbar);
         }
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        uuid = tokenValid.getUid();
         toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,13 +133,14 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         swpArticle.setRefreshing(true);
         swpArticle.setOnRefreshListener(this);
         articlePresenter.loadArticle(bundle.getString("articleId",""),activitysharedPreferencesUtils.getParams("token","").toString());
-
+        initMoreArtPopupWindow();
 
     }
 
     @Override
     public void loadArticleData(final Article article) {
 
+        this.article = article;
         ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleImg(),articleImg,R.drawable.defalutimg);
         ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleAuthorIcon(),articleAuthorIcon,R.drawable.defalutimg);
         articleTitle.setText(article.getArticleTitle());
@@ -166,6 +194,55 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
             }
 
         });
+
+
+    }
+
+
+    @OnClick(R.id.more_about_article)
+    public void MoreAboutArticle(View view){
+        showQAPopWindow();
+        if (article.getArticleAuthorId().equals(uuid)){
+            copyContent.setVisibility(View.GONE);
+            deleteContent.setVisibility(View.VISIBLE);
+            deleteContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    articlePresenter.deleteArticle(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId());
+                }
+            });
+        }else {
+            copyContent.setVisibility(View.VISIBLE);
+            copyContent.setText("联系作者");
+            deleteContent.setVisibility(View.GONE);
+        }
+    }
+    public void initMoreArtPopupWindow(){
+        popviewArt = LayoutInflater.from(this).inflate(R.layout.qa_more_pop,null,false);
+        popupWindowArt = new PopupWindow(popviewArt,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindowArt.setBackgroundDrawable(new BitmapDrawable());
+        popupWindowArt.setTouchable(true);
+        popupWindowArt.setAnimationStyle(R.style.popupQAWindow_anim_style);
+        popupWindowArt.setFocusable(true);
+        popupWindowArt.setOutsideTouchable(true);
+        popupWindowArt.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        dismissArt = (RelativeLayout) popviewArt.findViewById(R.id.miss_pop_more);
+        deleteContent = (TextView)popviewArt.findViewById(R.id.delete_content_this);
+        copyContent = (TextView)popviewArt.findViewById(R.id.copy_content_this);
+
+        dismissArt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindowArt.dismiss();
+
+            }
+        });
+    }
+    public void showQAPopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_article,null);
+        popupWindowArt.showAtLocation(rootView, Gravity.CENTER,0,0);
+
     }
     @Override
     public void onRefresh() {
@@ -203,6 +280,14 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     public void showInfo(String msg) {
 
         CommonUtils.makeText(this,msg);
+    }
+
+    @Override
+    public void deleteSuccess(String msg) {
+        CommonUtils.makeText(this,msg);
+        Article article = new Article();
+        EventBus.getDefault().post(article);
+        super.onBackPressed();
     }
 
     @Override

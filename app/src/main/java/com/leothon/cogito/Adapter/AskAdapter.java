@@ -77,6 +77,12 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         this.addLikeOnClickListener = onClickMyTextView;
     }
 
+    public DeleteQaOnClickListener deleteQaOnClickListener;
+
+    public void setDeleteQaOnClickListener(DeleteQaOnClickListener deleteQaOnClickListener) {
+        this.deleteQaOnClickListener = deleteQaOnClickListener;
+    }
+
     private int HEAD0 = 0;
     private int HEAD1 = 1;
 
@@ -114,28 +120,21 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.userName.setText(ask.getUser_name());
             askViewHolder.userDes.setText(ask.getUser_signal());
 
-            if (ask.getReQA().size() > 1){
 
-                String re = ask.getQa_content();
-                for (int i = 0;i < ask.getReQA().size() - 1;i ++){
-                    re = re + " //@" + ask.getReQA().get(i).getUser_name() + ": " + ask.getReQA().get(i).getQa_content();
 
-                }
-                SpannableString spannableString = new SpannableString(re);
+            String re = ask.getQa_content();
+
+            SpannableString spannableString = new SpannableString(re);
+            if (re.contains("@") && re.contains(":")){
+
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
                 spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-
-//                for (int i = 0;i < ask.getReQA().size() - 1;i ++){
-//
-////                    MyClickableSpan clickableSpan = new MyClickableSpan(ask.getReQA().get(i));
-////                    spannableString.setSpan(clickableSpan, re.indexOf("//"), re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//                }
-
-                askViewHolder.contentAsk.setText(spannableString);
-
-            }else {
-                askViewHolder.contentAsk.setText(ask.getQa_content());
             }
+
+
+            askViewHolder.contentAsk.setText(spannableString);
+
+
 
 
 
@@ -163,15 +162,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
-                imageView.setTag(ask.getQa_video());
-
-
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-                if (imageView.getTag().equals(ask.getQa_video())){
-                    gsyVideoOption.setThumbImageView(imageView);
-                }
+
                 gsyVideoOption
+                        .setThumbImageView(imageView)
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
                         .setLockLand(false)
@@ -192,7 +187,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.moreAsk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CommonUtils.makeText(context,"显示更多信息");
+                    if (isLogin){
+                        deleteQaOnClickListener.deleteQaClickListener(ask.getQa_id(),ask.getQa_user_id(),ask.getQa_content(),position);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
                 }
             });
             askViewHolder.commentAsk.setOnClickListener(new View.OnClickListener() {
@@ -293,9 +292,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             });
 
 
-            if (ask.getReQA().size() != 0){
+            if (ask.getQaData() != null){
                 askViewHolder.reContentLL.setVisibility(View.VISIBLE);
-                final QAData reShowQA = ask.getReQA().get(ask.getReQA().size() - 1);
+                final QAData reShowQA = ask.getQaData();
                 askViewHolder.reUserName.setText("@" + reShowQA.getUser_name());
                 askViewHolder.reContent.setText(reShowQA.getQa_content());
                 if (reShowQA.getQa_like().equals("") && reShowQA.getQa_like() == null){
@@ -313,22 +312,18 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     imageView = new ImageView(context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), imageView, R.drawable.defalutimg);
-                    imageView.setTag(reShowQA.getQa_video());
-
 
 
                     GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-                if (imageView.getTag().equals(reShowQA.getQa_video())){
-                    gsyVideoOption.setThumbImageView(imageView);
-                }
                     gsyVideoOption
+                            .setThumbImageView(imageView)
                             .setIsTouchWiget(true)
                             .setRotateViewAuto(true)
                             .setLockLand(false)
                             .setAutoFullWithSize(true)
                             .setShowFullAnimation(false)
                             .setNeedLockFull(true)
-                            .setUrl(ask.getQa_video())
+                            .setUrl(reShowQA.getQa_video())
                             .setCacheWithPlay(false)
                             .setVideoTitle("")
                             .build(askViewHolder.reVideo);
@@ -345,8 +340,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                         if (isLogin){
                             Bundle bundleto = new Bundle();
-                            bundleto.putString("qaId",reShowQA.getQa_id());
-                            IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                            if (reShowQA.getQa_user_id() == null){
+                                CommonUtils.makeText(context,"内容已被删除");
+                            }else {
+                                bundleto.putString("qaId",reShowQA.getQa_id());
+                                IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
+                            }
+
+
                         }else {
                             CommonUtils.loadinglogin(context);
                         }
@@ -364,7 +365,13 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     if (isLogin){
                         Bundle bundle = new Bundle();
                         bundle.putString("type","re");
-                        bundle.putString("qaId",ask.getQa_id());
+                        if (ask.getQaData() != null){
+                            bundle.putString("qaId",ask.getQaData().getQa_id());
+                        }else {
+                            bundle.putString("qaId","");
+                        }
+
+                        bundle.putString("id",ask.getQa_id());
                         IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
                     }else {
                         CommonUtils.loadinglogin(context);
@@ -506,4 +513,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
         }
     }
+
+    public interface DeleteQaOnClickListener{
+        void deleteQaClickListener(String qaId,String qaUserId,String content,int position);
+    }
+
 }

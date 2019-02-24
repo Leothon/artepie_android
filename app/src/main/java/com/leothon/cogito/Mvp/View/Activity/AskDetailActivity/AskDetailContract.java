@@ -30,6 +30,8 @@ public class AskDetailContract {
 
         void deleteQaComment(String commentId,String token,OnAskDetailFinishedListener listener);
         void deleteReply(String replyId,String token,OnAskDetailFinishedListener listener);
+
+        void deleteQa(String token,String qaId,OnAskDetailFinishedListener listener);
     }
 
     public interface IAskDetailView{
@@ -41,7 +43,7 @@ public class AskDetailContract {
         void showInfo(String msg);
 
         void getComment(CommentDetail commentDetail);
-
+        void deleteSuccess(String msg);
     }
 
     public interface OnAskDetailFinishedListener {
@@ -51,7 +53,7 @@ public class AskDetailContract {
         void showInfo(String msg);
 
         void getComment(CommentDetail commentDetail);
-
+        void deleteSuccess(String msg);
     }
 
     public interface IAskDetailPresenter{
@@ -72,5 +74,6 @@ public class AskDetailContract {
 
         void deleteQaComment(String commentId,String token);
         void deleteReply(String replyId,String token);
+        void deleteQa(String token,String qaId);
     }
 }

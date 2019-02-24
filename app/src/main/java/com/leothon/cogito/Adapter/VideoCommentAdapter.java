@@ -253,105 +253,105 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         }
                     }
                 });
-                if (replyCount >= 2){
-                    commentViewHolder.firstReply.setVisibility(View.VISIBLE);
-                    commentViewHolder.secondReply.setVisibility(View.VISIBLE);
-                    commentViewHolder.moreComment.setVisibility(View.GONE);
-                    if (comments.get(position).getReplies().get(1).getReply_like() == null && comments.get(position).getReplies().get(1).getReply_like().equals("0")){
-                        commentViewHolder.comment2LikeQa.setText("喜欢");
-                    }else {
-                        if (comments.get(position).getReplies().get(1).isReply_liked()){
-                            commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-                        }
-                        commentViewHolder.comment2LikeQa.setText(comments.get(position).getReplies().get(1).getReply_like());
-                    }
-                    commentViewHolder.comment2TimeQa.setText(CommonUtils.getTimeRange(comments.get(position).getReplies().get(1).getReply_time()));
-                    commentViewHolder.comment2LikeQa.setText(comments.get(position).getReplies().get(1).getReply_like());
-                    ImageLoader.loadImageViewThumbnailwitherror(context,comments.get(position).getReplies().get(1).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
-                    commentViewHolder.replyUserName2.setText(comments.get(position).getReplies().get(1).getUser_name());
-                    commentViewHolder.replyToUserName2.setText(comments.get(position).getReplies().get(1).getTo_user_name());
-                    commentViewHolder.replyComment2.setText(comments.get(position).getReplies().get(1).getReply_comment());
-                    commentViewHolder.like2ImgQa.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isLogin){
-                                addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(1).isReply_liked(),comments.get(position).getReplies().get(1).getReply_id());
-                                if (!comments.get(position).getReplies().get(1).isReply_liked()){
-                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-
-                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
-                                    if (like.equals("喜欢")){
-                                        int likeint = 1;
-                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
-                                    }else {
-                                        int likeint = Integer.parseInt(like) + 1;
-                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
-                                    }
-                                    comments.get(position).getReplies().get(1).setReply_liked(true);
-                                }else {
-                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
-                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
-
-                                    int likeint = Integer.parseInt(like) - 1;
-                                    if (likeint == 0){
-                                        commentViewHolder.comment2LikeQa.setText("喜欢");
-                                    }else {
-                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
-                                    }
-                                    comments.get(position).getReplies().get(1).setReply_liked(false);
-                                }
-                            }else {
-                                CommonUtils.loadinglogin(context);
-                            }
-
-                        }
-                    });
-
-                    commentViewHolder.secondReply.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isLogin){
-                                commentViewHolder.moreComment.setVisibility(View.VISIBLE);
-                                sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getUser_name());
-
-                            }else {
-                                CommonUtils.loadinglogin(context);
-                            }
-                        }
-                    });
-
-                    commentViewHolder.reply2More.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isLogin){
-                                deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(1).getReply_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getReply_comment(),position,1);
-
-                            }else {
-                                CommonUtils.loadinglogin(context);
-                            }
-                        }
-                    });
-
-                    commentViewHolder.replyUserIcon2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Bundle bundleto = new Bundle();
-                            if (userId.equals(comments.get(position).getReplies().get(0).getReply_user_id())){
-                                bundleto.putString("type","individual");
-                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
-                            }else {
-                                bundleto.putString("type","other");
-                                bundleto.putString("userId",comments.get(position).getReplies().get(0).getReply_user_id());
-                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
-                            }
-                        }
-                    });
-                    if (replyCount > 2){
+//                if (replyCount >= 2){
+//                    commentViewHolder.firstReply.setVisibility(View.VISIBLE);
+//                    commentViewHolder.secondReply.setVisibility(View.VISIBLE);
+//                    commentViewHolder.moreComment.setVisibility(View.GONE);
+//                    if (comments.get(position).getReplies().get(1).getReply_like() == null && comments.get(position).getReplies().get(1).getReply_like().equals("0")){
+//                        commentViewHolder.comment2LikeQa.setText("喜欢");
+//                    }else {
+//                        if (comments.get(position).getReplies().get(1).isReply_liked()){
+//                            commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+//                        }
+//                        commentViewHolder.comment2LikeQa.setText(comments.get(position).getReplies().get(1).getReply_like());
+//                    }
+//                    commentViewHolder.comment2TimeQa.setText(CommonUtils.getTimeRange(comments.get(position).getReplies().get(1).getReply_time()));
+//                    commentViewHolder.comment2LikeQa.setText(comments.get(position).getReplies().get(1).getReply_like());
+//                    ImageLoader.loadImageViewThumbnailwitherror(context,comments.get(position).getReplies().get(1).getUser_icon(),commentViewHolder.replyUserIcon1,R.drawable.defaulticon);
+//                    commentViewHolder.replyUserName2.setText(comments.get(position).getReplies().get(1).getUser_name());
+//                    commentViewHolder.replyToUserName2.setText(comments.get(position).getReplies().get(1).getTo_user_name());
+//                    commentViewHolder.replyComment2.setText(comments.get(position).getReplies().get(1).getReply_comment());
+//                    commentViewHolder.like2ImgQa.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (isLogin){
+//                                addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(1).isReply_liked(),comments.get(position).getReplies().get(1).getReply_id());
+//                                if (!comments.get(position).getReplies().get(1).isReply_liked()){
+//                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+//
+//                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
+//                                    if (like.equals("喜欢")){
+//                                        int likeint = 1;
+//                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+//                                    }else {
+//                                        int likeint = Integer.parseInt(like) + 1;
+//                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+//                                    }
+//                                    comments.get(position).getReplies().get(1).setReply_liked(true);
+//                                }else {
+//                                    commentViewHolder.like2ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
+//                                    String like = commentViewHolder.comment2LikeQa.getText().toString();
+//
+//                                    int likeint = Integer.parseInt(like) - 1;
+//                                    if (likeint == 0){
+//                                        commentViewHolder.comment2LikeQa.setText("喜欢");
+//                                    }else {
+//                                        commentViewHolder.comment2LikeQa.setText(Integer.toString(likeint));
+//                                    }
+//                                    comments.get(position).getReplies().get(1).setReply_liked(false);
+//                                }
+//                            }else {
+//                                CommonUtils.loadinglogin(context);
+//                            }
+//
+//                        }
+//                    });
+//
+//                    commentViewHolder.secondReply.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (isLogin){
+//                                commentViewHolder.moreComment.setVisibility(View.VISIBLE);
+//                                sendVideoReplyOnClickListener.sendVideoReplyClickListener(comments.get(position).getComment_q_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getUser_name());
+//
+//                            }else {
+//                                CommonUtils.loadinglogin(context);
+//                            }
+//                        }
+//                    });
+//
+//                    commentViewHolder.reply2More.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (isLogin){
+//                                deleteVideoReplyOnClickListener.deleteVideoReplyClickListener(comments.get(position).getReplies().get(1).getReply_id(),comments.get(position).getReplies().get(1).getReply_user_id(),comments.get(position).getReplies().get(1).getReply_comment(),position,1);
+//
+//                            }else {
+//                                CommonUtils.loadinglogin(context);
+//                            }
+//                        }
+//                    });
+//
+//                    commentViewHolder.replyUserIcon2.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Bundle bundleto = new Bundle();
+//                            if (userId.equals(comments.get(position).getReplies().get(0).getReply_user_id())){
+//                                bundleto.putString("type","individual");
+//                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+//                            }else {
+//                                bundleto.putString("type","other");
+//                                bundleto.putString("userId",comments.get(position).getReplies().get(0).getReply_user_id());
+//                                IntentUtils.getInstence().intent(context, IndividualActivity.class,bundleto);
+//                            }
+//                        }
+//                    });
+                    if (replyCount > 1){
                         commentViewHolder.firstReply.setVisibility(View.VISIBLE);
-                        commentViewHolder.secondReply.setVisibility(View.VISIBLE);
+                        //commentViewHolder.secondReply.setVisibility(View.VISIBLE);
                         commentViewHolder.moreComment.setVisibility(View.VISIBLE);
                     }
-                }
+
 
 
                 commentViewHolder.moreComment.setOnClickListener(new View.OnClickListener() {

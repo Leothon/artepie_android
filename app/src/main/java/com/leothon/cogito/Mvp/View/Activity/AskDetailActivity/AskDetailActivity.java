@@ -43,6 +43,8 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -85,6 +87,12 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     private String uuid;
 
+    private TextView deleteContent;
+    private TextView copyContent;
+    private RelativeLayout dismissQa;
+    private View popviewQa;
+    private PopupWindow popupWindowQa;
+
     private AskDetailPresenter askDetailPresenter;
     @Override
     public int initLayout() {
@@ -97,7 +105,6 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         uuid = tokenValid.getUid();
 
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
-
         swpAskDetail.setProgressViewOffset (false,100,300);
         swpAskDetail.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
     }
@@ -112,6 +119,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
         initReplyPopupWindow();
         initMorePopupWindow();
+        initMoreQAPopupWindow();
     }
 
 
@@ -299,6 +307,37 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
             }
         });
+
+        askDetailAdapter.setDeleteQaDetailOnClickListener(new AskDetailAdapter.DeleteQaDetailOnClickListener() {
+            @Override
+            public void deleteQaDetailClickListener(final String qaId, String qaUserId, final String content) {
+                showQAPopWindow();
+                if (qaUserId.equals(uuid)){
+                    deleteContent.setVisibility(View.VISIBLE);
+                }else{
+                    deleteContent.setVisibility(View.GONE);
+                }
+
+                deleteContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        askDetailPresenter.deleteQa(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                        EventBus.getDefault().post("删除成功");
+                        AskDetailActivity.super.onBackPressed();
+                    }
+                });
+
+
+                copyComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        CommonUtils.makeText(AskDetailActivity.this,"内容已复制");
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -324,6 +363,11 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     @Override
     public void getComment(CommentDetail commentDetail) {
 
+    }
+
+    @Override
+    public void deleteSuccess(String msg) {
+        CommonUtils.makeText(this,msg);
     }
 
     @OnClick(R.id.comment_in_detail)
@@ -401,6 +445,33 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         });
     }
 
+    public void initMoreQAPopupWindow(){
+        popviewQa = LayoutInflater.from(this).inflate(R.layout.qa_more_pop,null,false);
+        popupWindowQa = new PopupWindow(popviewQa,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindowQa.setBackgroundDrawable(new BitmapDrawable());
+        popupWindowQa.setTouchable(true);
+        popupWindowQa.setAnimationStyle(R.style.popupQAWindow_anim_style);
+        popupWindowQa.setFocusable(true);
+        popupWindowQa.setOutsideTouchable(true);
+        popupWindowQa.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        dismissQa = (RelativeLayout) popviewQa.findViewById(R.id.miss_pop_more);
+        deleteContent = (TextView)popviewQa.findViewById(R.id.delete_content_this);
+        copyContent = (TextView)popviewQa.findViewById(R.id.copy_content_this);
+
+        dismissQa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindowQa.dismiss();
+
+            }
+        });
+    }
+    public void showQAPopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_ask_detail,null);
+        popupWindowQa.showAtLocation(rootView, Gravity.CENTER,0,0);
+
+    }
     private void popupInputMethod(){
 
         Handler handler = new Handler();
@@ -450,6 +521,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         super.onDestroy();
         askDetailPresenter.onDestroy();
         GSYVideoManager.releaseAllVideos();
+
     }
 
 

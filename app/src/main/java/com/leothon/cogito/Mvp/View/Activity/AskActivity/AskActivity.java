@@ -121,7 +121,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
             askAddSound.setVisibility(View.GONE);
             setToolbarTitle("转发");
 
-            askActivityPresenter.getReInfo(bundle.getString("qaId"),activitysharedPreferencesUtils.getParams("token","").toString());
+            askActivityPresenter.getReInfo(bundle.getString("id"),activitysharedPreferencesUtils.getParams("token","").toString());
 
         }else {
             askAddImg.setVisibility(View.VISIBLE);
@@ -221,13 +221,15 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         if (bundle.getString("type").equals("re")){
 
             String content = askContent.getText().toString();
-            if (content.contains("//@")){
-                content = content.substring(0,content.indexOf("//@"));
+
+
+            if (bundle.get("qaId").equals("")){
+                askActivityPresenter.reContent(activitysharedPreferencesUtils.getParams("token","").toString(),content,bundle.getString("id"));
+            }else {
+                askActivityPresenter.reContent(activitysharedPreferencesUtils.getParams("token","").toString(),content,bundle.getString("qaId"));
             }
 
 
-
-            askActivityPresenter.reContent(activitysharedPreferencesUtils.getParams("token","").toString(),content,bundle.getString("qaId"));
             showLoadingAnim();
         }else {
             sendQAData = new SendQAData();
@@ -294,40 +296,31 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @Override
     public void getReInfo(QAData qaData) {
         askImgLayout.setVisibility(View.VISIBLE);
-        if (qaData.getReQA().size() == 0){
+
+        if (qaData.getQa_re_id() == null){
             reUserName.setText("@" + qaData.getUser_name());
-            reContent.setText(qaData.getQa_content());
-        }else if (qaData.getReQA().size() == 1){
-            reUserName.setText("@" + qaData.getReQA().get(0).getUser_name());
-            reContent.setText(qaData.getReQA().get(0).getQa_content());
+            String re = qaData.getQa_content();
+            SpannableString spannableString = new SpannableString(re);
+            if (re.contains("@") && re.contains(":")){
+
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+            reContent.setText(spannableString);
+        }else {
+            reUserName.setText("@" + qaData.getQaData().getUser_name());
+            reContent.setText(qaData.getQaData().getQa_content());
             String content = "//@" + qaData.getUser_name() + ":" + qaData.getQa_content();
             SpannableString spannableString = new SpannableString(content);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
-            spannableString.setSpan(colorSpan, content.indexOf("@"),content.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            askContent.setText(spannableString);
-            askContent.setSelection(0);
-        }else {
-            reUserName.setText("@" + qaData.getReQA().get(qaData.getReQA().size() - 1).getUser_name());
-            reContent.setText(qaData.getReQA().get(qaData.getReQA().size() - 1).getQa_content());
-            int reSize = qaData.getReQA().size();
-            String re = "//@" + qaData.getUser_name() + ":" + qaData.getQa_content();
-            for (int i = 0;i < reSize - 1;i ++){
-                re = re + " //@" + qaData.getReQA().get(i).getUser_name() + ": " + qaData.getReQA().get(i).getQa_content();
 
+            if (content.contains("@") && content.contains(":")){
+
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+                spannableString.setSpan(colorSpan, content.indexOf("@"),content.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
-            SpannableString spannableString = new SpannableString(re);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
-
-            spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//            for (int i = 0;i < qaData.getReQA().size() - 1;i ++){
-//
-////                MyClickableSpan clickableSpan = new MyClickableSpan(ask.getReQA().get(i));
-////                spannableString.setSpan(clickableSpan, re.indexOf("//"), re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//            }
 
             askContent.setText(spannableString);
             askContent.setSelection(0);
-
         }
 
 
@@ -380,7 +373,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                 //.openClickSound()// 是否开启点击声音 true or false
                 //.selectionMedia()// 是否传入已选图片 List<LocalMedia> list
                 //.previewEggs()// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
-                //.cropCompressQuality()// 裁剪压缩质量 默认90 int
+                .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
                 //.minimumCompressSize(100)// 小于100kb的图片不压缩
                 //.synOrAsy(true)//同步true或异步false 压缩 默认同步
                 //.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效 int

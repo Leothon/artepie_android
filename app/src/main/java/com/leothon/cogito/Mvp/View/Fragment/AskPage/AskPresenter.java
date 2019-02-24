@@ -36,6 +36,13 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     }
 
     @Override
+    public void deleteSuccess(String msg) {
+        if (iAskView != null){
+            iAskView.deleteSuccess(msg);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         iAskView = null;
         iAskModel = null;
@@ -60,5 +67,10 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     public void removeLiked(String token, String qaId) {
 
         iAskModel.removeLike(token,qaId,this);
+    }
+
+    @Override
+    public void deleteQa(String token, String qaId) {
+        iAskModel.deleteQa(token,qaId,this);
     }
 }

@@ -34,6 +34,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zyao89.view.zloading.ZLoadingDialog;
@@ -145,8 +146,8 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
                 //.openClickSound()// 是否开启点击声音 true or false
                 //.selectionMedia()// 是否传入已选图片 List<LocalMedia> list
                 //.previewEggs()// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
-                //.cropCompressQuality()// 裁剪压缩质量 默认90 int
-                //.minimumCompressSize(100)// 小于100kb的图片不压缩
+                .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
                 //.synOrAsy(true)//同步true或异步false 压缩 默认同步
                 //.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效 int
                 //.rotateEnabled() // 裁剪是否可旋转图片 true or false
@@ -174,7 +175,12 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
                 // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
 
 
-                filePath = selectList.get(0).getPath();
+                if (selectList.get(0).isCompressed()){
+                    filePath = selectList.get(0).getCompressPath();
+                }else {
+                    filePath = selectList.get(0).getPath();
+                }
+
                 //writeArticleContent.setImg(filePath);
                 writeArticlePresenter.uploadSelectImg(filePath);
                 showLoadingAnim();
@@ -197,6 +203,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     public void isUploadSuccess(String info) {
         hideLoadingAnim();
         CommonUtils.makeText(this,"文章发布成功");
+        PictureFileUtils.deleteCacheDirFile(WriteArticleActivity.this);
         Article article = new Article();
         EventBus.getDefault().post(article);
         super.onBackPressed();

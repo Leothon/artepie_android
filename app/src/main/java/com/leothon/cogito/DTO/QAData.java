@@ -29,14 +29,14 @@ public class QAData {
         this.qa_re_id = qa_re_id;
     }
 
-    private ArrayList<QAData> reQA;
+    private QAData qaData;
 
-    public ArrayList<QAData> getReQA() {
-        return reQA;
+    public QAData getQaData() {
+        return qaData;
     }
 
-    public void setReQA(ArrayList<QAData> reQA) {
-        this.reQA = reQA;
+    public void setQaData(QAData qaData) {
+        this.qaData = qaData;
     }
 
     public boolean isLiked() {
