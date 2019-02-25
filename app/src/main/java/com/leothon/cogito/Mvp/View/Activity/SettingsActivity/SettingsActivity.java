@@ -25,6 +25,7 @@ import com.tencent.tauth.Tencent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 

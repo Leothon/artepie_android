@@ -15,6 +15,8 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class BaseApplication extends Application {
     private static BaseApplication application;
 
@@ -39,7 +41,8 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         //instances = this;
         setDatabase();
-
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
         setLoginStatus(0);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
@@ -47,6 +50,8 @@ public class BaseApplication extends Application {
 //            return;
 //        }
 //        LeakCanary.install(this);
+
+
 
     }
 

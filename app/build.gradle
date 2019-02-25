@@ -12,7 +12,24 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "62293066b1c78ee4811e929f ", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
+
+
+
+
     buildTypes {
         release {
             //minifyEnabled false
@@ -32,6 +49,8 @@ greendao {
 
 
 dependencies {
+    compile 'cn.jiguang.sdk:jpush:3.1.6'
+    compile 'cn.jiguang.sdk:jcore:1.2.5'
     compile(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

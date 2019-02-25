@@ -47,6 +47,8 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -246,6 +248,19 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+
+                if (CommonUtils.isHaveChar(qaDataDetail.getQaData().getQa_video())){
+                    try{
+                        String url = URLEncoder.encode(qaDataDetail.getQaData().getQa_video(),"utf-8").replaceAll("\\+", "%20");
+                        url = url.replaceAll("%3A", ":").replaceAll("%2F", "/");
+                        gsyVideoOption.setUrl(url);
+                    }catch (UnsupportedEncodingException e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    gsyVideoOption.setUrl(qaDataDetail.getQaData().getQa_video());
+                }
+
                 gsyVideoOption
                         .setThumbImageView(imageView)
                         .setIsTouchWiget(true)
@@ -254,11 +269,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .setAutoFullWithSize(true)
                         .setShowFullAnimation(false)
                         .setNeedLockFull(true)
-                        .setUrl(qaDataDetail.getQaData().getQa_video())
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
                         .build(detailViewHolder.VideoPlayer);
-
                 detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
                 detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -319,6 +332,19 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
 
+
+
+                    if (CommonUtils.isHaveChar(reShowQA.getQa_video())){
+                        try{
+                            String url = URLEncoder.encode(reShowQA.getQa_video(),"utf-8").replaceAll("\\+", "%20");
+                            url = url.replaceAll("%3A", ":").replaceAll("%2F", "/");
+                            gsyVideoOption.setUrl(url);
+                        }catch (UnsupportedEncodingException e){
+                            e.printStackTrace();
+                        }
+                    }else {
+                        gsyVideoOption.setUrl(reShowQA.getQa_video());
+                    }
                     gsyVideoOption
                             .setThumbImageView(imageView)
                             .setIsTouchWiget(true)

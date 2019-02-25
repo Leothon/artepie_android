@@ -40,6 +40,8 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -165,6 +167,19 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
 
+
+
+                if (CommonUtils.isHaveChar(ask.getQa_video())){
+                    try{
+                        String url = URLEncoder.encode(ask.getQa_video(),"utf-8").replaceAll("\\+", "%20");
+                        url = url.replaceAll("%3A", ":").replaceAll("%2F", "/");
+                        gsyVideoOption.setUrl(url);
+                    }catch (UnsupportedEncodingException e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    gsyVideoOption.setUrl(ask.getQa_video());
+                }
                 gsyVideoOption
                         .setThumbImageView(imageView)
                         .setIsTouchWiget(true)
@@ -173,7 +188,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         .setAutoFullWithSize(true)
                         .setShowFullAnimation(false)
                         .setNeedLockFull(true)
-                        .setUrl(ask.getQa_video())
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
                         .build(askViewHolder.gsyVideoPlayer);
@@ -315,6 +329,18 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
                     GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+
+                    if (CommonUtils.isHaveChar(reShowQA.getQa_video())){
+                        try{
+                            String url = URLEncoder.encode(reShowQA.getQa_video(),"utf-8").replaceAll("\\+", "%20");
+                            url = url.replaceAll("%3A", ":").replaceAll("%2F", "/");
+                            gsyVideoOption.setUrl(url);
+                        }catch (UnsupportedEncodingException e){
+                            e.printStackTrace();
+                        }
+                    }else {
+                        gsyVideoOption.setUrl(reShowQA.getQa_video());
+                    }
                     gsyVideoOption
                             .setThumbImageView(imageView)
                             .setIsTouchWiget(true)
@@ -323,7 +349,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             .setAutoFullWithSize(true)
                             .setShowFullAnimation(false)
                             .setNeedLockFull(true)
-                            .setUrl(reShowQA.getQa_video())
                             .setCacheWithPlay(false)
                             .setVideoTitle("")
                             .build(askViewHolder.reVideo);

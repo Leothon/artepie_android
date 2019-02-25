@@ -26,6 +26,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 
+import cn.jpush.android.api.JPushInterface;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -58,6 +59,7 @@ public class SplashActivity extends AppCompatActivity {
                     if (tokenValid.isExpired()){
                         //TODO token过期，需要重新登录
                     }else {
+
                         Bundle bundle = new Bundle();
                         bundle.putString("type","home");
                         IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);

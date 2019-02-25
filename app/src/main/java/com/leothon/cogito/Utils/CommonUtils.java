@@ -50,10 +50,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,6 +68,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,6 +99,7 @@ public class CommonUtils {
     private CommonUtils() {
         throw new IllegalStateException("you can't instantiate me!");
     }
+
 
     /**
      * 设置hint大小
@@ -995,5 +999,25 @@ public class CommonUtils {
         return sdf.format(d);
     }
 
+
+    public static String createUUID() {
+        int machineId = 1;
+        int hashCodeV = UUID.randomUUID().toString().hashCode();
+        if(hashCodeV < 0) {//有可能是负数
+            hashCodeV = - hashCodeV;
+        }
+        return machineId + String.format("%015d", hashCodeV);
+    }
+
+    public static boolean isHaveChar(String str){
+        String zhPattern = "[\u4e00-\u9fa5]+";
+        Pattern p = Pattern.compile(zhPattern);
+        Matcher m = p.matcher(str);
+        if (m.find()){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }

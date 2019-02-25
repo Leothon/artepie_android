@@ -29,6 +29,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tencent.connect.UserInfo;
@@ -46,6 +47,7 @@ import java.security.KeyStore;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
@@ -343,6 +345,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         hideLoadingAnim();
         CommonUtils.makeText(LoginActivity.this,"成功!");
         //TODO 执行注册后的动作
+
+
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
         getDAOSession().insert(userEntity);
         LoginSuccess();

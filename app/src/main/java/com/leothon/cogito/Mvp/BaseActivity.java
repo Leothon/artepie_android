@@ -30,6 +30,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FitUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 
 /*
  * created by leothon on 2018.7.22
@@ -94,8 +96,14 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
             basePresenter.attachWindow(initModel(),this);
         }
         ButterKnife.bind(this);
+
+        if (!activitysharedPreferencesUtils.getParams("token","").toString().equals("")){
+            JPushInterface.setAlias(this,0,tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid());
+        }
+
         initData();
         initView();
+
 
     }
 
@@ -232,11 +240,11 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 //        this.unbinder = null;
 
 //        basePresenter.detachWindow();
-        Log.e(TAG, "onDestroy: " + "每次销毁都执行");
         baseApplication = null;
 
 
     }
+
 
 
 
