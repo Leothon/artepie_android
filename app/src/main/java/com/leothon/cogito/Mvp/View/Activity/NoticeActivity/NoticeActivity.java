@@ -1,35 +1,55 @@
 package com.leothon.cogito.Mvp.View.Activity.NoticeActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.NoticeAdapter;
+import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.Notice;
+import com.leothon.cogito.Bean.NoticeInfo;
+import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.IntentUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import retrofit2.http.Query;
 
 /**
  * created by leothon on 2018.8.12
  */
-public class NoticeActivity extends BaseActivity {
+public class NoticeActivity extends BaseActivity implements NoticeContract.INoticeView,SwipeRefreshLayout.OnRefreshListener{
 
 
     @BindView(R.id.rv_notice)
     RecyclerView rvNotice;
+    @BindView(R.id.swp_notice)
+    SwipeRefreshLayout swpNotice;
 
-    private ArrayList<Notice> notices;
+
+    private ArrayList<NoticeInfo> noticeInfos;
     private NoticeAdapter noticeAdapter;
+    private NoticePresenter noticePresenter;
 
     @Override
     public int initLayout() {
@@ -37,31 +57,84 @@ public class NoticeActivity extends BaseActivity {
     }
 
     @Override
+    public void initData() {
+        noticePresenter = new NoticePresenter(this);
+        swpNotice.setProgressViewOffset (false,100,300);
+        swpNotice.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+
+    }
+    @Override
     public void initView() {
-        setToolbarSubTitle("");
+        setToolbarSubTitle("全部已阅");
         setToolbarTitle("消息通知");
-        loadFalseData();
-        initAdapter();
+
+        noticePresenter.getNoticeInfo(activitysharedPreferencesUtils.getParams("token","").toString());
+        swpNotice.setRefreshing(true);
+
+        getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getToolbarSubTitle().setTextColor(Color.parseColor("#808080"));
+                noticePresenter.setAllNoticeVisible(activitysharedPreferencesUtils.getParams("token","").toString());
+            }
+        });
     }
 
-    private void loadFalseData(){
-        notices = new ArrayList<>();
-        for (int i = 0;i < 20;i++){
-            Notice notice = new Notice();
-            notice.setUsericon("http://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fa3.topitme.com%2F7%2F76%2Fcb%2F11181331220f6cb767o.jpg&thumburl=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3194329332%2C1721487187%26fm%3D27%26gp%3D0.jpg");
-            notice.setNoticeuser("刘三刀");
-            notice.setNoticecontent("你的声音发音不标准");
-            notices.add(notice);
+
+    @Override
+    public void loadNoticeInfo(ArrayList<NoticeInfo> noticeInfos) {
+        if (swpNotice.isRefreshing()){
+            swpNotice.setRefreshing(false);
         }
+        boolean isHasUnRead = false;
+        for (int i = 0;i < noticeInfos.size();i ++){
+            if (noticeInfos.get(i).getNoticeStatus() == 0){
+                isHasUnRead = true;
+                break;
+            }
+        }
+        if (isHasUnRead){
+            getToolbarSubTitle().setTextColor(Color.parseColor("#f26402"));
+        }
+
+        this.noticeInfos = noticeInfos;
+        initAdapter();
+
     }
+
+    @Override
+    public void setNoticeVisibleSuccess(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
+    @Override
+    public void setNoticeAllVisibleSuccess(String msg) {
+        CommonUtils.makeText(this,msg);
+        for (int i = 0;i < noticeInfos.size();i ++){
+            if (noticeInfos.get(i).getNoticeStatus() != 1){
+                noticeInfos.get(i).setNoticeStatus(1);
+            }
+        }
+        noticeAdapter.notifyDataSetChanged();
+        NoticeMessage noticeMessage = new NoticeMessage();
+        noticeMessage.setMessage("hide");
+        EventBus.getDefault().post(noticeMessage);
+    }
+
+    @Override
+    public void onRefresh() {
+        noticePresenter.getNoticeInfo(activitysharedPreferencesUtils.getParams("token","").toString());
+    }
+
     private void initAdapter(){
-        noticeAdapter = new NoticeAdapter(this,notices);
+        swpNotice.setOnRefreshListener(this);
+        noticeAdapter = new NoticeAdapter(this,noticeInfos);
         rvNotice.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         rvNotice.setAdapter(noticeAdapter);
         noticeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
-                //TODO 点击进入评论详情
+
             }
         });
 
@@ -71,9 +144,64 @@ public class NoticeActivity extends BaseActivity {
 
             }
         });
+
+        noticeAdapter.setNoticeOnClickListener(new NoticeAdapter.NoticeOnClickListener() {
+            @Override
+            public void noticeClickListener(String noticeId, int position,String targetId) {
+                if (noticeInfos.get(position).getNoticeStatus() == 0){
+                    noticePresenter.setNoticeVisible(activitysharedPreferencesUtils.getParams("token","").toString(),noticeId);
+                }
+                noticeInfos.get(position).setNoticeStatus(1);
+                Bundle bundle = new Bundle();
+                switch (noticeInfos.get(position).getNoticeType()){
+                    case "qalike":
+                        bundle.putString("qaId",targetId);
+                        IntentUtils.getInstence().intent(NoticeActivity.this,AskDetailActivity.class,bundle);
+                        bundle.clear();
+                        break;
+                    case "commentlike":
+                        bundle.putString("commentId",targetId);
+                        IntentUtils.getInstence().intent(NoticeActivity.this,CommentDetailActivity.class,bundle);
+                        bundle.clear();
+                        break;
+                    case "replylike":
+                        bundle.putString("commentId",targetId);
+                        IntentUtils.getInstence().intent(NoticeActivity.this,CommentDetailActivity.class,bundle);
+                        bundle.clear();
+                        break;
+                    case "qacomment":
+                        bundle.putString("qaId",targetId);
+                        IntentUtils.getInstence().intent(NoticeActivity.this,AskDetailActivity.class,bundle);
+                        bundle.clear();
+                        break;
+                    case "replycomment":
+                        bundle.putString("commentId",targetId);
+                        IntentUtils.getInstence().intent(NoticeActivity.this,CommentDetailActivity.class,bundle);
+                        bundle.clear();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
+
+
     @Override
-    public void initData() {
+    public void onBackPressed() {
+        boolean isHasUnRead = false;
+        for (int i = 0;i < noticeInfos.size();i ++){
+            if (noticeInfos.get(i).getNoticeStatus() == 0){
+                isHasUnRead = true;
+                break;
+            }
+        }
+        if (!isHasUnRead){
+            NoticeMessage noticeMessage = new NoticeMessage();
+            noticeMessage.setMessage("hide");
+            EventBus.getDefault().post(noticeMessage);
+        }
+        super.onBackPressed();
 
     }
 
@@ -103,4 +231,15 @@ public class NoticeActivity extends BaseActivity {
     public void showMessage(@NonNull String message) {
 
     }
+
+
+
+    @Override
+    public void showMsg(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
+
+
+
 }

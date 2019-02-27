@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -19,12 +20,14 @@ import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
 import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
@@ -38,6 +41,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.ArcImageView;
+import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -77,9 +81,14 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @BindView(R.id.signature_about)
     TextView signature;
 
+    @BindView(R.id.notice_bot_about)
+    View noticeBot;
+
     @BindView(R.id.check_in)
     TextView checkIn;
 
+    @BindView(R.id.auth_mark_about)
+    AuthView authMark;
     private boolean isCheck = false;
 
     private AboutPresenter aboutPresenter;
@@ -155,9 +164,37 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
             userName.setText(userEntity.getUser_name());
             ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntity.getUser_icon(),userIcon,R.drawable.defaulticon);
-            signature.setText(userEntity.getUser_signal());
+
+            int role = CommonUtils.isVIP(userEntity.getUser_role());
+            if (role != 2){
+                authMark.setVisibility(View.VISIBLE);
+                if (role == 0){
+                    authMark.setColor(Color.parseColor("#f26402"));
+                }else if (role == 1){
+                    authMark.setColor(Color.parseColor("#2298EF"));
+                }else {
+                    authMark.setVisibility(View.GONE);
+                    signature.setText(userEntity.getUser_signal());
+                }
+                signature.setText("认证：" + userEntity.getUser_role().substring(1));
+
+            }else {
+                authMark.setVisibility(View.GONE);
+                signature.setText(userEntity.getUser_signal());
+            }
+
         }
         EventBus.getDefault().register(this);
+        HostActivity hostActivity = (HostActivity)getActivity();
+        String botStatus = hostActivity.getBotStatus();
+        if (botStatus != null){
+            if (botStatus.equals("notice")){
+                noticeBot.setVisibility(View.VISIBLE);
+            }else {
+                noticeBot.setVisibility(View.GONE);
+            }
+        }
+
     }
 
     @Override
@@ -178,7 +215,23 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         UserEntity userEntityRe = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntityRe.getUser_icon(),userIcon,R.drawable.defaulticon);
         userName.setText(userEntityRe.getUser_name());
-        signature.setText(userEntityRe.getUser_signal());
+        int role = CommonUtils.isVIP(userEntityRe.getUser_role());
+        if (role != 2){
+            authMark.setVisibility(View.VISIBLE);
+            if (role == 0){
+                authMark.setColor(Color.parseColor("#f26402"));
+            }else if (role == 1){
+                authMark.setColor(Color.parseColor("#2298EF"));
+            }else {
+                authMark.setVisibility(View.GONE);
+                signature.setText(userEntityRe.getUser_signal());
+            }
+            signature.setText("认证：" + userEntityRe.getUser_role().substring(1));
+
+        }else {
+            authMark.setVisibility(View.GONE);
+            signature.setText(userEntityRe.getUser_signal());
+        }
     }
     @OnClick(R.id.check_in)
     public void checkIn(View view){
@@ -219,53 +272,43 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     public void userNameClick(View v){
 
         toPersonPage();
-        //TODO 个人主页
     }
     @OnClick(R.id.usericon_about)
     public void userIconClick(View v){
 
         toPersonPage();
-        //TODO 个人主页
     }
     @OnClick(R.id.signature_about)
     public void signatureClick(View v){
 
         toPersonPage();
-        //TODO 个人主页
     }
     @OnClick(R.id.fav_about)
     public void favClick(View v){
         toFavPage();
-        //TODO 收藏
     }
     @OnClick(R.id.download_about)
     public void downloadClick(View v){
        toDownloadPage();
-        //TODO 下载
     }
     @OnClick(R.id.my_upload)
     public void uploadClick(View v){
         toUploadPage();
-        //TODO 上传
     }
     @OnClick(R.id.histroy_about)
     public void historyClick(View v){
         toHistoryPage();
-        //TODO 历史
     }
     @OnClick(R.id.wallet_about)
     public void walletClick(View v){
         toWalletPage();
-        //TODO 钱包
     }
     @OnClick(R.id.message_about)
     public void messageClick(View v){
         toNoticePage();
-        //TODO 信息
     }
     @OnClick(R.id.settings_about)
     public void settingsClick(View v){
-        //TODO 设置
         if (baseApplication.getLoginStatus() == 0){
             Bundle bundleto = new Bundle();
             bundleto.putBoolean("loginstatus",false);
@@ -280,10 +323,18 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @OnClick(R.id.about_about)
     public void aboutClick(View v){
         IntentUtils.getInstence().intent(getMContext(), AboutusActivity.class);
-        //TODO 关于
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(NoticeMessage message) {
+        Log.e( "AboutFragment","执行了这个方法吗？" );
+        if (message.getMessage().equals("show")){
+            noticeBot.setVisibility(View.VISIBLE);
+        }else {
+            noticeBot.setVisibility(View.GONE);
+        }
+    }
 
     private void toPersonPage(){
         if (baseApplication.getLoginStatus() == 0){
@@ -316,8 +367,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             CommonUtils.loadinglogin(getMContext());
         }else if (baseApplication.getLoginStatus() ==1){
             //TODO 进入我的发布页面，显示我发布过的内容
-
-            IntentUtils.getInstence().intent(getMContext(), UploadActivity.class);
+            CommonUtils.makeText(getMContext(),"暂不支持查看");
+            //IntentUtils.getInstence().intent(getMContext(), UploadActivity.class);
         }
     }
     private void toHistoryPage(){

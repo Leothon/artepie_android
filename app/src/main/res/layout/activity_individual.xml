@@ -34,7 +34,7 @@
                     android:scaleType="centerCrop"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="105dp"
+                    android:layout_height="135dp"
                     android:layout_below="@+id/individual_back"
                     android:background="@drawable/ripple"
                     android:clickable="true"
@@ -44,7 +44,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/individual_name"
                             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                         <TextView
                             android:id="@+id/age_individual"
                             android:layout_toRightOf="@+id/individual_name"
-                            android:layout_above="@+id/individual_signal"
+                            android:layout_above="@+id/individual_auth"
                             android:text="未知"
                             android:textColor="@color/fontColor"
                             android:textSize="@dimen/tipsSize"
@@ -68,13 +68,22 @@
                         <ImageView
                             android:id="@+id/sex_individual"
                             android:layout_toRightOf="@id/age_individual"
-                            android:layout_above="@id/individual_signal"
+                            android:layout_above="@id/individual_auth"
                             android:layout_width="18dp"
                             android:layout_height="match_parent"
                             android:src="@drawable/defaultsex"
                             android:layout_marginLeft="8dp"/>
                         <TextView
                             android:layout_below="@+id/individual_name"
+                            android:id="@+id/individual_auth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="认证信息"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/tipsSize"
+                            android:padding="8dp"/>
+                        <TextView
+                            android:layout_below="@+id/individual_auth"
                             android:id="@+id/individual_signal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -103,7 +112,9 @@
                         app:riv_border_width="2dp"
                         android:translationY="-24dp"
                         android:layout_marginRight="20dp"
-                        android:layout_gravity="end" />
+                        android:layout_gravity="end"
+                        android:src="@drawable/defaulticon"/>
+
 
                 </LinearLayout>
 

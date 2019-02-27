@@ -305,8 +305,7 @@ public class CommonUtils {
      * @param number
      * @return
      */
-    public static boolean isPhoneNumber(String number)
-    {
+    public static boolean isPhoneNumber(String number) {
     /*
     移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
     联通：130、131、132、152、155、156、185、186
@@ -1019,5 +1018,19 @@ public class CommonUtils {
             return false;
         }
     }
+
+
+    public static int isVIP(String roleInfo){
+        String role = roleInfo.substring(0,1);
+        if (role.equals("0")){
+            return 0;
+        }else if(role.equals("1")){
+            return 1;
+        }else {
+            return 2;
+        }
+    }
+
+
 
 }

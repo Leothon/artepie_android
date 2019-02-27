@@ -22,6 +22,14 @@
             android:layout_margin="8dp"
             app:riv_oval="true"
             android:scaleType="centerCrop"/>
+
+        <com.leothon.cogito.View.AuthView
+            android:id="@+id/auth_mark_ask"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"/>
         <LinearLayout
             android:layout_toRightOf="@+id/user_icon_ask_detail"
             android:layout_width="wrap_content"
@@ -172,6 +180,17 @@
             android:layout_toRightOf="@+id/comment_ask_detail"
             android:layout_marginLeft="20dp"
             android:padding="3dp"/>
+
+        <TextView
+            android:id="@+id/qa_detail_time"
+            android:textSize="@dimen/tipsSize"
+            android:textColor="@color/fontColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="12:30"
+            android:layout_marginEnd="20dp"/>
     </RelativeLayout>
 
     <View

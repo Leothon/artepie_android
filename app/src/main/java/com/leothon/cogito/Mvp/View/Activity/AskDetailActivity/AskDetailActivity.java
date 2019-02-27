@@ -341,6 +341,11 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     }
 
     @Override
+    public void loadError(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
+    @Override
     public void loadDetail(QADataDetail qaDataDetail) {
 
         if (swpAskDetail.isRefreshing()){
@@ -380,14 +385,14 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
             public void onClick(View v) {
                 askDetailPresenter.sendQaComment(qaDataDetail.getQaData().getQa_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
 
-                Comment comment = new Comment();
-                comment.setUser_name(userEntity.getUser_name());
-                comment.setUser_icon(userEntity.getUser_icon());
-                comment.setComment_q_time(CommonUtils.getNowTime());
-                comment.setComment_q_like("0");
-                comment.setComment_q_content(editComment.getText().toString());
-                qaDataDetail.getComments().add(comment);
-                askDetailAdapter.notifyDataSetChanged();
+//                Comment comment = new Comment();
+//                comment.setUser_name(userEntity.getUser_name());
+//                comment.setUser_icon(userEntity.getUser_icon());
+//                comment.setComment_q_time(CommonUtils.getNowTime());
+//                comment.setComment_q_like("0");
+//                comment.setComment_q_content(editComment.getText().toString());
+//                qaDataDetail.getComments().add(comment);
+//                askDetailAdapter.notifyDataSetChanged();
                 editComment.setText("");
                 askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
                 popupWindow.dismiss();

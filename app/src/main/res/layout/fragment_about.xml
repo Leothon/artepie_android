@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Mvp.View.Fragment.AboutPage.AboutFragment">
+    tools:context=".Mvp.View.Fragment.AboutPage.AboutFragment"
+    android:animateLayoutChanges="true">
 
 
     <include
@@ -52,6 +53,7 @@
                         android:textColor="@color/white" />
 
 
+
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/usericon_about"
                     android:layout_width="64dp"
@@ -63,6 +65,13 @@
                     android:src="@drawable/defaulticon"
                     android:layout_gravity="bottom|center"
                     android:layout_marginBottom="40dp"/>
+                <com.leothon.cogito.View.AuthView
+                    android:id="@+id/auth_mark_about"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginLeft="20dp" />
                 <TextView
                     android:id="@+id/username_about"
                     android:layout_width="wrap_content"
@@ -237,6 +246,7 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/ripple">
 
+
                     <ImageView
                         android:id="@+id/message_img"
                         android:layout_width="36dp"
@@ -253,6 +263,15 @@
                         android:text="消息"
                         android:textSize="@dimen/tipsSize"
                         android:gravity="center"/>
+                    <View
+                        android:id="@+id/notice_bot_about"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/red_bot"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="18dp"
+                        android:visibility="gone"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/settings_about"

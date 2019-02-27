@@ -9,138 +9,250 @@
     <include
         android:id="@+id/vsure_bar"
         layout="@layout/toolbar"/>
-    <RelativeLayout
-        android:layout_below="@+id/vsure_bar"
-        android:id="@+id/top_v_sure"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/dividerColor"
-        android:padding="30dp">
-        <ImageView
-            android:id="@+id/img_vsure"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/idcard"
-            android:scaleType="centerCrop"
-            android:layout_centerInParent="true"/>
-        <TextView
-            android:layout_below="@+id/img_vsure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上传相关资料进行身份认证"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/fontColor"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/info_v_sure"
-        android:layout_below="@+id/top_v_sure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:background="@drawable/ripple">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/v_sure_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/defalutimg"
-            android:scaleType="centerCrop"
-            app:riv_oval="true"
-            android:layout_centerInParent="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="10dp"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/vsure_bar">
+
         <RelativeLayout
-            android:layout_toRightOf="@+id/v_sure_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
 
-            <TextView
-                android:id="@+id/v_sure_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/top_v_sure"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="望江亭"
-                android:textColor="@color/fontColor"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/v_sure_signal"
-                android:layout_below="@+id/v_sure_name"
-                android:textSize="@dimen/tipsSize"
-                android:layout_width="wrap_content"
+                android:background="@color/dividerColor"
+                android:padding="30dp">
+                <ImageView
+                    android:id="@+id/img_vsure"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/idcard"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_below="@+id/img_vsure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上传相关资料进行身份认证"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/fontColor"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/info_v_sure"
+                android:layout_below="@+id/top_v_sure"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="阿里巴巴集团副总裁"/>
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/divider_v_sure"
-        android:layout_below="@+id/info_v_sure"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/dividerColor"/>
-
-    <RelativeLayout
-        android:id="@+id/upload_img_v_sure"
-        android:layout_below="@+id/divider_v_sure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textviewbackground"
-        android:layout_margin="8dp"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp">
-        <ImageView
-            android:id="@+id/add_v_sure"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/baseline_add_black_36"
-            android:layout_centerHorizontal="true"/>
-        <TextView
-            android:id="@+id/v_sure_des"
-            android:layout_below="@+id/add_v_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="请上传您的相关证件照片，例如教师资格证、所在公司执照、名片等"
-            android:textSize="@dimen/tipsSize"
-            android:layout_margin="8dp"
-            android:layout_centerHorizontal="true"/>
-
-        <FrameLayout
-            android:id="@+id/img_to_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:layout_centerInParent="true">
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:id="@+id/ensure_img_v_sure"
-                android:src="@drawable/defalutimg"
-                android:scaleType="centerCrop"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_margin="8dp"/>
-
-            <FrameLayout
-                android:layout_gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:clickable="true"
+                android:background="@drawable/ripple">
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/delete_ensure_img"
+                    android:id="@+id/v_sure_icon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/defalutimg"
+                    android:scaleType="centerCrop"
+                    app:riv_oval="true"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="10dp"/>
+                <RelativeLayout
+                    android:layout_toRightOf="@+id/v_sure_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/v_sure_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="望江亭"
+                        android:textColor="@color/fontColor"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/v_sure_signal"
+                        android:layout_below="@+id/v_sure_name"
+                        android:textSize="@dimen/tipsSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="阿里巴巴集团副总裁"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider_v_sure"
+                android:layout_below="@+id/info_v_sure"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/dividerColor"/>
+
+            <RelativeLayout
+                android:id="@+id/auth_schedule"
+                android:layout_below="@+id/divider_v_sure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:visibility="gone"
+                android:background="@drawable/textviewbackground">
+
+                <TextView
+                    android:id="@+id/auth_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="认证进度"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/appBarSize"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/auth_info_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:text="认证人 ：leothon"
+                    android:layout_below="@+id/auth_title"
+                    android:padding="8dp"/>
+                <TextView
+                    android:id="@+id/auth_info_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:text="认证人ID ：45646"
+                    android:layout_below="@+id/auth_info_name"
+                    android:padding="8dp"/>
+                <TextView
+                    android:id="@+id/auth_info_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:text="认证时间 ：12:30"
+                    android:layout_below="@+id/auth_info_user_id"
+                    android:padding="8dp"/>
+                <TextView
+                    android:id="@+id/auth_info_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:text="认证内容 ： 教师"
+                    android:layout_below="@+id/auth_info_time"
+                    android:padding="8dp"/>
+                <TextView
+                    android:id="@+id/auth_info_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"
+                    android:text="认证进度 ： 待审核"
+                    android:layout_below="@+id/auth_info_content"
+                    android:padding="8dp"/>
+
+                <ImageView
+                    android:layout_below="@+id/auth_info_content"
+                    android:layout_toRightOf="@+id/auth_info_schedule"
+                    android:layout_margin="8dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/baseline_clear_black_18"
-                    app:riv_oval="true"
-                    app:riv_border_width="1dp"
-                    android:visibility="gone"
-                    app:riv_border_color="@color/black"/>
-            </FrameLayout>
+                    android:id="@+id/auth_info_schedule_mark"
+                    android:src="@drawable/unpass"/>
 
-        </FrameLayout>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/auth_info_advice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="认证意见 : "
+                    android:textColor="@color/fontColor"
+                    android:textSize="@dimen/contentSize"
+                    android:layout_below="@+id/auth_info_schedule"
+                    android:padding="8dp"/>
 
+                <Button
+                    android:id="@+id/re_auth_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btnbackground"
+                    android:text="重新认证"
+                    android:textColor="@color/white"
+                    android:layout_below="@+id/auth_info_advice"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="8dp"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/upload_img_v_sure"
+                android:layout_below="@+id/divider_v_sure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textviewbackground"
+                android:layout_margin="8dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/add_v_sure"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/baseline_add_black_36"
+                    android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:id="@+id/v_sure_des"
+                    android:layout_below="@+id/add_v_sure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请上传您的相关证件照片，例如教师资格证、所在公司执照、名片等"
+                    android:textSize="@dimen/tipsSize"
+                    android:layout_margin="8dp"
+                    android:layout_centerHorizontal="true"/>
+
+                <FrameLayout
+                    android:id="@+id/img_to_sure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/ensure_img_v_sure"
+                        android:src="@drawable/defalutimg"
+                        android:scaleType="centerCrop"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:layout_margin="8dp"/>
+
+                    <FrameLayout
+                        android:layout_gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/delete_ensure_img"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/baseline_clear_black_18"
+                            app:riv_oval="true"
+                            app:riv_border_width="1dp"
+                            android:visibility="gone"
+                            app:riv_border_color="@color/black"/>
+                    </FrameLayout>
+
+                </FrameLayout>
+            </RelativeLayout>
+
+
+
+
+
+        </RelativeLayout>
+    </ScrollView>
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/v_sure_info"
-        android:layout_below="@+id/upload_img_v_sure"
+        android:layout_above="@+id/send_v_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -152,7 +264,6 @@
         app:met_floatingLabelText="输入认证的身份信息(例如:XX大学声乐教授)"
         app:met_floatingLabel="normal"
         app:met_clearButton="true"/>
-
     <TextView
         android:id="@+id/send_v_sure"
         android:layout_width="match_parent"

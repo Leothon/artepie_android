@@ -39,6 +39,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.AuthView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
@@ -50,6 +51,7 @@ import org.w3c.dom.Text;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,9 +143,25 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
             ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getUser_icon(), detailViewHolder.userIcon, R.drawable.defaulticon);
             detailViewHolder.userName.setText(qaDataDetail.getQaData().getUser_name());
-            detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
+            int role = CommonUtils.isVIP(qaDataDetail.getQaData().getUser_role());
+            if (role != 2){
+                detailViewHolder.authMark.setVisibility(View.VISIBLE);
+                if (role == 0){
+                    detailViewHolder.authMark.setColor(Color.parseColor("#f26402"));
+                }else if (role == 1){
+                    detailViewHolder.authMark.setColor(Color.parseColor("#2298EF"));
+                }else {
+                    detailViewHolder.authMark.setVisibility(View.GONE);
+                    detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
+                }
+                detailViewHolder.userDes.setText("认证：" + qaDataDetail.getQaData().getUser_role().substring(1));
 
+            }else {
+                detailViewHolder.authMark.setVisibility(View.GONE);
+                detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
+            }
 
+            detailViewHolder.qaDetailTime.setText(CommonUtils.getTimeRange(qaDataDetail.getQaData().getQa_time()));
             String re = qaDataDetail.getQaData().getQa_content();
             SpannableString spannableString = new SpannableString(re);
             if (re.contains("@") && re.contains(":")){
@@ -385,6 +403,24 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.reBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if (qaDataDetail.getQaData().getQaData() != null){
+                        if (qaDataDetail.getQaData().getQaData().getQa_user_id() != null){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("type","re");
+                            if (qaDataDetail.getQaData().getQaData() != null){
+                                bundle.putString("qaId",qaDataDetail.getQaData().getQaData().getQa_id());
+
+                            }else {
+                                bundle.putString("qaId","");
+                            }
+
+                            bundle.putString("id",qaDataDetail.getQaData().getQa_id());
+                            IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+                        }else {
+                            CommonUtils.makeText(context,"原问题已被删除，不可转发");
+                        }
+                    }else {
                         Bundle bundle = new Bundle();
                         bundle.putString("type","re");
                         if (qaDataDetail.getQaData().getQaData() != null){
@@ -396,6 +432,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                         bundle.putString("id",qaDataDetail.getQaData().getQa_id());
                         IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+                    }
+
+
                 }
             });
         } else if (viewType == HEAD1) {
@@ -468,7 +507,12 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_icon(), commentViewHolder.replyUserIcon1, R.drawable.defaulticon);
                 commentViewHolder.comment1TimeQa.setText(CommonUtils.getTimeRange(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_time()));
-                commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
+                if (qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_user_id().equals(qaDataDetail.getQaData().getQa_user_id())){
+                    commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name() + "[作者]");
+                }else {
+                    commentViewHolder.replyUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getUser_name());
+                }
+
                 commentViewHolder.replyToUserName1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getTo_user_name());
                 commentViewHolder.replyComment1.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_comment());
 
@@ -633,7 +677,12 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                 ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getComments().get(position1).getUser_icon(), commentViewHolder.userIconComment, R.drawable.defaulticon);
-                commentViewHolder.userNameComment.setText(qaDataDetail.getComments().get(position1).getUser_name());
+                if (qaDataDetail.getComments().get(position1).getComment_q_user_id().equals(qaDataDetail.getQaData().getQa_user_id())){
+                    commentViewHolder.userNameComment.setText(qaDataDetail.getComments().get(position1).getUser_name() + "[作者]");
+                }else {
+                    commentViewHolder.userNameComment.setText(qaDataDetail.getComments().get(position1).getUser_name());
+                }
+
                 commentViewHolder.userComment.setText(qaDataDetail.getComments().get(position1).getComment_q_content());
                 commentViewHolder.commentTo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -736,11 +785,16 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.re_detail_like)
         TextView reLike;
 
+        @BindView(R.id.qa_detail_time)
+        TextView qaDetailTime;
         @BindView(R.id.re_detail_comment)
         TextView reComment;
 
         @BindView(R.id.re_detail_video_player)
         StandardGSYVideoPlayer reVideo;
+
+        @BindView(R.id.auth_mark_ask)
+        AuthView authMark;
         public DetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -804,6 +858,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView reply1More;
         @BindView(R.id.reply2_more)
         ImageView reply2More;
+
 
         @BindView(R.id.comment_to)
         RelativeLayout commentTo;

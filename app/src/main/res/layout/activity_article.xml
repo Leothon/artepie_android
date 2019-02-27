@@ -138,6 +138,14 @@
                         android:src="@drawable/defaulticon"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"/>
+                    <com.leothon.cogito.View.AuthView
+                        android:id="@+id/auth_mark_article"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/article_author_detail"
                         android:layout_width="wrap_content"

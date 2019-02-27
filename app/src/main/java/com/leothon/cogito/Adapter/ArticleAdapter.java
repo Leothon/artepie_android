@@ -34,6 +34,12 @@ public class ArticleAdapter extends BaseAdapter {
         holder.setText(R.id.article_author,article.getArticleAuthorName());
         holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
         holder.setText(R.id.article_title,article.getArticleTitle());
+        int role = CommonUtils.isVIP(article.getAuthorRole());
+        if (role != 2){
+            holder.setAuthorVisible(R.id.auth_mark_article_list,role,1);
+        }else {
+            holder.setAuthorVisible(R.id.auth_mark_article_list,role,0);
+        }
 
     }
 

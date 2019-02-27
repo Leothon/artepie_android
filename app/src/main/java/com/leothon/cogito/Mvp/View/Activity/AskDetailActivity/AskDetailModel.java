@@ -21,7 +21,9 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+
+                        listener.loadError("该问题或已被删除!");
+                        //listener.showInfo(errorMsg);
 
                     }
                     @Override
@@ -58,7 +60,7 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        listener.loadError("该评论或已被删除!");
 
                     }
                     @Override

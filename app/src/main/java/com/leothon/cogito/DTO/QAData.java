@@ -16,6 +16,17 @@ public class QAData {
     private String user_icon;
     private String user_signal;
 
+    private String user_role;
+
+    public String getUser_role() {
+        return user_role;
+    }
+
+    public void setUser_role(String user_role) {
+        this.user_role = user_role;
+    }
+
+
     private boolean liked;
     private String qa_video_cover;
 

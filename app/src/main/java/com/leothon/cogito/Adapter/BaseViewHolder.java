@@ -1,6 +1,7 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.View.AuthView;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.ButterKnife;
@@ -84,6 +87,11 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
         ImageView img = (ImageView) convertView.findViewById(id);
         ImageLoader.loadImageViewThumbnailwitherror(context,url,img, R.drawable.defalutimg);
     }
+
+    public void setViewBackColor(int id,int color){
+        View view = (View)convertView.findViewById(id);
+        view.setBackgroundColor(color);
+    }
     public void setViewText(TextView tv, String text) {
         tv.setText(text);
     }
@@ -112,6 +120,31 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
                 break;
         }
 
+    }
+
+    public void setAuthorVisible(int id,int type,int visivble){
+        AuthView authView = (AuthView)convertView.findViewById(id);
+
+        switch (visivble){
+            case 0:
+                authView.setVisibility(View.GONE);
+                break;
+            case 1:
+                authView.setVisibility(View.VISIBLE);
+                if (type == 0){
+                    authView.setColor(Color.parseColor("#f26402"));
+                }else if (type == 1){
+                    authView.setColor(Color.parseColor("#2298EF"));
+                }else {
+                    authView.setVisibility(View.GONE);
+                }
+                break;
+            case 2:
+                authView.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                break;
+        }
     }
 
 

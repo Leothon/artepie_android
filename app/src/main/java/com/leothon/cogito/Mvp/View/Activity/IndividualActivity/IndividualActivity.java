@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.IndividualActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -64,6 +65,8 @@ public class IndividualActivity extends BaseActivity {
     @BindView(R.id.follow_btn)
     TextView followBtn;
 
+    @BindView(R.id.individual_auth)
+    TextView authInfo;
     @BindView(R.id.v_sure)
     TextView vSure;
     @BindView(R.id.individual_content)
@@ -137,7 +140,16 @@ public class IndividualActivity extends BaseActivity {
                 individualSex.setImageResource(R.drawable.defaultsex);
             }
 
-            individualSignal.setText(userEntity.getUser_signal());
+            int role = CommonUtils.isVIP(userEntity.getUser_role());
+            if (role != 2){
+                authInfo.setVisibility(View.VISIBLE);
+                authInfo.setText("认证：" + userEntity.getUser_role().substring(1));
+                individualSignal.setText(userEntity.getUser_signal());
+
+            }else {
+                authInfo.setVisibility(View.GONE);
+                individualSignal.setText(userEntity.getUser_signal());
+            }
 
             individualLocation.setText(userEntity.getUser_address());
 
@@ -209,6 +221,7 @@ public class IndividualActivity extends BaseActivity {
     public void vSure(View view){
         //TODO 加V认证
         //CommonUtils.makeText(this,"认证");
+
         IntentUtils.getInstence().intent(IndividualActivity.this, VSureActivity.class);
     }
 
@@ -242,6 +255,7 @@ public class IndividualActivity extends BaseActivity {
 
         ImageLoader.loadImageViewThumbnailwitherror(this,userEntityRe.getUser_icon(),individualIcon,R.drawable.defaulticon);
 
+        authInfo.setText(userEntityRe.getUser_role().substring(1));
         individualSignal.setText(userEntityRe.getUser_signal());
 
         individualLocation.setText(userEntityRe.getUser_address());

@@ -35,6 +35,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.AuthView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -120,10 +121,28 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
             ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUser_icon(),askViewHolder.userIcon,R.drawable.defaulticon);
             askViewHolder.userName.setText(ask.getUser_name());
-            askViewHolder.userDes.setText(ask.getUser_signal());
+            int role = CommonUtils.isVIP(ask.getUser_role());
+            if (role != 2){
+                askViewHolder.authMark.setVisibility(View.VISIBLE);
+                if (role == 0){
+                    askViewHolder.authMark.setColor(Color.parseColor("#f26402"));
+                }else if (role == 1){
+                    askViewHolder.authMark.setColor(Color.parseColor("#2298EF"));
+                }else {
+                    askViewHolder.authMark.setVisibility(View.GONE);
+                    askViewHolder.userDes.setText(ask.getUser_signal());
+                }
+                askViewHolder.userDes.setText("认证：" + ask.getUser_role().substring(1));
+
+            }else {
+                askViewHolder.authMark.setVisibility(View.GONE);
+                askViewHolder.userDes.setText(ask.getUser_signal());
+            }
 
 
 
+
+            askViewHolder.qaTime.setText(CommonUtils.getTimeRange(ask.getQa_time()));
             String re = ask.getQa_content();
 
             SpannableString spannableString = new SpannableString(re);
@@ -388,21 +407,43 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View v) {
                     if (isLogin){
-                        Bundle bundle = new Bundle();
-                        bundle.putString("type","re");
+
                         if (ask.getQaData() != null){
-                            bundle.putString("qaId",ask.getQaData().getQa_id());
+                            if (ask.getQaData().getQa_user_id() != null){
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type","re");
+                                if (ask.getQaData() != null){
+                                    bundle.putString("qaId",ask.getQaData().getQa_id());
+                                }else {
+                                    bundle.putString("qaId","");
+                                }
+
+                                bundle.putString("id",ask.getQa_id());
+                                IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+                            }else {
+                                CommonUtils.makeText(context,"原问题已被删除，不可转发");
+                            }
                         }else {
-                            bundle.putString("qaId","");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("type","re");
+                            if (ask.getQaData() != null){
+                                bundle.putString("qaId",ask.getQaData().getQa_id());
+                            }else {
+                                bundle.putString("qaId","");
+                            }
+
+                            bundle.putString("id",ask.getQa_id());
+                            IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
                         }
 
-                        bundle.putString("id",ask.getQa_id());
-                        IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
+
                     }else {
                         CommonUtils.loadinglogin(context);
                     }
                 }
             });
+
+
         }else if(viewType == HEAD1){
             return;
         }
@@ -465,6 +506,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.more_ask)
         ImageView moreAsk;
 
+        @BindView(R.id.auth_mark_ask_list)
+        AuthView authMark;
+
         @BindView(R.id.re_btn)
         ImageView reBtn;
 
@@ -486,6 +530,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.re_video_player)
         StandardGSYVideoPlayer reVideo;
 
+        @BindView(R.id.qa_list_time)
+        TextView qaTime;
         @BindView(R.id.video_item_player)
         StandardGSYVideoPlayer gsyVideoPlayer;
         public AskViewHolder(View itemView) {

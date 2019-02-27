@@ -38,6 +38,13 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
+    public void loadError(String msg) {
+        if (iAskDetailView != null){
+            iAskDetailView.loadError(msg);
+        }
+    }
+
+    @Override
     public void getComment(CommentDetail commentDetail) {
         if (iAskDetailView != null){
             iAskDetailView.getComment(commentDetail);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notice_ll"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,6 +21,15 @@
                 android:src="@drawable/defalutimg"
                 app:riv_oval="true"
                 android:scaleType="centerCrop"/>
+
+            <View
+                android:id="@+id/show_notice_bot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/red_bot"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"/>
         </RelativeLayout>
 
 
@@ -45,6 +55,7 @@
                     android:layout_alignParentStart="true"/>
 
                 <TextView
+                    android:id="@+id/like_or_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="回复了您"

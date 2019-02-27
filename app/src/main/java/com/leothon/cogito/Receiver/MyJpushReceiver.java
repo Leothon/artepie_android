@@ -1,10 +1,20 @@
 package com.leothon.cogito.Receiver;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
+
+import com.leothon.cogito.Message.NoticeMessage;
+import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
+import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.IntentUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -17,9 +27,13 @@ public class MyJpushReceiver extends BroadcastReceiver {
             Bundle bundle=intent.getExtras();
             String title = bundle.getString(JPushInterface.EXTRA_TITLE);
             String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-            //吐司自定义内容
-            Toast.makeText(context, "message title"+title+"content:"+message, Toast.LENGTH_LONG).show();
+            NoticeMessage noticeMessage = new NoticeMessage();
+            noticeMessage.setMessage("show");
+            noticeMessage.setTitle(title);
+            EventBus.getDefault().post(noticeMessage);
         }
 
     }
+
+
 }

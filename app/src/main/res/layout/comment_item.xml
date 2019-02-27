@@ -10,8 +10,8 @@
         android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/icon_rl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp">
             <com.makeramen.roundedimageview.RoundedImageView
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="名字"
                 android:textSize="@dimen/littleTitle"
-                android:maxLength="8"
+                android:maxLength="20"
                 android:textColor="@color/black"
                 android:layout_gravity="top|start"/>
 
@@ -136,7 +136,7 @@
                 android:textSize="@dimen/littleTitle"
                 android:textColor="@color/black"
                 android:layout_gravity="top|start"
-                android:maxLength="8"/>
+                android:maxLength="12"/>
             <TextView
                 android:id="@+id/reply1"
                 android:layout_marginLeft="8dp"
@@ -151,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="名字"
-                android:maxLength="8"
+                android:maxLength="12"
                 android:textSize="@dimen/littleTitle"
                 android:textColor="@color/black"
                 android:layout_gravity="top|start" />

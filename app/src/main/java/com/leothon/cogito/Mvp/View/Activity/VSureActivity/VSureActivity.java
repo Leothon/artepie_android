@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.VSureActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -10,19 +11,24 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
@@ -33,13 +39,18 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class VSureActivity extends BaseActivity {
+public class VSureActivity extends BaseActivity implements VSureContract.IVSureView {
 
 
     @BindView(R.id.v_sure_icon)
@@ -48,8 +59,6 @@ public class VSureActivity extends BaseActivity {
     TextView vSureName;
     @BindView(R.id.v_sure_signal)
     TextView vSureSignal;
-    @BindView(R.id.upload_img_v_sure)
-    RelativeLayout uploadImgVSure;
     @BindView(R.id.v_sure_des)
     TextView vSureDes;
     @BindView(R.id.ensure_img_v_sure)
@@ -61,9 +70,42 @@ public class VSureActivity extends BaseActivity {
     @BindView(R.id.send_v_sure)
     TextView sendVSure;
 
+    @BindView(R.id.upload_img_v_sure)
+    RelativeLayout uploadImgRL;
+    @BindView(R.id.auth_schedule)
+    RelativeLayout authSchedule;
+
+    @BindView(R.id.auth_info_name)
+    TextView authInfoName;
+    @BindView(R.id.auth_info_user_id)
+    TextView authInfoUserId;
+    @BindView(R.id.auth_info_time)
+    TextView authInfoTime;
+    @BindView(R.id.auth_info_content)
+    TextView authInfoContent;
+    @BindView(R.id.auth_info_schedule)
+    TextView authInfoSchedule;
+    @BindView(R.id.auth_info_schedule_mark)
+    ImageView authInfoMark;
+    @BindView(R.id.auth_info_advice)
+    TextView authAdvice;
+
+    @BindView(R.id.re_auth_btn)
+    Button reAuthBtn;
+
+
+
+    private VSurePresenter vSurePresenter;
+
+    private AuthInfo authInfo;
+
+
+
     private UserEntity userEntity;
     private boolean isImgShow = false;
 
+    private String url;
+    ZLoadingDialog dialog = new ZLoadingDialog(VSureActivity.this);
     private String path;
     @Override
     public int initLayout() {
@@ -74,16 +116,20 @@ public class VSureActivity extends BaseActivity {
     public void initData() {
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
-
+        vSurePresenter = new VSurePresenter(this);
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+
     }
     @Override
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("认证身份");
         ImageLoader.loadImageViewThumbnailwitherror(this, userEntity.getUser_icon(),vSureIcon,R.drawable.defalutimg);
-        vSureName.setText("叶落知秋");
-        vSureSignal.setText("如鱼饮水，冷暖自知");
+        vSureName.setText(userEntity.getUser_name());
+
+        vSureSignal.setText(userEntity.getUser_signal());
+        showLoadingAnim();
+        vSurePresenter.getAuthInfo(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
     @OnClick(R.id.upload_img_v_sure)
@@ -92,16 +138,111 @@ public class VSureActivity extends BaseActivity {
         chooseImg();
     }
 
+    @Override
+    public void sendSuccess(String msg) {
+        CommonUtils.makeText(this,msg);
+        vSurePresenter.getAuthInfo(activitysharedPreferencesUtils.getParams("token","").toString());
+        vSurePresenter.getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString());
+
+    }
+
+    @Override
+    public void uploadImgSuccess(String msg) {
+        hideLoadingAnim();
+        url = Api.ComUrl + "resource/" + msg;
+    }
+
+    @Override
+    public void getUserInfoSuccess(User user) {
+        hideLoadingAnim();
+
+        UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
+        getDAOSession().update(userEntity);
+        EventBus.getDefault().post(user);
+
+    }
+
+    @Override
+    public void getInfoSuccess(ArrayList<AuthInfo> authInfos) {
+        hideLoadingAnim();
+
+        authInfo = new AuthInfo();
+        this.authInfo = authInfos.get(0);
+        if (authInfo == null){
+            uploadImgRL.setVisibility(View.VISIBLE);
+            authSchedule.setVisibility(View.GONE);
+            vSureInfo.setVisibility(View.VISIBLE);
+        }else {
+            if (authInfo.getAuthStatus() == 2){
+                uploadImgRL.setVisibility(View.GONE);
+                authSchedule.setVisibility(View.VISIBLE);
+                reAuthBtn.setVisibility(View.VISIBLE);
+                vSureInfo.setVisibility(View.GONE);
+                authInfoName.setText("认证人 ： " + userEntity.getUser_name());
+                authInfoUserId.setText("认证人ID : " + authInfo.getAuthUserId());
+                authInfoTime.setText("认证提交时间 ： " + authInfo.getAuthTime());
+                authInfoContent.setText("认证内容 ： " + authInfo.getAuthContent());
+                authInfoSchedule.setText("认证进度 : 认证失败！");
+                authInfoMark.setImageResource(R.drawable.unpass);
+                authAdvice.setText("认证建议 : " + authInfo.getAuthAdvice());
+                reAuthBtn.setVisibility(View.VISIBLE);
+            }else if (authInfo.getAuthStatus() == 1){
+                vSurePresenter.getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString());
+                uploadImgRL.setVisibility(View.GONE);
+                authSchedule.setVisibility(View.VISIBLE);
+                reAuthBtn.setVisibility(View.VISIBLE);
+
+                authInfoName.setText("认证人 ： " + userEntity.getUser_name());
+                authInfoUserId.setText("认证人ID : " + authInfo.getAuthUserId());
+                authInfoTime.setText("认证提交时间 ： " + authInfo.getAuthTime());
+                authInfoContent.setText("认证内容 ： " + authInfo.getAuthContent());
+                authInfoSchedule.setText("认证进度 : 认证成功！");
+                authInfoMark.setImageResource(R.drawable.pass);
+                authAdvice.setText("认证建议 : " + authInfo.getAuthAdvice());
+                vSureInfo.setVisibility(View.GONE);
+            }else {
+                uploadImgRL.setVisibility(View.GONE);
+                authSchedule.setVisibility(View.VISIBLE);
+                vSureInfo.setVisibility(View.GONE);
+                authInfoName.setText("认证人 ： " + userEntity.getUser_name());
+                authInfoUserId.setText("认证人ID : " + authInfo.getAuthUserId());
+                authInfoTime.setText("认证提交时间 ： " + authInfo.getAuthTime());
+                authInfoContent.setText("认证内容 ： " + authInfo.getAuthContent());
+                authInfoSchedule.setText("认证进度 : 待审核！");
+                authInfoMark.setImageResource(R.drawable.unpass);
+                authAdvice.setText("认证建议 : " + authInfo.getAuthAdvice());
+                reAuthBtn.setVisibility(View.GONE);
+            }
+
+        }
+
+
+    }
+
+
+    @OnClick(R.id.re_auth_btn)
+    public void reAuth(View view){
+        uploadImgRL.setVisibility(View.VISIBLE);
+        authSchedule.setVisibility(View.GONE);
+        vSureInfo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showInfo(String msg) {
+        CommonUtils.makeText(this,msg);
+    }
+
     @OnClick(R.id.send_v_sure)
     public void sendVSure(View view){
 
         if (!vSureInfo.getText().toString().equals("") && isImgShow){
-            //TODO 上传相关证件
-            onBackPressed();
-//            Bundle bundleto = new Bundle();
-//            bundleto.putString("type","individual");
-//            IntentUtils.getInstence().intent(VSureActivity.this, IndividualActivity.class,bundleto);
-//            finish();
+            if (url != null){
+                showLoadingAnim();
+                vSurePresenter.sendAuthInfo(activitysharedPreferencesUtils.getParams("token","").toString(),url,vSureInfo.getText().toString());
+            }else {
+                CommonUtils.makeText(this,"图片未上传请重试");
+            }
+
         }else {
             CommonUtils.makeText(this,"请上传图片，填写信息");
         }
@@ -187,6 +328,7 @@ public class VSureActivity extends BaseActivity {
             /**
              * 如，根据path获取剪辑后的图片
              */
+
             Bitmap bitmap = PhotoUtils.convertToBitmap(path,PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
             if(bitmap != null){
                 ensureImg.setVisibility(View.VISIBLE);
@@ -196,6 +338,9 @@ public class VSureActivity extends BaseActivity {
                 vSureDes.setVisibility(View.GONE);
                 isImgShow = true;
             }
+            File file = new File(path);
+            showLoadingAnim();
+            vSurePresenter.uploadAuthImg(file);
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -226,5 +371,28 @@ public class VSureActivity extends BaseActivity {
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vSurePresenter.onDestroy();
+    }
+
+    private void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
+
+    private void hideLoadingAnim(){
+        dialog.cancel();
     }
 }

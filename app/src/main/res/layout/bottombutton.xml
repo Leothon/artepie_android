@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:layout_alignParentBottom="true"
-    app:cardElevation="3dp">
+    app:cardElevation="3dp"
+    android:animateLayoutChanges="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,14 +46,29 @@
             android:background="@drawable/ripple">
 
         </com.leothon.cogito.Weight.BottomButton>
-        <com.leothon.cogito.Weight.BottomButton
-            android:id="@+id/bottom_btn_about"
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ripple">
+            android:layout_weight="1">
 
-        </com.leothon.cogito.Weight.BottomButton>
+            <com.leothon.cogito.Weight.BottomButton
+                android:id="@+id/bottom_btn_about"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple">
+            </com.leothon.cogito.Weight.BottomButton>
+            <View
+                android:id="@+id/notice_bot_host"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/red_bot"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="25dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
 

@@ -6,12 +6,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.leothon.cogito.Bean.Notice;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
@@ -21,15 +29,21 @@ import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on 2018.7.24
@@ -56,6 +70,9 @@ public class HostActivity extends BaseActivity  {
     FrameLayout container;
     @BindView(R.id.host_bottom)
     CardView hostBottom;
+
+    @BindView(R.id.notice_bot_host)
+    View noticeBot;
 
     @BindView(R.id.bar_host)
     CardView barHost;
@@ -85,6 +102,8 @@ public class HostActivity extends BaseActivity  {
     private Animation mShowAction;
     private Animation mHiddenAction;
 
+    private String info;
+
     private ArrayList<Fragment> fragmentArrayList;
     @Override
     public int initLayout() {
@@ -100,6 +119,7 @@ public class HostActivity extends BaseActivity  {
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
         bundle = intent.getExtras();
+        EventBus.getDefault().register(this);
         switch (bundle.getString("type")){
             case "home":
                 focusOnHome();
@@ -161,7 +181,37 @@ public class HostActivity extends BaseActivity  {
 
     @Override
     public void initData() {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        CommonUtils.makeText(HostActivity.this,errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
 
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        info = baseResponse.getError();
+                        if (info.equals("notice")){
+                            NoticeMessage noticeMessage = new NoticeMessage();
+                            noticeMessage.setMessage("show");
+                            EventBus.getDefault().post(noticeMessage);
+                        }else{
+                            noticeBot.setVisibility(View.GONE);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -174,6 +224,9 @@ public class HostActivity extends BaseActivity  {
 
     }
 
+    public String getBotStatus(){
+        return info;
+    }
     @Override
     public BaseModel initModel() {
         return null;
@@ -446,6 +499,14 @@ public class HostActivity extends BaseActivity  {
         removeAllActivity();
 
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(NoticeMessage message) {
+        if (message.getMessage().equals("show")){
+            noticeBot.setVisibility(View.VISIBLE);
+        }else {
+            noticeBot.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -463,6 +524,10 @@ public class HostActivity extends BaseActivity  {
     protected void onDestroy() {
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
+
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
     }
 
 }

@@ -2,7 +2,9 @@ package com.leothon.cogito.Http;
 
 
 import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.ClassDetailList;
+import com.leothon.cogito.Bean.NoticeInfo;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
@@ -56,6 +58,8 @@ public interface HttpService {
 
     @GET("getuserinfo")
     Observable<BaseResponse<User>> getUserInfo(@Query("token") String token);
+
+
 
     @Multipart
     @POST("uploadfile")
@@ -176,4 +180,22 @@ public interface HttpService {
 
     @POST("deletearticle")
     Observable<BaseResponse<String>> deleteArticle(@Query("token") String token,@Query("articleid") String articleId);
+
+    @POST("visiblenotice")
+    Observable<BaseResponse<String>> visibleNotice(@Query("token") String token,@Query("noticeid") String noticeId);
+
+    @POST("visiblenoticeall")
+    Observable<BaseResponse<String>> visibleNoticeAll(@Query("token") String token);
+
+    @GET("ishasnotice")
+    Observable<BaseResponse<String>> isHasNotice(@Query("token") String token);
+
+    @GET("getnoticeinfo")
+    Observable<BaseResponse<ArrayList<NoticeInfo>>> getNoticeInfo(@Query("token") String token);
+
+    @GET("getauthinfo")
+    Observable<BaseResponse<ArrayList<AuthInfo>>> getAuthInfo(@Query("token") String token);
+
+    @POST("uploadauthinfo")
+    Observable<BaseResponse<String>> uploadAuthInfo(@Query("token") String token,@Query("authimg") String authImg,@Query("authcontent") String authContent);
 }

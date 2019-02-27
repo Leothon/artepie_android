@@ -18,6 +18,8 @@ public class Comment extends BaseResponse{
     private String user_icon;
     private String comment_q_time;
 
+
+
     private boolean comment_liked;
 
     public boolean isComment_liked() {

@@ -37,6 +37,7 @@ import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -97,12 +98,14 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
-        setToolbarSubTitle("");
+        setToolbarSubTitle("去往原问题");
         setToolbarTitle("");
         swpCommentDetail.setRefreshing(true);
         askDetailPresenter.loadCommentDetail(bundle.getString("commentId"),activitysharedPreferencesUtils.getParams("token","").toString());
         initReplyPopupWindow();
         initMorePopupWindow();
+
+
     }
 
     private void initAdapter(){
@@ -248,10 +251,23 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         askDetailPresenter.loadCommentDetail(bundle.getString("commentId"),activitysharedPreferencesUtils.getParams("token","").toString());
     }
     @Override
-    public void getComment(CommentDetail commentDetail) {
+    public void getComment(final CommentDetail commentDetail) {
         this.commentDetail = commentDetail;
         if (swpCommentDetail.isRefreshing()){
             swpCommentDetail.setRefreshing(false);
+        }
+        String nextId = commentDetail.getComment().getComment_q_qa_id();
+        if (nextId.substring(0,2).equals("qa")){
+            getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qaId",commentDetail.getComment().getComment_q_qa_id());
+                    IntentUtils.getInstence().intent(CommentDetailActivity.this,AskDetailActivity.class,bundle);
+                }
+            });
+        }else {
+            setToolbarSubTitle("");
         }
         initAdapter();
 
@@ -381,6 +397,11 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+    @Override
+    public void loadError(String msg) {
+        CommonUtils.makeText(this,msg);
     }
 
     @Override

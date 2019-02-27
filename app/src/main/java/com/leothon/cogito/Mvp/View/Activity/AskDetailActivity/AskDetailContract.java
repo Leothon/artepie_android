@@ -37,6 +37,7 @@ public class AskDetailContract {
     public interface IAskDetailView{
 
 
+        void loadError(String msg);
 
         void loadDetail(QADataDetail qaDetail);
         void loadMoreComment(ArrayList<Comment> userComments);
@@ -51,7 +52,7 @@ public class AskDetailContract {
         void loadDetail(QADataDetail qaDetail);
         void loadMoreComment(ArrayList<Comment> userComments);
         void showInfo(String msg);
-
+        void loadError(String msg);
         void getComment(CommentDetail commentDetail);
         void deleteSuccess(String msg);
     }

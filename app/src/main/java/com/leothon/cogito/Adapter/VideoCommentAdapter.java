@@ -20,6 +20,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.AuthView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 
@@ -497,6 +498,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @BindView(R.id.comment_to)
         RelativeLayout commentTo;
+
 
         public CommentViewHolder(View itemView){
             super(itemView);

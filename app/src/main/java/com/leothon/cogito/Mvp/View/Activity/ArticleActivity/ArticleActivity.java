@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.ArticleActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -29,6 +30,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.RichEditTextView;
 import com.leothon.cogito.handle.CustomHtml;
 import com.leothon.cogito.handle.RichEditImageGetter;
@@ -73,6 +75,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @BindView(R.id.more_about_article)
     ImageView moreAboutArticle;
 
+    @BindView(R.id.auth_mark_article)
+    AuthView authMark;
     private TextView deleteContent;
     private TextView copyContent;
     private RelativeLayout dismissArt;
@@ -148,6 +152,19 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         articleRight.setText("本文著作权归作者 @" + article.getArticleAuthorName() + " 所有，转载请联系作者");
         articleTime.setText("发布于" + article.getArticleTime());
 
+        int role = CommonUtils.isVIP(article.getAuthorRole());
+        if (role != 2){
+            authMark.setVisibility(View.VISIBLE);
+            if (role == 0){
+                authMark.setColor(Color.parseColor("#f26402"));
+            }else if (role == 1){
+                authMark.setColor(Color.parseColor("#2298EF"));
+            }else {
+                authMark.setVisibility(View.GONE);
+            }
+        }else {
+            authMark.setVisibility(View.GONE);
+        }
         Spanned spanned = CustomHtml.fromHtml(article.getArticleContent(),CustomHtml.FROM_HTML_MODE_LEGACY,new RichEditImageGetter(this,articleContent),null);
         articleContent.setText(spanned);
         articleContent.setFocusable(false);
