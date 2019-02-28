@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -79,6 +80,167 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     public void onNext(BaseResponse baseResponse) {
 
                         listener.updateSucess();
+                    }
+                });
+    }
+
+    @Override
+    public void checkPhoneNumberIsExits(String number, final EditInfoContract.OnEditInfoFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .isPhoneExits(number)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        String phoneInfo = baseResponse.getError();
+
+                        listener.checkNumberResult(phoneInfo);
+                    }
+                });
+    }
+
+    @Override
+    public void bindPhone(String number, String token, final EditInfoContract.OnEditInfoFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .bindPhoneNumber(token,number)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        if (baseResponse.isSuccess()){
+                            String phoneInfo = baseResponse.getError();
+
+                            listener.bindPhoneNumberSuccess(phoneInfo);
+                        }else {
+                            String phoneInfo = baseResponse.getError();
+
+                            listener.bindPhoneNumberFailed(phoneInfo);
+                        }
+
+                    }
+                });
+    }
+
+    @Override
+    public void verifyPhoneNumber(String phoneNumber, final EditInfoContract.OnEditInfoFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .verifyphone(phoneNumber)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        verify verify = (verify)baseResponse.getData();
+                        listener.verifyCodeSuccess(verify.getCode());
+                    }
+                });
+    }
+
+    @Override
+    public void setPassword(String token, String password, final EditInfoContract.OnEditInfoFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .setPassword(token,password)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        String info = baseResponse.getError();
+                        listener.setPasswordSuccess(info);
+                    }
+                });
+    }
+
+    @Override
+    public void changePassword(String token, String oldPassword, String password,final EditInfoContract.OnEditInfoFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .changePassword(token,oldPassword,password)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        if (baseResponse.isSuccess()){
+                            listener.setPasswordSuccess(baseResponse.getError());
+                        }else {
+                            listener.setPasswordFailed(baseResponse.getError());
+                        }
                     }
                 });
     }

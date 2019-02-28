@@ -29,7 +29,7 @@ public class AboutusActivity extends AppCompatActivity {
         //StatusBarUtils.setStatusBarColor(this,R.color.white);
         aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.mipmap.icon)
+                .setImage(R.mipmap.icon_about)
                 .setDescription("艺派联手国内各大知名艺术教育家推出线教育视屏学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
                 .addItem(new Element().setTitle("联系我们").setGravity(Gravity.CENTER))
                 .addGroup("客户服务")

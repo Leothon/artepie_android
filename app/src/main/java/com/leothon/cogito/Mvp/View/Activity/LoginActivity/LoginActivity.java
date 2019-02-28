@@ -355,12 +355,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @Override
     public void isQQRegisterResult(String msg) {
         if (msg.equals("0")){
-            //TODO QQ注册过
 
             loginPresenter.loginByQQ(mTencent.getAccessToken());
 
         }else if (msg.equals("1")){
-            //TODO 未注册过
             User user = new User();
             JSONObject jsonObject = (JSONObject)loginSuccessResult;
             try {
@@ -395,6 +393,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private void LoginSuccess(){
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
+        CommonUtils.makeText(this,"如果您未设置密码，请尽快设置密码以确保账户安全");
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
         setLoginStatus(1);//表示登录成功
         finish();

@@ -7,16 +7,21 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.danikula.videocache.file.Md5FileNameGenerator;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
@@ -33,6 +38,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.MD5Utils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
 import com.leothon.cogito.Utils.tokenUtils;
@@ -83,7 +89,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private static final int PHONE = 1;
     private static final int SIGNATRUE = 2;
     private static final int ADDRESS = 3;
-
+    public int T = 60;
     private String phone = "绑定手机号";
     private String signatrue = "输入签名，展示自己";
     private String address = "填写地址，发现同城好友";
@@ -92,10 +98,22 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private User userSend;
     private String icon;
 
+    private Handler mHandler = new Handler();
+
     private UserEntity userInsert;
     private EditInfoPresenter editInfoPresenter;
     private UserEntity userEntity;
+    private MaterialEditText phoneNumberBind;
+    private Button getVerifyCodeBtn;
+    private MaterialEditText verifyCodeBind;
 
+    private TextView passwordTitle;
+    private MaterialEditText inputOldPassword;
+    private MaterialEditText inputPassword;
+    private Button sendPassword;
+
+    private String nowPassword;
+    private String password = "";
     ZLoadingDialog dialog = new ZLoadingDialog(EditIndividualActivity.this);
     @Override
     public int initLayout() {
@@ -174,6 +192,17 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             userInsert.setUser_sex(0);
         }
 
+        if (!password.equals("")){
+            userSend.setUser_password(password);
+            userInsert.setUser_password(password);
+        }else {
+            userSend.setUser_password("");
+            userInsert.setUser_password("");
+        }
+
+        userSend.setUser_role(userEntity.getUser_role());
+        userInsert.setUser_role(userEntity.getUser_role());
+
         userSend.setUser_birth(userBirth.getText().toString());
         userInsert.setUser_birth(userBirth.getText().toString());
         userSend.setUser_phone(userNumber.getText().toString());
@@ -212,6 +241,54 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         super.onBackPressed();
     }
 
+    @Override
+    public void checkNumberResult(String msg) {
+        hideLoadingAnim();
+        if (msg.equals("yes")){
+            phoneNumberBind.setFloatingLabelText("该号码已被其他账号绑定，如果您确定绑定，则会导致那个账号信息丢失");
+        }else {
+            phoneNumberBind.setFloatingLabelText("该号码可以被绑定");
+        }
+    }
+
+    @Override
+    public void bindPhoneNumberSuccess(String msg) {
+        hideLoadingAnim();
+        CommonUtils.makeText(this,msg);
+        isEdit = true;
+    }
+
+    @Override
+    public void bindPhoneNumberFailed(String msg) {
+        hideLoadingAnim();
+        isEdit = false;
+        CommonUtils.makeText(this,msg);
+        phoneNumberBind.setText("");
+        verifyCodeBind.setText("");
+    }
+
+    @Override
+    public void verifyCodeSuccess(String msg) {
+        hideLoadingAnim();
+        verifyCodeBind.setText(msg);
+    }
+
+    @Override
+    public void setPasswordSuccess(String msg) {
+        hideLoadingAnim();
+        password = nowPassword;
+        CommonUtils.makeText(this,msg);
+        isEdit = true;
+    }
+
+    @Override
+    public void setPasswordFailed(String msg) {
+        hideLoadingAnim();
+        CommonUtils.makeText(this,msg);
+        inputOldPassword.setText("");
+        inputPassword.setText("");
+    }
+
     @OnClick(R.id.edit_icon)
     public void editIcon(View view){
 
@@ -231,7 +308,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     }
     @OnClick(R.id.edit_phone)
     public void editPhone(View view){
-        onTextEditDialog(PHONE);
+        onPhoneEditDialog();
     }
     @OnClick(R.id.edit_signal)
     public void editSignal(View view){
@@ -245,6 +322,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     @OnClick(R.id.edit_password)
     public void editPassword(View view){
+        onPasswordEditDialog();
     }
 
     @OnClick(R.id.edit_person_info)
@@ -254,8 +332,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     public void sendEdit(){
         if (isEdit){
-
-            //TODO 增加进度条
 
             showLoadingAnim();
             if (path != null && !path.equals("")){
@@ -343,6 +419,200 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         builder3.show();// 让弹出框显示
     }
 
+    private void onPasswordEditDialog(){
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View nameView = layoutInflater.inflate(R.layout.dialog_password_bind, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // 使用setView()方法将布局显示到dialog
+        alertDialogBuilder.setView(nameView);
+        passwordTitle = (TextView)nameView.findViewById(R.id.password_bind_title);
+        inputOldPassword = (MaterialEditText) nameView.findViewById(R.id.input_old_password);
+        inputPassword = (MaterialEditText)nameView.findViewById(R.id.input_password);
+        sendPassword = (Button)nameView.findViewById(R.id.send_password);
+
+
+        inputPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String checkResult = CommonUtils.checkPassword(editable.toString());
+                if (checkResult.equals("弱")){
+                    inputPassword.setFloatingLabelText("密码强度弱，不安全");
+                    inputPassword.setFloatingLabelTextColor(Color.parseColor("#db4437"));
+                }else if (checkResult.equals("中")){
+                    inputPassword.setFloatingLabelText("密码强度中");
+                    inputPassword.setFloatingLabelTextColor(Color.parseColor("#FFFFCC00"));
+                }else if (checkResult.equals("强")){
+                    inputPassword.setFloatingLabelText("密码强度强");
+                    inputPassword.setFloatingLabelTextColor(Color.parseColor("#FF02C602"));
+                }else {
+                    inputPassword.setFloatingLabelText("测试");
+                }
+            }
+        });
+        if (userEntity.getUser_password().equals("")){
+            passwordTitle.setText("设置密码");
+            inputOldPassword.setVisibility(View.GONE);
+            sendPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!inputPassword.getText().toString().equals("")){
+                        String passwordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
+                        editInfoPresenter.setPassword(activitysharedPreferencesUtils.getParams("token","").toString(),passwordEncrypt);
+                        nowPassword = passwordEncrypt;
+                        showLoadingAnim();
+
+                    }else {
+                        CommonUtils.makeText(EditIndividualActivity.this,"请输入密码");
+                    }
+
+
+                }
+            });
+        }else {
+            passwordTitle.setText("修改密码");
+            inputOldPassword.setVisibility(View.VISIBLE);
+            sendPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (inputPassword.getText().toString().equals("") || inputOldPassword.getText().toString().equals("")){
+                        CommonUtils.makeText(EditIndividualActivity.this,"请输入原密码和将设置的密码");
+                    }else {
+                        String oldPasswordEncrypt = MD5Utils.encrypt(inputOldPassword.getText().toString());
+                        String newPasswordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
+                        editInfoPresenter.changePassword(activitysharedPreferencesUtils.getParams("token","").toString(),oldPasswordEncrypt,newPasswordEncrypt);
+                        nowPassword = newPasswordEncrypt;
+                        showLoadingAnim();
+                    }
+                }
+            });
+        }
+
+
+        alertDialogBuilder
+                .setCancelable(false)
+//                .setPositiveButton("确认绑定",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                // 获取edittext的内容,显示到textview
+//
+//                                if (phoneNumberBind.getText().toString().equals("") || verifyCodeBind.getText().toString().equals("")){
+//                                    CommonUtils.makeText(EditIndividualActivity.this,"请输入完整信息");
+//                                }else {
+//                                    if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
+//                                        userNumber.setText(phoneNumberBind.getText().toString());
+//                                        editInfoPresenter.bindPhone(phoneNumberBind.getText().toString(),activitysharedPreferencesUtils.getParams("token","").toString());
+//                                        showLoadingAnim();
+//                                        dialog.cancel();
+//                                    }else {
+//                                        CommonUtils.makeText(EditIndividualActivity.this,"手机号码不合法");
+//                                    }
+//
+//                                }
+//
+//                            }
+//                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+    }
+
+    private void onPhoneEditDialog(){
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View nameView = layoutInflater.inflate(R.layout.dialog_phone_bind, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // 使用setView()方法将布局显示到dialog
+        alertDialogBuilder.setView(nameView);
+
+        phoneNumberBind = (MaterialEditText) nameView.findViewById(R.id.bind_phone_number);
+        verifyCodeBind = (MaterialEditText)nameView.findViewById(R.id.verify_code_bind);
+        getVerifyCodeBtn = (Button)nameView.findViewById(R.id.get_verify_code_bind);
+
+        phoneNumberBind.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 11){
+                    getVerifyCodeBtn.setEnabled(true);
+                    getVerifyCodeBtn.setBackground(getResources().getDrawable(R.drawable.btnbackground));
+                    editInfoPresenter.checkPhoneNumberIsExits(phoneNumberBind.getText().toString());
+                    showLoadingAnim();
+                }else {
+                    getVerifyCodeBtn.setEnabled(false);
+                    getVerifyCodeBtn.setBackground(getResources().getDrawable(R.drawable.btnenableback));
+                }
+            }
+        });
+
+        getVerifyCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new MyCountDownTimer()).start();
+                editInfoPresenter.verifyPhoneNumber(phoneNumberBind.getText().toString());
+                showLoadingAnim();
+            }
+        });
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("确认绑定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // 获取edittext的内容,显示到textview
+
+                                if (phoneNumberBind.getText().toString().equals("") || verifyCodeBind.getText().toString().equals("")){
+                                    CommonUtils.makeText(EditIndividualActivity.this,"请输入完整信息");
+                                }else {
+                                    if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
+                                        userNumber.setText(phoneNumberBind.getText().toString());
+                                        editInfoPresenter.bindPhone(phoneNumberBind.getText().toString(),activitysharedPreferencesUtils.getParams("token","").toString());
+                                        showLoadingAnim();
+                                        dialog.cancel();
+                                    }else {
+                                        CommonUtils.makeText(EditIndividualActivity.this,"手机号码不合法");
+                                    }
+
+                                }
+
+                            }
+                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+    }
     /**
      * 文本编辑
      */
@@ -388,32 +658,32 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                     }
                                 });
                 break;
-            case PHONE:
-                userInput.setFloatingLabelText("修改绑定号码");
-                userInput.setText(userEntity.getUser_phone() + "");
-                userInput.setHint("修改绑定号码");
-                // 设置Dialog按钮
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("确认修改",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // 获取edittext的内容,显示到textview
-                                        if (!userInput.getText().toString().equals("")){
-                                            phone = userInput.getText().toString();
-                                            userNumber.setText(phone);
-                                            isEdit = true;
-                                        }
-
-                                    }
-                                })
-                        .setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                break;
+//            case PHONE:
+//                userInput.setFloatingLabelText("修改绑定号码");
+//                userInput.setText(userEntity.getUser_phone() + "");
+//                userInput.setHint("修改绑定号码");
+//                // 设置Dialog按钮
+//                alertDialogBuilder
+//                        .setCancelable(false)
+//                        .setPositiveButton("确认修改",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        // 获取edittext的内容,显示到textview
+//                                        if (!userInput.getText().toString().equals("")){
+//                                            phone = userInput.getText().toString();
+//                                            userNumber.setText(phone);
+//                                            isEdit = true;
+//                                        }
+//
+//                                    }
+//                                })
+//                        .setNegativeButton("取消",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                break;
             case SIGNATRUE:
                 userInput.setFloatingLabelText("修改签名");
                 userInput.setText(userEntity.getUser_signal() + "");
@@ -608,5 +878,48 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     protected void onDestroy() {
         super.onDestroy();
         editInfoPresenter.onDestroy();
+    }
+
+    class MyCountDownTimer implements Runnable {
+
+        @Override
+        public void run() {
+
+            //倒计时开始，循环
+            while (T > 0) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getVerifyCodeBtn.setClickable(false);
+                        getVerifyCodeBtn.setText(T + "秒后重新获取");
+                        getVerifyCodeBtn.setBackground(getResources().getDrawable(R.drawable.btnenableback));
+                    }
+                });
+                try {
+                    Thread.sleep(1000); //强制线程休眠1秒，就是设置倒计时的间隔时间为1秒。
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                T--;
+            }
+
+            //倒计时结束，也就是循环结束
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (phoneNumberBind.getEditableText().toString().length() == 11){
+                        getVerifyCodeBtn.setClickable(true);
+                        getVerifyCodeBtn.setText("获取验证码");
+                        getVerifyCodeBtn.setBackground(getResources().getDrawable(R.drawable.btnbackground));
+                    }else {
+                        getVerifyCodeBtn.setClickable(false);
+                        getVerifyCodeBtn.setText("获取验证码");
+                        getVerifyCodeBtn.setBackground(getResources().getDrawable(R.drawable.btnenableback));
+                    }
+
+                }
+            });
+            T = 60; //最后再恢复倒计时时长
+        }
     }
 }

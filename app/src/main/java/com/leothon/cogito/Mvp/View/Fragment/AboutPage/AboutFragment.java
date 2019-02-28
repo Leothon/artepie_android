@@ -164,7 +164,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
             userName.setText(userEntity.getUser_name());
             ImageLoader.loadImageViewThumbnailwitherror(getMContext(),userEntity.getUser_icon(),userIcon,R.drawable.defaulticon);
-
+            Log.e("initView: ",userEntity.getUser_role() );
             int role = CommonUtils.isVIP(userEntity.getUser_role());
             if (role != 2){
                 authMark.setVisibility(View.VISIBLE);

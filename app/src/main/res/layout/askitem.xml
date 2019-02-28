@@ -80,7 +80,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/contentSize"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
+                android:layout_marginRight="8dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/show_more_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="查看全文"-->
+                <!--android:textSize="@dimen/tipsSize"-->
+                <!--android:textColor="@color/actionsheet_blue"-->
+                <!--android:padding="5dp"-->
+                <!--/>-->
 
 
         <RelativeLayout
@@ -107,8 +116,18 @@
                 android:layout_below="@+id/re_user_name"
                 android:textSize="@dimen/contentSize"
                 android:textColor="@color/black"
-                android:padding="5dp"/>
+                android:padding="5dp" />
 
+            <!--<TextView-->
+                <!--android:id="@+id/show_more_content_re"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="查看全文"-->
+                <!--android:layout_below="@+id/re_content"-->
+                <!--android:textSize="@dimen/tipsSize"-->
+                <!--android:textColor="@color/actionsheet_blue"-->
+                <!--android:padding="5dp"-->
+                <!--/>-->
             <TextView
                 android:id="@+id/re_like"
                 android:layout_width="wrap_content"

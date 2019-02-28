@@ -26,8 +26,8 @@ public class PhotoUtils {
     public static final int PHOTOGRAPH = 1;// 拍照
     public static final int PHOTOZOOM = 2; // 缩放
     public static final int PHOTORESOULT = 3;// 结果
-    public static final int PICTURE_HEIGHT = 180;
-    public static final int PICTURE_WIDTH = 180;
+    public static final int PICTURE_HEIGHT = 200;
+    public static final int PICTURE_WIDTH = 200;
     public static String imageName;
 
     /**

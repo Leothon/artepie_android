@@ -534,6 +534,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         TextView qaTime;
         @BindView(R.id.video_item_player)
         StandardGSYVideoPlayer gsyVideoPlayer;
+
         public AskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

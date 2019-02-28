@@ -198,4 +198,18 @@ public interface HttpService {
 
     @POST("uploadauthinfo")
     Observable<BaseResponse<String>> uploadAuthInfo(@Query("token") String token,@Query("authimg") String authImg,@Query("authcontent") String authContent);
+
+    @GET("isphoneexits")
+    Observable<BaseResponse<String>> isPhoneExits(@Query("phone") String phoneNumber);
+
+    @POST("bindphone")
+    Observable<BaseResponse<String>> bindPhoneNumber(@Query("token") String token,@Query("phonenumber") String phoneNumber);
+
+
+    @POST("setpassword")
+    Observable<BaseResponse<String>> setPassword(@Query("token") String token,@Query("password") String password);
+
+    @POST("changepassword")
+    Observable<BaseResponse<String>> changePassword(@Query("token") String token,@Query("oldpassword") String oldPassword,@Query("password") String password);
+
 }
