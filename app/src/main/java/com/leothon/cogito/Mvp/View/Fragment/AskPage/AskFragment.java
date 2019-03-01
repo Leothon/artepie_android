@@ -29,8 +29,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Base.BaseApplication;
@@ -48,6 +50,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,6 +61,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
@@ -94,6 +98,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private Animation viewHideAnim;
     private BaseApplication baseApplication;
 
+    public static final int SCROLL_STATE_IDLE = 0;
+    public static final int SCROLL_STATE_DRAGGING = 1;
+    public static final int SCROLL_STATE_SETTLING = 2;
     private boolean isLogin;
 
     private TextView deleteContent;
@@ -173,7 +180,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String msg){
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {
@@ -223,12 +230,12 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
     public void deleteSuccess(String msg) {
-        CommonUtils.makeText(getMContext(),"删除成功");
+        MyToast.getInstance(getMContext()).show("删除成功",Toast.LENGTH_SHORT);
     }
 
     public void initAdapter(){
@@ -245,6 +252,38 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         rvAsk.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean controlVisible = true;
             int scrollDistance = 0;
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                switch (newState) {
+                    case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
+                        //当屏幕停止滚动，加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).resumeRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_DRAGGING: // The RecyclerView is currently being dragged by outside input such as user touch input.
+                        //当屏幕滚动且用户使用的触碰或手指还在屏幕上，停止加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).pauseRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_SETTLING: // The RecyclerView is currently animating to a final position while not under outside control.
+                        //由于用户的操作，屏幕产生惯性滑动，停止加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).pauseRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 int lastVisibleItem = mlinearLayoutManager.findLastVisibleItemPosition();
@@ -315,7 +354,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                     public void onClick(View v) {
                         ClipboardManager cm = (ClipboardManager) getMContext().getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
-                        CommonUtils.makeText(getMContext(),"内容已复制");
+                        MyToast.getInstance(getMContext()).show("内容已复制",Toast.LENGTH_SHORT);
                         popupWindow.dismiss();
                     }
                 });

@@ -9,27 +9,12 @@ import com.leothon.cogito.Mvp.BaseContract;
 public class LoginContract {
 
     public interface ILoginModel{
-        /**
-         * 登录
-         * @param user
-         * @param Listener
-         */
-        void login(User user,OnLoginFinishedListener Listener);
 
-        /**
-         * 注册
-         * @param user
-         * @param Listener
-         */
+        void login(String phoneNumber, String password,OnLoginFinishedListener Listener);
+
+
         void register(User user,OnLoginFinishedListener Listener);
 
-
-        /**
-         *
-         * 验证手机号码
-         * @param phoneNumber
-         * @param listener
-         */
 
         void verifyPhonenumber(String phoneNumber,OnLoginFinishedListener listener);
 
@@ -47,13 +32,7 @@ public class LoginContract {
          * 这个地方放上VIew中需要操作的方法
          */
 
-        void setUsernameORPassWordEmpty();
-        void showSuccess();
-        void showFail();
 
-        void setSomeEmpty();
-        void showRegisterFail();
-        void showphoneIllegal();
 
         void addverifycode(String code);
 
@@ -69,14 +48,10 @@ public class LoginContract {
 
     public interface OnLoginFinishedListener {
 
-        void onUsernameORPassWordEmpty();
-        void onSuccess();
-        void onFail();
+
 
         void registerORloginSuccess(User user);
-        void onSomeEmpty();
 
-        void onPhoneIllegal();
         void showFailInfo(String err);
         void verifysuccess(String code);
         void isQQRegisterResult(String msg);
@@ -84,7 +59,7 @@ public class LoginContract {
     }
 
     public interface ILoginPresenter{
-        void validateCrendentials(User user);
+        void login(String phoneNumber, String password);
         void registerInfo(User user);
         void onDestroy();
         void verifyphone(String phoneNumber);

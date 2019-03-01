@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
@@ -21,6 +22,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.View.MyToast;
 import com.tencent.tauth.Tencent;
 
 import butterknife.BindView;
@@ -96,7 +98,7 @@ public class SettingsActivity extends BaseActivity {
     @OnClick(R.id.clearcache_settings)
     public void clearCache(View view){
         //TODO 清除缓存
-        CommonUtils.makeText(this,"已清除" + cacheShow.getText() + "缓存");
+        MyToast.getInstance(this).show("已清除" + cacheShow.getText() + "缓存",Toast.LENGTH_SHORT);
         CommonUtils.clearAllCache(getApplicationContext());
         cacheShow.setText("0KB");
 
@@ -105,7 +107,7 @@ public class SettingsActivity extends BaseActivity {
     @OnClick(R.id.check_update_settings)
     public void update(View view){
         //TODO 检查更新
-        CommonUtils.makeText(this,"已是最新版本");
+        MyToast.getInstance(this).show("已是最新版本",Toast.LENGTH_SHORT);
 
     }
 

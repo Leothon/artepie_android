@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.WalletAdapter;
 import com.leothon.cogito.Base.BaseApplication;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import java.util.ArrayList;
@@ -95,9 +97,9 @@ public class WalletActivity extends BaseActivity {
             public void onClick(View view) {
                 //TODO 充值操作
                 if (Constants.rechargeCount.equals("0") || Constants.rechargeCount.equals("")){
-                    CommonUtils.makeText(WalletActivity.this,"请选择充值金额");
+                    MyToast.getInstance(WalletActivity.this).show("请选择充值金额",Toast.LENGTH_SHORT);
                 }else {
-                    CommonUtils.makeText(WalletActivity.this,"向账户充值" + Constants.rechargeCount + "元");
+                    MyToast.getInstance(WalletActivity.this).show("向账户充值" + Constants.rechargeCount + "元",Toast.LENGTH_SHORT);
                 }
 
             }

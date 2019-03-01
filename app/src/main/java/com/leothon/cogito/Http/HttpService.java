@@ -4,6 +4,7 @@ package com.leothon.cogito.Http;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.ClassDetailList;
+import com.leothon.cogito.Bean.FeedbackInfo;
 import com.leothon.cogito.Bean.NoticeInfo;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
@@ -50,6 +51,8 @@ public interface HttpService {
     @GET("usephonelogin")
     Observable<BaseResponse<User>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
 
+    @GET("usepasswordlogin")
+    Observable<BaseResponse<User>> usePasswordLogin(@Query("phonenumber") String phoneNumber,@Query("password") String password);
     @GET("gethomedata")
     Observable<BaseResponse<HomeData>> getHomeData(@Query("token") String token);
 
@@ -58,7 +61,8 @@ public interface HttpService {
 
     @GET("getuserinfo")
     Observable<BaseResponse<User>> getUserInfo(@Query("token") String token);
-
+    @GET("getuserinfobyid")
+    Observable<BaseResponse<User>> getUserInfoById(@Query("userid") String userId);
 
 
     @Multipart
@@ -212,4 +216,7 @@ public interface HttpService {
     @POST("changepassword")
     Observable<BaseResponse<String>> changePassword(@Query("token") String token,@Query("oldpassword") String oldPassword,@Query("password") String password);
 
+
+    @POST("sendfeedback")
+    Observable<BaseResponse<String>> sendFeedback(@Body FeedbackInfo feedbackInfo);
 }

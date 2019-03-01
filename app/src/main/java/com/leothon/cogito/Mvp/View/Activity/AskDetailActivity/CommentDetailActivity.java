@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.CommentDetailAdapter;
 import com.leothon.cogito.Base.BaseApplication;
@@ -39,6 +40,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -207,7 +209,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
                     public void onClick(View v) {
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
-                        CommonUtils.makeText(CommentDetailActivity.this,"内容已复制");
+                        MyToast.getInstance(CommentDetailActivity.this).show("内容已复制",Toast.LENGTH_SHORT);
                         morePopupWindow.dismiss();
                     }
                 });
@@ -238,7 +240,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
                     public void onClick(View v) {
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
-                        CommonUtils.makeText(CommentDetailActivity.this,"内容已复制");
+                        MyToast.getInstance(CommentDetailActivity.this).show("内容已复制",Toast.LENGTH_SHORT);
                         morePopupWindow.dismiss();
                     }
                 });
@@ -401,7 +403,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
 
     @Override
     public void loadError(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -417,7 +419,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     @Override
     public void showInfo(String msg) {
 
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
 

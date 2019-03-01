@@ -4,26 +4,27 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.leothon.cogito.Adapter.FollowAFansAdapter;
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
-import com.leothon.cogito.Mvp.View.Activity.UploadActivity.UploadActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
 import com.leothon.cogito.R;
@@ -31,7 +32,10 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +45,7 @@ import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 public class IndividualActivity extends BaseActivity {
 
@@ -80,6 +85,10 @@ public class IndividualActivity extends BaseActivity {
     private boolean isfollowed = false;
     private UserEntity userEntity;
     private String uuid;
+    ZLoadingDialog dialog = new ZLoadingDialog(IndividualActivity.this);
+
+    private User otherUser;
+
 
     @Override
     public int initLayout() {
@@ -106,7 +115,68 @@ public class IndividualActivity extends BaseActivity {
             followBtn.setVisibility(View.VISIBLE);
             vSure.setVisibility(View.GONE);
             makeUploadClass.setVisibility(View.GONE);
-            individualContent.setText("他发布的内容");
+
+            showLoadingAnim();
+            RetrofitServiceManager.getInstance().create(HttpService.class)
+                    .getUserInfoById(bundle.getString("userId"))
+                    .compose(ThreadTransformer.switchSchedulers())
+                    .subscribe(new BaseObserver() {
+                        @Override
+                        public void doOnSubscribe(Disposable d) { }
+                        @Override
+                        public void doOnError(String errorMsg) {
+                            MyToast.getInstance(IndividualActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
+
+                        }
+                        @Override
+                        public void doOnNext(BaseResponse baseResponse) {
+
+                        }
+                        @Override
+                        public void doOnCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse baseResponse) {
+                            hideLoadingAnim();
+                            otherUser = (User)baseResponse.getData();
+                            individualName.setText(otherUser.getUser_name());
+                            ImageLoader.loadImageViewThumbnailwitherror(IndividualActivity.this, otherUser.getUser_icon(),individualIcon,R.drawable.defaulticon);
+                            try{
+                                int age = CommonUtils.getAge(otherUser.getUser_birth());
+                                individualAge.setText(age + "岁");
+                            }catch (ParseException e){
+                                e.printStackTrace();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            if (otherUser.getUser_sex() == 1){
+                                individualSex.setImageResource(R.drawable.male);
+                                individualContent.setText("他制作的课程");
+                            }else if (otherUser.getUser_sex() == 2){
+                                individualSex.setImageResource(R.drawable.female);
+                                individualContent.setText("她制作的课程");
+                            }else {
+                                individualSex.setImageResource(R.drawable.defaultsex);
+                                individualContent.setText("该用户制作的课程");
+                            }
+
+                            int role = CommonUtils.isVIP(otherUser.getUser_role());
+                            if (role != 2){
+                                authInfo.setVisibility(View.VISIBLE);
+                                authInfo.setText("认证：" + otherUser.getUser_role().substring(1));
+                                individualSignal.setText(otherUser.getUser_signal());
+
+                            }else {
+                                authInfo.setVisibility(View.GONE);
+                                individualSignal.setText(otherUser.getUser_signal());
+                            }
+
+                            individualLocation.setText(otherUser.getUser_address());
+
+                        }
+                    });
 
         }else {
             followBtn.setVisibility(View.GONE);
@@ -121,7 +191,7 @@ public class IndividualActivity extends BaseActivity {
 
                 }
             });
-            individualContent.setText("我发布的内容");
+            individualContent.setText("我制作的课程");
             individualName.setText(userEntity.getUser_name());
             ImageLoader.loadImageViewThumbnailwitherror(this, userEntity.getUser_icon(),individualIcon,R.drawable.defaulticon);
             try{
@@ -162,8 +232,13 @@ public class IndividualActivity extends BaseActivity {
     @OnClick(R.id.make_upload_class)
     public void makeUploadClass(View view){
         //TODO 制作上传视频
-        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class);
-        //CommonUtils.makeText(this,"您不是认证用户，请先认证。\n本平台只有认证用户方可制作上传课程");
+        if (userEntity.getUser_role().substring(0,1).equals("1")){
+            IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class);
+        }else {
+            MyToast.getInstance(this).show("您尚未认证讲师，请先认证。\n本平台只有认证成为讲师方可制作上传课程",Toast.LENGTH_LONG);
+        }
+
+
     }
 
     @OnClick(R.id.follow_btn)
@@ -173,13 +248,11 @@ public class IndividualActivity extends BaseActivity {
             followBtn.setText("关注");
             followBtn.setTextColor(getResources().getColor(R.color.fontColor));
             isfollowed = false;
-            //TODO 取消关注操作
         }else {
             followBtn.setBackgroundResource(R.drawable.v_ensure);
             followBtn.setText("已关注");
             followBtn.setTextColor(getResources().getColor(R.color.white));
             isfollowed = true;
-            //TODO 进行关注操作
         }
 
 
@@ -187,7 +260,6 @@ public class IndividualActivity extends BaseActivity {
 
     @OnClick(R.id.individual_icon)
     public void individualIcon(View view){
-        //TODO 大图
         LayoutInflater inflater = LayoutInflater.from(this);
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -205,29 +277,45 @@ public class IndividualActivity extends BaseActivity {
 
     @OnClick(R.id.individual_follow_count)
     public void followCount(View view){
-        //TODO 关注列表
         Bundle bundleto = new Bundle();
         bundleto.putString("type","follow");
         IntentUtils.getInstence().intent(IndividualActivity.this, FollowAFansActivity.class,bundleto);
     }
     @OnClick(R.id.individual_fans_count)
     public void fansCount(View view){
-        //TODO 粉丝列表
         Bundle bundleto = new Bundle();
         bundleto.putString("type","fans");
         IntentUtils.getInstence().intent(IndividualActivity.this, FollowAFansActivity.class,bundleto);
     }
     @OnClick(R.id.v_sure)
     public void vSure(View view){
-        //TODO 加V认证
-        //CommonUtils.makeText(this,"认证");
 
         IntentUtils.getInstence().intent(IndividualActivity.this, VSureActivity.class);
     }
 
     @OnClick(R.id.individual_content)
     public void individualContent(View view){
-        IntentUtils.getInstence().intent(IndividualActivity.this, UploadActivity.class);
+        if (bundle.get("type").equals("other")){
+
+            if (otherUser.getUser_role().substring(0,1).equals("1")){
+                //TODO 跳转这个人的列表
+                MyToast.getInstance(IndividualActivity.this).show("这个人是讲师",Toast.LENGTH_LONG);
+            }else {
+                MyToast.getInstance(IndividualActivity.this).show("该用户非认证的讲师",Toast.LENGTH_LONG);
+            }
+
+        }else {
+            if (userEntity.getUser_role().substring(0,1).equals("1")){
+                //TODO 跳转自己上传的课程目录
+                //IntentUtils.getInstence().intent(IndividualActivity.this, QAHisActivity.class);
+                MyToast.getInstance(IndividualActivity.this).show("您已是讲师",Toast.LENGTH_LONG);
+            }else {
+                MyToast.getInstance(IndividualActivity.this).show("您尚未认证成为讲师",Toast.LENGTH_LONG);
+            }
+        }
+
+
+
     }
 
 
@@ -294,5 +382,21 @@ public class IndividualActivity extends BaseActivity {
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+
+
+    private void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
+
+    private void hideLoadingAnim(){
+        dialog.cancel();
     }
 }

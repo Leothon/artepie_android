@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Bean.AskDetail;
@@ -40,6 +41,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
@@ -388,7 +390,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Bundle bundleto = new Bundle();
 
                         if (reShowQA.getQa_user_id() == null){
-                            CommonUtils.makeText(context,"内容已被删除");
+                            MyToast.getInstance(context).show("内容已被删除",Toast.LENGTH_SHORT);
                         }else {
                             bundleto.putString("qaId",reShowQA.getQa_id());
                             IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
@@ -418,7 +420,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             bundle.putString("id",qaDataDetail.getQaData().getQa_id());
                             IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
                         }else {
-                            CommonUtils.makeText(context,"原问题已被删除，不可转发");
+                            MyToast.getInstance(context).show("原问题已被删除，不可转发",Toast.LENGTH_SHORT);
                         }
                     }else {
                         Bundle bundle = new Bundle();

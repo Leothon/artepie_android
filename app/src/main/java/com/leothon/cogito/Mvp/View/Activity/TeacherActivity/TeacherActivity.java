@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
 import com.leothon.cogito.Bean.ClassItem;
@@ -28,6 +29,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -136,7 +138,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
 

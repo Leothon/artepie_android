@@ -8,6 +8,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
+import android.view.ViewManager;
+import android.view.WindowManager;
 
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
@@ -22,6 +24,8 @@ public class BaseApplication extends Application {
 
 
     private int loginStatus;
+
+    public static WindowManager mWdm;
 
     public int getLoginStatus() {
         return loginStatus;
@@ -40,6 +44,7 @@ public class BaseApplication extends Application {
         builder.detectFileUriExposure();
         MultiDex.install(this);
         //instances = this;
+        mWdm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         setDatabase();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);

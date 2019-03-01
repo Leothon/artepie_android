@@ -37,8 +37,8 @@
                 android:id="@+id/account_login"
                 android:layout_below="@+id/register_text"
                 app:met_floatingLabel="normal"
-                app:met_floatingLabelText="使用手机号/用户名登录"
-                android:hint="使用手机号/用户名登录"
+                app:met_floatingLabelText="使用手机号登录"
+                android:hint="使用手机号登录"
                 app:met_iconLeft="@drawable/baseline_account_circle_black_18"
                 android:textSize="@dimen/contentSize"
                 app:met_clearButton="true"
@@ -46,7 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="40dp"
-                android:paddingTop="5dp" />
+                android:paddingTop="5dp"
+                android:maxLength="11"
+                android:inputType="number"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/password_login"

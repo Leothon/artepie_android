@@ -17,26 +17,6 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     }
 
 
-    @Override
-    public void onUsernameORPassWordEmpty() {
-        if (iLoginView != null){
-            iLoginView.setUsernameORPassWordEmpty();
-        }
-    }
-
-    @Override
-    public void onSuccess() {
-        if (iLoginView != null){
-            iLoginView.showSuccess();
-        }
-    }
-
-    @Override
-    public void onFail() {
-        if (iLoginView != null){
-            iLoginView.showFail();
-        }
-    }
 
     @Override
     public void registerORloginSuccess(User  user) {
@@ -45,23 +25,7 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
-    @Override
-    public void onSomeEmpty() {
-        if (iLoginView != null){
-            iLoginView.setSomeEmpty();
-        }
-    }
 
-
-
-
-
-    @Override
-    public void onPhoneIllegal() {
-        if (iLoginView != null){
-            iLoginView.showphoneIllegal();
-        }
-    }
 
     @Override
     public void showFailInfo(String err) {
@@ -91,15 +55,10 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
-    /**
-     * 在presenter中调用model中的登录
-     * @param user
-     */
+
     @Override
-    public void validateCrendentials(User user) {
-
-        iLoginModel.login(user,this);
-
+    public void login(String phoneNumber, String password) {
+        iLoginModel.login(phoneNumber,password,this);
     }
 
     @Override

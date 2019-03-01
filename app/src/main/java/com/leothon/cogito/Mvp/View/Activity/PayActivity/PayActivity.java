@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -15,6 +16,7 @@ import com.leothon.cogito.Mvp.View.Activity.SuccessActivity.SuccessActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.MDCheckBox;
 
@@ -142,16 +144,16 @@ public class PayActivity extends BaseActivity {
     public void payToMoney(View view){
         //TODO 支付
         if (accountCheck.isChecked()){
-            CommonUtils.makeText(this,"使用账户余额支付");
+            MyToast.getInstance(this).show("使用账户余额支付",Toast.LENGTH_SHORT);
             startPay(0);
         }else if (aliCheck.isChecked()){
-            CommonUtils.makeText(this,"使用支付宝支付");
+            MyToast.getInstance(this).show("使用支付宝支付",Toast.LENGTH_SHORT);
             startPay(1);
         }else if (wechatCheck.isChecked()){
-            CommonUtils.makeText(this,"使用微信支付");
+            MyToast.getInstance(this).show("使用微信支付",Toast.LENGTH_SHORT);
             startPay(2);
         }else {
-            CommonUtils.makeText(this,"请选择一种支付方式进行支付");
+            MyToast.getInstance(this).show("请选择一种支付方式进行支付",Toast.LENGTH_SHORT);
         }
     }
 
@@ -161,13 +163,13 @@ public class PayActivity extends BaseActivity {
             @Override
             public void run() {
                 if (payType == 0){
-                    CommonUtils.makeText(PayActivity.this,"使用账户支付");
+                    MyToast.getInstance(PayActivity.this).show("使用账户支付",Toast.LENGTH_SHORT);
                     pay();
                 }else if (payType == 1){
-                    CommonUtils.makeText(PayActivity.this,"使用支付宝支付");
+                    MyToast.getInstance(PayActivity.this).show("使用支付宝支付",Toast.LENGTH_SHORT);
                     pay();
                 }else if (payType == 2){
-                    CommonUtils.makeText(PayActivity.this,"使用微信支付");
+                    MyToast.getInstance(PayActivity.this).show("使用微信支付",Toast.LENGTH_SHORT);
                     pay();
                 }
 

@@ -77,7 +77,7 @@
             <RelativeLayout
                 android:id="@+id/upload_cover_ll"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:visibility="gone">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/upload_cover_img"
@@ -91,10 +91,11 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/delete"
+                    android:tint="@color/colorAccent"
                     android:id="@+id/delete_video"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"/>
                 <ImageView
                     android:id="@+id/preview_video"
                     android:layout_width="wrap_content"

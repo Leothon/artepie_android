@@ -36,6 +36,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.Banner;
+import com.leothon.cogito.View.MyToast;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -168,7 +169,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -342,7 +343,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     @OnClick(R.id.search)
     public void toSearch(View v) {
-        //TODO 跳转到搜索页面
         IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
     }
 

@@ -1,19 +1,17 @@
-package com.leothon.cogito.Mvp.View.Activity.UploadActivity;
+package com.leothon.cogito.Mvp.View.Activity.QAHisActivity;
 
 import com.leothon.cogito.DTO.QAData;
-import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragmentContract;
-import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskModel;
 
 import java.util.ArrayList;
 
-public class UploadPresenter implements UploadContract.IUploadPresenter,UploadContract.OnUploadFinishedListener {
-    private UploadContract.IUploadView iUploadView;
-    private UploadContract.IUploadModel iUploadModel;
+public class QAHisPresenter implements QAHisContract.IUploadPresenter,QAHisContract.OnQAHisFinishedListener {
+    private QAHisContract.IUploadView iUploadView;
+    private QAHisContract.IUploadModel iUploadModel;
 
 
-    public UploadPresenter(UploadContract.IUploadView iUploadView){
+    public QAHisPresenter(QAHisContract.IUploadView iUploadView){
         this.iUploadView = iUploadView;
-        this.iUploadModel = new UploadModel();
+        this.iUploadModel = new QAHisModel();
     }
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {

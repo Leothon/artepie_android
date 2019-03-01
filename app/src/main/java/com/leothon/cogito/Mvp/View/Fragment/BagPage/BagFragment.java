@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.BagAdapter;
 import com.leothon.cogito.Base.BaseApplication;
@@ -16,6 +17,7 @@ import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
@@ -118,7 +120,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override

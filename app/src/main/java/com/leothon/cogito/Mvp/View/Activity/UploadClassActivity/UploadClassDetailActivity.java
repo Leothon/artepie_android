@@ -1,15 +1,13 @@
 package com.leothon.cogito.Mvp.View.Activity.UploadClassActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.UploadSave;
 import com.leothon.cogito.Constants;
@@ -17,7 +15,7 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -76,7 +74,7 @@ public class UploadClassDetailActivity extends BaseActivity{
     @OnClick(R.id.add_btn_class)
     public void addClass(View view){
         if (contentClassDetail.getText().toString().equals("")){
-            CommonUtils.makeText(this,"请输入内容再提交");
+            MyToast.getInstance(this).show("请输入内容再提交",Toast.LENGTH_SHORT);
         }else {
             String title = titleClassDetail.getText().toString();
             String content = contentClassDetail.getText().toString();

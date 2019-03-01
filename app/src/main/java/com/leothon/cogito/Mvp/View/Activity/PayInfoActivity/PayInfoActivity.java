@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenValid;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.MDCheckBox;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -208,7 +210,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         }else if (weChatPayCheck.isChecked()){
             startPay(2);
         }else {
-            CommonUtils.makeText(this,"请选择一种支付方式进行支付");
+            MyToast.getInstance(this).show("请选择一种支付方式进行支付",Toast.LENGTH_SHORT);
         }
         //TODO payPresenter.sendTransactionInfo(activitysharedPreferencesUtils.getParams("token","").toString(),selectClass.getSelectId());
 //        if (bundle.getString("type").equals("class")){
@@ -259,12 +261,12 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         switch (payMethod){
             case 1:
                 //TODO 支付宝支付
-                CommonUtils.makeText(this,"支付宝支付" + selectClass.getSelectlisttitle());
+                MyToast.getInstance(this).show("支付宝支付" + selectClass.getSelectlisttitle(),Toast.LENGTH_SHORT);
                 Log.e(TAG, "startPay: " + "支付宝支付");
                 break;
             case 2:
                 //TODO 微信支付
-                CommonUtils.makeText(this,"微信支付" + selectClass.getSelectlisttitle());
+                MyToast.getInstance(this).show("微信支付" + selectClass.getSelectlisttitle(),Toast.LENGTH_SHORT);
                 Log.e(TAG, "startPay: " + "微信支付");
                 break;
             default:
@@ -334,6 +336,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 }

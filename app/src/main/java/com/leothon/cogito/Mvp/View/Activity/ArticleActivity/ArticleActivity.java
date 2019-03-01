@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
@@ -31,6 +32,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.View.RichEditTextView;
 import com.leothon.cogito.handle.CustomHtml;
 import com.leothon.cogito.handle.RichEditImageGetter;
@@ -296,12 +298,12 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @Override
     public void showInfo(String msg) {
 
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
     public void deleteSuccess(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         Article article = new Article();
         EventBus.getDefault().post(article);
         super.onBackPressed();

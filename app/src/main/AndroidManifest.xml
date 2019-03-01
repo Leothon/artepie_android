@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <!-- <uses-permission android:name="android.permission.WRITE_SETTINGS"/> -->
     <!--<uses-permission android:name="android.permission.VIBRATE" />-->
 
@@ -246,7 +248,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".Mvp.View.Activity.SearchActivity.SearchActivity" />
-        <activity android:name=".Mvp.View.Activity.UploadActivity.UploadActivity" />
+        <activity android:name=".Mvp.View.Activity.QAHisActivity.QAHisActivity" />
         <activity android:name=".Mvp.View.Activity.IndividualActivity.IndividualActivity" />
         <activity android:name=".Mvp.View.Activity.VSureActivity.VSureActivity" />
         <activity android:name=".Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity" />

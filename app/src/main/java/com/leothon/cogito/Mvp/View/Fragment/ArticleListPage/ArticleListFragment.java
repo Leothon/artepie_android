@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
@@ -32,6 +33,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.View.Banner;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -311,7 +313,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override

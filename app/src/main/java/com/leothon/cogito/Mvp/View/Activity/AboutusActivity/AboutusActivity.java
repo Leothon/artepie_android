@@ -11,11 +11,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.MyToast;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
@@ -26,6 +28,7 @@ public class AboutusActivity extends AppCompatActivity {
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //StatusBarUtils.setStatusBarColor(this,R.color.white);
         aboutPage = new AboutPage(this)
                 .isRTL(false)
@@ -38,6 +41,7 @@ public class AboutusActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //TODO 跳转到拨号
+
                         Intent intent = new Intent(Intent.ACTION_DIAL);
                         Uri data = Uri.parse("tel:" + "(010)5338 1318");
                         intent.setData(data);
@@ -84,4 +88,5 @@ public class AboutusActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
 }

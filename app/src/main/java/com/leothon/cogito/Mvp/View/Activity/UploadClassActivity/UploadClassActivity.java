@@ -1,29 +1,25 @@
 package com.leothon.cogito.Mvp.View.Activity.UploadClassActivity;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.UploadClassAdapter;
 import com.leothon.cogito.Bean.ChooseClass;
-import com.leothon.cogito.Bean.SaveUploadData;
-import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.UploadSave;
 import com.leothon.cogito.Constants;
-import com.leothon.cogito.Message.MessageEvent;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -33,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -112,10 +107,10 @@ public class UploadClassActivity extends BaseActivity {
     @OnClick(R.id.send_icon)
     public void sendClass(View view){
         if (titleClassUpload.getText().toString().equals("") || descClassUpload.getText().toString().equals("") || uploadSaves.size() == 0){
-            CommonUtils.makeText(this,"请填写完整内容");
+            MyToast.getInstance(this).show("请填写完整内容",Toast.LENGTH_SHORT);
         }else {
             //TODO 上传课程
-            CommonUtils.makeText(this,"课程上传成功");
+            MyToast.getInstance(this).show("课程上传成功",Toast.LENGTH_SHORT);
             Constants.classTitle = "";
             Constants.classDesc = "";
             Constants.uploadSaves.clear();

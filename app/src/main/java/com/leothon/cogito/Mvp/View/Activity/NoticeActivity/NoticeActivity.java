@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.NoticeAdapter;
@@ -26,6 +27,7 @@ import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActiv
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -104,12 +106,12 @@ public class NoticeActivity extends BaseActivity implements NoticeContract.INoti
 
     @Override
     public void setNoticeVisibleSuccess(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
     public void setNoticeAllVisibleSuccess(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         for (int i = 0;i < noticeInfos.size();i ++){
             if (noticeInfos.get(i).getNoticeStatus() != 1){
                 noticeInfos.get(i).setNoticeStatus(1);
@@ -236,7 +238,7 @@ public class NoticeActivity extends BaseActivity implements NoticeContract.INoti
 
     @Override
     public void showMsg(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
 

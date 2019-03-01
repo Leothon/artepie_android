@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.FavAdapter;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActiv
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
@@ -92,7 +94,7 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
 
     @Override
     public void showMsg(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
 

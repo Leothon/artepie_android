@@ -1,4 +1,4 @@
-package com.leothon.cogito.Mvp.View.Activity.UploadActivity;
+package com.leothon.cogito.Mvp.View.Activity.QAHisActivity;
 
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Http.BaseObserver;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
 
-public class UploadModel implements UploadContract.IUploadModel {
+public class QAHisModel implements QAHisContract.IUploadModel {
     @Override
-    public void getAskData(String token,final UploadContract.OnUploadFinishedListener listener) {
+    public void getAskData(String token,final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .getQADataById(token)
                 .compose(ThreadTransformer.switchSchedulers())
@@ -42,7 +42,7 @@ public class UploadModel implements UploadContract.IUploadModel {
     }
 
     @Override
-    public void getAskMoreData(int currentPage, String token,final UploadContract.OnUploadFinishedListener listener) {
+    public void getAskMoreData(int currentPage, String token,final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .getMoreQADataById(currentPage,token)
                 .compose(ThreadTransformer.switchSchedulers())
@@ -71,7 +71,7 @@ public class UploadModel implements UploadContract.IUploadModel {
     }
 
     @Override
-    public void addLike(String token, String qaId, final UploadContract.OnUploadFinishedListener listener) {
+    public void addLike(String token, String qaId, final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .addLikeQa(token,qaId)
                 .compose(ThreadTransformer.switchSchedulers())
@@ -103,7 +103,7 @@ public class UploadModel implements UploadContract.IUploadModel {
     }
 
     @Override
-    public void removeLike(String token, String qaId, final UploadContract.OnUploadFinishedListener listener) {
+    public void removeLike(String token, String qaId, final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .removeLikeQa(token,qaId)
                 .compose(ThreadTransformer.switchSchedulers())

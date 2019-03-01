@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
@@ -27,6 +28,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FontStyle;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.FontStyleMenu;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.View.RichEditTextView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.handle.CustomHtml;
@@ -202,7 +204,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     @Override
     public void isUploadSuccess(String info) {
         hideLoadingAnim();
-        CommonUtils.makeText(this,"文章发布成功");
+        MyToast.getInstance(this).show("文章发布成功",Toast.LENGTH_SHORT);
         PictureFileUtils.deleteCacheDirFile(WriteArticleActivity.this);
         Article article = new Article();
         EventBus.getDefault().post(article);
@@ -250,7 +252,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
             writeArticlePresenter.uploadArticleInfo(article);
             showLoadingAnim();
         }else {
-            CommonUtils.makeText(this,"请完成文章所有内容后提交！");
+            MyToast.getInstance(this).show("请完成文章所有内容后提交！",Toast.LENGTH_SHORT);
         }
 
     }
@@ -349,7 +351,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     private void showLoadingAnim(){

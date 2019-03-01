@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.leothon.cogito.Adapter.TestSelfAdapter;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
@@ -98,7 +100,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
     public void initAdapter(){
             swpTest.setOnRefreshListener(this);

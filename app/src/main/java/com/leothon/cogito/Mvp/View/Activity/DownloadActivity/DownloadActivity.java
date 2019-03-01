@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.ui.DownloadNotificationUtil;
 import com.leothon.cogito.Adapter.DownloadAdapter;
@@ -15,6 +16,7 @@ import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class DownloadActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //TODO 点击进行编辑
-                CommonUtils.makeText(DownloadActivity.this,"点击编辑下载任务");
+                MyToast.getInstance(DownloadActivity.this).show("点击编辑下载任务",Toast.LENGTH_SHORT);
             }
         });
     }

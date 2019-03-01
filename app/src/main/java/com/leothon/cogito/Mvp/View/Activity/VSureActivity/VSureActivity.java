@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.AuthInfo;
@@ -36,6 +37,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -145,7 +147,7 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
 
     @Override
     public void sendSuccess(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         vSurePresenter.getAuthInfo(activitysharedPreferencesUtils.getParams("token","").toString());
         vSurePresenter.getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString());
 
@@ -235,7 +237,7 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @OnClick(R.id.send_v_sure)
@@ -246,11 +248,11 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
                 showLoadingAnim();
                 vSurePresenter.sendAuthInfo(activitysharedPreferencesUtils.getParams("token","").toString(),url,vSureInfo.getText().toString());
             }else {
-                CommonUtils.makeText(this,"图片未上传请重试");
+                MyToast.getInstance(this).show("图片未上传请重试",Toast.LENGTH_SHORT);
             }
 
         }else {
-            CommonUtils.makeText(this,"请上传图片，填写信息");
+            MyToast.getInstance(this).show("请上传图片，填写信息",Toast.LENGTH_SHORT);
         }
 
     }

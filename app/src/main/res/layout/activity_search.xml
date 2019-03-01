@@ -33,8 +33,9 @@
                 android:id="@+id/sear_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/baseline_search_24"
-                android:padding="5dp" />
+                app:srcCompat="@drawable/baseline_arrow_back_ios_black_24"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/search_content"
@@ -52,10 +53,25 @@
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_search"
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/dividerColor"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/search_tab"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorFullWidth="false"
+        app:tabTextColor="@color/fontColor"
+        app:tabSelectedTextColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+    </android.support.design.widget.TabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/search_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </android.support.v4.view.ViewPager>
 </LinearLayout> 

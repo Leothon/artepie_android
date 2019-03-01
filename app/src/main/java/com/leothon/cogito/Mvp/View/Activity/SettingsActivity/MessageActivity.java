@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -14,6 +15,7 @@ import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.MDCheckBox;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -53,11 +55,11 @@ public class MessageActivity extends BaseActivity {
                 if (soundNotice.isChecked()){
                     soundNotice.setChecked(false);
                     //TODO 未选中
-                    CommonUtils.makeText(MessageActivity.this,"未选中");
+                    MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
                 }else {
                     soundNotice.setChecked(true);
                     //TODO 选中
-                    CommonUtils.makeText(MessageActivity.this,"选中");
+                    MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
                 }
 
 
@@ -69,11 +71,11 @@ public class MessageActivity extends BaseActivity {
                if (askNotice.isChecked()){
                    askNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(MessageActivity.this,"未选中");
+                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
                }else {
                    askNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(MessageActivity.this,"选中");
+                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
                }
            }
        });
@@ -84,11 +86,11 @@ public class MessageActivity extends BaseActivity {
                if (commentNotice.isChecked()){
                    commentNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(MessageActivity.this,"未选中");
+                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
                }else {
                    commentNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(MessageActivity.this,"选中");
+                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
                }
            }
        });
@@ -98,11 +100,11 @@ public class MessageActivity extends BaseActivity {
                if (classNotice.isChecked()){
                    classNotice.setChecked(false);
                    //TODO 未选中
-                   CommonUtils.makeText(MessageActivity.this,"未选中");
+                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
                }else {
                    classNotice.setChecked(true);
                    //TODO 选中
-                   CommonUtils.makeText(MessageActivity.this,"选中");
+                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
                }
            }
        });

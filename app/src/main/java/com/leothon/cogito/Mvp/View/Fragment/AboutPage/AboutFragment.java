@@ -13,27 +13,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
 import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
-import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
-import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.MessageActivity;
+import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
+import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.SettingsActivity;
-import com.leothon.cogito.Mvp.View.Activity.UploadActivity.UploadActivity;
 import com.leothon.cogito.Mvp.View.Activity.WalletActivity.WalletActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -42,7 +39,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.ArcImageView;
 import com.leothon.cogito.View.AuthView;
-import com.leothon.cogito.Weight.CommonDialog;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,6 +48,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
@@ -237,19 +235,19 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     public void checkIn(View view){
         //TODO 签到
         if (isCheck){
-            CommonUtils.makeText(getMContext(),"本日已签到");
+            MyToast.getInstance(getMContext()).show("本日已签到",Toast.LENGTH_SHORT);
 
         }else {
             checkIn.setBackgroundResource(R.drawable.checkback);
             checkIn.setText("已签到");
-            CommonUtils.makeText(getMContext(),"签到成功，赠送艺币10");
+            MyToast.getInstance(getMContext()).show("签到成功，赠送艺币10",Toast.LENGTH_SHORT);
             isCheck = true;
         }
 
     }
     @OnClick(R.id.search)
     public void searchAbout(View view){
-        CommonUtils.makeText(getMContext(),"点击了搜索");
+        IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
     }
 
     @OnClick(R.id.backimg_about)
@@ -328,7 +326,6 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(NoticeMessage message) {
-        Log.e( "AboutFragment","执行了这个方法吗？" );
         if (message.getMessage().equals("show")){
             noticeBot.setVisibility(View.VISIBLE);
         }else {
@@ -355,10 +352,12 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
 
     private void toDownloadPage(){
+
         if (baseApplication.getLoginStatus() == 0){
             CommonUtils.loadinglogin(getMContext());
         }else if (baseApplication.getLoginStatus() ==1){
-            IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
+            MyToast.getInstance(getMContext()).show("暂不提供下载功能",Toast.LENGTH_SHORT);
+            //IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
         }
     }
 
@@ -367,8 +366,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             CommonUtils.loadinglogin(getMContext());
         }else if (baseApplication.getLoginStatus() ==1){
             //TODO 进入我的发布页面，显示我发布过的内容
-            CommonUtils.makeText(getMContext(),"暂不支持查看");
-            //IntentUtils.getInstence().intent(getMContext(), UploadActivity.class);
+            //MyToast.getInstance(getMContext()).show("暂不支持查看",Toast.LENGTH_SHORT);
+            IntentUtils.getInstence().intent(getMContext(), QAHisActivity.class);
         }
     }
     private void toHistoryPage(){
@@ -416,7 +415,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(getMContext(),msg);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
 

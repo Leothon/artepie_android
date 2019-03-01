@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.Player;
 import com.leothon.cogito.Adapter.BaseAdapter;
@@ -51,6 +52,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -330,7 +332,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
     @OnClick(R.id.playButton)
     public void playVideo(View v){
@@ -423,7 +425,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                         Bundle bundleto = new Bundle();
                         bundleto.putString("classId",bundle.getString("classid"));
                         IntentUtils.getInstence().intent(PlayerActivity.this,PayInfoActivity.class,bundleto);
-                        CommonUtils.makeText(PlayerActivity.this,"跳转支付");
+                        MyToast.getInstance(PlayerActivity.this).show("跳转支付",Toast.LENGTH_SHORT);
                     }
 
                     @Override
@@ -742,7 +744,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                     public void onClick(View v) {
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
-                        CommonUtils.makeText(PlayerActivity.this,"内容已复制");
+                        MyToast.getInstance(PlayerActivity.this).show("内容已复制",Toast.LENGTH_SHORT);
                         morePopupWindow.dismiss();
                     }
                 });
@@ -776,7 +778,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                     public void onClick(View v) {
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         cm.setText(content);
-                        CommonUtils.makeText(PlayerActivity.this,"内容已复制");
+                        MyToast.getInstance(PlayerActivity.this).show("内容已复制",Toast.LENGTH_SHORT);
                     }
                 });
 

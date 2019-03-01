@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.SelectClassAdapter;
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
@@ -24,6 +25,7 @@ import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
@@ -90,7 +92,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
 //    public void loadfalsedata(){

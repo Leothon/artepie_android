@@ -1,19 +1,34 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.leothon.cogito.Bean.FeedbackInfo;
+import com.leothon.cogito.DTO.TeaClass;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on  2018.8.9
@@ -22,7 +37,9 @@ public class AdviceActivity extends BaseActivity {
 
     @BindView(R.id.edit_advice)
     MaterialEditText editAdvice;
+    ZLoadingDialog dialog = new ZLoadingDialog(AdviceActivity.this);
 
+    private FeedbackInfo feedbackInfo;
     @Override
     public int initLayout() {
         return R.layout.activity_advice;
@@ -36,15 +53,53 @@ public class AdviceActivity extends BaseActivity {
 
     @OnClick(R.id.submit_advice)
     public void submitAdvice(View view){
-        //TODO 提交用户的反馈
         String advice = editAdvice.getText().toString();
-        CommonUtils.makeText(this,"已提交"+advice);
+
+
+        if (!advice.equals("")){
+            showLoadingAnim();
+            feedbackInfo.setFeedbackContent(advice);
+            RetrofitServiceManager.getInstance().create(HttpService.class)
+                    .sendFeedback(feedbackInfo)
+                    .compose(ThreadTransformer.switchSchedulers())
+                    .subscribe(new BaseObserver() {
+                        @Override
+                        public void doOnSubscribe(Disposable d) { }
+                        @Override
+                        public void doOnError(String errorMsg) {
+                            Log.e(TAG, errorMsg);
+                        }
+                        @Override
+                        public void doOnNext(BaseResponse baseResponse) {
+
+                        }
+                        @Override
+                        public void doOnCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse baseResponse) {
+                            hideLoadingAnim();
+                            MyToast.getInstance(AdviceActivity.this).show(baseResponse.getError(),Toast.LENGTH_SHORT);
+                        }
+                    });
+        }else {
+            MyToast.getInstance(this).show("请输入反馈的问题",Toast.LENGTH_SHORT);
+        }
         editAdvice.setText("");
-        //onBackPressed();
     }
 
     @Override
     public void initData() {
+
+        feedbackInfo = new FeedbackInfo();
+        feedbackInfo.setUserId(tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid());
+        feedbackInfo.setAndroidVersion(CommonUtils.getBuildVersion());
+        feedbackInfo.setBuildApi(String.valueOf(CommonUtils.getBuildLevel()));
+        feedbackInfo.setDeviceBrand(CommonUtils.getPhoneBrand());
+        feedbackInfo.setDeviceModel(CommonUtils.getPhoneModel());
+        feedbackInfo.setVersionCode(CommonUtils.getVersionCode(this));
 
     }
 
@@ -73,5 +128,19 @@ public class AdviceActivity extends BaseActivity {
     @Override
     public void showMessage(@NonNull String message) {
 
+    }
+    private void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
+
+    private void hideLoadingAnim(){
+        dialog.cancel();
     }
 }

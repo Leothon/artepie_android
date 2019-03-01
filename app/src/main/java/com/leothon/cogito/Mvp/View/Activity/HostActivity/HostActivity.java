@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Notice;
 import com.leothon.cogito.Http.BaseObserver;
@@ -31,6 +32,7 @@ import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.BottomButton;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -149,8 +151,15 @@ public class HostActivity extends BaseActivity  {
     }
 
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (CommonUtils.netIsConnected(this) && CommonUtils.getNetworkType(this) != 1){
+            MyToast.getInstance(this).show("注意，你现在使用的是4G网络。",Toast.LENGTH_SHORT);
+        }else if (!CommonUtils.netIsConnected(this)){
+            MyToast.getInstance(this).show("无网络连接",Toast.LENGTH_SHORT);
+        }
+    }
 
     /**
      * 初始化底部按钮
@@ -189,7 +198,7 @@ public class HostActivity extends BaseActivity  {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        CommonUtils.makeText(HostActivity.this,errorMsg);
+                        MyToast.getInstance(HostActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {

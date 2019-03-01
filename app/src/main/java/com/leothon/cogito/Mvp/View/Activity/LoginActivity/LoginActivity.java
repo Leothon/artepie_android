@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
@@ -30,6 +31,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tencent.connect.UserInfo;
@@ -215,7 +217,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @OnClick(R.id.register)
     public void registerLogin(View view){
-        //TODO 免密码登录
         rephone = phoneRegister.getText().toString();
         reverifyCode = verifyCode.getText().toString();
         if (!rephone.equals("") && !reverifyCode.equals("")){
@@ -225,27 +226,25 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             showLoadingAnim();
             loginPresenter.registerInfo(usere);
         }else if (!rephone.equals("")){
-            CommonUtils.makeText(this,"手机号码为空");
+            MyToast.getInstance(this).show("手机号码为空",Toast.LENGTH_SHORT);
         }else {
-            CommonUtils.makeText(this,"请填写完整信息");
+            MyToast.getInstance(this).show("请填写完整信息",Toast.LENGTH_SHORT);
         }
 
     }
 
     @OnClick(R.id.get_verify_code)
     public void getVerifyCode(View view){
-        //TODO 获取验证码
         if (!phoneRegister.getText().toString().equals("") && CommonUtils.isPhoneNumber(phoneRegister.getText().toString())){
-            CommonUtils.makeText(LoginActivity.this,"已向" + phoneRegister.getText().toString() + "发送验证码");
-            //TODO 进行获取验证码操作
+            MyToast.getInstance(this).show("已向" + phoneRegister.getText().toString() + "发送验证码",Toast.LENGTH_SHORT);
             new Thread(new MyCountDownTimer()).start();
             loginPresenter.verifyphone(phoneRegister.getText().toString());
 
 
         }else if (phoneRegister.getText().toString().equals("")){
-            CommonUtils.makeText(LoginActivity.this,"手机号码为空");
+            MyToast.getInstance(this).show("手机号码为空",Toast.LENGTH_SHORT);
         }else {
-            CommonUtils.makeText(LoginActivity.this,"请输入正确格式的手机号码");
+            MyToast.getInstance(this).show("请输入正确格式的手机号码",Toast.LENGTH_SHORT);
         }
     }
     @OnClick(R.id.use_password_login)
@@ -258,13 +257,19 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
     @OnClick(R.id.login_button)
     public void loginTo(View view){
-        //TODO 密码登录
         accountString = accountLogin.getText().toString();
         passwordString = passwordLogin.getText().toString();
-        User user = new User();
-        user.setUser_name(accountString);
-        user.setUser_password(passwordString);
-        loginPresenter.validateCrendentials(user);
+        if (accountString.equals("") || passwordString.equals("")){
+            MyToast.getInstance(this).show("请填写完整手机号和密码",Toast.LENGTH_SHORT);
+        }else if (CommonUtils.isPhoneNumber(accountString)){
+            loginPresenter.login(accountString,passwordString);
+            showLoadingAnim();
+        }else {
+            MyToast.getInstance(this).show("请输入正确格式的手机号码",Toast.LENGTH_SHORT);
+        }
+
+
+
     }
     @OnClick(R.id.register_contract)
     public void registerContract(View view){
@@ -279,54 +284,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
     @OnClick(R.id.qq_login)
     public void qqLogin(View view){
-        //TODO 使用QQ登录
         showLoadingAnim();
         mIUiListener = new BaseUiListener();
         //all表示获取所有权限
         mTencent.login(LoginActivity.this,"all", mIUiListener);
     }
-//    @OnClick(R.id.weibo_login)
-//    public void weiboLogin(View view){
-//
-//    }
 
 
 
 
-    @Override
-    public void setUsernameORPassWordEmpty() {
-        //设置为空显示的东西
-        CommonUtils.makeText(LoginActivity.this,"账号或者密码不能为空");
-    }
-
-    @Override
-    public void showSuccess() {
-
-        //TODO 登录成功，则跳转
-        LoginSuccess();
-    }
-
-    @Override
-    public void showFail() {
-        CommonUtils.makeText(this,"登录错误，用户名或者密码不正确，请重试");
-    }
-
-    @Override
-    public void setSomeEmpty() {
-        CommonUtils.makeText(LoginActivity.this,"请填写完整信息");
-    }
 
 
-
-    @Override
-    public void showRegisterFail() {
-        CommonUtils.makeText(this,"显示注册错误信息");
-    }
-
-    @Override
-    public void showphoneIllegal() {
-        CommonUtils.makeText(LoginActivity.this,"请输入正确格式的手机号码");
-    }
 
     @Override
     public void addverifycode(String code) {
@@ -337,14 +305,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void showFailInfo(String err) {
-        CommonUtils.makeText(LoginActivity.this,err);
+        hideLoadingAnim();
+        MyToast.getInstance(this).show(err,Toast.LENGTH_SHORT);
     }
 
     @Override
     public void registerORloginSuccess(User user) {
         hideLoadingAnim();
-        CommonUtils.makeText(LoginActivity.this,"成功!");
-        //TODO 执行注册后的动作
+        MyToast.getInstance(this).show("成功!",Toast.LENGTH_SHORT);
 
 
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
@@ -378,7 +346,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             }
 
         }else {
-            CommonUtils.makeText(this,"未知错误");
+            MyToast.getInstance(this).show("未知错误",Toast.LENGTH_SHORT);
         }
     }
 
@@ -393,7 +361,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private void LoginSuccess(){
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
-        CommonUtils.makeText(this,"如果您未设置密码，请尽快设置密码以确保账户安全");
+        //MyToast.getInstance(this).show("如果您未设置密码，请尽快设置密码以确保账户安全",Toast.LENGTH_SHORT);
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
         setLoginStatus(1);//表示登录成功
         finish();
@@ -517,7 +485,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
         @Override
         public void onComplete(Object response) {
-            CommonUtils.makeText(LoginActivity.this,"授权成功");
+            MyToast.getInstance(LoginActivity.this).show("授权成功",Toast.LENGTH_SHORT);
             Log.e(TAG, "response:" + response);
             JSONObject obj = (JSONObject) response;
             try {
@@ -531,7 +499,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 mUserInfo.getUserInfo(new IUiListener() {
                     @Override
                     public void onComplete(Object response) {
-                        //CommonUtils.makeText(LoginActivity.this,"登录成功");
+                        //MyToast.getInstance(this).show(LoginActivity.this,"登录成功");
                         loginSuccessResult = response;
                         loginPresenter.isQQRegister(accessToken);
                         //Log.e(TAG,"登录成功" + response.toString());
@@ -539,7 +507,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
                     @Override
                     public void onError(UiError uiError) {
-                        CommonUtils.makeText(LoginActivity.this,"登录失败请重试");
+                        MyToast.getInstance(LoginActivity.this).show("登录失败请重试",Toast.LENGTH_SHORT);
                         Log.e(TAG,"登录失败" + uiError.toString());
                     }
 

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
@@ -36,6 +37,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -238,9 +240,9 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
             sendQAData.setQa_video_cover(coverImg);
             sendQAData.setQa_content(askContent.getText().toString());
             if (askContent.getText().toString().equals("")){
-                CommonUtils.makeText(this,"请输入问题描述");
+                MyToast.getInstance(this).show("请输入问题描述",Toast.LENGTH_SHORT);
             }else if (askContent.getText().toString().length() > 140){
-                CommonUtils.makeText(this,"最多字数限制为140字");
+                MyToast.getInstance(this).show("最多字数限制为140字",Toast.LENGTH_SHORT);
             }else {
                 showLoadingAnim();
                 if (filePath.equals("")){
@@ -255,7 +257,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
     @OnClick(R.id.ask_add_sound)
     public void addSound(View view){
-        CommonUtils.makeText(this,"暂不支持音频");
+        MyToast.getInstance(this).show("暂不支持音频",Toast.LENGTH_SHORT);
         //addVideoORAudio(AUDIO);
     }
 
@@ -289,7 +291,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
     @Override
     public void showInfo(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override

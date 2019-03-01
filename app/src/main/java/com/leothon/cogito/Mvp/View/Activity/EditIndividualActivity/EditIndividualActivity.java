@@ -1,14 +1,20 @@
 package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.danikula.videocache.file.Md5FileNameGenerator;
 import com.leothon.cogito.Base.BaseApplication;
@@ -42,6 +49,7 @@ import com.leothon.cogito.Utils.MD5Utils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -52,7 +60,9 @@ import com.zyao89.view.zloading.Z_TYPE;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,7 +88,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @BindView(R.id.edit_user_password)
     TextView userPassword;
 
-
+    private int REQUEST_CODE_PERMISSION = 0x00099;
     private String path = "";
 
     private int mYear;
@@ -115,6 +125,11 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     private String nowPassword;
     private String password = "";
     ZLoadingDialog dialog = new ZLoadingDialog(EditIndividualActivity.this);
+    private String[] permissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA,
+    };
     @Override
     public int initLayout() {
         return R.layout.activity_edit_individual;
@@ -231,12 +246,12 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     @Override
     public void showMsg(String msg) {
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
     @Override
     public void updateSuccess() {
-        CommonUtils.makeText(this,"资料修改成功");
+        MyToast.getInstance(this).show("资料修改成功",Toast.LENGTH_SHORT);
         hideLoadingAnim();
         super.onBackPressed();
     }
@@ -254,7 +269,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void bindPhoneNumberSuccess(String msg) {
         hideLoadingAnim();
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         isEdit = true;
     }
 
@@ -262,7 +277,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     public void bindPhoneNumberFailed(String msg) {
         hideLoadingAnim();
         isEdit = false;
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         phoneNumberBind.setText("");
         verifyCodeBind.setText("");
     }
@@ -277,14 +292,14 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     public void setPasswordSuccess(String msg) {
         hideLoadingAnim();
         password = nowPassword;
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         isEdit = true;
     }
 
     @Override
     public void setPasswordFailed(String msg) {
         hideLoadingAnim();
-        CommonUtils.makeText(this,msg);
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         inputOldPassword.setText("");
         inputPassword.setText("");
     }
@@ -292,7 +307,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @OnClick(R.id.edit_icon)
     public void editIcon(View view){
 
-        options();
+        requestCameraPermission(permissions,205);
+
     }
     @OnClick(R.id.edit_name)
     public void editName(View view){
@@ -467,13 +483,18 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 @Override
                 public void onClick(View v) {
                     if (!inputPassword.getText().toString().equals("")){
-                        String passwordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
-                        editInfoPresenter.setPassword(activitysharedPreferencesUtils.getParams("token","").toString(),passwordEncrypt);
-                        nowPassword = passwordEncrypt;
-                        showLoadingAnim();
+                        if (inputPassword.getText().toString().length() < 6){
+                            MyToast.getInstance(EditIndividualActivity.this).show("密码长度不够",Toast.LENGTH_SHORT);
+                        }else {
+                            String passwordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
+                            editInfoPresenter.setPassword(activitysharedPreferencesUtils.getParams("token","").toString(),passwordEncrypt);
+                            nowPassword = passwordEncrypt;
+                            showLoadingAnim();
+                        }
+
 
                     }else {
-                        CommonUtils.makeText(EditIndividualActivity.this,"请输入密码");
+                        MyToast.getInstance(EditIndividualActivity.this).show("请输入密码",Toast.LENGTH_SHORT);
                     }
 
 
@@ -486,13 +507,18 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 @Override
                 public void onClick(View v) {
                     if (inputPassword.getText().toString().equals("") || inputOldPassword.getText().toString().equals("")){
-                        CommonUtils.makeText(EditIndividualActivity.this,"请输入原密码和将设置的密码");
+                        MyToast.getInstance(EditIndividualActivity.this).show("请输入原密码和将设置的密码",Toast.LENGTH_SHORT);
                     }else {
-                        String oldPasswordEncrypt = MD5Utils.encrypt(inputOldPassword.getText().toString());
-                        String newPasswordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
-                        editInfoPresenter.changePassword(activitysharedPreferencesUtils.getParams("token","").toString(),oldPasswordEncrypt,newPasswordEncrypt);
-                        nowPassword = newPasswordEncrypt;
-                        showLoadingAnim();
+                        if (inputPassword.getText().toString().length() < 6){
+                            MyToast.getInstance(EditIndividualActivity.this).show("密码长度不够",Toast.LENGTH_SHORT);
+                        }else {
+                            String oldPasswordEncrypt = MD5Utils.encrypt(inputOldPassword.getText().toString());
+                            String newPasswordEncrypt = MD5Utils.encrypt(inputPassword.getText().toString());
+                            editInfoPresenter.changePassword(activitysharedPreferencesUtils.getParams("token","").toString(),oldPasswordEncrypt,newPasswordEncrypt);
+                            nowPassword = newPasswordEncrypt;
+                            showLoadingAnim();
+                        }
+
                     }
                 }
             });
@@ -507,7 +533,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 //                                // 获取edittext的内容,显示到textview
 //
 //                                if (phoneNumberBind.getText().toString().equals("") || verifyCodeBind.getText().toString().equals("")){
-//                                    CommonUtils.makeText(EditIndividualActivity.this,"请输入完整信息");
+//                                    MyToast.getInstance(this).show(EditIndividualActivity.this,"请输入完整信息");
 //                                }else {
 //                                    if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
 //                                        userNumber.setText(phoneNumberBind.getText().toString());
@@ -515,7 +541,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 //                                        showLoadingAnim();
 //                                        dialog.cancel();
 //                                    }else {
-//                                        CommonUtils.makeText(EditIndividualActivity.this,"手机号码不合法");
+//                                        MyToast.getInstance(this).show(EditIndividualActivity.this,"手机号码不合法");
 //                                    }
 //
 //                                }
@@ -587,7 +613,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                 // 获取edittext的内容,显示到textview
 
                                 if (phoneNumberBind.getText().toString().equals("") || verifyCodeBind.getText().toString().equals("")){
-                                    CommonUtils.makeText(EditIndividualActivity.this,"请输入完整信息");
+                                    MyToast.getInstance(EditIndividualActivity.this).show("请输入完整信息",Toast.LENGTH_SHORT);
                                 }else {
                                     if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
                                         userNumber.setText(phoneNumberBind.getText().toString());
@@ -595,7 +621,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                         showLoadingAnim();
                                         dialog.cancel();
                                     }else {
-                                        CommonUtils.makeText(EditIndividualActivity.this,"手机号码不合法");
+                                        MyToast.getInstance(EditIndividualActivity.this).show("手机号码不合法",Toast.LENGTH_SHORT);
                                     }
 
                                 }
@@ -921,5 +947,125 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             });
             T = 60; //最后再恢复倒计时时长
         }
+    }
+
+    public void requestCameraPermission(String[] permissions,int requestCode){
+        this.REQUEST_CODE_PERMISSION = requestCode;
+        if (checkPermissions(permissions)){
+            permissionCameraSuccess(REQUEST_CODE_PERMISSION);
+        }else {
+            List<String> needPermissions = getDeniedPermissions(permissions);
+            ActivityCompat.requestPermissions(this,needPermissions.toArray(new String[needPermissions.size()]),REQUEST_CODE_PERMISSION);
+
+        }
+    }
+
+    /**
+     * 检测是否获取到所有的权限
+     */
+    private boolean checkPermissions(String[] permissions){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            return true;
+        }
+
+        for(String permission : permissions){
+            if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 获取权限集中需要申请权限的列表
+     */
+
+    private List<String> getDeniedPermissions(String[] permissions){
+        List<String> needRequestPermissionsList = new ArrayList<>();
+        for (String permission : permissions){
+            if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED || ActivityCompat.shouldShowRequestPermissionRationale(this,permission)){
+                needRequestPermissionsList.add(permission);
+            }
+        }
+        return needRequestPermissionsList;
+    }
+
+    /**
+     * 系统请求权限回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSION){
+            if (verifyPermissions(grantResults)){
+                permissionCameraSuccess(REQUEST_CODE_PERMISSION);
+            }else {
+                permissionCameraFail(REQUEST_CODE_PERMISSION);
+                showTipsDialog();
+            }
+        }
+    }
+
+
+    /**
+     * 确认所有的权限是否都已授权
+     *
+     * @param grantResults
+     * @return
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 显示提示对话框
+     */
+    private void showTipsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("提示信息")
+                .setMessage("当前应用缺少必要权限，该功能暂时无法使用。如若需要，请单击【确定】按钮前往设置中心进行权限授权。")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startAppSettings();
+                    }
+                }).show();
+    }
+    /**
+     * 启动当前应用设置页面
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
+    }
+
+    /**
+     * 获取权限成功
+     *
+     * @param requestCode
+     */
+    private void permissionCameraSuccess(int requestCode) {
+        options();
+
+    }
+
+    /**
+     * 权限获取失败
+     * @param requestCode
+     */
+    private void permissionCameraFail(int requestCode) {
+
     }
 }

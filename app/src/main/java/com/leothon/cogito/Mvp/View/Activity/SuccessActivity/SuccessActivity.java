@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -16,6 +17,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import butterknife.BindView;
@@ -94,7 +96,7 @@ public class SuccessActivity extends BaseActivity {
                     @Override
                     public void onPositiveClick() {
 
-                        CommonUtils.makeText(SuccessActivity.this,"已成功保存取票二维码");
+                        MyToast.getInstance(SuccessActivity.this).show("已成功保存取票二维码",Toast.LENGTH_SHORT);
 
                         dialog.dismiss();
 

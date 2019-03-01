@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Bean.TokenValid;
@@ -36,6 +37,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -200,6 +202,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     gsyVideoOption.setUrl(ask.getQa_video());
                 }
                 gsyVideoOption
+                        .setPlayTag(TAG)
+                        .setPlayPosition(position)
                         .setThumbImageView(imageView)
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
@@ -361,7 +365,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         gsyVideoOption.setUrl(reShowQA.getQa_video());
                     }
                     gsyVideoOption
+                            .setPlayTag(TAG)
                             .setThumbImageView(imageView)
+                            .setPlayPosition(position)
                             .setIsTouchWiget(true)
                             .setRotateViewAuto(true)
                             .setLockLand(false)
@@ -385,7 +391,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         if (isLogin){
                             Bundle bundleto = new Bundle();
                             if (reShowQA.getQa_user_id() == null){
-                                CommonUtils.makeText(context,"内容已被删除");
+                                MyToast.getInstance(context).show("内容已被删除",Toast.LENGTH_SHORT);
                             }else {
                                 bundleto.putString("qaId",reShowQA.getQa_id());
                                 IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
@@ -421,7 +427,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                                 bundle.putString("id",ask.getQa_id());
                                 IntentUtils.getInstence().intent(context,AskActivity.class,bundle);
                             }else {
-                                CommonUtils.makeText(context,"原问题已被删除，不可转发");
+                                MyToast.getInstance(context).show("原问题已被删除，不可转发",Toast.LENGTH_SHORT);
                             }
                         }else {
                             Bundle bundle = new Bundle();

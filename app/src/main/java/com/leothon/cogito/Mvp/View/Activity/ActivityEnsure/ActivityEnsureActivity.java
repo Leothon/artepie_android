@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -16,6 +17,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -68,7 +70,7 @@ public class ActivityEnsureActivity extends BaseActivity {
     public void addCount(View view){
         //TODO 增加数量
         if (countAct >= 10){
-            CommonUtils.makeText(this,"您最多只能预定十张");
+            MyToast.getInstance(this).show("您最多只能预定十张",Toast.LENGTH_SHORT);
         }else {
             countAct++;
             countEnsure.setText(countAct+"");
@@ -82,7 +84,7 @@ public class ActivityEnsureActivity extends BaseActivity {
     public void removeCount(View view){
         //TODO 减少数量
         if (countAct == 1){
-            CommonUtils.makeText(this,"最少请选择一张票");
+            MyToast.getInstance(this).show("最少请选择一张票",Toast.LENGTH_SHORT);
         }else {
             countAct--;
             countEnsure.setText(countAct+"");
@@ -95,7 +97,7 @@ public class ActivityEnsureActivity extends BaseActivity {
     public void ensureBtn(View view){
         //TODO 进入
         if (ensureName.getText().toString().equals("") && ensureIdCard.getText().toString().equals("") && ensurePhone.getText().toString().equals("")){
-            CommonUtils.makeText(this,"请填写完整信息");
+            MyToast.getInstance(this).show("请填写完整信息",Toast.LENGTH_SHORT);
         }else {
             Bundle bundleintent = new Bundle();
             bundleintent.putString("imgurl",bundle.getString("imgurl"));

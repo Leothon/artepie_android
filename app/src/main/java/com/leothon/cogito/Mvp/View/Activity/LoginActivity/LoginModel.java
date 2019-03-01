@@ -12,6 +12,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.MD5Utils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 import io.reactivex.disposables.Disposable;
@@ -24,25 +25,43 @@ public class LoginModel implements LoginContract.ILoginModel {
 
 
     SharedPreferencesUtils sharedPreferencesUtils;
+
+
     @Override
-    public void login(User user, LoginContract.OnLoginFinishedListener Listener) {
-        String username = user.getUser_name();
-        String password = user.getUser_password();
-        //登录操作
+    public void login(String phoneNumber, String password, final LoginContract.OnLoginFinishedListener Listener) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
+        String passwordEncrypt = MD5Utils.encrypt(password);
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .usePasswordLogin(phoneNumber,passwordEncrypt)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        Listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
 
-        sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"AccountPassword");
-        if (!username.equals("") && !password.equals("")){
+                    }
+                    @Override
+                    public void doOnCompleted() {
 
-            //TODO 使用Retrofit进行登录 成功登录，则调用 Listener.onSuccess()，如果失败，则调用Listener.onFail()
+                    }
 
-            if (username.equals("12345") && password.equals("12345")){
-                Listener.onSuccess();
-            }else {
-                Listener.onFail();
-            }
-        }else {
-            Listener.onUsernameORPassWordEmpty();
-        }
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        if (baseResponse.isSuccess()){
+                            User user = (User)baseResponse.getData();
+                            sharedPreferencesUtils.setParams("token",user.getUser_token());
+                            Listener.registerORloginSuccess(user);
+                        }else {
+                            Listener.showFailInfo(baseResponse.getError());
+                        }
+
+                    }
+                });
     }
 
     @Override
