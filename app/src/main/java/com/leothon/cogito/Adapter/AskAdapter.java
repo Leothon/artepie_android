@@ -214,8 +214,20 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
                         .build(askViewHolder.gsyVideoPlayer);
-                askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
+                //askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
                 askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+                askViewHolder.gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //orientationUtils.resolveByClick();
+                        /**
+                         *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
+                         *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
+                         */
+
+                        askViewHolder.gsyVideoPlayer.startWindowFullscreen(context, false, true);
+                    }
+                });
 
             }else {
                 askViewHolder.gsyVideoPlayer.setVisibility(View.GONE);
@@ -377,9 +389,21 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             .setCacheWithPlay(false)
                             .setVideoTitle("")
                             .build(askViewHolder.reVideo);
-                    askViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
+                    //askViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
                     askViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
 
+                    askViewHolder.reVideo.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //orientationUtils.resolveByClick();
+                            /**
+                             *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
+                             *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
+                             */
+
+                            askViewHolder.reVideo.startWindowFullscreen(context, false, true);
+                        }
+                    });
                 }else {
                     askViewHolder.reVideo.setVisibility(View.GONE);
                 }

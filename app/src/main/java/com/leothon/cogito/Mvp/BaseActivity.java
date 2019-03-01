@@ -237,7 +237,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
 
         super.onDestroy();
-
+//
 //        if (unbinder != null && unbinder != Unbinder.EMPTY){
 //            unbinder.unbind();
 //        }

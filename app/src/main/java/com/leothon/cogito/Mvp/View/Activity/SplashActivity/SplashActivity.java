@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -13,6 +15,7 @@ import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.verifyCode;
 import com.leothon.cogito.Constants;
+import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -22,10 +25,13 @@ import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.disposables.Disposable;
 
@@ -36,14 +42,18 @@ import io.reactivex.disposables.Disposable;
  */
 public class SplashActivity extends AppCompatActivity {
 
+    @BindView(R.id.splash_ad)
+    ImageView SplashImg;
     TokenValid tokenValid = null;
     private BaseApplication baseApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
         final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
-
+        String img = Api.ComUrl + "resource/splash.jpg";
+        ImageLoader.loadImageViewThumbnailwitherror(this,img,SplashImg,R.drawable.defalutimg);
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
@@ -66,6 +76,7 @@ public class SplashActivity extends AppCompatActivity {
                         baseApplication.setLoginStatus(1);//表示登录成功
                         baseApplication = null;
                         finish();
+
                     }
 
                 }else {
@@ -76,7 +87,7 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        },3000);
+        },4000);
     }
 
     @Override

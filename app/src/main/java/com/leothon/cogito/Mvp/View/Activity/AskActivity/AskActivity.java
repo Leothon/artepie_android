@@ -247,6 +247,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                 showLoadingAnim();
                 if (filePath.equals("")){
                     askActivityPresenter.sendData(sendQAData);
+                    super.onBackPressed();
                 }else {
                     askActivityPresenter.uploadFile(filePath);
                 }
@@ -279,6 +280,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
             sendQAData.setQa_video(urlPath);
         }
         askActivityPresenter.sendData(sendQAData);
+
     }
 
     @Override
@@ -404,10 +406,15 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
 
                     filePath = selectList.get(0).getPath();
-                    uploadCover.setVisibility(View.VISIBLE);
-                    uploadImgCover.setImageBitmap(CommonUtils.getVideoThumb(filePath));
-                    askActivityPresenter.uploadVideoImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(filePath)));
-                    showLoadingAnim();
+                    if (!CommonUtils.isBeyondVideoSizeLimited(filePath)){
+                        uploadCover.setVisibility(View.VISIBLE);
+                        uploadImgCover.setImageBitmap(CommonUtils.getVideoThumb(filePath));
+                        askActivityPresenter.uploadVideoImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(filePath)));
+                        showLoadingAnim();
+                    }else {
+                        MyToast.getInstance(AskActivity.this).show("您所选视频过大，请重新选择",Toast.LENGTH_SHORT);
+                    }
+
                     break;
             }
         }
