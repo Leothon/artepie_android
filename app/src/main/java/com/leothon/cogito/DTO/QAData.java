@@ -1,8 +1,11 @@
 package com.leothon.cogito.DTO;
 
+import com.leothon.cogito.Http.BaseResponse;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class QAData {
+public class QAData extends BaseResponse implements Serializable {
     private String qa_id;
     private String qa_user_id;
     private String qa_content;
@@ -17,6 +20,8 @@ public class QAData {
     private String user_signal;
 
     private String user_role;
+
+
 
     public String getUser_role() {
         return user_role;

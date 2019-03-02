@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +16,8 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.View.AuthView;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 
 import butterknife.ButterKnife;
 
@@ -46,9 +49,27 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
         tx.setText(text);
     }
 
+
+    public StandardGSYVideoPlayer getVideoPlayer(int id){
+        StandardGSYVideoPlayer standardGSYVideoPlayer = (StandardGSYVideoPlayer)convertView.findViewById(id);
+        return standardGSYVideoPlayer;
+    }
+
+    public void setSpannableText(int id, SpannableString text) {
+        TextView tx = (TextView) convertView.findViewById(id);
+        tx.setText(text);
+    }
+
     public void setImageResource(int id, int resouceId) {
         ImageView img= (ImageView) convertView.findViewById(id);
         img.setImageResource(resouceId);
+    }
+
+    public void setTextIcon(int id, Drawable drawable) {
+        TextView tx = (TextView) convertView.findViewById(id);
+        tx.setCompoundDrawablesWithIntrinsicBounds(drawable,
+                null, null, null);
+
     }
 
     /**
@@ -121,6 +142,8 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
         }
 
     }
+
+
 
     public void setAuthorVisible(int id,int type,int visivble){
         AuthView authView = (AuthView)convertView.findViewById(id);

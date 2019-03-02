@@ -1,8 +1,13 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +36,13 @@ public class ArticleAdapter extends BaseAdapter {
         Article article = (Article)bean;
         holder.setImageUrls(R.id.article_img,article.getArticleImg());
         holder.setImageUrls(R.id.article_author_icon,article.getArticleAuthorIcon());
+
         holder.setText(R.id.article_author,article.getArticleAuthorName());
-        holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
         holder.setText(R.id.article_title,article.getArticleTitle());
+
+
+        holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
+
         int role = CommonUtils.isVIP(article.getAuthorRole());
         if (role != 2){
             holder.setAuthorVisible(R.id.auth_mark_article_list,role,1);

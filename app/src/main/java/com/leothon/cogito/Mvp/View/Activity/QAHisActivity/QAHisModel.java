@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
 
-public class QAHisModel implements QAHisContract.IUploadModel {
+public class QAHisModel implements QAHisContract.IQAHisModel {
     @Override
     public void getAskData(String token,final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)

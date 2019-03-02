@@ -2,11 +2,13 @@ package com.leothon.cogito.Bean;
 
 import com.leothon.cogito.Http.BaseResponse;
 
+import java.io.Serializable;
+
 /**
  * created by leothon on 2018.8.5
  * 登录用户名和密码
  */
-public class User  extends BaseResponse {
+public class User  extends BaseResponse implements Serializable {
 
     private String user_id;
     private String user_name;
@@ -25,6 +27,7 @@ public class User  extends BaseResponse {
     private String user_role;
     private String user_balance;
     private String verifyCode;
+
 
     private String user_art_coin;
 

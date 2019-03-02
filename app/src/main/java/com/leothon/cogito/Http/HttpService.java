@@ -17,6 +17,7 @@ import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
+import com.leothon.cogito.DTO.SearchResult;
 import com.leothon.cogito.DTO.SendQAData;
 import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.DTO.TypeClass;
@@ -219,4 +220,8 @@ public interface HttpService {
 
     @POST("sendfeedback")
     Observable<BaseResponse<String>> sendFeedback(@Body FeedbackInfo feedbackInfo);
+
+    @GET("searchresult")
+    Observable<BaseResponse<SearchResult>> searchResult(@Query("keyword") String keyword,@Query("token") String token);
+
 }

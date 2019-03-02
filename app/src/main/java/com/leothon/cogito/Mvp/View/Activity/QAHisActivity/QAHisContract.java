@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class QAHisContract {
 
-    public interface IUploadModel{
+    public interface IQAHisModel{
         //TODO 执行相关数据操作
 
         void getAskData(String token,OnQAHisFinishedListener listener);
@@ -16,7 +16,7 @@ public class QAHisContract {
         void removeLike(String token,String qaId,OnQAHisFinishedListener listener);
     }
 
-    public interface IUploadView{
+    public interface IQAHisView{
         //TODO　执行前端操作
 
         void loadAskData(ArrayList<QAData> qaData);
@@ -31,7 +31,7 @@ public class QAHisContract {
 
     }
 
-    public interface IUploadPresenter{
+    public interface IQAHisPresenter{
         void onDestroy();
         void getAskData(String token);
         void getAskMoreData(int currentPage,String token);

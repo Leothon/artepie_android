@@ -2,7 +2,9 @@ package com.leothon.cogito.Bean;
 
 import com.leothon.cogito.Http.BaseResponse;
 
-public class Article extends BaseResponse {
+import java.io.Serializable;
+
+public class Article extends BaseResponse implements Serializable {
 
     private String articleId;
     private String articleImg;
@@ -12,6 +14,7 @@ public class Article extends BaseResponse {
     private String articleAuthorName;
     private String articleTime;
     private String articleAuthorId;
+
 
     private String authorRole;
 

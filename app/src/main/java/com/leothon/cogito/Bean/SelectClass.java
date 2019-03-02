@@ -1,5 +1,8 @@
 package com.leothon.cogito.Bean;
 
+import com.leothon.cogito.Http.BaseResponse;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -7,7 +10,7 @@ import androidx.annotation.NonNull;
 /**
  * created by leothon on 2018.8.7
  */
-public class SelectClass  {
+public class SelectClass  extends BaseResponse implements Serializable {
 
     private String selectId;
     private String selectbackimg;
@@ -22,6 +25,7 @@ public class SelectClass  {
     private String selectauthordes;
     private String selectscore;
     private String selectauthorid;
+
 
     public String getSelectauthorid() {
         return selectauthorid;

@@ -4,60 +4,60 @@ import com.leothon.cogito.DTO.QAData;
 
 import java.util.ArrayList;
 
-public class QAHisPresenter implements QAHisContract.IUploadPresenter,QAHisContract.OnQAHisFinishedListener {
-    private QAHisContract.IUploadView iUploadView;
-    private QAHisContract.IUploadModel iUploadModel;
+public class QAHisPresenter implements QAHisContract.IQAHisPresenter,QAHisContract.OnQAHisFinishedListener {
+    private QAHisContract.IQAHisView iQAHisView;
+    private QAHisContract.IQAHisModel iQAHisModel;
 
 
-    public QAHisPresenter(QAHisContract.IUploadView iUploadView){
-        this.iUploadView = iUploadView;
-        this.iUploadModel = new QAHisModel();
+    public QAHisPresenter(QAHisContract.IQAHisView iQAHisView){
+        this.iQAHisView = iQAHisView;
+        this.iQAHisModel = new QAHisModel();
     }
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {
-        if (iUploadView != null){
-            iUploadView.loadAskData(qaData);
+        if (iQAHisView != null){
+            iQAHisView.loadAskData(qaData);
         }
     }
 
     @Override
     public void loadAskMoreData(ArrayList<QAData> qaData) {
-        if (iUploadView != null){
-            iUploadView.loadAskMoreData(qaData);
+        if (iQAHisView != null){
+            iQAHisView.loadAskMoreData(qaData);
         }
     }
 
     @Override
     public void showInfo(String msg) {
-        if (iUploadView != null){
-            iUploadView.showInfo(msg);
+        if (iQAHisView != null){
+            iQAHisView.showInfo(msg);
         }
     }
 
     @Override
     public void onDestroy() {
-        iUploadView = null;
-        iUploadModel = null;
+        iQAHisView = null;
+        iQAHisModel = null;
     }
 
     @Override
     public void getAskData(String token) {
-        iUploadModel.getAskData(token,this);
+        iQAHisModel.getAskData(token,this);
     }
 
     @Override
     public void getAskMoreData(int currentPage,String token) {
-        iUploadModel.getAskMoreData(currentPage,token,this);
+        iQAHisModel.getAskMoreData(currentPage,token,this);
     }
 
     @Override
     public void addLiked(String token, String qaId) {
-        iUploadModel.addLike(token,qaId,this);
+        iQAHisModel.addLike(token,qaId,this);
     }
 
     @Override
     public void removeLiked(String token, String qaId) {
 
-        iUploadModel.removeLike(token,qaId,this);
+        iQAHisModel.removeLike(token,qaId,this);
     }
 }

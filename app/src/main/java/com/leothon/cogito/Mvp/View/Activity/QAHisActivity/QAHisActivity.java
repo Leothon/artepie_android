@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class QAHisActivity extends BaseActivity implements QAHisContract.IUploadView,SwipeRefreshLayout.OnRefreshListener {
+public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisView,SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.rv_upload)
@@ -32,7 +32,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
 
     //private UserEntity userEntity;
 
-    private QAHisPresenter uploadPresenter;
+    private QAHisPresenter qaHisPresenter;
     @Override
     public BasePresenter initPresenter() {
         return null;
@@ -53,7 +53,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
         swpUpload.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
 //        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
 //        String uuid = tokenValid.getUid();
-        uploadPresenter = new QAHisPresenter(this);
+        qaHisPresenter = new QAHisPresenter(this);
         //userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
@@ -61,7 +61,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
         setToolbarSubTitle("");
         setToolbarTitle("我发布的内容");
         swpUpload.setRefreshing(true);
-        uploadPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+        qaHisPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
 
     @Override
     public void onRefresh() {
-        uploadPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+        qaHisPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
     @Override
@@ -120,9 +120,9 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
             @Override
             public void addLikeClickListener(boolean isLike,String qaId) {
                 if (isLike){
-                    uploadPresenter.removeLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                    qaHisPresenter.removeLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
                 }else {
-                    uploadPresenter.addLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                    qaHisPresenter.addLiked(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
                 }
             }
         });
@@ -130,7 +130,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
         rvUpload.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
-                uploadPresenter.getAskMoreData(currentPage * 15,activitysharedPreferencesUtils.getParams("token","").toString());
+                qaHisPresenter.getAskMoreData(currentPage * 15,activitysharedPreferencesUtils.getParams("token","").toString());
             }
         });
     }
@@ -155,6 +155,6 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IUpload
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        uploadPresenter.onDestroy();
+        qaHisPresenter.onDestroy();
     }
 }
