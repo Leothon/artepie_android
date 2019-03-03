@@ -1,18 +1,27 @@
 package com.leothon.cogito.Mvp.View.Activity.QAHisActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.AskAdapter;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -30,7 +39,10 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
     private AskAdapter uploadAdapter;
     private ArrayList<QAData> askArrayList;
 
-    //private UserEntity userEntity;
+    private UserEntity userEntity;
+
+    private Intent intent;
+    private Bundle bundle;
 
     private QAHisPresenter qaHisPresenter;
     @Override
@@ -51,17 +63,37 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
     public void initData() {
         swpUpload.setProgressViewOffset (false,100,300);
         swpUpload.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
-//        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
-//        String uuid = tokenValid.getUid();
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
         qaHisPresenter = new QAHisPresenter(this);
-        //userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        intent = getIntent();
+        bundle = intent.getExtras();
     }
     @Override
     public void initView() {
-        setToolbarSubTitle("");
-        setToolbarTitle("我发布的内容");
+        getToolbarSubTitle().setTextColor(Color.parseColor("#f26402"));
+        if (bundle.get("userId").equals(userEntity.getUser_id())){
+            setToolbarTitle("我发布的内容");
+            setToolbarSubTitle("我的文章");
+
+        }else {
+            setToolbarTitle("他发布的内容");
+            setToolbarSubTitle("他的文章");
+        }
+
         swpUpload.setRefreshing(true);
-        qaHisPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+        qaHisPresenter.getAskData(bundle.getString("userId"));
+
+
+        getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("userId",bundle.getString("userId"));
+                IntentUtils.getInstence().intent(QAHisActivity.this,ArticleHisActivity.class,bundleto);
+            }
+        });
     }
 
     @Override
@@ -75,15 +107,19 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
 
     @Override
     public void onRefresh() {
-        qaHisPresenter.getAskData(activitysharedPreferencesUtils.getParams("token","").toString());
+        qaHisPresenter.getAskData(bundle.getString("userId"));
     }
 
     @Override
     public void loadAskMoreData(ArrayList<QAData> qaData) {
+        if (swpUpload.isRefreshing()){
+            swpUpload.setRefreshing(false);
+        }
         for (int i = 0;i < qaData.size(); i++){
             askArrayList.add(qaData.get(i));
-            uploadAdapter.notifyDataSetChanged();
+
         }
+        uploadAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -130,7 +166,8 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
         rvUpload.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
-                qaHisPresenter.getAskMoreData(currentPage * 15,activitysharedPreferencesUtils.getParams("token","").toString());
+                swpUpload.setRefreshing(true);
+                qaHisPresenter.getAskMoreData(currentPage * 15,bundle.getString("userId"));
             }
         });
     }

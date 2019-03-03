@@ -21,6 +21,11 @@ import butterknife.ButterKnife;
  */
 public class WalletAdapter extends RecyclerView.Adapter {
 
+    public ClassTypeOnClickListener classTypeOnClickListener;
+
+    public void setClassTypeOnClickListener(ClassTypeOnClickListener classTypeOnClickListener) {
+        this.classTypeOnClickListener = classTypeOnClickListener;
+    }
 
     private Context context;
     private ArrayList<String> wallets;
@@ -59,7 +64,7 @@ public class WalletAdapter extends RecyclerView.Adapter {
             if (position == lastPressIndex){
                 oneViewHolder.tv.setSelected(true);
                 oneViewHolder.tv.setTextColor(Color.WHITE);
-                Constants.rechargeCount = oneViewHolder.tv.getText().toString();
+                classTypeOnClickListener.classTypeClickListener(oneViewHolder.tv.getText().toString());
             }else {
                 oneViewHolder.tv.setSelected(false);
                 oneViewHolder.tv.setTextColor(Color.BLACK);
@@ -83,6 +88,10 @@ public class WalletAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this,view);
         }
 
+    }
+
+    public interface ClassTypeOnClickListener{
+        void classTypeClickListener(String type);
     }
 
 }

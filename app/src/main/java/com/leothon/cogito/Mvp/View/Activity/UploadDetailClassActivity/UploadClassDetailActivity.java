@@ -1,4 +1,4 @@
-package com.leothon.cogito.Mvp.View.Activity.UploadClassActivity;
+package com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -57,19 +57,10 @@ public class UploadClassDetailActivity extends BaseActivity{
         uploadSaves = new ArrayList<>();
         setToolbarSubTitle("");
         setToolbarTitle("添加单节课程");
-        loadLastData();
+
     }
 
-    private void loadLastData(){
-        if (bundle.getInt("mark") != 0){
-            uploadSave.setTitle(Constants.uploadSaves.get(bundle.getInt("mark")-1).getTitle());
-            uploadSave.setContent(Constants.uploadSaves.get(bundle.getInt("mark")-1).getContent());
-            titleClassDetail.setText(Constants.uploadSaves.get(bundle.getInt("mark")-1).getTitle());
-            contentClassDetail.setText(Constants.uploadSaves.get(bundle.getInt("mark")-1).getContent());
-        }else {
-            return;
-        }
-    }
+
 
     @OnClick(R.id.add_btn_class)
     public void addClass(View view){

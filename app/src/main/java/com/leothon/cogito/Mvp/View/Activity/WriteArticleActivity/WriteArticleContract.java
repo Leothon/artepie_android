@@ -5,10 +5,12 @@ import com.leothon.cogito.DTO.VideoDetail;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleContract;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerContract;
 
+import java.io.File;
+
 public class WriteArticleContract {
     public interface IWriteArticleModel{
 
-        void uploadImg(String path,OnWriteArticleFinishedListener listener);
+        void uploadImg(File file, OnWriteArticleFinishedListener listener);
 
         void uploadArticle(Article article, OnWriteArticleFinishedListener listener);
     }
@@ -33,7 +35,7 @@ public class WriteArticleContract {
     public interface IWriteArticlePresenter{
         void uploadArticleInfo(Article article);
         void onDestroy();
-        void uploadSelectImg(String path);
+        void uploadSelectImg(File file);
 
     }
 }

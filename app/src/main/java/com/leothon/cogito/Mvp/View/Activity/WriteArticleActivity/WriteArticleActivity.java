@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.ClassDetail;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
@@ -26,6 +28,7 @@ import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassContr
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FontStyle;
+import com.leothon.cogito.Utils.ImageUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.FontStyleMenu;
 import com.leothon.cogito.View.MyToast;
@@ -72,6 +75,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     private String filePath;
 
     private boolean styleMenuShow = false;
+    private UserEntity userEntity;
 //    @BindView(R.id.toolbar_subtitle)
 //    TextView subTitle;
 //    @BindView(R.id.toolbar_title)
@@ -90,7 +94,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     public void initData() {
 
         writeArticlePresenter = new WriteArticlePresenter(this);
-    }
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);    }
     @Override
     public void initView() {
         setToolbarSubTitle("");
@@ -184,7 +188,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
                 }
 
                 //writeArticleContent.setImg(filePath);
-                writeArticlePresenter.uploadSelectImg(filePath);
+                writeArticlePresenter.uploadSelectImg(CommonUtils.compressImage(ImageUtils.drawTextToRightBottom(WriteArticleActivity.this,ImageUtils.getImageBitmap(filePath),"艺派 @" + userEntity.getUser_name(),10,Color.WHITE,10,10)));
                 showLoadingAnim();
                 filePath = null;
             }

@@ -86,10 +86,10 @@ public interface HttpService {
 
 
     @GET("getquestionbyid")
-    Observable<BaseResponse<ArrayList<QAData>>> getQADataById(@Query("token") String token);
+    Observable<BaseResponse<ArrayList<QAData>>> getQADataById(@Query("userid") String userId);
 
     @GET("getmorequestionbyid")
-    Observable<BaseResponse<ArrayList<QAData>>> getMoreQADataById(@Query("currentpage") int currentPage,@Query("token") String token);
+    Observable<BaseResponse<ArrayList<QAData>>> getMoreQADataById(@Query("currentpage") int currentPage,@Query("userid") String userId);
 
     @GET("getqadetail")
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
@@ -170,6 +170,14 @@ public interface HttpService {
 
     @GET("getarticledata")
     Observable<BaseResponse<ArticleData>> getArticleData(@Query("token") String token);
+    @GET("getmorearticledata")
+    Observable<BaseResponse<ArrayList<Article>>> getMoreArticleData(@Query("token") String token,@Query("currentpage") int currentPage);
+
+    @GET("getarticledatabyid")
+    Observable<BaseResponse<ArrayList<Article>>> getArticleDataById(@Query("userid") String userId);
+
+    @GET("getmorearticledatabyid")
+    Observable<BaseResponse<ArrayList<Article>>> getMoreArticleDataById(@Query("userid") String userId,@Query("currentpage") int currentPage);
 
     @GET("getarticledetail")
     Observable<BaseResponse<Article>> getArticleDetail(@Query("token") String token,@Query("articleid") String articleId);

@@ -25,6 +25,7 @@ import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
+import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
 import com.leothon.cogito.R;
@@ -77,6 +78,9 @@ public class IndividualActivity extends BaseActivity {
     @BindView(R.id.individual_content)
     TextView individualContent;
 
+    @BindView(R.id.visit_other_user_qa)
+    RelativeLayout visitOtherQa;
+
     @BindView(R.id.make_upload_class)
     RelativeLayout makeUploadClass;
     private Bundle bundle;
@@ -116,6 +120,7 @@ public class IndividualActivity extends BaseActivity {
             vSure.setVisibility(View.GONE);
             makeUploadClass.setVisibility(View.GONE);
 
+            visitOtherQa.setVisibility(View.VISIBLE);
             showLoadingAnim();
             RetrofitServiceManager.getInstance().create(HttpService.class)
                     .getUserInfoById(bundle.getString("userId"))
@@ -179,6 +184,7 @@ public class IndividualActivity extends BaseActivity {
                     });
 
         }else {
+            visitOtherQa.setVisibility(View.GONE);
             followBtn.setVisibility(View.GONE);
             vSure.setVisibility(View.VISIBLE);
             makeUploadClass.setVisibility(View.VISIBLE);
@@ -256,6 +262,14 @@ public class IndividualActivity extends BaseActivity {
         }
 
 
+    }
+
+
+    @OnClick(R.id.visit_other_user_qa)
+    public void toVisitQA(View view){
+        Bundle bundleto = new Bundle();
+        bundleto.putString("userId",bundle.getString("userId"));
+        IntentUtils.getInstence().intent(this, QAHisActivity.class,bundleto);
     }
 
     @OnClick(R.id.individual_icon)

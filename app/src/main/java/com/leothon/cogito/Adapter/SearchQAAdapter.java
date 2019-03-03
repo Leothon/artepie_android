@@ -53,11 +53,11 @@ public class SearchQAAdapter extends BaseAdapter{
         String re = qaData.getQa_content();
 
         SpannableString spannableString = new SpannableString(re);
-        if (re.contains("@") && re.contains(":")){
-
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
-            spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        }
+//        if (re.contains("@") && re.contains(":")){
+//
+//            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+//            spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//        }
 
         holder.setSpannableText(R.id.content_ask,spannableString);
 

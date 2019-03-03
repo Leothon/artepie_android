@@ -148,11 +148,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             String re = ask.getQa_content();
 
             SpannableString spannableString = new SpannableString(re);
-            if (re.contains("@") && re.contains(":")){
-
-                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
-                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            }
+//            if (re.contains("@")){
+//
+//                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+//                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(ask.getUser_name()), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//            }
 
 
             askViewHolder.contentAsk.setText(spannableString);

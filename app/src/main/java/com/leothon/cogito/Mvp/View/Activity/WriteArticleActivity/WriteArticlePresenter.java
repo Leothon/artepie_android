@@ -2,6 +2,8 @@ package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
 import com.leothon.cogito.Bean.Article;
 
+import java.io.File;
+
 public class WriteArticlePresenter implements WriteArticleContract.IWriteArticlePresenter,WriteArticleContract.OnWriteArticleFinishedListener {
     private WriteArticleContract.IWriteArticleView iWriteArticleView;
     private WriteArticleContract.IWriteArticleModel iWriteArticleModel;
@@ -44,7 +46,7 @@ public class WriteArticlePresenter implements WriteArticleContract.IWriteArticle
     }
 
     @Override
-    public void uploadSelectImg(String path) {
-        iWriteArticleModel.uploadImg(path,this);
+    public void uploadSelectImg(File file) {
+        iWriteArticleModel.uploadImg(file,this);
     }
 }

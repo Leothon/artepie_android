@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
@@ -44,6 +46,8 @@ public class SplashActivity extends AppCompatActivity {
 
     @BindView(R.id.splash_ad)
     ImageView SplashImg;
+    @BindView(R.id.skip_host)
+    TextView skipToHost;
     TokenValid tokenValid = null;
     private BaseApplication baseApplication;
     @Override
@@ -87,7 +91,15 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        },4000);
+        },3500);
+
+        skipToHost.setVisibility(View.VISIBLE);
+//        skipToHost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
     }
 
     @Override

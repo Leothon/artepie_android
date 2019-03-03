@@ -247,4 +247,9 @@ public class CommonDialog extends Dialog {
         this.url = path;
         return this;
     }
+
+    @Override
+    public void setCanceledOnTouchOutside(boolean cancel) {
+        super.setCanceledOnTouchOutside(false);
+    }
 }

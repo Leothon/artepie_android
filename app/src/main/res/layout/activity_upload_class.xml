@@ -5,101 +5,190 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    >
 
     <include
         android:id="@+id/upload_class_bar"
         layout="@layout/toolbar"/>
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/title_class_upload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入课程的标题"
-        android:textSize="@dimen/appBarSize"
-        android:padding="5dp"
-        android:layout_margin="3dp"
-        app:met_clearButton="true"
-        app:met_textColor="@color/black"
-        app:met_hideUnderline="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dividerColor"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加标签的位置"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dividerColor"/>
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/desc_class_upload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入发布课程的简介"
-        app:met_floatingLabel="normal"
-        app:met_floatingLabelText="发布课程的简介"
-        app:met_floatingLabelTextSize="@dimen/tipsSize"
-        android:textSize="@dimen/contentSize"
-        android:padding="5dp"
-        android:minLines="4"
-        android:maxLines="6"
-        android:gravity="start|top"
-        android:layout_margin="3dp"
-        app:met_clearButton="true"
-        app:met_textColor="@color/fontColor"
-        app:met_hideUnderline="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dividerColor"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="@drawable/textviewbackground">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_add_class"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/upload_class_cover"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/cover_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/defalutimg"
+                    android:scaleType="centerCrop"/>
+                <View
+                    android:id="@+id/cover_pall_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#6dd9d9d9"/>
+                <RelativeLayout
+                    android:id="@+id/upload_cover_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/class_cover_upload"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/baseline_add_photo_alternate_black_48"
+                        android:tint="@color/white"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/class_cover_upload"
+                        android:text="上传封面"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/tipsSize"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/title_class_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入课程的标题"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请输入课程的标题"
+                android:textSize="@dimen/appBarSize"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                app:met_clearButton="true"
+                app:met_textColor="@color/black"
+                app:met_hideUnderline="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+
+
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/desc_class_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入发布课程的简介"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="发布课程的简介"
+                app:met_floatingLabelTextSize="@dimen/tipsSize"
+                android:textSize="@dimen/contentSize"
+                android:padding="5dp"
+                android:minLines="4"
+                android:maxLines="6"
+                android:gravity="start|top"
+                android:layout_margin="3dp"
+                app:met_clearButton="true"
+                app:met_textColor="@color/fontColor"
+                app:met_hideUnderline="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/is_free_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收费"
+                        android:textSize="@dimen/appBarSize"
+                        android:padding="10dp"/>
+
+                    <Switch
+                        android:id="@+id/is_free"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="10dp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/add_price_rl"
+                    android:layout_below="@id/is_free_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="5dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/price_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格(￥)："
+                        android:textSize="@dimen/contentSize"
+                        android:layout_centerVertical="true"/>
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/upload_class_price"
+                        android:layout_toRightOf="@+id/price_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:met_hideUnderline="true"
+                        android:hint="输入价格"
+                        android:textSize="@dimen/contentSize"
+                        android:inputType="number"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="选择类型"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textSize="@dimen/appBarSize"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_type_upload_class"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:id="@+id/add_class_upload"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="添加单节课程"
-                android:drawableLeft="@drawable/baseline_add_black_24"
-                android:gravity="center"
-                android:background="@drawable/textviewbackground"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dividerColor"/>
+
         </LinearLayout>
+
+
     </ScrollView>
 
 

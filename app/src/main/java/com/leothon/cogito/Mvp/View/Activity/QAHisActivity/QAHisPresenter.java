@@ -41,13 +41,13 @@ public class QAHisPresenter implements QAHisContract.IQAHisPresenter,QAHisContra
     }
 
     @Override
-    public void getAskData(String token) {
-        iQAHisModel.getAskData(token,this);
+    public void getAskData(String userId) {
+        iQAHisModel.getAskData(userId,this);
     }
 
     @Override
-    public void getAskMoreData(int currentPage,String token) {
-        iQAHisModel.getAskMoreData(currentPage,token,this);
+    public void getAskMoreData(int currentPage,String userId) {
+        iQAHisModel.getAskMoreData(currentPage,userId,this);
     }
 
     @Override

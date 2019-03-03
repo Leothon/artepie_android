@@ -26,6 +26,8 @@ import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.DTO.ArticleData;
+import com.leothon.cogito.Listener.loadMoreDataArticleListener;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
 import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity;
@@ -230,6 +232,13 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
                 IntentUtils.getInstence().intent(getMContext(),ArticleActivity.class,bundle);
             }
         });
+        articleRv.addOnScrollListener(new loadMoreDataArticleListener(staggeredGridLayoutManager) {
+            @Override
+            public void onLoadMoreArticleData(int currentPage) {
+                swpArticle.setRefreshing(true);
+                articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString(),currentPage * 15);
+            }
+        });
     }
 
     @Override
@@ -261,6 +270,17 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
                 bannerTitle.setText("" + articleData.getBanners().get(position).getBanner_url());
             }
         });
+    }
+
+    @Override
+    public void loadMoreArticlePageData(ArrayList<Article> articles) {
+        if (swpArticle.isRefreshing()){
+            swpArticle.setRefreshing(false);
+        }
+        for (int i = 0;i < articles.size();i ++){
+            this.articles.add(articles.get(i));
+        }
+        articleAdapter.notifyDataSetChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,47 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white">
     <ImageView
         android:id="@+id/splash_ad"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="15"
-        android:src="@drawable/splash"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/app_bottom_splash"
         android:scaleType="centerCrop"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
 
-        <LinearLayout
+    <TextView
+        android:id="@+id/skip_host"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:background="@drawable/splashbtnback"
+        android:text="跳过"
+        android:gravity="center"
+        android:textSize="@dimen/contentSize"
+        android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/app_bottom_splash"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:id="@+id/logo_splash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_centerInParent="true"
             android:gravity="center">
             <ImageView
                 android:id="@+id/icon_app"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/icon"
                 android:scaleType="centerCrop"/>
 
-
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_slogan"
-                android:textSize="@dimen/contentSize"/>
+                android:layout_toRightOf="@+id/icon_app"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:id="@+id/splash_app_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="艺派"
+                    android:textSize="@dimen/appBarSize"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_below="@+id/splash_app_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_slogan"
+                    android:textSize="@dimen/tipsSize"
+                    android:textColor="@color/fontColor"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_below="@+id/logo_splash"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="叮点科技(北京)有限公司版权所有 ©2019"
+            android:textSize="@dimen/littleSize"
+            android:textColor="#af646464"
+            android:layout_centerHorizontal="true"/>
+
+
 
 
 
 
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

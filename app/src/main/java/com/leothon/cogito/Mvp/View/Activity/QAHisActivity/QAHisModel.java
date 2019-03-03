@@ -13,9 +13,9 @@ import io.reactivex.disposables.Disposable;
 
 public class QAHisModel implements QAHisContract.IQAHisModel {
     @Override
-    public void getAskData(String token,final QAHisContract.OnQAHisFinishedListener listener) {
+    public void getAskData(String userId,final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getQADataById(token)
+                .getQADataById(userId)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -42,9 +42,9 @@ public class QAHisModel implements QAHisContract.IQAHisModel {
     }
 
     @Override
-    public void getAskMoreData(int currentPage, String token,final QAHisContract.OnQAHisFinishedListener listener) {
+    public void getAskMoreData(int currentPage, String userId,final QAHisContract.OnQAHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreQADataById(currentPage,token)
+                .getMoreQADataById(currentPage,userId)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override

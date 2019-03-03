@@ -1,32 +1,18 @@
 package com.leothon.cogito.Mvp.View.Fragment.SearchPage;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Bean.Article;
-import com.leothon.cogito.Message.EventArticle;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
-import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.View.MyToast;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -65,13 +51,7 @@ public class SearchArticleFragment extends BaseFragment {
         initAdapter();
 
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void Event(EventArticle articles){
-//
-//        this.articles = articles.getArticles();
-//        initAdapter();
-//
-//    }
+
 
 
 

@@ -166,11 +166,11 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             detailViewHolder.qaDetailTime.setText(CommonUtils.getTimeRange(qaDataDetail.getQaData().getQa_time()));
             String re = qaDataDetail.getQaData().getQa_content();
             SpannableString spannableString = new SpannableString(re);
-            if (re.contains("@") && re.contains(":")){
-
-                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
-                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            }
+//            if (re.contains("@") && re.contains(":")){
+//
+//                ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#2298EF"));
+//                spannableString.setSpan(colorSpan, re.indexOf("@"),re.indexOf(":"), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+//            }
 
 
 

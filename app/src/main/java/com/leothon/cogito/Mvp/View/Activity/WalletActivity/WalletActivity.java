@@ -86,7 +86,6 @@ public class WalletActivity extends BaseActivity {
         protocolRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 跳转到用户充值协议
                 Bundle bundle = new Bundle();
                 bundle.putString("type","recharge");
                 IntentUtils.getInstence().intent(WalletActivity.this, ContractActivity.class,bundle);
@@ -95,7 +94,6 @@ public class WalletActivity extends BaseActivity {
         rechargeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 充值操作
                 if (Constants.rechargeCount.equals("0") || Constants.rechargeCount.equals("")){
                     MyToast.getInstance(WalletActivity.this).show("请选择充值金额",Toast.LENGTH_SHORT);
                 }else {
@@ -118,7 +116,6 @@ public class WalletActivity extends BaseActivity {
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
-                        //TODO 删除该收藏
 
                     }
 
@@ -137,6 +134,7 @@ public class WalletActivity extends BaseActivity {
         rvWallet.setHasFixedSize(true);
         rvWallet.setLayoutManager(new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false));
         rvWallet.setAdapter(walletAdapter);
+
 
     }
 

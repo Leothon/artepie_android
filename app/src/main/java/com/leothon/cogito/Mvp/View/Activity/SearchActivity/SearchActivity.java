@@ -7,12 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,15 +19,9 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SearchResult;
-import com.leothon.cogito.DTO.TeaClass;
-import com.leothon.cogito.Message.EventArticle;
-import com.leothon.cogito.Message.EventClass;
-import com.leothon.cogito.Message.EventQa;
-import com.leothon.cogito.Message.EventUser;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.BaseModel;
 import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchArticleFragment;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchClassFragment;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchQAFragment;
@@ -41,8 +31,6 @@ import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 

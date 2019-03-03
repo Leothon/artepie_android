@@ -6,7 +6,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -445,6 +448,44 @@ public class ImageUtils {
             }
             f.delete();
         }
+    }
+
+
+    /**
+     * 绘制文字到右下角
+     *
+     * @param context
+     * @param bitmap
+     * @param text
+     * @param size
+     * @param color
+     * @return
+     */
+    public static Bitmap drawTextToRightBottom(Context context, Bitmap bitmap, String text, int size, int color, int paddingRight, int paddingBottom) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(color);
+        paint.setTextSize(CommonUtils.dip2px(context, size));
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        return drawTextToBitmap(context, bitmap, text, paint, bounds,
+                bitmap.getWidth() - bounds.width() - CommonUtils.dip2px(context, paddingRight + text.length()),
+                bitmap.getHeight() - CommonUtils.dip2px(context, paddingBottom));
+    }
+
+    //图片上绘制文字
+    private static Bitmap drawTextToBitmap(Context context, Bitmap bitmap, String text, Paint paint, Rect bounds, int paddingLeft, int paddingTop) {
+        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+
+        paint.setDither(true); // 获取跟清晰的图像采样
+        paint.setFilterBitmap(true);// 过滤一些
+        if (bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        bitmap = bitmap.copy(bitmapConfig, true);
+        Canvas canvas = new Canvas(bitmap);
+
+        canvas.drawText(text, paddingLeft, paddingTop, paint);
+        return bitmap;
     }
 
 }

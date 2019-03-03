@@ -50,7 +50,7 @@ public class NoticeAdapter extends BaseAdapter {
                 holder.setText(R.id.notice_content,"点击查看我的回复");
                 break;
             case "qacomment":
-                holder.setText(R.id.like_or_comment,"评论了您：");
+                holder.setText(R.id.like_or_comment,"评论或转发了您：");
                 holder.setText(R.id.notice_content,noticeInfo.getNoticeContent());
                 break;
             case "replycomment":

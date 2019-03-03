@@ -367,7 +367,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         }else if (baseApplication.getLoginStatus() ==1){
             //TODO 进入我的发布页面，显示我发布过的内容
             //MyToast.getInstance(getMContext()).show("暂不支持查看",Toast.LENGTH_SHORT);
-            IntentUtils.getInstence().intent(getMContext(), QAHisActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("userId",userEntity.getUser_id());
+            IntentUtils.getInstence().intent(getMContext(), QAHisActivity.class,bundle);
         }
     }
     private void toHistoryPage(){

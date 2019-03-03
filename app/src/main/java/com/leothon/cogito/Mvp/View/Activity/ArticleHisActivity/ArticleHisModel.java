@@ -1,4 +1,4 @@
-package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
+package com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity;
 
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Http.BaseObserver;
@@ -7,22 +7,15 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 
-import java.io.File;
+import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
-public class WriteArticleModel implements WriteArticleContract.IWriteArticleModel {
+public class ArticleHisModel implements ArticleHisContract.IArticleHisModel {
     @Override
-    public void uploadImg(File file, final WriteArticleContract.OnWriteArticleFinishedListener listener) {
-
-        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
-
+    public void getArticleHisData(String userId, final ArticleHisContract.OnArticleHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .updataFile(photo)
+                .getArticleDataById(userId)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -30,7 +23,6 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
                     @Override
                     public void doOnError(String errorMsg) {
                         listener.showInfo(errorMsg);
-
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -43,17 +35,16 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
-
-                        listener.getUploadImgUrl(url);
+                        ArrayList<Article> articles = (ArrayList<Article>) baseResponse.getData();
+                        listener.loadArticleHisData(articles);
                     }
                 });
     }
 
     @Override
-    public void uploadArticle(Article article, final WriteArticleContract.OnWriteArticleFinishedListener listener) {
+    public void getArticleHisMoreData(int currentPage, String userId,final ArticleHisContract.OnArticleHisFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .uploadArticle(article)
+                .getMoreArticleDataById(userId,currentPage)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -61,7 +52,6 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
                     @Override
                     public void doOnError(String errorMsg) {
                         listener.showInfo(errorMsg);
-
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -74,9 +64,8 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
-
-                        listener.isUploadSuccess(url);
+                        ArrayList<Article> articles = (ArrayList<Article>) baseResponse.getData();
+                        listener.loadArticleHisMoreData(articles);
                     }
                 });
     }

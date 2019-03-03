@@ -194,10 +194,14 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void loadAskMoreData(ArrayList<QAData> qaData) {
+        if (swpAsk.isRefreshing()){
+            swpAsk.setRefreshing(false);
+        }
         for (int i = 0;i < qaData.size(); i++){
             asks.add(qaData.get(i));
-            askAdapter.notifyDataSetChanged();
+
         }
+        askAdapter.notifyDataSetChanged();
     }
 
     public void initMorePopupWindow(){
@@ -364,6 +368,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         rvAsk.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
+                swpAsk.setRefreshing(true);
                 askPresenter.getAskMoreData(currentPage * 15,fragmentsharedPreferencesUtils.getParams("token","").toString());
             }
         });

@@ -1,6 +1,9 @@
 package com.leothon.cogito.Mvp.View.Fragment.ArticleListPage;
 
+import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.DTO.ArticleData;
+
+import java.util.ArrayList;
 
 public class ArticleListPresenter implements ArticleListContract.IArticleListPresenter,ArticleListContract.OnArticleListFinishedListener {
 
@@ -15,6 +18,13 @@ public class ArticleListPresenter implements ArticleListContract.IArticleListPre
     public void loadArticlePageData(ArticleData articleData) {
         if (iArticleListView != null){
             iArticleListView.loadArticlePageData(articleData);
+        }
+    }
+
+    @Override
+    public void loadMoreArticlePageData(ArrayList<Article> articles) {
+        if (iArticleListView != null){
+            iArticleListView.loadMoreArticlePageData(articles);
         }
     }
 
@@ -36,5 +46,10 @@ public class ArticleListPresenter implements ArticleListContract.IArticleListPre
     @Override
     public void loadArticleData(String token) {
         iArticleListModel.getArticleData(token,this);
+    }
+
+    @Override
+    public void loadArticleData(String token, int currentPage) {
+        iArticleListModel.getMoreArticleData(token,currentPage,this);
     }
 }
