@@ -2,36 +2,19 @@ package com.leothon.cogito.Mvp.View.Activity.FavActivity;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
-import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.FavAdapter;
-import com.leothon.cogito.Bean.Fav;
 import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Http.BaseObserver;
-import com.leothon.cogito.Http.BaseResponse;
-import com.leothon.cogito.Http.HttpService;
-import com.leothon.cogito.Http.RetrofitServiceManager;
-import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 
 /**
  * created by leothon on 2018.8.11
@@ -104,32 +87,6 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     }
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 

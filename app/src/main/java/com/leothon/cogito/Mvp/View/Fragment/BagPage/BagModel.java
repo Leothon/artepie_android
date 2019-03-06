@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Fragment.BagPage;
 
+import android.util.Log;
+
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.Http.BaseObserver;

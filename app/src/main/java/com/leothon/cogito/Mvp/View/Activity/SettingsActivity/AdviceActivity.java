@@ -2,22 +2,17 @@ package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.leothon.cogito.Bean.FeedbackInfo;
-import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.tokenUtils;
@@ -37,7 +32,6 @@ public class AdviceActivity extends BaseActivity {
 
     @BindView(R.id.edit_advice)
     MaterialEditText editAdvice;
-    ZLoadingDialog dialog = new ZLoadingDialog(AdviceActivity.this);
 
     private FeedbackInfo feedbackInfo;
     @Override
@@ -103,44 +97,6 @@ public class AdviceActivity extends BaseActivity {
 
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
 
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
-
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 }

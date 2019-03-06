@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.ClassDetail;
@@ -20,6 +21,9 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import butterknife.BindView;
@@ -30,7 +34,7 @@ import butterknife.ButterKnife;
  */
 public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
-    private OnItemClickListener onItemClickListener;
+    public OnDeleteClickListener onDeleteClickListener;
     private ClassDetail classDetail;
     private Context context;
 
@@ -42,6 +46,10 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setFavOnClickListener(favOnClickListener favOnClickListener) {
         this.favOnClickListener = favOnClickListener;
+    }
+
+    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
     }
     public SelectClassAdapter(ClassDetail classDetail, Context context){
         this.classDetail = classDetail;
@@ -60,12 +68,13 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
+        final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         if (viewType == HEAD){
             final SelectHeadHolder selectHeadHolder= (SelectHeadHolder) holder;
             ImageLoader.loadImageViewwithError(context,classDetail.getTeaClasss().getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
             selectHeadHolder.selectTitle.setText(classDetail.getTeaClasss().getSelectlisttitle());
             selectHeadHolder.selectClassAuthor.setText("讲师 : " + classDetail.getTeaClasss().getSelectauthor());
-            selectHeadHolder.selectClassTime.setText("课程总时长 ：" + classDetail.getTeaClasss().getSelecttime() + "分钟");
+            selectHeadHolder.selectClassTime.setText("课程总时长 ：" + CommonUtils.msTomin(Long.parseLong(classDetail.getTeaClasss().getSelecttime())) + "分钟");
             selectHeadHolder.selectClassDesc.setText(classDetail.getTeaClasss().getSelectdesc());
             selectHeadHolder.selectClassAuthorDesc.setText(classDetail.getTeaClasss().getSelectauthordes());
             selectHeadHolder.selectClassLevel.setText(classDetail.getTeaClasss().getSelectscore());
@@ -124,19 +133,40 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     int realposition = position - 1;
 
-                    if (realposition >= 1 && !classDetail.getTeaClasss().getSelectprice().equals("0.00")){
-                        loadDialog(classDetail);
-                    }else {
+                    if (classDetail.getTeaClasss().getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
                         Bundle bundle = new Bundle();
                         bundle.putString("classdid",classDetail.getClassDetailLists().get(realposition).getClassd_id());
                         bundle.putString("classid",classDetail.getTeaClasss().getSelectId());
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+                    }else {
+                        if (realposition >= 1 && !classDetail.getTeaClasss().getSelectprice().equals("0.00")){
+                            loadDialog(classDetail);
+                        }else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("classdid",classDetail.getClassDetailLists().get(realposition).getClassd_id());
+                            bundle.putString("classid",classDetail.getTeaClasss().getSelectId());
+                            IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
+                        }
                     }
+                }
+            });
 
+            selectClassHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int realposition = position - 1;
+                    if (classDetail.getTeaClasss().getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
+
+                        onDeleteClickListener.deleteClickListener(classDetail.getClassDetailLists().get(realposition).getClassd_id());
+                    }else {
+                        MyToast.getInstance(context).show("轻点进入视频课程",Toast.LENGTH_SHORT);
+                    }
+                    return false;
                 }
             });
         }
     }
+
 
     /**
      * 分享文字内容
@@ -268,8 +298,8 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public interface OnItemClickListener{
-        void OnItemClick(int position);
+    public interface OnDeleteClickListener{
+        void deleteClickListener(String classdId);
     }
 
     public interface favOnClickListener{

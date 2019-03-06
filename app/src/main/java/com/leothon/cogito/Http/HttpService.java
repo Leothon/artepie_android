@@ -126,6 +126,9 @@ public interface HttpService {
     @GET("getclassdetail")
     Observable<BaseResponse<ClassDetail>> getClassDetail(@Query("token") String token,@Query("classid") String classId);
 
+    @GET("getclassbyclassid")
+    Observable<BaseResponse<SelectClass>> getClassByClassId(@Query("classid") String classId);
+
     @POST("favclass")
     Observable<BaseResponse<String>> favClass(@Query("token") String token,@Query("classid") String classId);
     @POST("unfavclass")
@@ -232,4 +235,25 @@ public interface HttpService {
     @GET("searchresult")
     Observable<BaseResponse<SearchResult>> searchResult(@Query("keyword") String keyword,@Query("token") String token);
 
+
+    @POST("createclass")
+    Observable<BaseResponse<String>> createClass(@Body SelectClass selectClass);
+
+    @POST("editclass")
+    Observable<BaseResponse<String>> editClass(@Body SelectClass selectClass);
+
+    @POST("uploadclass")
+    Observable<BaseResponse<String>> uploadClassDetail(@Body ClassDetailList classDetailList);
+
+
+
+    @GET("getclassbyuserid")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getClassByUserId(@Query("userid") String userId);
+
+
+    @POST("deleteclass")
+    Observable<BaseResponse<String>> deleteClass(@Query("classid") String classId,@Query("token") String token);
+
+    @POST("deleteclassdetail")
+    Observable<BaseResponse<String>> deleteClassDetail(@Query("classdid") String classdId);
 }

@@ -8,26 +8,18 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 
 import com.leothon.cogito.Adapter.TestSelfAdapter;
-import com.leothon.cogito.Bean.ClassItem;
 
-import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.TestSelf;
 import com.leothon.cogito.DTO.TypeClass;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -104,7 +96,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
     public void initAdapter(){
             swpTest.setOnRefreshListener(this);
-            if (getLoginStatus() == 1){
+            if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
                 isLogin = true;
             }else {
                 isLogin = false;
@@ -159,32 +151,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     protected void onDestroy() {

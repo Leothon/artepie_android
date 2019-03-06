@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
@@ -24,12 +23,9 @@ import android.widget.Toast;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.MyToast;
@@ -39,7 +35,6 @@ import com.leothon.cogito.handle.RichEditImageGetter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -268,30 +263,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         articlePresenter.loadArticle(bundle.getString("articleId",""),activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 

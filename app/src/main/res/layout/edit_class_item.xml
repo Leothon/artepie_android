@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/dividerColor"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/class_img_edit"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:src="@drawable/defalutimg"
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
+            app:riv_corner_radius="5dp"/>
+        <RelativeLayout
+            android:layout_toRightOf="@id/class_img_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/class_title_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="声乐的历史"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/class_title_edit"
+                android:id="@+id/class_description_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="声乐的出现过程"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"/>
+            <TextView
+                android:layout_below="@+id/class_description_edit"
+                android:layout_marginTop="8dp"
+                android:id="@+id/class_count_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0人次已观看"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"
+                />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/dividerColor"
+        />
+
+</LinearLayout>

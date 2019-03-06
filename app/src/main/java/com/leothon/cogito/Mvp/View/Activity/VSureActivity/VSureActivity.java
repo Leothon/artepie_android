@@ -3,13 +3,7 @@ package com.leothon.cogito.Mvp.View.Activity.VSureActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,28 +11,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.PhotoUtils;
-import com.leothon.cogito.Utils.UriPathUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
-import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -112,7 +95,6 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
     private boolean isImgShow = false;
 
     private String url;
-    ZLoadingDialog dialog = new ZLoadingDialog(VSureActivity.this);
     private String path;
     @Override
     public int initLayout() {
@@ -327,71 +309,7 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == PhotoUtils.NONE)
-//            return;
-//        // 拍照
-//        if (requestCode == PhotoUtils.PHOTOGRAPH) {
-//            // 设置文件保存路径这里放在跟目录下
-//            File picture = null;
-//            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-//                picture = new File(Environment.getExternalStorageDirectory() + PhotoUtils.imageName);
-//                if (!picture.exists()) {
-//                    picture = new File(Environment.getExternalStorageDirectory() + PhotoUtils.imageName);
-//                }
-//            } else {
-//                picture = new File(this.getFilesDir() + PhotoUtils.imageName);
-//                if (!picture.exists()) {
-//                    picture = new File(VSureActivity.this.getFilesDir() + PhotoUtils.imageName);
-//                }
-//            }
-//
-//            path = PhotoUtils.getPath(this);// 生成一个地址用于存放剪辑后的图片
-//            if (TextUtils.isEmpty(path)) {
-//                Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
-//                return;
-//            }
-//            Uri imageUri = UriPathUtils.getUri(this, path);
-//            PhotoUtils.startPhotoZoom(VSureActivity.this, Uri.fromFile(picture), PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH, imageUri);
-//        }
-//
-//        if (data == null)
-//            return;
-//
-//        // 读取相册缩放图片
-//        if (requestCode == PhotoUtils.PHOTOZOOM) {
-//
-//            path = PhotoUtils.getPath(this);// 生成一个地址用于存放剪辑后的图片
-//            if (TextUtils.isEmpty(path)) {
-//                Log.e(TAG, "随机生成的用于存放剪辑后的图片的地址失败");
-//                return;
-//            }
-//            Uri imageUri = UriPathUtils.getUri(this, path);
-//            PhotoUtils.startPhotoZoom(VSureActivity.this, data.getData(), PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH, imageUri);
-//        }
-//        // 处理结果
-//        if (requestCode == PhotoUtils.PHOTORESOULT) {
-//            /**
-//             * 在这里处理剪辑结果，可以获取缩略图，获取剪辑图片的地址。得到这些信息可以选则用于上传图片等等操作
-//             * */
-//
-//            /**
-//             * 如，根据path获取剪辑后的图片
-//             */
-//
-//            Bitmap bitmap = PhotoUtils.convertToBitmap(path,PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
-//            if(bitmap != null){
-//                ensureImg.setVisibility(View.VISIBLE);
-//                deleteEnsureImg.setVisibility(View.VISIBLE);
-//                sendVSure.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//                ensureImg.setImageBitmap(bitmap);
-//                vSureDes.setVisibility(View.GONE);
-//                isImgShow = true;
-//            }
-//            File file = new File(path);
-//            showLoadingAnim();
-//            vSurePresenter.uploadAuthImg(file);
-//
-//        }
+
         if (resultCode == RESULT_OK) {
 
             if (requestCode == PictureConfig.CHOOSE_REQUEST){
@@ -428,32 +346,6 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 
@@ -463,18 +355,5 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
         vSurePresenter.onDestroy();
     }
 
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
 
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 }

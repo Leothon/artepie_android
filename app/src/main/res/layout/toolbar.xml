@@ -49,7 +49,7 @@
        android:layout_marginRight="5dp"
        android:scaleType="centerCrop"
        app:riv_oval="true"
-       android:src="@drawable/musicdefalut"/>
+       android:src="@drawable/defaulticon"/>
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/send_icon"

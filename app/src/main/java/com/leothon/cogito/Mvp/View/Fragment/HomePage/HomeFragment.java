@@ -25,6 +25,7 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
+import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
@@ -41,11 +42,16 @@ import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.http.POST;
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
@@ -124,6 +130,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
+        EventBus.getDefault().register(this);
     }
     @Override
     protected void initView() {
@@ -134,6 +141,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         positionBar.setVisibility(View.INVISIBLE);
         searchTop.setBackgroundColor(getResources().getColor(R.color.alpha));
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UploadMessage uploadMessage){
+        homePresenter.loadHomeData(fragmentsharedPreferencesUtils.getParams("token","").toString());
     }
 
     public void initBanner(ArrayList<com.leothon.cogito.Bean.Banner> banners) {
@@ -185,7 +197,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     public void initAdapter() {
         swp.setOnRefreshListener(this);
-        if (baseApplication.getLoginStatus() == 1){
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             isLogin = true;
         }else {
             isLogin = false;
@@ -303,25 +315,11 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeAdapter.addHeadView2(testView);
     }
 
-    private void initActivity(HomeAdapter homeAdapter) {
-        View activityView = View.inflate(getMContext(), R.layout.tagcommon_home, null);
-        homeAdapter.addHeadView3(activityView);
-    }
 
-    public void initclass(HomeAdapter homeAdapter) {
-        View classView = View.inflate(getMContext(), R.layout.tagcommon_home, null);
-        homeAdapter.addHeadView4(classView);
-    }
-
-
-//    public void initvideoclass(HomeAdapter homeAdapter) {
-//        View videoclassView = View.inflate(getMContext(), R.layout.tagcommon_home, null);
-//        homeAdapter.addHeadView5(videoclassView);
-//    }
 
     public void initdivider(HomeAdapter homeAdapter) {
         View dividerView = View.inflate(getMContext(), R.layout.dividerview, null);
-        homeAdapter.addHeadView5(dividerView);
+        homeAdapter.addHeadView3(dividerView);
     }
 
     @Override
@@ -346,17 +344,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
     }
 
-    @Override
-    public void hideLoading() {
-    }
 
-    @Override
-    public void showMessage(@NonNull String message) {
-    }
-
-    @Override
-    public void showLoading() {
-    }
 
     @Override
     public void onItemClick(View v, int postion) {
@@ -374,5 +362,8 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         super.onDestroy();
         homePresenter.onDestroy();
         baseApplication = null;
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

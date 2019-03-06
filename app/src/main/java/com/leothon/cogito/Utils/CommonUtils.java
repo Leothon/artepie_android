@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -122,29 +123,6 @@ public class CommonUtils {
         v.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
     }
 
-    /**
-     * 获取视频第一帧作为封面（网络）
-     * @param url
-     * @return
-     */
-
-    public static Bitmap getVideoThumbnail(String url) {
-        Bitmap bitmap = null;
-        //MediaMetadataRetriever 是android中定义好的一个类，提供了统一
-        //的接口，用于从输入的媒体文件中取得帧和元数据；
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            //根据文件路径获取缩略图
-            retriever.setDataSource(url, new HashMap());
-            //获得第一帧图片
-            bitmap = retriever.getFrameAtTime();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } finally {
-            retriever.release();
-        }
-        return bitmap;
-    }
 
     public static List<String> getImgStr(String htmlStr) {
         List<String> pics = new ArrayList<String>();
@@ -1157,5 +1135,21 @@ public class CommonUtils {
         return android.os.Build.VERSION.RELEASE;
     }
 
+
+    public static int getVideoDuration(String mUri){
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        int duration = 0;
+        try {
+
+            mediaPlayer.setDataSource(mUri);
+            mediaPlayer.prepare();
+            duration = mediaPlayer.getDuration();
+        }catch (IOException e){
+            e.fillInStackTrace();
+        }finally {
+            mediaPlayer.release();
+        }
+        return duration;
+    }
 
 }

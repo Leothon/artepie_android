@@ -49,18 +49,27 @@ public class SplashActivity extends AppCompatActivity {
     @BindView(R.id.skip_host)
     TextView skipToHost;
     TokenValid tokenValid = null;
-    private BaseApplication baseApplication;
+
+    private SharedPreferencesUtils sharedPreferencesUtilsSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        sharedPreferencesUtilsSettings = new SharedPreferencesUtils(this,"artSettings");
+        if (!sharedPreferencesUtilsSettings.contain("soundNotice")){
+            sharedPreferencesUtilsSettings.setParams("soundNotice",true);
+        }
+        if (!sharedPreferencesUtilsSettings.contain("qaNotice")){
+            sharedPreferencesUtilsSettings.setParams("qaNotice",true);
+        }
+        if (!sharedPreferencesUtilsSettings.contain("classNotice")){
+            sharedPreferencesUtilsSettings.setParams("classNotice",true);
+        }
         final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         String img = Api.ComUrl + "resource/splash.jpg";
         ImageLoader.loadImageViewThumbnailwitherror(this,img,SplashImg,R.drawable.defalutimg);
-        if (baseApplication == null){
-            baseApplication = (BaseApplication)getApplication();
-        }
+
 
 
         tokenValid = new TokenValid();
@@ -77,8 +86,7 @@ public class SplashActivity extends AppCompatActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("type","home");
                         IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
-                        baseApplication.setLoginStatus(1);//表示登录成功
-                        baseApplication = null;
+                        sharedPreferencesUtils.setParams("login",true);
                         finish();
 
                     }
@@ -87,7 +95,6 @@ public class SplashActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("mark", "normal");
                     IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
-                    baseApplication = null;
                     finish();
                 }
             }
@@ -102,9 +109,5 @@ public class SplashActivity extends AppCompatActivity {
 //        });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        baseApplication = null;
-    }
+
 }

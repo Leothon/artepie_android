@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.AskActivity;
 
+import android.util.Log;
+
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SendQAData;
@@ -8,6 +10,8 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Http.UploadProgressListener;
+import com.leothon.cogito.Http.UploadRequestBody;
 
 import java.io.File;
 
@@ -18,10 +22,17 @@ import okhttp3.RequestBody;
 
 public class AskActivityModel implements AskActivityContract.IAskActivityModel {
     @Override
-    public void uploadFile(String path, final AskActivityContract.OnAskActivityFinishedListener listener) {
+    public void uploadFile(String path,final AskActivityContract.OnAskActivityFinishedListener listener) {
         File file = new File(path);
-        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
+        UploadRequestBody uploadRequestBody = new UploadRequestBody(file, "multipart/form-data", new UploadProgressListener() {
+            @Override
+            public void onRequestProgress(long bytesWritten, long contentLength) {
+
+                listener.showProgress(bytesWritten,contentLength);
+            }
+        });
+        //RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), uploadRequestBody);
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .updataFile(photo)

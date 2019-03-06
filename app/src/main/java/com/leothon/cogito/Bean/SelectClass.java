@@ -26,6 +26,17 @@ public class SelectClass  extends BaseResponse implements Serializable {
     private String selectscore;
     private String selectauthorid;
 
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
 
     public String getSelectauthorid() {
         return selectauthorid;

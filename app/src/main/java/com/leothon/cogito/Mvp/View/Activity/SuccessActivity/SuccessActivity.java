@@ -9,12 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.View.MyToast;
@@ -129,30 +126,5 @@ public class SuccessActivity extends BaseActivity {
     }
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }

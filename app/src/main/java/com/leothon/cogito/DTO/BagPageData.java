@@ -9,16 +9,16 @@ public class BagPageData {
 
     private StudyLine studyLine;
 
-    private ArrayList<SelectClass> teaClassses;
+    private ArrayList<SelectClass> selectClasses;
 
     private ArrayList<SelectClass> fineClasses;
 
-    public ArrayList<SelectClass> getTeaClassses() {
-        return teaClassses;
+    public ArrayList<SelectClass> getSelectClasses() {
+        return selectClasses;
     }
 
-    public void setTeaClassses(ArrayList<SelectClass> teaClassses) {
-        this.teaClassses = teaClassses;
+    public void setSelectClasses(ArrayList<SelectClass> selectClasses) {
+        this.selectClasses = selectClasses;
     }
 
     public ArrayList<SelectClass> getFineClasses() {

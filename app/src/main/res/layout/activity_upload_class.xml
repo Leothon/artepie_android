@@ -30,7 +30,7 @@
                     android:id="@+id/cover_show"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/defalutimg"
+                    android:src="@drawable/activityback"
                     android:scaleType="centerCrop"/>
                 <View
                     android:id="@+id/cover_pall_view"
@@ -90,7 +90,7 @@
                 android:id="@+id/desc_class_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入发布课程的简介"
+                android:hint="请输入发布课程的简介,请务必写明将有多少节，是否连载等信息，以方便学习者安排"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="发布课程的简介"
                 app:met_floatingLabelTextSize="@dimen/tipsSize"

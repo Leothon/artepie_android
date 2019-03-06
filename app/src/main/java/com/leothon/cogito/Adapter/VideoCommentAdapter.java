@@ -41,9 +41,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context context;
 
-    private OrientationUtils orientationUtils;
 
-    private ImageView imageView;
 
     private static int COMPLETED = 1;
     private SharedPreferencesUtils sharedPreferencesUtils;

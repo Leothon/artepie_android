@@ -51,7 +51,7 @@
                     android:id="@+id/v_sure_icon"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/defalutimg"
+                    android:src="@drawable/defaulticon"
                     android:scaleType="centerCrop"
                     app:riv_oval="true"
                     android:layout_centerInParent="true"

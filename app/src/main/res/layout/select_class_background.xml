@@ -12,7 +12,7 @@
         android:id="@+id/select_back_img"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/defalutimg"
+        android:src="@drawable/typeback"
         android:scaleType="centerCrop"/>
 
     <ImageView

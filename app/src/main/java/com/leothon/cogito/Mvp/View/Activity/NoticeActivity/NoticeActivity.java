@@ -1,31 +1,22 @@
 package com.leothon.cogito.Mvp.View.Activity.NoticeActivity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.NoticeAdapter;
-import com.leothon.cogito.Bean.Comment;
-import com.leothon.cogito.Bean.Notice;
 import com.leothon.cogito.Bean.NoticeInfo;
-import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.View.MyToast;
 
@@ -34,8 +25,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-import retrofit2.http.Query;
 
 /**
  * created by leothon on 2018.8.12
@@ -207,32 +196,7 @@ public class NoticeActivity extends BaseActivity implements NoticeContract.INoti
 
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 

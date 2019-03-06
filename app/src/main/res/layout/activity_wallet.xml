@@ -20,7 +20,7 @@
             android:id="@+id/back_wallet"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:src="@drawable/defalutimg"
+            android:src="@drawable/typeback"
             android:scaleType="centerCrop"/>
         <FrameLayout
             android:layout_width="match_parent"

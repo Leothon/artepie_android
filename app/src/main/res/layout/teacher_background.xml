@@ -13,14 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:arcHeight="50dp"
-            android:src="@drawable/defalutimg"
+            android:src="@drawable/teaback"
             android:scaleType="centerCrop"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/tea_icon_list"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/musicdefalut"
+            android:src="@drawable/defaulticon"
             app:riv_oval="true"
             app:riv_border_color="@color/white"
             app:riv_border_width="1dp"

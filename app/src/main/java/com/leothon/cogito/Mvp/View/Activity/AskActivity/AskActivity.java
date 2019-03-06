@@ -5,39 +5,30 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SendQAData;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.View.ProgressView;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -51,12 +42,11 @@ import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.shuyu.gsyvideoplayer.utils.FileUtils.getPath;
 
 public class AskActivity extends BaseActivity implements AskActivityContract.IAskActivityView {
 
@@ -85,12 +75,20 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     TextView reContent;
     @BindView(R.id.delete_video)
     ImageView deleteVideo;
+
+    @BindView(R.id.progress_show)
+    CardView progressShow;
+    @BindView(R.id.progress_bar)
+    ProgressView progressView;
+    @BindView(R.id.progress_content)
+    TextView progressContent;
     String filePath = "";
 
     private Bundle bundle;
     private Intent intent;
     private UserEntity userEntity;
 
+    DecimalFormat df = new DecimalFormat("0.00");
     private String coverImg = "";
 
     private static int VIDEO = PictureMimeType.ofVideo();
@@ -100,6 +98,9 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     private AskActivityPresenter askActivityPresenter;
     ZLoadingDialog dialog = new ZLoadingDialog(AskActivity.this);
     private SendQAData sendQAData;
+
+
+
     @Override
     public int initLayout() {
         return R.layout.activity_ask;
@@ -137,7 +138,6 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         send.setVisibility(View.VISIBLE);
 
 
-        //getToolbar().setNavigationIcon(Constants.icon);
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,12 +244,14 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
             }else if (askContent.getText().toString().length() > 140){
                 MyToast.getInstance(this).show("最多字数限制为140字",Toast.LENGTH_SHORT);
             }else {
-                showLoadingAnim();
+
                 if (filePath.equals("")){
+                    showLoadingAnim();
                     askActivityPresenter.sendData(sendQAData);
-                    super.onBackPressed();
                 }else {
+                    progressShow.setVisibility(View.VISIBLE);
                     askActivityPresenter.uploadFile(filePath);
+
                 }
             }
         }
@@ -270,9 +272,20 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
 
     @Override
+    public void showProgress(long nowSize, long totalSize) {
+
+        progressContent.setText(nowSize / 1000 + "KB / " + totalSize / 1000000 + "MB");
+        float percent = (float)nowSize / (float)totalSize;
+
+        progressView.setPercentage(Float.parseFloat(df.format(percent * 100)));
+
+    }
+
+    @Override
     public void getUploadUrl(String url) {
         String urlPath = Api.ComUrl + "resource/" + url;
 
+        progressShow.setVisibility(View.GONE);
 
         if (CommonUtils.fileType(url).equals("audio")){
             sendQAData.setQa_audio(urlPath);
@@ -287,6 +300,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     public void sendSuccess(String msg) {
         EventBus.getDefault().post(msg);
         hideLoadingAnim();
+
         PictureFileUtils.deleteCacheDirFile(AskActivity.this);
         super.onBackPressed();
     }
@@ -349,7 +363,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         // 进入相册 以下是例子：用不到的api可以不写
         PictureSelector.create(AskActivity.this)
                 .openGallery(type)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
+                //.theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
                 .maxSelectNum(1)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int
                 .imageSpanCount(4)// 每行显示个数 int
@@ -421,51 +435,14 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     }
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
 
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
-
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         askActivityPresenter.onDestroy();
     }
+
+
 }

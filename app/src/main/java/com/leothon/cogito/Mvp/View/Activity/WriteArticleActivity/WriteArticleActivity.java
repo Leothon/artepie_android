@@ -1,30 +1,19 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
-import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
-import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
-import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassContract;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FontStyle;
@@ -55,8 +44,7 @@ import butterknife.OnClick;
 public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.OnFontPanelListener,RichEditTextView.OnSelectChangeListener,WriteArticleContract.IWriteArticleView {
 
 
-//    @BindView(R.id.write_article_bar)
-//    CardView writeArticleBar;
+
     @BindView(R.id.write_article_title)
     MaterialEditText writeArticleTitle;
     @BindView(R.id.write_article_content)
@@ -76,14 +64,10 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
 
     private boolean styleMenuShow = false;
     private UserEntity userEntity;
-//    @BindView(R.id.toolbar_subtitle)
-//    TextView subTitle;
-//    @BindView(R.id.toolbar_title)
-//    TextView title;
+
 
     @BindView(R.id.send_icon)
     RoundedImageView sendIcon;
-    ZLoadingDialog dialog = new ZLoadingDialog(WriteArticleActivity.this);
     private WriteArticlePresenter writeArticlePresenter;
     @Override
     public int initLayout() {
@@ -290,30 +274,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
         writeArticlePresenter.onDestroy();
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     public void setBold(boolean isBold) {
@@ -358,18 +319,4 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("图片上传中...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
-
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 }

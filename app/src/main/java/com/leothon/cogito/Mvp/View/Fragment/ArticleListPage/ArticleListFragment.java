@@ -150,58 +150,12 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         swpArticle.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         EventBus.getDefault().register(this);
         articleListPresenter = new ArticleListPresenter(this);
-//        for (int i = 0;i < 30;i ++){
-//            Article article = new Article();
-//            article.setArticleAuthorIcon("http://www.ddkjplus.com/resource/1550635845572.png");
-//            article.setArticleAuthorName("Leothon");
-//            article.setArticleImg("http://www.ddkjplus.com/resource/home12.jpg");
-//            article.setArticleTime("12-23 14:28");
-//            article.setArticleTitle("刘谦换壶魔术揭秘");
-//            articles.add(article);
-//        }
-
-
-
-//        fragments = new ArrayList<>();
-//        fragmentMic1 = Mic1Fragment.newInstance();
-//        fragmentMic2 = Mic2Fragment.newInstance();
-//        titleList.add("艺条微课");
-//        titleList.add("艺条课堂");
-//        fragments.add(fragmentMic1);
-//        fragments.add(fragmentMic2);
-//
-//        micClassTab.addTab(micClassTab.newTab().setText(titleList.get(0)));
-//        micClassTab.addTab(micClassTab.newTab().setText(titleList.get(1)));
-//
-//        fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
-//            @Override
-//            public Fragment getItem(int i) {
-//                return fragments.get(i);
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return fragments.size();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public CharSequence getPageTitle(int position) {
-//                return titleList.get(position);
-//            }
-//
-//        };
-//
-//        micClassViewPager.setAdapter(fragmentPagerAdapter);
-//        micClassTab.setupWithViewPager(micClassViewPager);
-        //micClassTab.setTabsFromPagerAdapter(fragmentPagerAdapter);
     }
 
     @Override
     protected void initView() {
         title.setText("");
         subtitle.setText("");
-        //voiceBar.setCardElevation(3.0f);
         showAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_in);
         hideAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_out);
         articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString());
@@ -297,7 +251,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     }
 
     private void toWriteArticle(){
-        if (baseApplication.getLoginStatus() == 1){
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             IntentUtils.getInstence().intent(getMContext(),WriteArticleActivity.class);
         }else {
             CommonUtils.loadinglogin(getMContext());
@@ -319,16 +273,6 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         voiceBar.setVisibility(View.GONE);
         voiceBar.startAnimation(hideAnimation);
     }
-
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showMessage(@NonNull String message) {}
-
-    @Override
-    public void showLoading() {}
-
 
 
     @Override

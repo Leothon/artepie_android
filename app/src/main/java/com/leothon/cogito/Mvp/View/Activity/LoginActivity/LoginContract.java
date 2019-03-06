@@ -1,7 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Mvp.BaseContract;
 
 /**
  * created by leothon on 2018.8.5

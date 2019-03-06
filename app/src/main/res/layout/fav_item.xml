@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:src="@drawable/musicdefalut"
+            android:src="@drawable/defalutimg"
             android:scaleType="centerCrop"
             android:layout_margin="10dp"
             app:riv_corner_radius="5dp"/>

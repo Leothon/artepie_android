@@ -244,7 +244,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
-        if (baseApplication.getLoginStatus() == 1){
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             isLogin = true;
         }else {
             isLogin = false;
@@ -390,9 +390,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @OnClick(R.id.float_btn)
     public void addcontent(View view){
 
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() == 1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             Bundle bundle = new Bundle();
             bundle.putString("type","write");
             IntentUtils.getInstence().intent(getMContext(), AskActivity.class,bundle);
@@ -412,15 +412,6 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
     }
 
-
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showMessage(@NonNull String message) {}
-
-    @Override
-    public void showLoading() {}
 
     @Override
     public void onDestroy() {

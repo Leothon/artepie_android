@@ -7,12 +7,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.CommentDetailAdapter;
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.Reply;
 import com.leothon.cogito.Bean.TokenValid;
@@ -34,8 +31,6 @@ import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
@@ -376,30 +371,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         View rootView = LayoutInflater.from(this).inflate(R.layout.activity_comment_detail,null);
         morePopupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
     }
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     public void loadError(String msg) {

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.leothon.cogito.Bean.Notice;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -22,8 +20,6 @@ import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Fragment.AboutPage.AboutFragment;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
 import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
@@ -31,6 +27,7 @@ import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.BottomButton;
@@ -114,6 +111,11 @@ public class HostActivity extends BaseActivity  {
 
     @Override
     public void initView() {
+        if (CommonUtils.netIsConnected(this) && CommonUtils.getNetworkType(this) != 1){
+            MyToast.getInstance(this).show("注意，你现在使用的是4G网络。",Toast.LENGTH_SHORT);
+        }else if (!CommonUtils.netIsConnected(this)){
+            MyToast.getInstance(this).show("无网络连接",Toast.LENGTH_SHORT);
+        }
         initBottomButton();
         StatusBarUtils.transparencyBar(this);
         fragmentArrayList = new ArrayList<>();
@@ -151,15 +153,6 @@ public class HostActivity extends BaseActivity  {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (CommonUtils.netIsConnected(this) && CommonUtils.getNetworkType(this) != 1){
-            MyToast.getInstance(this).show("注意，你现在使用的是4G网络。",Toast.LENGTH_SHORT);
-        }else if (!CommonUtils.netIsConnected(this)){
-            MyToast.getInstance(this).show("无网络连接",Toast.LENGTH_SHORT);
-        }
-    }
 
     /**
      * 初始化底部按钮
@@ -223,32 +216,10 @@ public class HostActivity extends BaseActivity  {
                 });
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public void showLoading() {
-
-    }
 
     public String getBotStatus(){
         return info;
-    }
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 
 
@@ -510,7 +481,8 @@ public class HostActivity extends BaseActivity  {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(NoticeMessage message) {
-        if (message.getMessage().equals("show")){
+        SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"artSettings");
+        if (message.getMessage().equals("show") && (boolean)sharedPreferencesUtils.getParams("qaNotice",false)){
             noticeBot.setVisibility(View.VISIBLE);
         }else {
             noticeBot.setVisibility(View.GONE);

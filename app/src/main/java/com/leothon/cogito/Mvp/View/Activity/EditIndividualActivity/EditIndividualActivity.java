@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,23 +27,15 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danikula.videocache.file.Md5FileNameGenerator;
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.MD5Utils;
 import com.leothon.cogito.Utils.PhotoUtils;
 import com.leothon.cogito.Utils.UriPathUtils;
@@ -124,7 +115,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     private String nowPassword;
     private String password = "";
-    ZLoadingDialog dialog = new ZLoadingDialog(EditIndividualActivity.this);
     private String[] permissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -859,46 +849,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             }
         }).show();
     }
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
 
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
-
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 
     @Override
     protected void onDestroy() {

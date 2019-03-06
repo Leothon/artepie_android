@@ -39,6 +39,8 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 
 import com.leothon.cogito.Utils.IntentUtils;
 
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -96,6 +98,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
+        final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         if (viewType == HEAD0 ) {
             BuyClassTitleHolder buyClassTitleHolder = (BuyClassTitleHolder)holder;
             buyClassTitleHolder.dividerBuy.setText("已订阅课程");
@@ -118,7 +121,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             setChartFillDrawable(buyClassTitleHolder.studyLine,drawable);
         }else if(viewType == HEAD1){
             int position1 = position - 1;
-            final SelectClass buyClass = bagPageData.getTeaClassses().get(position1);
+            final SelectClass buyClass = bagPageData.getSelectClasses().get(position1);
             BuyClassHolder buyClassHolder = (BuyClassHolder)holder;
             ImageLoader.loadImageViewThumbnailwitherror(context,buyClass.getSelectbackimg(),buyClassHolder.classImg,R.drawable.defalutimg);
             buyClassHolder.classCount.setText(buyClass.getSelectstucount() + "人次已学习");
@@ -139,7 +142,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             recommentClassTitleHolder.dividerRe.setText("为您推荐课程");
             recommentClassTitleHolder.topDiv.setVisibility(View.VISIBLE);
         }else if (viewType == HEAD3){
-            final int position2 = position - (bagPageData.getTeaClassses().size() + 2);
+            final int position2 = position - (bagPageData.getSelectClasses().size() + 2);
             final RecommentClassHolder recommentClassHolder = (RecommentClassHolder)holder;
             final SelectClass fineClass = bagPageData.getFineClasses().get(position2);
             ImageLoader.loadImageViewThumbnailwitherror(context,fineClass.getSelectbackimg(),recommentClassHolder.foryouIV,R.drawable.defalutimg);
@@ -158,7 +161,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     int pos = position2;
-                    if (recommentClassHolder.foryouPrice.getText().toString().equals("已购买") || recommentClassHolder.foryouPrice.getText().toString().equals("免费")){
+                    if (recommentClassHolder.foryouPrice.getText().toString().equals("已购买") || recommentClassHolder.foryouPrice.getText().toString().equals("免费") || bagPageData.getSelectClasses().get(pos).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
                         Bundle bundle = new Bundle();
                         bundle.putString("classId",fineClass.getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
@@ -171,15 +174,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         }
 
                     }
-                }
-            });
-            recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position2 = position - (bagPageData.getTeaClassses().size() + 2);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("classId",fineClass.getSelectId());
-                    IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                 }
             });
         }else {
@@ -221,11 +215,11 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     public int getItemViewType(int position) {
         if (position == 0 ) {
             return HEAD0;
-        }else if (position <= bagPageData.getTeaClassses().size() && position != 0){
+        }else if (position <= bagPageData.getSelectClasses().size() && position != 0){
             return HEAD1;
-        }else if (position == bagPageData.getTeaClassses().size() + 1){
+        }else if (position == bagPageData.getSelectClasses().size() + 1){
             return HEAD2;
-        }else if (position <= (bagPageData.getFineClasses().size() + bagPageData.getTeaClassses().size() + 1) && position != 0){
+        }else if (position <= (bagPageData.getFineClasses().size() + bagPageData.getSelectClasses().size() + 1) && position != 0){
             return HEAD3;
         }else {
             return HEAD4;
@@ -235,7 +229,9 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     @Override
     public int getItemCount() {
-        return bagPageData.getTeaClassses().size() + bagPageData.getFineClasses().size() + 3;
+
+
+        return bagPageData.getSelectClasses().size() + bagPageData.getFineClasses().size() + 3;
     }
 
     @Override

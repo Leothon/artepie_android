@@ -10,14 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.ClassDetailList;
-import com.leothon.cogito.Bean.Fav;
-import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
-import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;

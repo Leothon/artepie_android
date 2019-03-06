@@ -21,6 +21,8 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -60,6 +62,7 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
+        final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         if (viewType == HEAD){
             TestHeadHolder testHeadHolder= (TestHeadHolder) holder;
             testHeadHolder.testTitle.setText(typeClass.getType());
@@ -86,7 +89,7 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00")){
+                    if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00") && !typeClass.getTypeClass().get(realposition).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
 
                         if (isLogin){
                             loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
@@ -106,7 +109,7 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View view) {
                     int realposition = position - 2;
 
-                    if (classItemHolder.classPrice.getText().toString().equals("已购买") || classItemHolder.classPrice.getText().toString().equals("免费")){
+                    if (classItemHolder.classPrice.getText().toString().equals("已购买") || classItemHolder.classPrice.getText().toString().equals("免费") || typeClass.getTypeClass().get(realposition).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
                         Bundle bundle = new Bundle();
                         bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);

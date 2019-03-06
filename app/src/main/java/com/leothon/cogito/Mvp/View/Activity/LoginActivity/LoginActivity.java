@@ -16,21 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Base.BaseApplication;
-import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.Utils.SharedPreferencesUtils;
-import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -45,13 +39,8 @@ import com.zyao89.view.zloading.Z_TYPE;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.KeyStore;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
-
-import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.7.24
@@ -120,7 +109,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
 
     private Object loginSuccessResult;
-    ZLoadingDialog dialog = new ZLoadingDialog(LoginActivity.this);
     private Handler mHandler = new Handler();
 
 
@@ -153,8 +141,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 bundle.putString("type","home");
                 activitysharedPreferencesUtils.setParams("token",Constants.visitor_token);
                 IntentUtils.getInstence().intent(LoginActivity.this, HostActivity.class,bundle);
-
-                setLoginStatus(0);
+                activitysharedPreferencesUtils.setParams("login",false);
                 finish();
 
             }
@@ -363,36 +350,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         bundle.putString("type","home");
         //MyToast.getInstance(this).show("如果您未设置密码，请尽快设置密码以确保账户安全",Toast.LENGTH_SHORT);
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
-        setLoginStatus(1);//表示登录成功
+        activitysharedPreferencesUtils.setParams("login",true);
         finish();
     }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
 
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     public void showBack() {
@@ -461,20 +424,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
 
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
 
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 
 
     /**

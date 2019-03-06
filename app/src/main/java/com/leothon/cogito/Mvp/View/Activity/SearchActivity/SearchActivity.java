@@ -20,8 +20,6 @@ import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SearchResult;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchArticleFragment;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchClassFragment;
 import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchQAFragment;
@@ -51,7 +49,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
 
     @BindView(R.id.search_tab)
     TabLayout searchTab;
-    ZLoadingDialog dialog = new ZLoadingDialog(SearchActivity.this);
 
     private SearchClassFragment searchClassFragment;
     private SearchQAFragment searchQAFragment;
@@ -226,33 +223,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
 
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-
 
 
     @Override
@@ -267,18 +237,5 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
         searchPresenter.onDestroy();
     }
 
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
 
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 }

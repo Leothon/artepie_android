@@ -23,17 +23,17 @@ public class BaseApplication extends Application {
     private static BaseApplication application;
 
 
-    private int loginStatus;
+//    private int loginStatus;
 
     public static WindowManager mWdm;
 
-    public int getLoginStatus() {
-        return loginStatus;
-    }
-
-    public void setLoginStatus(int loginStatus) {
-        this.loginStatus = loginStatus;
-    }
+//    public int getLoginStatus() {
+//        return loginStatus;
+//    }
+//
+//    public void setLoginStatus(int loginStatus) {
+//        this.loginStatus = loginStatus;
+//    }
 
     @Override
     public void onCreate() {
@@ -48,7 +48,7 @@ public class BaseApplication extends Application {
         setDatabase();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        setLoginStatus(0);
+//        setLoginStatus(0);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.

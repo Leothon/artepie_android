@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <include
@@ -25,5 +25,52 @@
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/edit_class_btn"
+        android:layout_width="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="20dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <TextView
+                android:id="@+id/edit_my_class"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="编辑课程信息"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/littleTitle"
+                android:gravity="center"
+                android:layout_toLeftOf="@id/divider_add_class"
+                android:layout_marginRight="20dp"/>
+            <View
+                android:id="@+id/divider_add_class"
+                android:layout_width="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="match_parent"
+                android:background="@color/dividerColor"
+                android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/upload_my_class"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="上传新的课程"
+                android:layout_toRightOf="@id/divider_add_class"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/littleTitle"
+                android:gravity="center"
+                android:layout_marginLeft="20dp"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

@@ -22,6 +22,13 @@ public class AskActivityPresenter implements AskActivityContract.IAskActivityPre
     }
 
     @Override
+    public void showProgress(long nowSize, long totalSize) {
+        if (iAskActivityView != null){
+            iAskActivityView.showProgress(nowSize,totalSize);
+        }
+    }
+
+    @Override
     public void sendSuccess(String msg) {
         if (iAskActivityView != null){
             iAskActivityView.sendSuccess(msg);

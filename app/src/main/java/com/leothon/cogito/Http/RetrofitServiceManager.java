@@ -51,11 +51,14 @@ public class RetrofitServiceManager {
 //        HttpService  httpService = verifyRetrofit.create(HttpService.class);
     }
 
+
     private static class SingletonHolder{
+
         private static final RetrofitServiceManager INSTANCE = new RetrofitServiceManager();
     }
 
     public static RetrofitServiceManager getInstance(){
+
         return SingletonHolder.INSTANCE;
     }
 

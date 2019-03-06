@@ -30,7 +30,7 @@
                     android:id="@+id/individual_back"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/backactivity"
+                    android:src="@drawable/activityback"
                     android:scaleType="centerCrop"/>
                 <LinearLayout
                     android:layout_width="match_parent"

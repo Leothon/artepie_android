@@ -88,20 +88,7 @@ public class SearchArticleFragment extends BaseFragment {
     }
 
 
-    @Override
-    public void showLoading() {
 
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 }

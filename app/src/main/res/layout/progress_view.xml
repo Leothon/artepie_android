@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/progress_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频上传中"
+            android:textColor="@color/fontColor"
+            android:textSize="@dimen/appBarSize"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"/>
+        <com.leothon.cogito.View.ProgressView
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_centerInParent="true"
+            app:barProgressColor="@color/colorAccent"
+            app:barBgColor="@color/dividerColor"
+            app:barRadius="15"/>
+
+        <TextView
+            android:id="@+id/progress_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0KB / 2000KB"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

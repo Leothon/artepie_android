@@ -4,35 +4,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
-import com.leothon.cogito.Bean.ClassItem;
-import com.leothon.cogito.Bean.Teacher;
-import com.leothon.cogito.Bean.TeacherSelf;
-import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -84,7 +71,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
     public void initAdapter(){
         swpTea.setOnRefreshListener(this);
-        if (getLoginStatus() == 1){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
             isLogin = true;
         }else {
             isLogin = false;
@@ -154,37 +141,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        teacherPresenter.onDestroy();
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     public void onRefresh() {

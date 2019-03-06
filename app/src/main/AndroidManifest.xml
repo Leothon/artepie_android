@@ -217,7 +217,6 @@
         <activity android:name=".Mvp.View.Activity.BannerActivity.BannerActivity" />
         <activity android:name=".Mvp.View.Activity.TeacherActivity.TeacherActivity" />
         <activity android:name=".Mvp.View.Activity.TestActivity.TestActivity" />
-        <activity android:name=".Mvp.View.Activity.ActivityActivity.ActivityActivity" />
         <activity android:name=".Mvp.View.Activity.ActivityListActivity.ActivityListActivity" />
         <activity android:name=".Mvp.View.Activity.ViewPagerActivity.ViewPageActivity" />
         <activity android:name=".Mvp.View.Activity.SelectClassActivity.SelectClassActivity" />
@@ -260,7 +259,8 @@
         <activity android:name=".Mvp.View.Activity.AskDetailActivity.CommentDetailActivity" />
         <activity android:name=".Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity" />
         <activity android:name=".Mvp.View.Activity.ArticleActivity.ArticleActivity" />
-        <activity android:name=".Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity" />
+        <activity android:name=".Mvp.View.Activity.EditClassActivity.EditClassActivity"></activity>
     </application>
 
 </manifest>

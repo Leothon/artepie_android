@@ -125,7 +125,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
-        if (baseApplication.getLoginStatus() == 1){
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         }
 
@@ -154,7 +154,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         search.setBackgroundColor(getResources().getColor(R.color.alpha));
         searchTitle.setText("搜索相关内容");
         //TODO 根据登录信息来设定用户的各种信息
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             userName.setText("未登录");
             userIcon.setImageResource(R.drawable.defaulticon);
             signature.setText("");
@@ -195,17 +195,6 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            //Fragment隐藏时调用
-        }else {
-            //Fragment显示时调用
-
-        }
-
-    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -307,11 +296,11 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
     @OnClick(R.id.settings_about)
     public void settingsClick(View v){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             Bundle bundleto = new Bundle();
             bundleto.putBoolean("loginstatus",false);
             IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
-        }else if (baseApplication.getLoginStatus() == 1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             Bundle bundleto = new Bundle();
             bundleto.putBoolean("loginstatus",true);
             IntentUtils.getInstence().intent(getMContext(), SettingsActivity.class,bundleto);
@@ -334,9 +323,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
 
     private void toPersonPage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             Bundle bundleto = new Bundle();
             bundleto.putString("type","individual");
             IntentUtils.getInstence().intent(getMContext(), IndividualActivity.class,bundleto);
@@ -344,65 +333,54 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
 
     private void toFavPage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             IntentUtils.getInstence().intent(getMContext(), FavActivity.class);
         }
     }
 
     private void toDownloadPage(){
 
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             MyToast.getInstance(getMContext()).show("暂不提供下载功能",Toast.LENGTH_SHORT);
             //IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
         }
     }
 
     private void toUploadPage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
-            //TODO 进入我的发布页面，显示我发布过的内容
-            //MyToast.getInstance(getMContext()).show("暂不支持查看",Toast.LENGTH_SHORT);
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             Bundle bundle = new Bundle();
             bundle.putString("userId",userEntity.getUser_id());
             IntentUtils.getInstence().intent(getMContext(), QAHisActivity.class,bundle);
         }
     }
     private void toHistoryPage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
         }
     }
     private void toWalletPage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             IntentUtils.getInstence().intent(getMContext(), WalletActivity.class);
         }
     }
     private void toNoticePage(){
-        if (baseApplication.getLoginStatus() == 0){
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
-        }else if (baseApplication.getLoginStatus() ==1){
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             IntentUtils.getInstence().intent(getMContext(), NoticeActivity.class);
         }
     }
 
-
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showMessage(@NonNull String message) {}
-
-    @Override
-    public void showLoading() {}
 
 
     @Override

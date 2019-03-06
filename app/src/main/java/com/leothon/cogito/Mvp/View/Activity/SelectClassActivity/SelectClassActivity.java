@@ -4,30 +4,30 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.SelectClassAdapter;
-import com.leothon.cogito.Adapter.TeacherSelfAdapter;
-import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
+import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
-
-import java.util.ArrayList;
+import com.leothon.cogito.Weight.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,6 +47,13 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     CardView selectBar;
 
 
+    @BindView(R.id.edit_class_btn)
+    CardView editClassBtn;
+    @BindView(R.id.edit_my_class)
+    TextView editMyClass;
+    @BindView(R.id.upload_my_class)
+    TextView uploadMyClass;
+
     private ClassDetail classDetail;
     private LinearLayoutManager linearLayoutManager;
     private Intent intent;
@@ -54,6 +61,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     private SelectClassAdapter selectClassAdapter;
     private SelectClassPresenter selectClassPresenter;
     private static int THRESHOLD_OFFSET = 10;
+    private String userId;
     @Override
     public int initLayout() {
         return R.layout.activity_select_class;
@@ -64,6 +72,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassPresenter = new SelectClassPresenter(this);
         swpSelect.setProgressViewOffset (false,100,300);
         swpSelect.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
+        userId = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid();
 
     }
     @Override
@@ -71,11 +80,9 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         StatusBarUtils.transparencyBar(this);
         intent = getIntent();
         bundle = intent.getExtras();
-        //loadfalsedata();
         selectClassPresenter.getClassDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
         swpSelect.setRefreshing(true);
-        //initAdapter();
-        //setToolbarTitle(bundle.getString("title"));
+
         setToolbarSubTitle("");
 
     }
@@ -85,9 +92,28 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         if (swpSelect.isRefreshing()){
             swpSelect.setRefreshing(false);
         }
+        if (classDetail.getTeaClasss().getSelectauthorid().equals(userId)){
+            editClassBtn.setVisibility(View.VISIBLE);
+        }
         setToolbarTitle(classDetail.getTeaClasss().getSelectlisttitle());
         this.classDetail = classDetail;
         initAdapter();
+    }
+
+    @OnClick(R.id.edit_my_class)
+    public void editMyClass(View view){
+        Bundle bundleto = new Bundle();
+        bundleto.putString("type","edit");
+        bundleto.putString("classId",classDetail.getTeaClasss().getSelectId());
+        IntentUtils.getInstence().intent(SelectClassActivity.this, UploadClassActivity.class,bundleto);
+    }
+
+    @OnClick(R.id.upload_my_class)
+    public void uploadMyClass(View view){
+        Bundle bundleto = new Bundle();
+        bundleto.putString("classId",classDetail.getTeaClasss().getSelectId());
+        bundleto.putString("title",classDetail.getTeaClasss().getSelectlisttitle());
+        IntentUtils.getInstence().intent(SelectClassActivity.this,UploadClassDetailActivity.class,bundleto);
     }
 
     @Override
@@ -95,21 +121,12 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
-//    public void loadfalsedata(){
-//        selectClass = new SelectClass();
-//        selectClass.setSelectbackimg(bundle.getString("url"));
-//        selectClass.setSelectlisttitle(bundle.getString("title"));
-//        selectClass.setSelectauthor(bundle.getString("author"));
-//        selectClass.setSelectprice(bundle.getString("price"));
-//        selectClass.setSelectdesc(bundle.getString("desc"));
-//        ArrayList<VideoClass> classes = new ArrayList<>();
-//        for (int i = 0;i < 20;i++){
-//            VideoClass videoClass = new VideoClass();
-//            videoClass.setVideoTitle("单节课程的标题");
-//            classes.add(videoClass);
-//        }
-//        selectClass.setVideoClasses(classes);
-//    }
+    @Override
+    public void deleteSuccess(String msg) {
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+        selectClassPresenter.getClassDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
+    }
+
     public void initAdapter(){
         swpSelect.setOnRefreshListener(this);
         selectClassAdapter = new SelectClassAdapter(classDetail,this);
@@ -168,6 +185,13 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             }
         });
 
+
+        selectClassAdapter.setOnDeleteClickListener(new SelectClassAdapter.OnDeleteClickListener() {
+            @Override
+            public void deleteClickListener(String classdId) {
+                loadDeleteDialog(classdId);
+            }
+        });
     }
 
     public void initHeadView(SelectClassAdapter selectClassAdapter){
@@ -175,7 +199,31 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassAdapter.addHeadView(headView);
     }
 
+    private void loadDeleteDialog(final String classdId){
+        final CommonDialog dialog = new CommonDialog(this);
 
+
+        dialog.setMessage("是否删除本节课程，删除后不可恢复")
+                .setTitle("提醒")
+                .setSingle(false)
+                .setPositive("取消")
+                .setNegtive("删除")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                        selectClassPresenter.deleteClassDetail(classdId);
+
+                    }
+
+                })
+                .show();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -187,33 +235,6 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassPresenter.getClassDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
     }
 
-
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 

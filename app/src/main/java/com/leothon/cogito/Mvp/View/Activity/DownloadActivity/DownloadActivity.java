@@ -1,21 +1,15 @@
 package com.leothon.cogito.Mvp.View.Activity.DownloadActivity;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.ui.DownloadNotificationUtil;
 import com.leothon.cogito.Adapter.DownloadAdapter;
 import com.leothon.cogito.Bean.Download;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
@@ -70,29 +64,5 @@ public class DownloadActivity extends BaseActivity {
 
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }

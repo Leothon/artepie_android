@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +27,15 @@ import android.widget.TextView;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DataBase.DaoSession;
+import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.FitUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +49,7 @@ import cn.jpush.android.api.JPushInterface;
  * created by leothon on 2018.7.22
  * */
 
-public abstract class BaseActivity<P extends BasePresenter,V extends BaseContract.BaseIView> extends AppCompatActivity implements BaseContract.BaseIView {
+public abstract class BaseActivity extends AppCompatActivity {
     private int REQUEST_CODE_PERMISSION = 0x00099;
     /*
     * 封装常用的方法
@@ -56,7 +60,6 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     * */
     private BaseApplication baseApplication;
     private BaseActivity context;
-    public P basePresenter;
     private String[] permissions = {
 //            Manifest.permission.READ_CONTACTS,
 //            Manifest.permission.ACCESS_FINE_LOCATION,
@@ -67,6 +70,8 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 //                                    Manifest.permission.READ_PHONE_STATE};
     };
     protected final String TAG = this.getClass().getSimpleName();
+
+    ZLoadingDialog dialog = new ZLoadingDialog(this);
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -99,10 +104,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
         }
         requestPermission(permissions,1);
         initToolBar();
-        basePresenter = initPresenter();
-        if (basePresenter != null){
-            basePresenter.attachWindow(initModel(),this);
-        }
+
         ButterKnife.bind(this);
 
         if (!activitysharedPreferencesUtils.getParams("token","").toString().equals("")){
@@ -137,13 +139,7 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 
     }
 
-    public int getLoginStatus(){
-        return baseApplication.getLoginStatus();
-    }
 
-    public void setLoginStatus(int status){
-        baseApplication.setLoginStatus(status);
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -220,30 +216,14 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
     protected boolean isShowBacking(){
         return true;
     }
-    /**
-     * 初始化presenter操作
-     * @return
-     */
-    public abstract P initPresenter();
 
-    /**
-     * 初始化model操作
-     * @return
-     */
-    public abstract BaseModel initModel();
 
     @Override
     protected void onDestroy() {
 
 
         super.onDestroy();
-//
-//        if (unbinder != null && unbinder != Unbinder.EMPTY){
-//            unbinder.unbind();
-//        }
-//        this.unbinder = null;
 
-//        basePresenter.detachWindow();
         baseApplication = null;
 
 
@@ -404,5 +384,20 @@ public abstract class BaseActivity<P extends BasePresenter,V extends BaseContrac
 //                })
 
 
+    }
+
+    public void showLoadingAnim(){
+        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
+                .setLoadingColor(Color.GRAY)
+                .setHintText("请稍后...")
+                .setHintTextSize(16)
+                .setHintTextColor(Color.GRAY)
+                .setDurationTime(0.5)
+                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
+                .show();
+    }
+
+    public void hideLoadingAnim(){
+        dialog.cancel();
     }
 }

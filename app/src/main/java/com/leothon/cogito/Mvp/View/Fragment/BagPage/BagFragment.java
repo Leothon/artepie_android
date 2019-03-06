@@ -14,10 +14,15 @@ import com.leothon.cogito.Bean.BagBuy;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
+import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.View.MyToast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -86,6 +91,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
+        EventBus.getDefault().register(this);
     }
     @Override
     protected void initView() {
@@ -110,6 +116,10 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         initAdapter();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UploadMessage uploadMessage){
+        bagPresenter.getBagData(fragmentsharedPreferencesUtils.getParams("token","").toString());
+    }
     @Override
     public void loadFineClassMoreData(ArrayList<SelectClass> selectClasses) {
         for (int i = 0;i < selectClasses.size(); i++){
@@ -138,7 +148,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     public void initAdapter(){
         swpBag.setOnRefreshListener(this);
-        if (baseApplication.getLoginStatus() == 1){
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             isLogin = true;
         }else {
             isLogin = false;
@@ -161,15 +171,12 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     }
 
 
-
     @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showMessage(@NonNull String message) {}
-
-    @Override
-    public void showLoading() {}
-
-
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+        bagPresenter.onDestroy();
+    }
 }

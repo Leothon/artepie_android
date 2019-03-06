@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AskActivity;
 
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SendQAData;
+import com.leothon.cogito.Http.UploadProgressListener;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragmentContract;
 
 import java.io.File;
@@ -10,7 +11,7 @@ public class AskActivityContract {
 
     public interface IAskActivityModel{
 
-        void uploadFile(String path,OnAskActivityFinishedListener listener);
+        void uploadFile(String path, OnAskActivityFinishedListener listener);
 
         void sendQaData(SendQAData sendQAData,OnAskActivityFinishedListener listener);
 
@@ -24,6 +25,8 @@ public class AskActivityContract {
     public interface IAskActivityView{
 
 
+
+        void showProgress(long nowSize,long totalSize);
         void getUploadUrl(String url);
 
         void sendSuccess(String msg);
@@ -42,6 +45,7 @@ public class AskActivityContract {
 
         void getUploadUrl(String url);
 
+        void showProgress(long nowSize,long totalSize);
         void sendSuccess(String msg);
         void showInfo(String msg);
         void getReInfo(QAData qaData);

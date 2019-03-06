@@ -1,6 +1,5 @@
 package com.leothon.cogito.Mvp.View.Activity.WalletActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,16 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.WalletAdapter;
-import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
@@ -149,30 +144,5 @@ public class WalletActivity extends BaseActivity {
     }
 
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }

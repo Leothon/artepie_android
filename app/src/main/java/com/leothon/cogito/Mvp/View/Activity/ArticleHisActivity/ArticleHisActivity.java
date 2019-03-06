@@ -1,32 +1,24 @@
 package com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
-import com.leothon.cogito.Adapter.AskAdapter;
+import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Listener.loadMoreDataArticleListener;
-import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
-import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisPresenter;
+import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
 
@@ -99,26 +91,24 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
                 articleHisPresenter.getArticleHisMoreData(currentPage * 15,bundle.getString("userId"));
             }
         });
-    }
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
+
+        articleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View v, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("articleId",articles.get(position).getArticleId());
+                IntentUtils.getInstence().intent(ArticleHisActivity.this,ArticleActivity.class,bundle);
+            }
+        });
+
+        articleAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View v, int position) {
+
+            }
+        });
     }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -126,10 +116,6 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
         articleHisPresenter.onDestroy();
     }
 
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     public void loadArticleHisData(ArrayList<Article> articles) {

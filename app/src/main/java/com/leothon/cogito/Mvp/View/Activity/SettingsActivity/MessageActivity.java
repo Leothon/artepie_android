@@ -1,23 +1,14 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.C;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.MDCheckBox;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 
@@ -30,12 +21,11 @@ public class MessageActivity extends BaseActivity {
     MDCheckBox soundNotice;
     @BindView(R.id.ask_notice)
     MDCheckBox askNotice;
-    @BindView(R.id.comment_notice)
-    MDCheckBox commentNotice;
     @BindView(R.id.class_notice)
     MDCheckBox classNotice;
 
 
+    private SharedPreferencesUtils sharedPreferencesUtils;
     @Override
     public int initLayout() {
         return R.layout.activity_message;
@@ -45,21 +35,24 @@ public class MessageActivity extends BaseActivity {
     public void initView() {
         setToolbarSubTitle("");
         setToolbarTitle("消息设置");
-        soundNotice.setChecked(true);
-        askNotice.setChecked(true);
-        commentNotice.setChecked(true);
-        classNotice.setChecked(true);
+        if ((boolean)sharedPreferencesUtils.getParams("soundNotice",false)){
+            soundNotice.setChecked(true);
+        }
+        if ((boolean)sharedPreferencesUtils.getParams("qaNotice",false)){
+            askNotice.setChecked(true);
+        }
+        if ((boolean)sharedPreferencesUtils.getParams("classNotice",false)){
+            classNotice.setChecked(true);
+        }
         soundNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (soundNotice.isChecked()){
                     soundNotice.setChecked(false);
-                    //TODO 未选中
-                    MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
+                    sharedPreferencesUtils.setParams("soundNotice",false);
                 }else {
                     soundNotice.setChecked(true);
-                    //TODO 选中
-                    MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
+                    sharedPreferencesUtils.setParams("soundNotice",true);
                 }
 
 
@@ -70,41 +63,25 @@ public class MessageActivity extends BaseActivity {
            public void onClick(View view) {
                if (askNotice.isChecked()){
                    askNotice.setChecked(false);
-                   //TODO 未选中
-                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
+                   sharedPreferencesUtils.setParams("qaNotice",false);
                }else {
                    askNotice.setChecked(true);
-                   //TODO 选中
-                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
+                   sharedPreferencesUtils.setParams("qaNotice",true);
                }
            }
        });
 
-       commentNotice.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               if (commentNotice.isChecked()){
-                   commentNotice.setChecked(false);
-                   //TODO 未选中
-                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
-               }else {
-                   commentNotice.setChecked(true);
-                   //TODO 选中
-                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
-               }
-           }
-       });
+
        classNotice.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                if (classNotice.isChecked()){
                    classNotice.setChecked(false);
-                   //TODO 未选中
-                   MyToast.getInstance(MessageActivity.this).show("未选中",Toast.LENGTH_SHORT);
+
+                   sharedPreferencesUtils.setParams("classNotice",false);
                }else {
                    classNotice.setChecked(true);
-                   //TODO 选中
-                   MyToast.getInstance(MessageActivity.this).show("选中",Toast.LENGTH_SHORT);
+                   sharedPreferencesUtils.setParams("classNotice",true);
                }
            }
        });
@@ -113,32 +90,7 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
-    }
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
+        sharedPreferencesUtils = new SharedPreferencesUtils(this,"artSettings");
     }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }

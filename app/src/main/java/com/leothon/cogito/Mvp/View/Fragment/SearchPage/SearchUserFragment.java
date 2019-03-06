@@ -94,20 +94,6 @@ public class SearchUserFragment extends BaseFragment {
     }
 
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 }

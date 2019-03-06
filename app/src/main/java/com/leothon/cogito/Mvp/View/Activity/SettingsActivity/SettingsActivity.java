@@ -1,7 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +14,6 @@ import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -27,9 +24,6 @@ import com.tencent.tauth.Tencent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
-
-import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
 /**
  * created by leothon on 2018.8.9
@@ -37,8 +31,7 @@ import static com.leothon.cogito.Base.BaseApplication.getApplication;
  */
 public class SettingsActivity extends BaseActivity {
 
-    @BindView(R.id.switchnet_settings)
-    Switch switchNet;
+
 
     @BindView(R.id.cache_show)
     TextView cacheShow;
@@ -69,16 +62,7 @@ public class SettingsActivity extends BaseActivity {
         if (!bundle.getBoolean("loginstatus")){
             logout.setVisibility(View.GONE);
         }
-        switchNet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked){
-                    Constants.isMobilenet = true;
-                }else {
-                    Constants.isMobilenet = false;
-                }
-            }
-        });
+
 
         cacheShow.setText(CommonUtils.getTotalCacheSize(getApplicationContext()));
     }
@@ -114,7 +98,6 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.log_out_settings)
     public void logout(View view){
-        setLoginStatus(0);
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
         getDAOSession().deleteAll(UserEntity.class);
@@ -132,30 +115,5 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }

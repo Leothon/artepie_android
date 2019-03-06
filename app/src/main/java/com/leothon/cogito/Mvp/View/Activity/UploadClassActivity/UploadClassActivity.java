@@ -2,11 +2,10 @@ package com.leothon.cogito.Mvp.View.Activity.UploadClassActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -14,34 +13,31 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Adapter.BaseAdapter;
-import com.leothon.cogito.Adapter.UploadClassAdapter;
 import com.leothon.cogito.Adapter.WalletAdapter;
-import com.leothon.cogito.Bean.ChooseClass;
-import com.leothon.cogito.Bean.UploadSave;
-import com.leothon.cogito.Constants;
+import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Http.Api;
+import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailActivity;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.ImageUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +45,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class UploadClassActivity extends BaseActivity {
+public class UploadClassActivity extends BaseActivity implements UploadClassContract.IUploadClassView {
 
     @BindView(R.id.title_class_upload)
     MaterialEditText titleClassUpload;
     @BindView(R.id.desc_class_upload)
     MaterialEditText descClassUpload;
-//    @BindView(R.id.rv_add_class)
-//    RecyclerView rvAddClass;
-//    @BindView(R.id.add_class_upload)
-//    TextView addClassUpload;
+
 
 
     @BindView(R.id.cover_show)
@@ -77,7 +70,7 @@ public class UploadClassActivity extends BaseActivity {
     MaterialEditText uploadClassPrice;
     @BindView(R.id.rv_type_upload_class)
     RecyclerView rvType;
-
+    ZLoadingDialog dialog = new ZLoadingDialog(UploadClassActivity.this);
 
     private WalletAdapter walletAdapter;
     private ArrayList<String> list;
@@ -86,7 +79,13 @@ public class UploadClassActivity extends BaseActivity {
 
     private String filePath = "";
 
+    private UploadClassPresenter uploadClassPresenter;
+    private UserEntity userEntity;
 
+
+    private SelectClass editSelectClass;
+    private Intent intent;
+    private Bundle bundle;
 
     @Override
     public int initLayout() {
@@ -95,8 +94,18 @@ public class UploadClassActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        setToolbarTitle("新建课程");
-        setToolbarSubTitle("创建完成");
+        if (bundle.get("type").equals("create")){
+            setToolbarTitle("新建课程");
+            setToolbarSubTitle("创建完成");
+
+
+        }else {
+            setToolbarTitle("编辑课程");
+            setToolbarSubTitle("编辑完成");
+            showLoadingAnim();
+            uploadClassPresenter.getClassInfo(bundle.getString("classId"));
+        }
+
         getToolbarSubTitle().setTextColor(Color.parseColor("#db4437"));
         loadPrice();
         initAdapter();
@@ -105,16 +114,48 @@ public class UploadClassActivity extends BaseActivity {
         getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 创建完成发送
 
-                if (!filePath.equals("")
-                        && !titleClassUpload.getText().toString().equals("")
-                        && !descClassUpload.getText().toString().equals("")
-                        && !chooseType.equals("")){
-                    MyToast.getInstance(UploadClassActivity.this).show("标题：" + titleClassUpload.getText().toString() + "\n描述：" + descClassUpload.getText().toString() + "\n类型：" + chooseType + "\n" +uploadClassPrice.getText().toString() ,Toast.LENGTH_SHORT);
-                    loadSuccessDialog();
+                if (bundle.get("type").equals("create")){
+                    if (!filePath.equals("")
+                            && !titleClassUpload.getText().toString().equals("")
+                            && !descClassUpload.getText().toString().equals("")
+                            && !chooseType.equals("")){
+
+
+                        showLoadingAnim();
+
+                        uploadClassPresenter.uploadImg(filePath);
+                    }else {
+                        MyToast.getInstance(UploadClassActivity.this).show("请填写完整信息后上传",Toast.LENGTH_SHORT);
+                    }
                 }else {
-                    MyToast.getInstance(UploadClassActivity.this).show("请填写完整信息后上传",Toast.LENGTH_SHORT);
+                    if (!titleClassUpload.getText().toString().equals("")
+                            && !descClassUpload.getText().toString().equals("")){
+
+
+                        showLoadingAnim();
+
+                        if (filePath.equals("")){
+                            SelectClass selectClass = new SelectClass();
+                            selectClass.setSelectId(editSelectClass.getSelectId());
+                            selectClass.setSelectbackimg(editSelectClass.getSelectbackimg());
+                            selectClass.setSelectdesc(descClassUpload.getText().toString());
+                            selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
+                            selectClass.setSelectprice(uploadClassPrice.getText().toString());
+                            if (chooseType.equals("")){
+                                selectClass.setType(editSelectClass.getType());
+                            }else {
+                                selectClass.setType(chooseType);
+                            }
+
+                            uploadClassPresenter.editClassInfo(selectClass);
+                        }else {
+                            uploadClassPresenter.uploadImg(filePath);
+                        }
+
+                    }else {
+                        MyToast.getInstance(UploadClassActivity.this).show("请填写完整信息后上传",Toast.LENGTH_SHORT);
+                    }
                 }
             }
         });
@@ -208,18 +249,29 @@ public class UploadClassActivity extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-        loadDialog();
+
+        loadDialog(bundle.get("type").toString());
+
+
+
     }
 
-    private void loadDialog(){
+    private void loadDialog(String type){
         final CommonDialog dialog = new CommonDialog(this);
 
+        if (type.equals("create")){
+            dialog.setPositive("继续创建")
+                    .setNegtive("不创建")
+                    .setMessage("取消创建课程？");
 
-        dialog.setMessage("取消创建课程？")
-                .setTitle("提醒")
+        }else {
+            dialog.setPositive("继续编辑")
+                    .setNegtive("不编辑")
+                    .setMessage("取消编辑课程？");
+        }
+
+        dialog.setTitle("提醒")
                 .setSingle(false)
-                .setPositive("继续创建")
-                .setNegtive("不创建")
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
@@ -238,7 +290,7 @@ public class UploadClassActivity extends BaseActivity {
                 .show();
     }
 
-    private void loadSuccessDialog(){
+    private void loadSuccessDialog(final String classId, final String title){
         final CommonDialog dialog = new CommonDialog(this);
 
         dialog.setCancelable(false);
@@ -252,7 +304,11 @@ public class UploadClassActivity extends BaseActivity {
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
-                        MyToast.getInstance(UploadClassActivity.this).show("跳转上传页面",Toast.LENGTH_SHORT);
+
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("classId",classId);
+                        bundleto.putString("title",title);
+                        IntentUtils.getInstence().intent(UploadClassActivity.this,UploadClassDetailActivity.class,bundleto);
 
                     }
 
@@ -272,32 +328,13 @@ public class UploadClassActivity extends BaseActivity {
     @Override
     public void initData() {
 
-    }
-
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
-
-    @Override
-    public void showLoading() {
+        intent = getIntent();
+        bundle = intent.getExtras();
+        uploadClassPresenter = new UploadClassPresenter(this);
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?", tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);
 
     }
 
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
 
@@ -325,5 +362,81 @@ public class UploadClassActivity extends BaseActivity {
         list.add("民谣");
         list.add("通俗");
         list.add("其他");
+    }
+
+    @Override
+    public void imgSendSuccess(String msg) {
+        String url = Api.ComUrl + "resource/" + msg;
+
+        if (bundle.get("type").equals("create")){
+            SelectClass selectClass = new SelectClass();
+            selectClass.setSelectauthor(userEntity.getUser_name());
+            selectClass.setSelectauthordes(userEntity.getUser_role().substring(1));
+            selectClass.setSelectauthorid(userEntity.getUser_id());
+            selectClass.setSelectbackimg(url);
+            selectClass.setSelectdesc(descClassUpload.getText().toString());
+            selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
+            selectClass.setSelectprice(uploadClassPrice.getText().toString());
+            selectClass.setType(chooseType);
+            uploadClassPresenter.createClass(selectClass);
+        }else {
+            SelectClass selectClass = new SelectClass();
+            selectClass.setSelectbackimg(url);
+            selectClass.setSelectId(editSelectClass.getSelectId());
+            selectClass.setSelectdesc(descClassUpload.getText().toString());
+            selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
+            selectClass.setSelectprice(uploadClassPrice.getText().toString());
+            if (chooseType.equals("")){
+                selectClass.setType(editSelectClass.getType());
+            }else {
+                selectClass.setType(chooseType);
+            }
+
+            uploadClassPresenter.editClassInfo(selectClass);
+        }
+
+    }
+
+    @Override
+    public void createSuccess(String msg) {
+        hideLoadingAnim();
+        loadSuccessDialog(msg,titleClassUpload.getText().toString());
+        EventBus.getDefault().post(new UploadMessage());
+    }
+
+    @Override
+    public void getClassSuccess(SelectClass selectClass) {
+        this.editSelectClass = selectClass;
+        hideLoadingAnim();
+        ImageLoader.loadImageViewThumbnailwitherror(this,selectClass.getSelectbackimg(),uploadCoverImg,R.drawable.defalutimg);
+        titleClassUpload.setText(selectClass.getSelectlisttitle());
+        descClassUpload.setText(selectClass.getSelectdesc());
+        if (selectClass.getSelectprice().equals("")){
+            isFree.setChecked(false);
+        }else {
+            isFree.setChecked(true);
+            addPriceRl.setVisibility(View.VISIBLE);
+            uploadClassPrice.setText(selectClass.getSelectprice());
+        }
+
+    }
+
+    @Override
+    public void editClassSuccess(String msg) {
+
+        hideLoadingAnim();
+        loadSuccessDialog(msg,titleClassUpload.getText().toString());
+    }
+
+    @Override
+    public void showInfo(String msg) {
+
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        uploadClassPresenter.onDestroy();
     }
 }

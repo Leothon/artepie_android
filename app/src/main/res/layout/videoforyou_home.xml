@@ -35,6 +35,7 @@
                             android:layout_height="wrap_content"
                             android:text="这个地方显示视频的标题"
                             android:textSize="@dimen/littleTitle"
+                            android:maxLines="1"
                             android:textColor="@color/black" />
 
                         <TextView

@@ -1,23 +1,14 @@
 package com.leothon.cogito.Mvp.View.Activity.AboutusActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Toast;
 
-import com.leothon.cogito.Base.BaseApplication;
-import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.R;
-import com.leothon.cogito.Utils.StatusBarUtils;
-import com.leothon.cogito.View.MyToast;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;

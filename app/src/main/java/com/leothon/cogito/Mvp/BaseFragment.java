@@ -11,13 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.leothon.cogito.Mvp.BaseContract;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment<P extends BaseContract.BaseIPresenter> extends Fragment implements BaseContract.BaseIView {
+public abstract class BaseFragment extends Fragment {
     /*
     * 封装基类fragment
     * */

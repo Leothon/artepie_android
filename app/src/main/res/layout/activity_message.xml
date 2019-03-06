@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="是否接收问题回复提醒"
+            android:text="是否接收问题下回复评论提醒"
             android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
@@ -65,32 +65,7 @@
             app:size="24dp" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/ripple"
-        android:clickable="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="是否评论回复提醒"
-            android:textSize="@dimen/contentSize"
-            android:gravity="center"
-            android:layout_marginLeft="20dp"/>
-        <com.leothon.cogito.Weight.MDCheckBox
-            android:id="@+id/comment_notice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:color_background="@color/colorPrimary"
-            app:color_border="@color/fontColor"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="20dp"
-            app:size="24dp"/>
-    </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"

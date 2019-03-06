@@ -2,13 +2,10 @@ package com.leothon.cogito.Mvp.View.Activity.PayInfoActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,13 +14,9 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
-import com.leothon.cogito.Mvp.View.Activity.PayActivity.PayActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
-import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -273,15 +266,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
                 break;
         }
     }
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
 
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
     private void loadExitDialog(){
         final CommonDialog dialog = new CommonDialog(this);
@@ -308,20 +293,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
                 .show();
     }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
     @Override
     protected void onDestroy() {

@@ -21,8 +21,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
+import com.leothon.cogito.Mvp.View.Activity.EditClassActivity.EditClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
 import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
@@ -34,6 +33,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
@@ -89,7 +89,6 @@ public class IndividualActivity extends BaseActivity {
     private boolean isfollowed = false;
     private UserEntity userEntity;
     private String uuid;
-    ZLoadingDialog dialog = new ZLoadingDialog(IndividualActivity.this);
 
     private User otherUser;
 
@@ -197,7 +196,7 @@ public class IndividualActivity extends BaseActivity {
 
                 }
             });
-            individualContent.setText("我制作的课程");
+            individualContent.setText("我制作的课程(在此编辑、修改或者上传内容)");
             individualName.setText(userEntity.getUser_name());
             ImageLoader.loadImageViewThumbnailwitherror(this, userEntity.getUser_icon(),individualIcon,R.drawable.defaulticon);
             try{
@@ -237,9 +236,11 @@ public class IndividualActivity extends BaseActivity {
 
     @OnClick(R.id.make_upload_class)
     public void makeUploadClass(View view){
-        //TODO 制作上传视频
         if (userEntity.getUser_role().substring(0,1).equals("1")){
-            IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class);
+
+
+            createDialog();
+
         }else {
             MyToast.getInstance(this).show("您尚未认证讲师，请先认证。\n本平台只有认证成为讲师方可制作上传课程",Toast.LENGTH_LONG);
         }
@@ -278,7 +279,12 @@ public class IndividualActivity extends BaseActivity {
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),img,R.drawable.defaulticon);
+        if (!bundle.getString("type").equals("other")){
+            ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),img,R.drawable.defaulticon);
+        }else {
+            ImageLoader.loadImageViewThumbnailwitherror(this,otherUser.getUser_icon(),img,R.drawable.defaulticon);
+        }
+
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
@@ -309,20 +315,22 @@ public class IndividualActivity extends BaseActivity {
 
     @OnClick(R.id.individual_content)
     public void individualContent(View view){
+        Bundle bundleto = new Bundle();
         if (bundle.get("type").equals("other")){
 
             if (otherUser.getUser_role().substring(0,1).equals("1")){
-                //TODO 跳转这个人的列表
-                MyToast.getInstance(IndividualActivity.this).show("这个人是讲师",Toast.LENGTH_LONG);
+                bundleto.putString("type","other");
+                bundleto.putString("userId",otherUser.getUser_id());
+                IntentUtils.getInstence().intent(IndividualActivity.this,EditClassActivity.class,bundleto);
             }else {
                 MyToast.getInstance(IndividualActivity.this).show("该用户非认证的讲师",Toast.LENGTH_LONG);
             }
 
         }else {
             if (userEntity.getUser_role().substring(0,1).equals("1")){
-                //TODO 跳转自己上传的课程目录
-                //IntentUtils.getInstence().intent(IndividualActivity.this, QAHisActivity.class);
-                MyToast.getInstance(IndividualActivity.this).show("您已是讲师",Toast.LENGTH_LONG);
+                bundleto.putString("type","individual");
+                bundleto.putString("userId",userEntity.getUser_id());
+                IntentUtils.getInstence().intent(IndividualActivity.this,EditClassActivity.class,bundleto);
             }else {
                 MyToast.getInstance(IndividualActivity.this).show("您尚未认证成为讲师",Toast.LENGTH_LONG);
             }
@@ -333,6 +341,36 @@ public class IndividualActivity extends BaseActivity {
     }
 
 
+    private void createDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+        dialog.setCancelable(false);
+
+        dialog.setMessage("该选择会创建新的课程，若您已创建成功课程，请在我制作的课程页面上传内容或者编辑")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("我知道，继续创建")
+                .setPositive("取消")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+
+
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("type","create");
+                        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class,bundleto);
+                    }
+
+                })
+
+                .show();
+    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(User user){
         UserEntity userEntityRe = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
@@ -364,53 +402,8 @@ public class IndividualActivity extends BaseActivity {
 
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 
 
-    private void showLoadingAnim(){
-        dialog.setLoadingBuilder(Z_TYPE.SEARCH_PATH)
-                .setLoadingColor(Color.GRAY)
-                .setHintText("请稍后...")
-                .setHintTextSize(16)
-                .setHintTextColor(Color.GRAY)
-                .setDurationTime(0.5)
-                .setDialogBackgroundColor(Color.parseColor("#ffffff")) // 设置背景色，默认白色
-                .show();
-    }
-
-    private void hideLoadingAnim(){
-        dialog.cancel();
-    }
 }

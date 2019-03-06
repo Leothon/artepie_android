@@ -16,7 +16,9 @@ import okhttp3.Response;
 public class HttpCommonInterceptor implements Interceptor {
 
     private Map<String,String> mHeaderParamsMap = new HashMap<>();
-    public HttpCommonInterceptor(){ }
+    public HttpCommonInterceptor(){
+
+    }
     private static final String TAG = "HttpCommonIntercept";
     public Response intercept(Chain chain) throws IOException{
         Log.d(TAG, "add common params");

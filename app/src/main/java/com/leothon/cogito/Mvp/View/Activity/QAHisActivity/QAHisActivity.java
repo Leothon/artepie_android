@@ -16,8 +16,6 @@ import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
@@ -45,15 +43,6 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
     private Bundle bundle;
 
     private QAHisPresenter qaHisPresenter;
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
     @Override
     public int initLayout() {
@@ -171,23 +160,6 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
             }
         });
     }
-
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-
 
     @Override
     protected void onDestroy() {

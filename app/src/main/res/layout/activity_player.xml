@@ -107,7 +107,7 @@
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
                         app:riv_oval="true"
-                        android:src="@drawable/defalutimg"
+                        android:src="@drawable/defaulticon"
                         android:layout_marginBottom="5dp"/>
 
                     <TextView

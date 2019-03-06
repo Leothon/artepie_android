@@ -32,23 +32,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.Player;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.ChooseClassAdapter;
 import com.leothon.cogito.Adapter.VideoCommentAdapter;
 import com.leothon.cogito.Bean.ChooseClass;
 import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.TokenValid;
-import com.leothon.cogito.Bean.VideoClass;
 import com.leothon.cogito.DTO.VideoDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.BaseModel;
-import com.leothon.cogito.Mvp.BasePresenter;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
@@ -235,7 +232,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         swpVideoComment.setProgressViewOffset (false,100,300);
         swpVideoComment.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         swpVideoComment.setDistanceToTriggerSync(500);
-        if (getLoginStatus() == 1){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
             userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         }
 
@@ -380,7 +377,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                 @Override
                 public void onItemClickListener(View v, int position) {
 
-                    if (videoDetail.isBuy() || videoDetail.isFree()){
+                    if (videoDetail.isBuy() || videoDetail.isFree() || videoDetail.getAuthorId().equals(uuid)){
                         intentClass(videoDetail.getClassd_id().get(position));
                         ChoosePosition = position;
                     }else {
@@ -445,15 +442,6 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     }
 
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseModel initModel() {
-        return null;
-    }
 
     @Override
     protected void onRestart() {
@@ -466,24 +454,15 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     public void LoadView(final VideoDetail videoDetail) {
 
-        videoAuthorIcon.setImageResource(R.drawable.defaulticon);
-        videoAuthorName.setText("腾格尔");
+        videoAuthorName.setText(videoDetail.getAuthorName());
+        ImageLoader.loadImageViewThumbnailwitherror(this,videoDetail.getAuthorIcon(),videoAuthorIcon,R.drawable.defalutimg);
         videoTitle.setText(videoDetail.getClassDetailList().getClassd_title());
         videoDescription.setText(videoDetail.getClassDetailList().getClassd_des());
         viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
         favCount.setText(videoDetail.getClassDetailList().getClassd_like());
         imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                bitmap = CommonUtils.getVideoThumbnail(videoDetail.getClassDetailList().getClassd_video());
-                Message msg = new Message();
-                msg.what = COMPLETED;
-                handler.sendMessage(msg);
-            }
-        }).start();
+        ImageLoader.loadImageViewThumbnailwitherror(this,videoDetail.getClassDetailList().getClassd_video_cover(),imageView,R.drawable.defalutimg);
 
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -550,7 +529,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
             @Override
             public void onClick(View view) {
                 //TODO 弹出评论的窗口
-                if (getLoginStatus() == 1){
+                if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
                     replyToWho.setText("评论课程 : " + videoDetail.getClassDetailList().getClassd_title());
                     showPopWindow();
                     popupInputMethod();
@@ -585,14 +564,6 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         });
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == COMPLETED) {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
-    };
 
     public void initReplyPopupWindow(){
         popview = LayoutInflater.from(this).inflate(R.layout.poupwindowlayout,null,false);
@@ -668,7 +639,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     public void loadComment(final ArrayList<Comment> comments){
         swpVideoComment.setOnRefreshListener(this);
-        if (getLoginStatus() == 1){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
             isLogin = true;
         }else {
             isLogin = false;
@@ -846,18 +817,4 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
-    }
 }
