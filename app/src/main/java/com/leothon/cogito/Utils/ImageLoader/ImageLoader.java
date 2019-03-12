@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.leothon.cogito.R;
 
 
 /**
@@ -36,6 +37,7 @@ public class ImageLoader {
     public static void loadImageViewwithError(Context mContext,String path,ImageView mimageView, int errorImageView){
         RequestOptions options = new RequestOptions();
         options.error(errorImageView);
+        options.placeholder(R.drawable.defalutimg);
         Glide.with(mContext).load(path).apply(options).into(mimageView);
     }
 
@@ -83,7 +85,8 @@ public class ImageLoader {
 
         RequestOptions options = new RequestOptions();
         options.error(errorImageView);
-        Glide.with(mContext).load(path).thumbnail(0.1f).apply(options).into(mImageView);
+        options.placeholder(R.drawable.loading);
+        Glide.with(mContext).asDrawable().load(path).thumbnail(0.1f).apply(options).into(mImageView);
     }
 
     /**

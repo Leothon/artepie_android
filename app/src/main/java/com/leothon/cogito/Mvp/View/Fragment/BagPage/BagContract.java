@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class BagContract {
 
     public interface IBagModel{
-        //TODO 执行相关数据操作
 
         void getBagData(String token,OnBagFinishedListener listener);
         void getMoreFineClassData(int currentPage,String token,OnBagFinishedListener listener);
@@ -16,7 +15,6 @@ public class BagContract {
     }
 
     public interface IBagView{
-        //TODO　执行前端操作
 
         void loadBagData(BagPageData bagPageData);
         void loadFineClassMoreData(ArrayList<SelectClass> selectClasses);

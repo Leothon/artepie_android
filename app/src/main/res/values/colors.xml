@@ -12,7 +12,6 @@
     <color name="black">#000000</color>
     <color name="dividerColor">#ededed</color>
 
-    <color name="lowdividercolor">#f1f1f1</color>
     <color name="whitealpha">#adffffff</color>
     <color name="alpha">#00ffffff</color>
 
@@ -34,6 +33,4 @@
     <color name="rainbow_purple">#8B00FF</color>
 
 
-
-    <color name="test">#5ab3b3b3</color>
 </resources>

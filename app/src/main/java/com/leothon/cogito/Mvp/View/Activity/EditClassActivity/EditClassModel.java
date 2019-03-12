@@ -70,7 +70,7 @@ public class EditClassModel implements EditClassContract.IEditClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String msg = baseResponse.getError();
+                        String msg = baseResponse.getMsg();
                         listener.deleteClassSuccess(msg);
                     }
                 });

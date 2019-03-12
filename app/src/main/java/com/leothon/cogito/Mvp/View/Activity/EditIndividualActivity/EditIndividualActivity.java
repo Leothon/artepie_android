@@ -12,10 +12,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -45,8 +45,6 @@ import com.leothon.cogito.Weight.ActionSheetDialog;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -350,8 +348,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
         }
 
-//        super.onBackPressed();
-
     }
 
 
@@ -416,7 +412,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
             @Override
             public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
-                // showToast(which+"");
                 userSex.setText(sexArray[which]);
                 isEdit = true;
                 dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
@@ -517,27 +512,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
         alertDialogBuilder
                 .setCancelable(false)
-//                .setPositiveButton("确认绑定",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                // 获取edittext的内容,显示到textview
-//
-//                                if (phoneNumberBind.getText().toString().equals("") || verifyCodeBind.getText().toString().equals("")){
-//                                    MyToast.getInstance(this).show(EditIndividualActivity.this,"请输入完整信息");
-//                                }else {
-//                                    if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
-//                                        userNumber.setText(phoneNumberBind.getText().toString());
-//                                        editInfoPresenter.bindPhone(phoneNumberBind.getText().toString(),activitysharedPreferencesUtils.getParams("token","").toString());
-//                                        showLoadingAnim();
-//                                        dialog.cancel();
-//                                    }else {
-//                                        MyToast.getInstance(this).show(EditIndividualActivity.this,"手机号码不合法");
-//                                    }
-//
-//                                }
-//
-//                            }
-//                        })
+
                 .setNegativeButton("取消",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -633,8 +608,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
      * 文本编辑
      */
     private void onTextEditDialog(int type) {
-        // 使用LayoutInflater来加载dialog_setname.xml布局
-
 
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View nameView = layoutInflater.inflate(R.layout.dialog_settext, null);
@@ -642,7 +615,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
-        // 使用setView()方法将布局显示到dialog
         alertDialogBuilder.setView(nameView);
 
         final MaterialEditText userInput = (MaterialEditText) nameView.findViewById(R.id.text_edit);
@@ -674,32 +646,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                     }
                                 });
                 break;
-//            case PHONE:
-//                userInput.setFloatingLabelText("修改绑定号码");
-//                userInput.setText(userEntity.getUser_phone() + "");
-//                userInput.setHint("修改绑定号码");
-//                // 设置Dialog按钮
-//                alertDialogBuilder
-//                        .setCancelable(false)
-//                        .setPositiveButton("确认修改",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        // 获取edittext的内容,显示到textview
-//                                        if (!userInput.getText().toString().equals("")){
-//                                            phone = userInput.getText().toString();
-//                                            userNumber.setText(phone);
-//                                            isEdit = true;
-//                                        }
-//
-//                                    }
-//                                })
-//                        .setNegativeButton("取消",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//                break;
             case SIGNATRUE:
                 userInput.setFloatingLabelText("修改签名");
                 userInput.setText(userEntity.getUser_signal() + "");
@@ -757,10 +703,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         }
 
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
 
-        // show it
         alertDialog.show();
     }
 
@@ -770,9 +714,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == PhotoUtils.NONE)
             return;
-        // 拍照
         if (requestCode == PhotoUtils.PHOTOGRAPH) {
-            // 设置文件保存路径这里放在跟目录下
             File picture = null;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 picture = new File(Environment.getExternalStorageDirectory() + PhotoUtils.imageName);
@@ -798,7 +740,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         if (data == null)
             return;
 
-        // 读取相册缩放图片
         if (requestCode == PhotoUtils.PHOTOZOOM) {
 
             path = PhotoUtils.getPath(this);// 生成一个地址用于存放剪辑后的图片
@@ -809,19 +750,12 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             Uri imageUri = UriPathUtils.getUri(this, path);
             PhotoUtils.startPhotoZoom(EditIndividualActivity.this, data.getData(), PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH, imageUri);
         }
-        // 处理结果
         if (requestCode == PhotoUtils.PHOTORESOULT) {
-            /**
-             * 在这里处理剪辑结果，可以获取缩略图，获取剪辑图片的地址。得到这些信息可以选则用于上传图片等等操作
-             * */
 
-            /**
-             * 如，根据path获取剪辑后的图片
-             */
             Bitmap bitmap = PhotoUtils.convertToBitmap(path,PhotoUtils.PICTURE_HEIGHT, PhotoUtils.PICTURE_WIDTH);
 
-            File imgfile = new File(path);
-            Log.e(TAG, "地址是什么" + path);
+
+
             if(bitmap != null){
 
                 userIcon.setImageBitmap(bitmap);

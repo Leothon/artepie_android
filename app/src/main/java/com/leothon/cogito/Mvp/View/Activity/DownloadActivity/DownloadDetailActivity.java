@@ -1,7 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.DownloadActivity;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;

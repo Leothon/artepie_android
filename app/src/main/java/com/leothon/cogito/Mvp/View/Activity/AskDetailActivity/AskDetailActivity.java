@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -379,15 +379,6 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
             @Override
             public void onClick(View v) {
                 askDetailPresenter.sendQaComment(qaDataDetail.getQaData().getQa_id(),activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
-
-//                Comment comment = new Comment();
-//                comment.setUser_name(userEntity.getUser_name());
-//                comment.setUser_icon(userEntity.getUser_icon());
-//                comment.setComment_q_time(CommonUtils.getNowTime());
-//                comment.setComment_q_like("0");
-//                comment.setComment_q_content(editComment.getText().toString());
-//                qaDataDetail.getComments().add(comment);
-//                askDetailAdapter.notifyDataSetChanged();
                 editComment.setText("");
                 askDetailPresenter.getQADetailData(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"));
                 popupWindow.dismiss();
@@ -428,7 +419,6 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         morePopupWindow.setAnimationStyle(R.style.popupWindow_anim_style);
         morePopupWindow.setFocusable(true);
         morePopupWindow.setOutsideTouchable(true);
-        //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         morePopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         moreDismiss = (View)morePopview.findViewById(R.id.more_dismiss);
         copyComment = (RelativeLayout)morePopview.findViewById(R.id.copy_comment);
@@ -498,6 +488,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     @Override
     public void onBackPressed() {
         if (GSYVideoManager.backFromWindowFull(this)) {
+            GSYVideoManager.instance().setNeedMute(true);
             return;
         }
         super.onBackPressed();

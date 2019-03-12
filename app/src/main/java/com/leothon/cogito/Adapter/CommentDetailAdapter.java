@@ -1,9 +1,8 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,11 +30,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context context;
     private int HEAD0 = 0;
     private int HEAD1 = 1;
-
-    private boolean islike = false;
-
-
-
 
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String userId;
@@ -97,8 +90,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             commentDetailViewHolder.userNameCommentDetail.setText(commentDetail.getComment().getUser_name());
             commentDetailViewHolder.userCommentCommentDetail.setText(commentDetail.getComment().getComment_q_content());
             commentDetailViewHolder.commentTimeCommentDetail.setText(CommonUtils.getTimeRange(commentDetail.getComment().getComment_q_time()));
-            //commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
-            //commentDetailViewHolder.likeImgCommentDetail;
             if (commentDetail.getComment().getComment_q_like() == null ){
                 commentDetailViewHolder.commentLikeCommentDetail.setText("喜欢");
             }else {
@@ -175,7 +166,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             commentDetailRvViewHolder.replyCommentCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_comment());
             commentDetailRvViewHolder.commentTimeCommentDetail.setText(CommonUtils.getTimeRange(commentDetail.getReplies().get(position1).getReply_time()));
             commentDetailRvViewHolder.commentLikeCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_like());
-            //commentDetailRvViewHolder.LikeImgCommentDetail;
 
             if (commentDetail.getReplies().get(position1).getReply_like() == null){
                 commentDetailRvViewHolder.commentLikeCommentDetail.setText("喜欢");
@@ -333,22 +323,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
-    }
-
-
-
-
-
-
-    public interface OnItemClickListener{
-        void onItemClick(View v,int postion);
-        void onItemLongClick(View v,int postion);
-    }
-    /**自定义条目点击监听*/
-    private OnItemClickListener mOnItemClickLitener;
-
-    public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
     public interface AddLikeCommentDetailOnClickListener{

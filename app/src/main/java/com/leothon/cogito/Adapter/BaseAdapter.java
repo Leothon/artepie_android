@@ -2,8 +2,8 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +22,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private int layoutId;
     private List<? extends BaseResponse> data;
     private Context context;
-    private OnItemClickListener onItemClickListener;//单击事件
-    private OnItemLongClickListener onItemLongClickListener;//长按单击事件
-    private boolean clickFlag = true;//单击事件和长单击事件的屏蔽标识
+    private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
+    private boolean clickFlag = true;
 
-    /**
-     * @param context  //上下文
-     * @param layoutId //布局id
-     * @param data     //数据源
-     */
     public BaseAdapter(Context context, int layoutId, List<? extends BaseResponse> data) {
         this.layoutId = layoutId;
         this.data = data;

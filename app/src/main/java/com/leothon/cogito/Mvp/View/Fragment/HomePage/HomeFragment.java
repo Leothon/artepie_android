@@ -1,17 +1,14 @@
 package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,13 +19,11 @@ import com.leothon.cogito.Adapter.HomeAdapter;
 import com.leothon.cogito.Adapter.TeacherAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.Teacher;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.BannerActivity.BannerActivity;
-import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
@@ -38,8 +33,6 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.Banner;
 import com.leothon.cogito.View.MyToast;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,7 +44,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.http.POST;
 
 import static com.leothon.cogito.Base.BaseApplication.getApplication;
 
@@ -59,7 +51,7 @@ import static com.leothon.cogito.Base.BaseApplication.getApplication;
  * created by leothon on 2018.7.29
  * 首页的fragment
  */
-public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeAdapter.OnItemClickListener,View.OnClickListener,HomeFragmentContract.IHomeView{
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeFragmentContract.IHomeView{
 
     private List<String> bigPics;
 
@@ -79,7 +71,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @BindView(R.id.rv_home)
     RecyclerView rvHome;
 
-    private Handler mHandler;
 
     private HomeAdapter homeAdapter;
 
@@ -130,11 +121,12 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
     @Override
     protected void initView() {
-        mHandler = new Handler();
         ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
         layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
         positionBar.setLayoutParams(layoutParams);
@@ -173,6 +165,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void loadMoreData(ArrayList<SelectClass> selectClassS) {
+        if (swp.isRefreshing()){
+            swp.setRefreshing(false);
+        }
         for (int i = 0;i < selectClassS.size(); i++){
             selectClasses.add(selectClassS.get(i));
             homeAdapter.notifyDataSetChanged();
@@ -184,16 +179,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            //Fragment隐藏时调用
-        }else {
-            //Fragment显示时调用
-        }
 
-    }
 
     public void initAdapter() {
         swp.setOnRefreshListener(this);
@@ -202,8 +188,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }else {
             isLogin = false;
         }
-        homeAdapter = new HomeAdapter(homeData, selectClasses,getMContext(),isLogin);
-        homeAdapter.setmOnItemClickLitener(this);
+        homeAdapter = new HomeAdapter(selectClasses,getMContext(),isLogin);
         initBanner(homeAdapter);
         initTea(homeAdapter);
         initTest(homeAdapter);
@@ -226,7 +211,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         int bgID = getResources().getIdentifier("search_background", "drawable", "com.leothon.cogito");
                         Drawable bg = getResources().getDrawable(bgID);
                         search.setBackground(bg);
-                        //search.setBackgroundColor(getResources().getColor(R.color.dividerColor));
                         getActivity().getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                         StatusBarUtils.setStatusBarColor(getActivity(),R.color.white);
                     }else {
@@ -234,7 +218,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         int bgID = getResources().getIdentifier("search_background_alpha", "drawable", "com.leothon.cogito");
                         Drawable bg = getResources().getDrawable(bgID);
                         search.setBackground(bg);
-                        //search.setBackgroundColor(getResources().getColor(R.color.whitealpha));
                         StatusBarUtils.transparencyBar(getActivity());
                     }
                 }
@@ -243,6 +226,7 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         rvHome.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
             @Override
             public void onLoadMoreData(int currentPage) {
+                swp.setRefreshing(true);
                 homePresenter.loadMoreClassData(currentPage * 10,fragmentsharedPreferencesUtils.getParams("token","").toString());
             }
         });
@@ -257,10 +241,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         banner.setOnItemClickListener(new Banner.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                /**
-                 * 使用position找到数组中图片的地址并进入相应的Activity
-                 */
-                //TODO 跳转到对应的显示banner广告的网页
 
                 if (banners.get(position).getBanner_type().equals("img")){
                     Bundle bundle = new Bundle();
@@ -322,10 +302,6 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeAdapter.addHeadView3(dividerView);
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
 
     @Override
     public void onRefresh() {
@@ -334,27 +310,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
 
 
-    /**
-     * 跳转到搜索页面
-     *
-     * @param v
-     */
     @OnClick(R.id.search)
     public void toSearch(View v) {
         IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
-    }
-
-
-
-    @Override
-    public void onItemClick(View v, int postion) {
-
-    }
-
-    @Override
-    public void onItemLongClick(View v, int postion) {
-
-
     }
 
     @Override

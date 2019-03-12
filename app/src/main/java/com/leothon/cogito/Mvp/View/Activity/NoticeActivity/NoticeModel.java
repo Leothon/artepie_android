@@ -66,7 +66,7 @@ public class NoticeModel implements NoticeContract.INoticeModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String info = baseResponse.getError();
+                        String info = baseResponse.getMsg();
                         listener.setNoticeVisibleSuccess(info);
                     }
                 });
@@ -96,7 +96,7 @@ public class NoticeModel implements NoticeContract.INoticeModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String info = baseResponse.getError();
+                        String info = baseResponse.getMsg();
                         listener.setNoticeAllVisibleSuccess(info);
                     }
                 });

@@ -17,7 +17,6 @@
         android:clipChildren="false">
 
         <ImageView
-            android:id="@+id/back_wallet"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:src="@drawable/typeback"
@@ -143,12 +142,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

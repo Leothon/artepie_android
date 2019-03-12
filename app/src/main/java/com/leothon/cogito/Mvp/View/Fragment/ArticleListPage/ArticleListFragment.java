@@ -1,23 +1,16 @@
 package com.leothon.cogito.Mvp.View.Fragment.ArticleListPage;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +20,6 @@ import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.DTO.ArticleData;
 import com.leothon.cogito.Listener.loadMoreDataArticleListener;
-import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
 import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity;
@@ -70,11 +62,6 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     @BindView(R.id.send_icon)
     RoundedImageView sendIcon;
 
-//    @BindView(R.id.mic_class_tab)
-//    TabLayout micClassTab;
-//
-//    @BindView(R.id.mic_class_viewpager)
-//    ViewPager micClassViewPager;
 
     @BindView(R.id.article_banner)
     Banner articleBanner;
@@ -89,17 +76,12 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     TextView bannerTitle;
     private ArticleData articleData;
     private ArrayList<Article> articles;
-    //private List<String> titleList = new ArrayList<>();
-//    private Mic1Fragment fragmentMic1;
-//    private Mic2Fragment fragmentMic2;
-    //private FragmentPagerAdapter fragmentPagerAdapter;
+
 
     private ArticleAdapter articleAdapter;
-//    private ArrayList<Fragment> fragments;
 
     private Animation showAnimation;
     private Animation hideAnimation;
-    private static int THRESHOLD_OFFSET = 10;
 
     private BaseApplication baseApplication;
     private ArticleListPresenter articleListPresenter;
@@ -130,16 +112,6 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     }
 
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            //Fragment隐藏时调用
-        }else {
-            //Fragment显示时调用
-        }
-
-    }
 
     @Override
     protected void initData() {
@@ -148,7 +120,9 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         }
         swpArticle.setProgressViewOffset (false,100,300);
         swpArticle.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         articleListPresenter = new ArticleListPresenter(this);
     }
 

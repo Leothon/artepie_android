@@ -12,7 +12,7 @@
         android:visibility="gone"
         layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -20,7 +20,6 @@
         app:cardElevation="3dp">
 
         <RelativeLayout
-            android:id="@+id/search1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/search_bg"
@@ -55,14 +54,14 @@
                 android:imeOptions="actionSearch"/>
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/dividerColor"/>
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/search_tab"
         app:tabIndicatorColor="@color/colorPrimary"
         app:tabIndicatorHeight="2dp"
@@ -71,11 +70,11 @@
         app:tabSelectedTextColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="40dp">
-    </android.support.design.widget.TabLayout>
-    <android.support.v4.view.ViewPager
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/search_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 </LinearLayout> 

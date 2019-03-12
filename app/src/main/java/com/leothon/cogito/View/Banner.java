@@ -8,10 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -322,7 +321,7 @@ public class Banner extends RelativeLayout {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(0,5,0,5);
             if (isImageUrl) {
-                ImageLoader.loadImageViewwithError(getContext(),mImageUrls.get(toRealPosition(position)),imageView,R.drawable.defalutimg);
+                ImageLoader.loadImageViewThumbnailwitherror(getContext(),mImageUrls.get(toRealPosition(position)),imageView,R.drawable.defalutimg);
             } else {
                 imageView.setImageResource(mImages.get(toRealPosition(position)));
             }

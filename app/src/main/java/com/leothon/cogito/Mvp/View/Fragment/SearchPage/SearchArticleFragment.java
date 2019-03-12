@@ -1,9 +1,9 @@
 package com.leothon.cogito.Mvp.View.Fragment.SearchPage;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;

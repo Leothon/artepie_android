@@ -1,7 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.SuccessActivity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,7 +60,7 @@ public class SuccessActivity extends BaseActivity {
                 }
             });
         }else if (bundle.getString("type").equals("activity")){
-            ImageLoader.loadImageViewwithError(this,bundle.getString("url"),successImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(this,bundle.getString("url"),successImg,R.drawable.defalutimg);
             successTitle.setText(bundle.getString("title"));
             successToAction.setText("查看电子票");
             successToAction.setOnClickListener(new View.OnClickListener() {

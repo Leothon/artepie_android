@@ -1,9 +1,8 @@
 package com.leothon.cogito.Mvp.View.Activity.BannerActivity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 

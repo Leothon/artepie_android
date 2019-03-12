@@ -41,7 +41,7 @@ public class VSureModel implements VSureContract.IVSureModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.sendSuccess(url);
                     }
@@ -105,7 +105,7 @@ public class VSureModel implements VSureContract.IVSureModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.uploadImgSuccess(url);
                     }

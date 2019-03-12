@@ -1,10 +1,9 @@
 package com.leothon.cogito.View;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.leothon.cogito.R;
@@ -12,7 +11,6 @@ import com.leothon.cogito.Utils.FontStyle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class FontStyleMenu extends LinearLayout {
     private Context mContext;

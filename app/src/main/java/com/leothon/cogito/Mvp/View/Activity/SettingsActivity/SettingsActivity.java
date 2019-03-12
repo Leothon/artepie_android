@@ -1,12 +1,9 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,7 +98,9 @@ public class SettingsActivity extends BaseActivity {
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
         sharedPreferencesUtils.clear();
         getDAOSession().deleteAll(UserEntity.class);
-        IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class);
+        Bundle bundleto = new Bundle();
+        bundleto.putString("wechat","");
+        IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class,bundleto);
         mTencent.logout(this);
 
         finish();

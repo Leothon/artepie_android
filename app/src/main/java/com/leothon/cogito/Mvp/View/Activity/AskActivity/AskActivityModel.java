@@ -56,7 +56,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.getUploadUrl(url);
                     }
@@ -88,7 +88,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String msg = baseResponse.getError();
+                        String msg = baseResponse.getMsg();
 
                         listener.sendSuccess(msg);
                     }
@@ -152,7 +152,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String info = baseResponse.getError();
+                        String info = baseResponse.getMsg();
                         listener.reSuccess(info);
                     }
                 });
@@ -185,7 +185,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.getImgUrl(url);
                     }

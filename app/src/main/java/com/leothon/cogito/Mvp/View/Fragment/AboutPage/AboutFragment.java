@@ -2,9 +2,9 @@ package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
-import com.leothon.cogito.Mvp.View.Activity.DownloadActivity.DownloadActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
@@ -182,7 +181,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             }
 
         }
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         HostActivity hostActivity = (HostActivity)getActivity();
         String botStatus = hostActivity.getBotStatus();
         if (botStatus != null){

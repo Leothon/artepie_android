@@ -1,11 +1,9 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
@@ -42,7 +39,19 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int BODY = 100;
     private View headView;
 
+
+
     public favOnClickListener favOnClickListener;
+
+    public interface QQUIListener{
+        void setQQUIListener(ClassDetail classDetail);
+    }
+
+    public QQUIListener qquiListener;
+
+    public void setQquiListener(QQUIListener listener){
+        this.qquiListener = listener;
+    }
 
     public void setFavOnClickListener(favOnClickListener favOnClickListener) {
         this.favOnClickListener = favOnClickListener;
@@ -67,11 +76,12 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+
         int viewType = getItemViewType(position);
         final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         if (viewType == HEAD){
             final SelectHeadHolder selectHeadHolder= (SelectHeadHolder) holder;
-            ImageLoader.loadImageViewwithError(context,classDetail.getTeaClasss().getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,classDetail.getTeaClasss().getSelectbackimg(),selectHeadHolder.selectBackImg,R.drawable.defalutimg);
             selectHeadHolder.selectTitle.setText(classDetail.getTeaClasss().getSelectlisttitle());
             selectHeadHolder.selectClassAuthor.setText("讲师 : " + classDetail.getTeaClasss().getSelectauthor());
             selectHeadHolder.selectClassTime.setText("课程总时长 ：" + CommonUtils.msTomin(Long.parseLong(classDetail.getTeaClasss().getSelecttime())) + "分钟");
@@ -106,13 +116,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             selectHeadHolder.selectClassShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareText("分享本节课程到",
-                            "主题名称",
-                            "我正在 @艺派-给生活以艺术 客户端学习《"
-                                    + classDetail.getTeaClasss().getSelectlisttitle() +
-                                    "》这个课程，点击加入体验"
-                                    +"https://github.com/Leothon"+
-                                    "\n (分享自艺派APP)");
+                    qquiListener.setQQUIListener(classDetail);
                 }
             });
         }else if (viewType == BODY){
@@ -140,6 +144,7 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                     }else {
                         if (realposition >= 1 && !classDetail.getTeaClasss().getSelectprice().equals("0.00")){
+
                             loadDialog(classDetail);
                         }else {
                             Bundle bundle = new Bundle();
@@ -168,37 +173,8 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-    /**
-     * 分享文字内容
-     *
-     * @param dlgTitle
-     *            分享对话框标题
-     * @param subject
-     *            主题
-     * @param content
-     *            分享内容（文字）
-     */
-    private void shareText(String dlgTitle, String subject, String content) {
-        if (content == null || "".equals(content)) {
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        if (subject != null && !"".equals(subject)) {
-            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        }
 
-        intent.putExtra(Intent.EXTRA_TEXT, content);
 
-        // 设置弹出框标题
-        if (dlgTitle != null && !"".equals(dlgTitle)) { // 自定义标题
-
-            context.startActivity(Intent.createChooser(intent, dlgTitle));
-        } else { // 系统默认标题
-
-            context.startActivity(intent);
-        }
-    }
     private void loadDialog(final ClassDetail classDetail){
         final CommonDialog dialog = new CommonDialog(context);
 

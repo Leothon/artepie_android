@@ -8,15 +8,29 @@ import java.io.Serializable;
 public class BaseResponse<T> implements Serializable {
     private T data;
     private boolean success;
-    private String error;
+    private String msg;
+
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
 
 
     public T getData() {
         return data;
     }
 
-    public String getError() {
-        return error;
+    public String getMsg() {
+        return msg;
     }
 
     public boolean isSuccess(){

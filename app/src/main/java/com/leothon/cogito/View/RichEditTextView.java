@@ -1,9 +1,8 @@
 package com.leothon.cogito.View;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;

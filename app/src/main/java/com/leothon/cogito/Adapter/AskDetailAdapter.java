@@ -1,39 +1,26 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.C;
-import com.leothon.cogito.Bean.AskDetail;
-import com.leothon.cogito.Bean.BagBuy;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.PlayerActivity.PlayerActivity;
-import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
@@ -43,17 +30,14 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import org.w3c.dom.Text;
-
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,19 +49,13 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private QADataDetail qaDataDetail;
 
+    private final int EMPTY_VIEW = 2;
 
     private Context context;
     private int HEAD0 = 0;
     private int HEAD1 = 1;
 
-    private boolean islike = false;
 
-    private OrientationUtils orientationUtils;
-
-    private ImageView imageView;
-
-    private static int COMPLETED = 1;
-    private Bitmap bitmap;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String userId;
 
@@ -126,18 +104,24 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+//        if (viewType == EMPTY_VIEW){
+//
+//            return new EmptyViewHolder(LayoutInflater.from(context).inflate(R.layout.empty_view, parent, false));
+//
+//        }
         if (viewType == HEAD0) {
             return new DetailViewHolder(LayoutInflater.from(context).inflate(R.layout.ask_detail_head,parent,false));
         }else {
 
             return new CommentViewHolder(LayoutInflater.from(context).inflate(R.layout.comment_item, parent, false));
 
-
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         int viewType = getItemViewType(position);
         sharedPreferencesUtils = new SharedPreferencesUtils(context, "saveToken");
         userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token", "").toString()).getUid();
@@ -250,10 +234,14 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 detailViewHolder.VideoPlayer.setVisibility(View.VISIBLE);
 
 
-                imageView = new ImageView(context);
+                ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+                ImageView target = imageViewWeakReference.get();
+                if (target != null) {
+                    ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getQa_video_cover(), target, R.drawable.defalutimg);
+                }
 
-                ImageLoader.loadImageViewThumbnailwitherror(context, qaDataDetail.getQaData().getQa_video_cover(), imageView, R.drawable.defalutimg);
 
 
 
@@ -282,7 +270,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
 
                 gsyVideoOption
-                        .setThumbImageView(imageView)
+                        .setThumbImageView(target)
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
                         .setLockLand(false)
@@ -291,7 +279,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .setNeedLockFull(true)
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
+                        .setThumbPlay(true)
                         .build(detailViewHolder.VideoPlayer);
+                GSYVideoManager.instance().setNeedMute(true);
                 detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
                 detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -301,7 +291,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                          *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                          *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                          */
-
+                        GSYVideoManager.instance().setNeedMute(false);
                         detailViewHolder.VideoPlayer.startWindowFullscreen(context, false, true);
                     }
                 });
@@ -344,10 +334,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 if (reShowQA.getQa_video() != null) {
                     detailViewHolder.reVideo.setVisibility(View.VISIBLE);
-                    imageView = new ImageView(context);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), imageView, R.drawable.defalutimg);
 
+
+                    ImageView imageView = new ImageView(context);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+                    ImageView target = imageViewWeakReference.get();
+                    if (target != null) {
+                        ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), target, R.drawable.defalutimg);
+                    }
 
 
                     GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
@@ -366,7 +361,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         gsyVideoOption.setUrl(reShowQA.getQa_video());
                     }
                     gsyVideoOption
-                            .setThumbImageView(imageView)
+                            .setThumbImageView(target)
                             .setIsTouchWiget(true)
                             .setRotateViewAuto(true)
                             .setLockLand(false)
@@ -376,7 +371,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .setUrl(reShowQA.getQa_video())
                             .setCacheWithPlay(false)
                             .setVideoTitle("")
+                            .setThumbPlay(true)
                             .build(detailViewHolder.reVideo);
+                    GSYVideoManager.instance().setNeedMute(true);
                     //detailViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
                     detailViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
 
@@ -388,6 +385,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                              *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                              *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                              */
+                            GSYVideoManager.instance().setNeedMute(false);
 
                             detailViewHolder.reVideo.startWindowFullscreen(context, false, true);
                         }
@@ -728,24 +726,19 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            if (msg.what == COMPLETED) {
-//                imageView.setImageBitmap(bitmap);
-//            }
-//        }
-//    };
-
-
 
     @Override
     public int getItemViewType(int position) {
+
+
         if (position == 0 ) {
             return HEAD0;
         }else {
+
             return HEAD1;
         }
+
+
     }
 
 
@@ -882,32 +875,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this,itemView);
         }
     }
-
-
-    class EmptyViewHoler extends RecyclerView.ViewHolder{
-
-
-        @BindView(R.id.empty_text)
-        TextView emptyText;
-
-        public EmptyViewHoler(View itemView){
-            super(itemView);
-            ButterKnife.bind(this,itemView);
-        }
-    }
+//    class EmptyViewHolder extends RecyclerView.ViewHolder{
+//
+//        public EmptyViewHolder(View itemView) {
+//            super(itemView);
+//        }
+//    }
 
 
 
-    public interface OnItemClickListener{
-        void onItemClick(View v,int postion);
-        void onItemLongClick(View v,int postion);
-    }
-    /**自定义条目点击监听*/
-    private OnItemClickListener mOnItemClickLitener;
-
-    public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
 
     public interface AddLikeDetailOnClickListener{
         void addLikeDetailClickListener(boolean isLike,String qaId);

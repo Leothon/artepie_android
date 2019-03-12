@@ -7,8 +7,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
-import android.support.multidex.MultiDex;
-import android.view.ViewManager;
+import androidx.multidex.MultiDex;
 import android.view.WindowManager;
 
 import com.leothon.cogito.DataBase.DaoMaster;
@@ -21,20 +20,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class BaseApplication extends Application {
     private static BaseApplication application;
-
-
-//    private int loginStatus;
-
     public static WindowManager mWdm;
-
-//    public int getLoginStatus() {
-//        return loginStatus;
-//    }
-//
-//    public void setLoginStatus(int loginStatus) {
-//        this.loginStatus = loginStatus;
-//    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,20 +34,14 @@ public class BaseApplication extends Application {
         setDatabase();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-//        setLoginStatus(0);
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
-//            return;
-//        }
-//        LeakCanary.install(this);
-
-
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
     }
-
-
-
 
     public static Context getApplication(){
         return application;
@@ -69,39 +49,29 @@ public class BaseApplication extends Application {
     /*
     * 加入所有的activity至数组中，实现一键退出
     * */
-    private ArrayList<Activity> activityArrayList = new ArrayList<>();
-
-    public void addActivity(Activity activity){
-        activityArrayList.add(activity);
-    }
-
-
-    public void finishActivity(){
-        for(Activity activity:activityArrayList){
-            if (!activity.isFinishing()){
-                activity.finish();
-            }
-        }
-        //下面代码带更改
-
-        activityArrayList.clear();
-    }
-
-    public int getCount(){
-        return activityArrayList.size();
-    }
-
+//    private ArrayList<Activity> activityArrayList = new ArrayList<>();
+//
+//    public void addActivity(Activity activity){
+//        activityArrayList.add(activity);
+//    }
+//
+//
+//    public void finishActivity() {
+//        for (Activity activity : activityArrayList) {
+//            if (!activity.isFinishing()) {
+//                activity.finish();
+//            }
+//        }
+//        //下面代码带更改
+//
+//        activityArrayList.clear();
+//
+//    }
 
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
-    //静态单例
-//    public static BaseApplication instances;
-//
-//    public static BaseApplication getInstances(){
-//        return instances;
-//    }
 
     /**
      * 设置greenDao

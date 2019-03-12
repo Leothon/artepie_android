@@ -1,24 +1,33 @@
 package com.leothon.cogito.Mvp.View.Activity.SelectClassActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.SelectClassAdapter;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.BaseActivity;
-import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailActivity;
 import com.leothon.cogito.R;
@@ -28,6 +37,11 @@ import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.leothon.cogito.wxapi.WXEntryActivity;
+import com.tencent.connect.share.QQShare;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -62,6 +76,21 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     private SelectClassPresenter selectClassPresenter;
     private static int THRESHOLD_OFFSET = 10;
     private String userId;
+
+    private QQShareListener qqShareListener;
+    private Tencent mTencent;
+
+    private View dismissShare;
+    private RelativeLayout shareToQQ;
+    private RelativeLayout shareToFriendCircle;
+    private RelativeLayout shareToWeChat;
+    private RelativeLayout shareToMore;
+
+    private ClassDetail shareClassDetail;
+    private PopupWindow sharePopup;
+
+    private View popUPView;
+
     @Override
     public int initLayout() {
         return R.layout.activity_select_class;
@@ -69,11 +98,13 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void initData() {
+        mTencent = Tencent.createInstance(Constants.APP_ID,SelectClassActivity.this.getApplicationContext());
+        qqShareListener = new QQShareListener();
         selectClassPresenter = new SelectClassPresenter(this);
         swpSelect.setProgressViewOffset (false,100,300);
         swpSelect.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         userId = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid();
-
+        initSharePopupWindow();
     }
     @Override
     public void initView() {
@@ -131,7 +162,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         swpSelect.setOnRefreshListener(this);
         selectClassAdapter = new SelectClassAdapter(classDetail,this);
         initHeadView(selectClassAdapter);
-        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        linearLayoutManager = new LinearLayoutManager(this,LinearLayout.VERTICAL,false);
         rvSelect.setLayoutManager(linearLayoutManager);
         rvSelect.setAdapter(selectClassAdapter);
         rvSelect.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -192,6 +223,14 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 loadDeleteDialog(classdId);
             }
         });
+        selectClassAdapter.setQquiListener(new SelectClassAdapter.QQUIListener() {
+            @Override
+            public void setQQUIListener(ClassDetail classDetail) {
+                showShareWindow();
+                shareClassDetail = classDetail;
+                //shareToQQClass(classDetail);
+            }
+        });
     }
 
     public void initHeadView(SelectClassAdapter selectClassAdapter){
@@ -235,7 +274,129 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassPresenter.getClassDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
     }
 
+    private void shareToQQClass(ClassDetail classDetail)
+    {
+        Bundle bundle = new Bundle();
+        //这条分享消息被好友点击后的跳转URL。
+        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "https://github.com/leothon");
+        //分享的标题。注：PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
+        bundle.putString(QQShare.SHARE_TO_QQ_TITLE, classDetail.getTeaClasss().getSelectlisttitle());
+        //分享的图片URL
+        bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, classDetail.getTeaClasss().getSelectbackimg());
+        //分享的消息摘要，最长50个字
+        bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY, classDetail.getTeaClasss().getSelectdesc());
+        //手Q客户端顶部，替换“返回”按钮文字，如果为空，用返回代替
+        //bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "??我在测试");
+        //标识该消息的来源应用，值为应用名称+AppId。
+        bundle.putString(QQShare.SHARE_TO_QQ_APP_NAME, "艺派" + Constants.APP_ID);
+        mTencent.shareToQQ(this, bundle , qqShareListener);
+        //mTencent.shareToQzone(this,bundle,qqShareListener);
+    }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Tencent.onActivityResultData(requestCode, resultCode, data, qqShareListener);
+
+        if (null != mTencent)
+            mTencent.onActivityResult(requestCode,resultCode,data);
+    }
+
+
+    private class QQShareListener implements IUiListener {
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override public void onError(UiError uiError) {
+        }
+
+        @Override public void onComplete(Object o) {
+
+            MyToast.getInstance(SelectClassActivity.this).show("分享成功！",Toast.LENGTH_SHORT);
+        }
+    }
+
+
+    private void initSharePopupWindow(){
+        popUPView = LayoutInflater.from(this).inflate(R.layout.popup_share,null,false);
+        sharePopup = new PopupWindow(popUPView, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        sharePopup.setBackgroundDrawable(new BitmapDrawable());
+        sharePopup.setTouchable(true);
+        sharePopup.setAnimationStyle(R.style.popupWindow_anim_style);
+        sharePopup.setFocusable(true);
+        sharePopup.setOutsideTouchable(true);
+        sharePopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        dismissShare = (View) popUPView.findViewById(R.id.dismiss_share);
+        shareToQQ = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_qq);
+        shareToFriendCircle = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_circle);
+        shareToWeChat = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_wechat);
+        shareToMore = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_more);
+
+        dismissShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharePopup.dismiss();
+                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            }
+        });
+
+        shareToQQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareToQQClass(shareClassDetail);
+                sharePopup.dismiss();
+                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            }
+        });
+        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("flag","1");
+                bundleto.putSerializable("data",shareClassDetail);
+                IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+                sharePopup.dismiss();
+                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            }
+        });
+        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("flag","1");
+                bundleto.putSerializable("data",shareClassDetail);
+                IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+                sharePopup.dismiss();
+                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            }
+        });
+        shareToMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareToMoreInfo(shareClassDetail);
+                sharePopup.dismiss();
+                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            }
+        });
+    }
+    public void showShareWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_select_class,null);
+        sharePopup.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+        dismissShare.setBackgroundColor(Color.parseColor("#20b3b3b3"));
+    }
+
+    private void shareToMoreInfo(ClassDetail classDetail) {
+        Intent share_intent = new Intent();
+        share_intent.setAction(Intent.ACTION_SEND);
+        share_intent.setType("text/plain");
+        share_intent.putExtra(Intent.EXTRA_SUBJECT, "艺派");
+        share_intent.putExtra(Intent.EXTRA_TEXT, "我正在艺派APP学习课程" + classDetail.getTeaClasss().getSelectlisttitle() + "\n戳我查看：https://github.com/leothon");
+        share_intent = Intent.createChooser(share_intent, "分享");
+        startActivity(share_intent);
+    }
 
 }

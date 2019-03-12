@@ -47,18 +47,7 @@ public abstract class BaseObserver<T extends BaseResponse> implements Observer<T
         doOnError(errorMsg);
         doOnNetError();
     }
-//    /**
-//     * Toast提示 *
-//     * @param msg 提示内容
-//     */
-//    protected void showToast(String msg) {
-//        if (toast == null) {
-//            toast = Toast.makeText(BaseRxHttpApplication.getContext(), msg, Toast.LENGTH_SHORT);
-//        } else {
-//            toast.setText(msg);
-//        }
-//        toast.show();
-//    }
+
 
 
 

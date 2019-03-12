@@ -2,8 +2,8 @@ package com.leothon.cogito.Mvp.View.Activity.AboutusActivity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -20,11 +20,12 @@ public class AboutusActivity extends AppCompatActivity {
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //StatusBarUtils.setStatusBarColor(this,R.color.white);
         aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.mipmap.icon_about)
                 .setDescription("艺派联手国内各大知名艺术教育家推出线上教育视频学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
+                .addItem(new Element().setTitle("Copyright©2018-2019").setGravity(Gravity.CENTER))
+                .addItem(new Element().setTitle("叮点科技（北京）有限公司版权所有").setGravity(Gravity.CENTER))
                 .addItem(new Element().setTitle("联系我们").setGravity(Gravity.CENTER))
                 .addGroup("客户服务")
                 .addEmail("CogitoTec@163.com","点击此处发送邮件")

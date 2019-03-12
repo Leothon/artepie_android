@@ -1,7 +1,5 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
-import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -18,8 +16,6 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,7 +71,7 @@ public class AdviceActivity extends BaseActivity {
                         @Override
                         public void onNext(BaseResponse baseResponse) {
                             hideLoadingAnim();
-                            MyToast.getInstance(AdviceActivity.this).show(baseResponse.getError(),Toast.LENGTH_SHORT);
+                            MyToast.getInstance(AdviceActivity.this).show(baseResponse.getMsg(),Toast.LENGTH_SHORT);
                         }
                     });
         }else {

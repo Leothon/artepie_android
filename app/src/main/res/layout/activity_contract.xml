@@ -12,7 +12,6 @@
 
     <ScrollView
         android:layout_below="@+id/contract_bar"
-        android:id="@+id/scrollview_contract"
         android:layout_above="@+id/button_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

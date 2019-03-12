@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -78,7 +78,7 @@
     </declare-styleable>
 
 
-    <style name="TransparentDialog" parent="@android:style/Theme.Holo.Light.Dialog">
+    <style name="TransparentDialog" parent="@android:style/Theme.Holo.Light.Dialog" tools:keep="@style/TransparentDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>

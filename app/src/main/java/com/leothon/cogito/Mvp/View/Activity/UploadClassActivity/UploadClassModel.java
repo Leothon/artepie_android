@@ -39,7 +39,7 @@ public class UploadClassModel implements UploadClassContract.IUploadClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String classId = baseResponse.getError();
+                        String classId = baseResponse.getMsg();
 
                         listener.createSuccess(classId);
                     }
@@ -74,7 +74,7 @@ public class UploadClassModel implements UploadClassContract.IUploadClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.imgSendSuccess(url);
                     }
@@ -136,7 +136,7 @@ public class UploadClassModel implements UploadClassContract.IUploadClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String classId = baseResponse.getError();
+                        String classId = baseResponse.getMsg();
 
                         listener.editClassSuccess(classId);
                     }

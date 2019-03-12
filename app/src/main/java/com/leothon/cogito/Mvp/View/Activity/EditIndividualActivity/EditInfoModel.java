@@ -48,7 +48,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.getIconUrl(url);
                     }
@@ -108,7 +108,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     @Override
                     public void onNext(BaseResponse baseResponse) {
 
-                        String phoneInfo = baseResponse.getError();
+                        String phoneInfo = baseResponse.getMsg();
 
                         listener.checkNumberResult(phoneInfo);
                     }
@@ -140,11 +140,11 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     public void onNext(BaseResponse baseResponse) {
 
                         if (baseResponse.isSuccess()){
-                            String phoneInfo = baseResponse.getError();
+                            String phoneInfo = baseResponse.getMsg();
 
                             listener.bindPhoneNumberSuccess(phoneInfo);
                         }else {
-                            String phoneInfo = baseResponse.getError();
+                            String phoneInfo = baseResponse.getMsg();
 
                             listener.bindPhoneNumberFailed(phoneInfo);
                         }
@@ -206,7 +206,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String info = baseResponse.getError();
+                        String info = baseResponse.getMsg();
                         listener.setPasswordSuccess(info);
                     }
                 });
@@ -237,9 +237,9 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                     public void onNext(BaseResponse baseResponse) {
 
                         if (baseResponse.isSuccess()){
-                            listener.setPasswordSuccess(baseResponse.getError());
+                            listener.setPasswordSuccess(baseResponse.getMsg());
                         }else {
-                            listener.setPasswordFailed(baseResponse.getError());
+                            listener.setPasswordFailed(baseResponse.getMsg());
                         }
                     }
                 });

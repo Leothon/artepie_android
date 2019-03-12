@@ -2,20 +2,14 @@ package com.leothon.cogito.Adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothon.cogito.Bean.Ask;
-import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
@@ -39,11 +31,15 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoView;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -60,21 +56,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private Context context;
     private ArrayList<QAData> asks;
 
-    private StandardGSYVideoPlayer curPlayer;
-    protected OrientationUtils orientationUtils;
-
-    protected boolean isPlay;
-    private LayoutInflater inflater;
-    protected boolean isFull;
-
-    private ImageView imageView;
-
-
-
-    private static int COMPLETED = 1;
-    private Bitmap bitmap;
-
-    private int isLiked;
     private SharedPreferencesUtils sharedPreferencesUtils;
     public addLikeOnClickListener addLikeOnClickListener;
 
@@ -97,8 +78,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         this.context = context;
         this.asks = asks;
         this.isLogin = isLogin;
-        inflater = LayoutInflater.from(context);
-
     }
 
     @Override
@@ -157,10 +136,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
             askViewHolder.contentAsk.setText(spannableString);
 
-
-
-
-
             if (ask.getQa_like() == null && ask.getQa_like().equals("0")){
                 askViewHolder.likeAsk.setText("喜欢");
             }else {
@@ -182,9 +157,16 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             }
             if (ask.getQa_video() != null) {
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
-                imageView = new ImageView(context);
+                ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), imageView, R.drawable.defalutimg);
+                final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+                ImageView target = imageViewWeakReference.get();
+                if (target != null) {
+                    ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.defalutimg);
+                }
+
+
+
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
 
@@ -204,7 +186,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 gsyVideoOption
                         .setPlayTag(TAG)
                         .setPlayPosition(position)
-                        .setThumbImageView(imageView)
+                        .setThumbImageView(target)
                         .setIsTouchWiget(true)
                         .setRotateViewAuto(true)
                         .setLockLand(false)
@@ -213,8 +195,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         .setNeedLockFull(true)
                         .setCacheWithPlay(false)
                         .setVideoTitle("")
+                        .setThumbPlay(true)
                         .build(askViewHolder.gsyVideoPlayer);
-                //askViewHolder.gsyVideoPlayer.getFullscreenButton().setVisibility(View.GONE);
+                GSYVideoManager.instance().setNeedMute(true);
                 askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
                 askViewHolder.gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -224,7 +207,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                          *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                          *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                          */
-
+                        GSYVideoManager.instance().setNeedMute(false);
                         askViewHolder.gsyVideoPlayer.startWindowFullscreen(context, false, true);
                     }
                 });
@@ -251,10 +234,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
                 }
             });
-
-
-
-
 
             askViewHolder.likeAsk.setOnClickListener(new View.OnClickListener() {
 
@@ -358,9 +337,14 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 }
                 if (reShowQA.getQa_video() != null) {
                     askViewHolder.reVideo.setVisibility(View.VISIBLE);
-                    imageView = new ImageView(context);
+                    ImageView imageView = new ImageView(context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), imageView, R.drawable.defalutimg);
+                    final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+                    ImageView target = imageViewWeakReference.get();
+                    if (target != null) {
+                        ImageLoader.loadImageViewThumbnailwitherror(context, reShowQA.getQa_video_cover(), target, R.drawable.defalutimg);
+                    }
+
 
 
                     GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
@@ -378,7 +362,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     }
                     gsyVideoOption
                             .setPlayTag(TAG)
-                            .setThumbImageView(imageView)
+                            .setThumbImageView(target)
                             .setPlayPosition(position)
                             .setIsTouchWiget(true)
                             .setRotateViewAuto(true)
@@ -388,10 +372,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             .setNeedLockFull(true)
                             .setCacheWithPlay(false)
                             .setVideoTitle("")
+                            .setThumbPlay(true)
                             .build(askViewHolder.reVideo);
-                    //askViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
+                    GSYVideoManager.instance().setNeedMute(true);
                     askViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
-
                     askViewHolder.reVideo.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -401,6 +385,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                              *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                              */
 
+                            GSYVideoManager.instance().setNeedMute(false);
                             askViewHolder.reVideo.startWindowFullscreen(context, false, true);
                         }
                     });
@@ -477,9 +462,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         }else if(viewType == HEAD1){
             return;
         }
-
-
-
     }
 
 
@@ -513,11 +495,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             return HEAD1;
         }
     }
-
     @Override
     public void onClick(View view) {
-
-
 
     }
     class AskViewHolder extends RecyclerView.ViewHolder {
@@ -580,16 +559,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             ButterKnife.bind(this,itemView);
         }
     }
-    public interface OnItemClickListener{
-        void onItemClick(View v,int postion);
-        void onItemLongClick(View v,int postion);
-    }
-    /**自定义条目点击监听*/
-    private BagAdapter.OnItemClickListener mOnItemClickLitener;
 
-    public void setmOnItemClickLitener(BagAdapter.OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
 
     public interface addLikeOnClickListener{
         void addLikeClickListener(boolean isLike,String qaId);

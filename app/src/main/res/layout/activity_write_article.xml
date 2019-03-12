@@ -12,7 +12,7 @@
     <include
         android:id="@+id/write_article_bar"
         layout="@layout/toolbar"/>
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/article_write_bottom"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -40,9 +40,9 @@
                 android:tint="@color/fontColor"/>
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/style_menu"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -57,7 +57,7 @@
             android:layout_height="match_parent">
 
         </com.leothon.cogito.View.FontStyleMenu>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

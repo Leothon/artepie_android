@@ -5,8 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.leothon.cogito.Bean.BagBuy;
 
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.StudyLine;
@@ -54,7 +53,7 @@ import butterknife.ButterKnife;
 /**
  * created by leothon on 2018.8.10
  */
-public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private BagPageData bagPageData;
 
@@ -234,10 +233,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         return bagPageData.getSelectClasses().size() + bagPageData.getFineClasses().size() + 3;
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
 
 
 
@@ -313,18 +308,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             ButterKnife.bind(this,itemView);
         }
     }
-
-    public interface OnItemClickListener{
-        void onItemClick(View v,int postion);
-        void onItemLongClick(View v,int postion);
-    }
-    /**自定义条目点击监听*/
-    private OnItemClickListener mOnItemClickLitener;
-
-    public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
-
 
     /**
      * 初始化图表

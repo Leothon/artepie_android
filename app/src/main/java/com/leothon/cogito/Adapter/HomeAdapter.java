@@ -2,17 +2,15 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.TestActivity.TestActivity;
 import com.leothon.cogito.R;
@@ -22,7 +20,6 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
@@ -35,10 +32,7 @@ import butterknife.ButterKnife;
  */
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
-    //首页布局总数
 
-    //需要在首页加载的一整条数据
-    private HomeData allDatas;
 
 
 
@@ -49,8 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private ArrayList<SelectClass> selectClasses;
 
     private boolean isLogin;
-    public HomeAdapter(HomeData allDatas, ArrayList<SelectClass> selectClasses,Context context,boolean isLogin){
-        this.allDatas = allDatas;
+    public HomeAdapter(ArrayList<SelectClass> selectClasses,Context context,boolean isLogin){
         this.context = context;
         this.isLogin = isLogin;
         this.selectClasses = selectClasses;
@@ -391,16 +384,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(View v,int postion);
-        void onItemLongClick(View v,int postion);
-    }
-    /**自定义条目点击监听*/
-    private OnItemClickListener mOnItemClickLitener;
 
-    public void setmOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
 
 
 }

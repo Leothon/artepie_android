@@ -9,8 +9,6 @@
     <dimen name="appBarSize">20sp</dimen>
     <dimen name="largeTitle">24sp</dimen>
     <dimen name="hugeTitle">36sp</dimen>
-    <dimen name="tagNameabove">-15sp</dimen>
-    <dimen name="divider">2dp</dimen>
     <dimen name="post_media_height">200dp</dimen>
     <dimen name="progress_height">10dp</dimen>
 </resources>

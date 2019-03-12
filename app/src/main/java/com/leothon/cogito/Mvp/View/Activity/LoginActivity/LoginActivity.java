@@ -2,11 +2,10 @@ package com.leothon.cogito.Mvp.View.Activity.LoginActivity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
+
+import androidx.cardview.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Bean.WeChatUserInfo;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -30,12 +30,14 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,10 +89,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     RoundedImageView qqLogin;
     @BindView(R.id.wechat_login)
     RoundedImageView wechatLogin;
-//    @BindView(R.id.weibo_login)
-//    RoundedImageView weiboLogin;
 
 
+
+
+    private WeChatUserInfo weChatUserInfo;
 
 
     private LoginPresenter loginPresenter;
@@ -112,6 +115,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private Handler mHandler = new Handler();
 
 
+    private IWXAPI wx_api;
 
     @Override
     public int initLayout() {
@@ -123,6 +127,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         loginPresenter = new LoginPresenter(this);
         mTencent = Tencent.createInstance(Constants.APP_ID,LoginActivity.this.getApplicationContext());
         activitysharedPreferencesUtils.clear();
+
+        wx_api = WXAPIFactory.createWXAPI(this,Constants.WeChat_APP_ID,true);
+        wx_api.registerApp(Constants.WeChat_APP_ID);
     }
 
     @Override
@@ -150,7 +157,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             @Override
             public void onClick(View view) {
                 if (isRegisterPage){
-                    removeAllActivity();
+                    //finish();
+                    //removeAllActivity();
+                    EventBus.getDefault().post(1);
                 }else {
                     //打开免密码登录
                     toRegisterPage();
@@ -267,7 +276,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @OnClick(R.id.wechat_login)
     public void wechatLogin(View view){
-        //TODO 使用微信登录
+        showLoadingAnim();
+        final SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        wx_api.sendReq(req);
     }
     @OnClick(R.id.qq_login)
     public void qqLogin(View view){
@@ -278,15 +291,23 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
 
-
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideLoadingAnim();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle.containsKey("wechatinfo")){
+            WeChatUserInfo weChatUserInfo = (WeChatUserInfo)bundle.getSerializable("wechatinfo");
+            Log.e(TAG, "姓名" + weChatUserInfo.getNickname() + "\n性别" + weChatUserInfo.getSex() + "\n位置" + weChatUserInfo.getCountry() + weChatUserInfo.getCity() + weChatUserInfo.getProvince() + "\naccessToken" + weChatUserInfo.getAccesstoken() + "\n头像" + weChatUserInfo.getHeadimgurl());
+            loginPresenter.isWechatRegister(weChatUserInfo.getAccesstoken());
+            this.weChatUserInfo = weChatUserInfo;
+        }
+    }
 
     @Override
     public void addverifycode(String code) {
         verifyCode.setText(code);
-
 
     }
 
@@ -338,7 +359,39 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
+    public void isWeChatRegisterResult(String msg) {
+        if (msg.equals("0")){
+
+            loginPresenter.loginByQQ(mTencent.getAccessToken());
+
+        }else if (msg.equals("1")){
+            User user = new User();
+
+
+            user.setUser_icon(weChatUserInfo.getHeadimgurl());
+            user.setUser_name(weChatUserInfo.getNickname());
+            user.setUser_sex(weChatUserInfo.getSex());
+            user.setTencent_token(weChatUserInfo.getAccesstoken());
+            user.setUser_address(weChatUserInfo.getCountry() + weChatUserInfo.getProvince() + weChatUserInfo.getCity());
+
+            loginPresenter.weChatUserRegister(user);
+
+
+        }else {
+            MyToast.getInstance(this).show("未知错误",Toast.LENGTH_SHORT);
+        }
+    }
+
+    @Override
     public void qqUserRegisterSuccess(User user) {
+        UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
+        getDAOSession().insert(userEntity);
+        hideLoadingAnim();
+        LoginSuccess();
+    }
+
+    @Override
+    public void weChatUserRegisterSuccess(User user) {
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
         getDAOSession().insert(userEntity);
         hideLoadingAnim();
@@ -348,7 +401,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private void LoginSuccess(){
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
-        //MyToast.getInstance(this).show("如果您未设置密码，请尽快设置密码以确保账户安全",Toast.LENGTH_SHORT);
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);
         activitysharedPreferencesUtils.setParams("login",true);
         finish();
@@ -365,8 +417,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void onBackPressed() {
-        removeAllActivity();
-
+        //removeAllActivity();
+        EventBus.getDefault().post(1);
 
 
     }

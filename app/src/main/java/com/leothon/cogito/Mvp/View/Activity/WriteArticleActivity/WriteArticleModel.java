@@ -43,7 +43,7 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.getUploadImgUrl(url);
                     }
@@ -74,7 +74,7 @@ public class WriteArticleModel implements WriteArticleContract.IWriteArticleMode
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getError();
+                        String url = baseResponse.getMsg();
 
                         listener.isUploadSuccess(url);
                     }

@@ -2,10 +2,11 @@ package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.cardview.widget.CardView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -75,17 +76,12 @@ public class HostActivity extends BaseActivity  {
 
     @BindView(R.id.bar_host)
     CardView barHost;
-    //private  Fragment  currentFragment = new Fragment();
-//    Fragment homePage = HomeFragment.newInstance();
-//    Fragment micClassPage = ArticleListFragment.newInstance();
-//    Fragment askPage = AskFragment.newInstance();
-//    Fragment bagPage = BagFragment.newInstance();
-//    Fragment aboutPage = AboutFragment.newInstance();
-    Fragment homePage;
-    Fragment micClassPage;
-    Fragment askPage;
-    Fragment bagPage;
-    Fragment aboutPage;
+
+    Fragment homePage = HomeFragment.newInstance();
+    Fragment micClassPage = ArticleListFragment.newInstance();
+    Fragment askPage = AskFragment.newInstance();
+    Fragment bagPage = BagFragment.newInstance();
+    Fragment aboutPage = AboutFragment.newInstance();
 
     private static final String HOMEPAGE = "homePage";
     private static final String MICCLASSPAGE = "micClassPage";
@@ -93,7 +89,7 @@ public class HostActivity extends BaseActivity  {
     private static final String BAGPAGE = "bagPage";
     private static final String ABOUTPAGE = "aboutPage";
 
-    private FragmentTransaction transaction;
+    //private FragmentTransaction transaction;
 
     private Intent intent;
     private Bundle bundle;
@@ -101,9 +97,10 @@ public class HostActivity extends BaseActivity  {
     private Animation mShowAction;
     private Animation mHiddenAction;
 
+    private long exitTime = 0;
     private String info;
 
-    private ArrayList<Fragment> fragmentArrayList;
+
     @Override
     public int initLayout() {
         return R.layout.activity_host;
@@ -118,12 +115,14 @@ public class HostActivity extends BaseActivity  {
         }
         initBottomButton();
         StatusBarUtils.transparencyBar(this);
-        fragmentArrayList = new ArrayList<>();
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
         bundle = intent.getExtras();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+
         switch (bundle.getString("type")){
             case "home":
                 focusOnHome();
@@ -183,6 +182,12 @@ public class HostActivity extends BaseActivity  {
 
     @Override
     public void initData() {
+
+//        homePage = HomeFragment.newInstance();
+//        micClassPage = ArticleListFragment.newInstance();
+//        askPage = AskFragment.newInstance();
+//        bagPage = BagFragment.newInstance();
+//        aboutPage = AboutFragment.newInstance();
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
                 .compose(ThreadTransformer.switchSchedulers())
@@ -204,7 +209,7 @@ public class HostActivity extends BaseActivity  {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        info = baseResponse.getError();
+                        info = baseResponse.getMsg();
                         if (info.equals("notice")){
                             NoticeMessage noticeMessage = new NoticeMessage();
                             noticeMessage.setMessage("show");
@@ -223,26 +228,23 @@ public class HostActivity extends BaseActivity  {
     }
 
 
-//    private  FragmentTransaction switchPage(Fragment targetFragment) {
-//        FragmentTransaction transaction = getSupportFragmentManager()
-//                .beginTransaction();
-//        if (!targetFragment.isAdded()) {
-//            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
-//            if (currentFragment != null) {
-//                transaction.hide(currentFragment);
-//            }
-//            transaction.add(R.id.container_home,targetFragment,targetFragment.getClass().getName());
-//
-//        } else {
-//            transaction
-//                    .hide(currentFragment)
-//                    .show(targetFragment);
-//
-//
-//        }
-//        currentFragment = targetFragment;
-//        return   transaction;
-//    }
+    private Fragment currentFragment = new Fragment();
+
+    private FragmentTransaction switchtoFragment(Fragment targetFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.container_home, targetFragment,targetFragment.getClass().getName());
+        } else {
+            transaction.hide(currentFragment).show(targetFragment);
+        }
+        currentFragment = targetFragment;
+        return transaction;
+    }
+
 
     /**
      * 切换相应的fragment
@@ -250,70 +252,70 @@ public class HostActivity extends BaseActivity  {
      */
     public void switchFragment(String pageName){
 
-        transaction = getSupportFragmentManager().beginTransaction();
-        HideAllFragment(transaction);
+        //transaction = getSupportFragmentManager().beginTransaction();
+        //HideAllFragment(transaction);
         switch (pageName){
             case HOMEPAGE:
                 focusOnHome();
                 StatusBarUtils.transparencyBar(this);
-                if (homePage == null){
-                    homePage = HomeFragment.newInstance();
-                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
-                }else{
-                    transaction.show(homePage);
-                    
-                }
-                //switchPage(homePage).commit();
+//                if (homePage == null){
+//                    homePage = HomeFragment.newInstance();
+//                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
+//                }else{
+//                    transaction.show(homePage);
+//
+//                }
+                switchtoFragment(homePage).commit();
                 break;
             case MICCLASSPAGE:
                 focusOnMic();
-                if (micClassPage == null){
-                    micClassPage = ArticleListFragment.newInstance();
-                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
-                }else{
-                    transaction.show(micClassPage);
-                }
-                //switchPage(micClassPage).commit();
+//                if (micClassPage == null){
+//                    micClassPage = ArticleListFragment.newInstance();
+//                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+//                }else{
+//                    transaction.show(micClassPage);
+//                }
+                switchtoFragment(micClassPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ASKPAGE:
                 focusOnAsk();
-                if (askPage == null){
-                    askPage = AskFragment.newInstance();
-                    transaction.add(R.id.container_home,askPage,ASKPAGE);
-                }else{
-                    transaction.show(askPage);
-                }
-                //switchPage(askPage).commit();
+//                if (askPage == null){
+//                    askPage = AskFragment.newInstance();
+//                    transaction.add(R.id.container_home,askPage,ASKPAGE);
+//                }else{
+//                    transaction.show(askPage);
+//                }
+                switchtoFragment(askPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case BAGPAGE:
                 focusOnBag();
-                if (bagPage == null){
-                    bagPage = BagFragment.newInstance();
-                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
-                }else{
-                    transaction.show(bagPage);
-                }
-                //switchPage(bagPage).commit();
+//                if (bagPage == null){
+//                    bagPage = BagFragment.newInstance();
+//                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
+//                }else{
+//                    transaction.show(bagPage);
+//                }
+                switchtoFragment(bagPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ABOUTPAGE:
                 focusOnAbout();
-                if (aboutPage == null){
-                    aboutPage = AboutFragment.newInstance();
-                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
-                }else{
-                    transaction.show(aboutPage);
-                }
-                //switchPage(aboutPage).commit();
+//                if (aboutPage == null){
+//                    aboutPage = AboutFragment.newInstance();
+//                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+//                }else{
+//                    transaction.show(aboutPage);
+//                }
+                switchtoFragment(aboutPage).commit();
                 StatusBarUtils.transparencyBar(this);
                 break;
         }
-        transaction.commit();
+        //transaction.commit();
     }
 
     /**
@@ -379,106 +381,138 @@ public class HostActivity extends BaseActivity  {
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnHome.focusOnButton();
+        //bottombtnHome.focusOnButton();
         bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.resetButton();
+        //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAsk.resetButton();
+        //bottombtnAsk.resetButton();
         bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.resetButton();
+        //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAbout.resetButton();
+        //bottombtnAbout.resetButton();
     }
 
     public void focusOnMic(){
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnHome.resetButton();
+        //bottombtnHome.resetButton();
         bottombtnMicClass.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnMicClass.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnMicClass.focusOnButton();
+        //bottombtnMicClass.focusOnButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAsk.resetButton();
+        //bottombtnAsk.resetButton();
         bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.resetButton();
+        //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAbout.resetButton();
+        //bottombtnAbout.resetButton();
     }
 
     public void focusOnAsk(){
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnHome.resetButton();
+        //bottombtnHome.resetButton();
         bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.resetButton();
+        //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnAsk.focusOnButton();
+        //bottombtnAsk.focusOnButton();
         bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.resetButton();
+        //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAbout.resetButton();
+        //bottombtnAbout.resetButton();
     }
 
     public void focusOnBag(){
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnHome.resetButton();
+        //bottombtnHome.resetButton();
         bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.resetButton();
+        //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAsk.resetButton();
+        //bottombtnAsk.resetButton();
         bottombtnBag.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnBag.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnBag.focusOnButton();
+        //bottombtnBag.focusOnButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAbout.resetButton();
+        //bottombtnAbout.resetButton();
     }
 
     public void focusOnAbout(){
         GSYVideoManager.releaseAllVideos();
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnHome.resetButton();
+        //bottombtnHome.resetButton();
         bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.resetButton();
+        //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnAsk.resetButton();
+        //bottombtnAsk.resetButton();
         bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.resetButton();
+        //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnAbout.focusOnButton();
+        //bottombtnAbout.focusOnButton();
     }
+
+
+//    @Override
+//    public void onBackPressed() {
+//
+//        if (GSYVideoManager.backFromWindowFull(this)) {
+//            return;
+//        }
+//        removeAllActivity();
+//
+//    }
+
+
 
 
     @Override
-    public void onBackPressed() {
-        if (GSYVideoManager.backFromWindowFull(this)) {
-            return;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (GSYVideoManager.isFullState(this)){
+            GSYVideoManager.backFromWindowFull(this);
+            GSYVideoManager.instance().setNeedMute(true);
+        }else {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                // 判断间隔时间 大于2秒就退出应用
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+
+                    MyToast.getInstance(this).show("再按一次退出艺派",Toast.LENGTH_SHORT);
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    Intent home = new Intent(Intent.ACTION_MAIN);
+                    home.addCategory(Intent.CATEGORY_HOME);
+                    startActivity(home);
+                }
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
         }
-        removeAllActivity();
+
+        return true;
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(NoticeMessage message) {
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"artSettings");

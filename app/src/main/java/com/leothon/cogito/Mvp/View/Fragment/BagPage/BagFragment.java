@@ -1,9 +1,8 @@
 package com.leothon.cogito.Mvp.View.Fragment.BagPage;
 
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ import static com.leothon.cogito.Base.BaseApplication.getApplication;
 public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,BagContract.IBagView {
 
     @BindView(R.id.toolbar)
-    android.support.v7.widget.Toolbar bagBar;
+    androidx.appcompat.widget.Toolbar bagBar;
 
     @BindView(R.id.toolbar_subtitle)
     TextView subtitle;
@@ -91,7 +90,9 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
     @Override
     protected void initView() {
@@ -133,18 +134,7 @@ public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            //Fragment隐藏时调用
-        }else {
-            //Fragment显示时调用
-//            swpBag.setRefreshing(true);
-//            bagPresenter.getBagData(fragmentsharedPreferencesUtils.getParams("token","").toString());
-        }
 
-    }
 
     public void initAdapter(){
         swpBag.setOnRefreshListener(this);

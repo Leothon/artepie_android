@@ -3,11 +3,11 @@ package com.leothon.cogito.Mvp.View.Activity.ArticleActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,9 +23,11 @@ import android.widget.Toast;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.MyToast;
@@ -265,6 +267,19 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
 
 
+    @OnClick(R.id.article_author_icon_detail)
+    public void toUserZone(View view){
+        Bundle bundleto = new Bundle();
+        if (article.getArticleAuthorId().equals(uuid)){
+            bundleto.putString("type","individual");
+        }else {
+            bundleto.putString("type","other");
+            bundleto.putString("userId",article.getArticleAuthorId());
+        }
+
+        IntentUtils.getInstence().intent(ArticleActivity.this, IndividualActivity.class,bundleto);
+
+    }
 
 
     @Override

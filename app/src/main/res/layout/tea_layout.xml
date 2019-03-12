@@ -16,13 +16,13 @@
             android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_gravity="center|top"/>
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="30dp"
             android:id="@+id/teacher_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

@@ -1,13 +1,10 @@
 package com.leothon.cogito.Mvp.View.Activity.SettingsActivity;
 
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Toast;
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
-import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.MDCheckBox;
 
 import butterknife.BindView;

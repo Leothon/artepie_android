@@ -2,10 +2,9 @@ package com.leothon.cogito.Mvp.View.Activity.AskActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -37,8 +36,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -91,12 +88,9 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     DecimalFormat df = new DecimalFormat("0.00");
     private String coverImg = "";
 
-    private static int VIDEO = PictureMimeType.ofVideo();
-    private static int AUDIO = PictureMimeType.ofAudio();
-    private static int ALL = PictureMimeType.ofAll();
+
 
     private AskActivityPresenter askActivityPresenter;
-    ZLoadingDialog dialog = new ZLoadingDialog(AskActivity.this);
     private SendQAData sendQAData;
 
 
@@ -261,13 +255,12 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @OnClick(R.id.ask_add_sound)
     public void addSound(View view){
         MyToast.getInstance(this).show("暂不支持音频",Toast.LENGTH_SHORT);
-        //addVideoORAudio(AUDIO);
     }
 
     @OnClick(R.id.ask_add_img)
     public void addVideo(View view){
 
-        addVideoORAudio(VIDEO);
+        addVideoORAudio(PictureMimeType.ofVideo());
     }
 
 
@@ -360,9 +353,8 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
 
     private void addVideoORAudio(int type){
-        // 进入相册 以下是例子：用不到的api可以不写
         PictureSelector.create(AskActivity.this)
-                .openGallery(type)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .openGallery(type)
                 //.theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
                 .maxSelectNum(1)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int
@@ -410,7 +402,6 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    // 图片、视频、音频选择结果回调
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
                     // 例如 LocalMedia 里面返回三种path
                     // 1.media.getPath(); 为原图path

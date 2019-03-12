@@ -1,8 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.DownloadActivity;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,7 +36,6 @@ public class DownloadActivity extends BaseActivity {
         getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 点击进行编辑
                 MyToast.getInstance(DownloadActivity.this).show("点击编辑下载任务",Toast.LENGTH_SHORT);
             }
         });

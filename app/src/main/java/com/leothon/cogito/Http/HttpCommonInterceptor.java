@@ -21,9 +21,7 @@ public class HttpCommonInterceptor implements Interceptor {
     }
     private static final String TAG = "HttpCommonIntercept";
     public Response intercept(Chain chain) throws IOException{
-        Log.d(TAG, "add common params");
         Request oldrequest = chain.request();
-
         Request.Builder requestBuilder = oldrequest.newBuilder();
         requestBuilder.method(oldrequest.method(),oldrequest.body());
 
@@ -66,8 +64,6 @@ public class HttpCommonInterceptor implements Interceptor {
         public HttpCommonInterceptor build(){
             return mHttpCommonInterceptor;
         }
-
-
 
 
 

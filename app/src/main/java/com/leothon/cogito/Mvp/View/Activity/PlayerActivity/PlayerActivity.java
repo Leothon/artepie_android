@@ -4,21 +4,18 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.ButtonBarLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.core.widget.NestedScrollView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.widget.ButtonBarLayout;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +37,6 @@ import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.VideoDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
-import com.leothon.cogito.Manager.ScrollSpeedLinearLayoutManager;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
@@ -61,6 +57,7 @@ import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -159,12 +156,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     //正常
     public static final int CURRENT_STATE_NORMAL = 0;
-    //准备中
-    public static final int CURRENT_STATE_PREPAREING = 1;
-    //播放中
-    public static final int CURRENT_STATE_PLAYING = 2;
-    //开始缓冲
-    public static final int CURRENT_STATE_PLAYING_BUFFERING_START = 3;
+
     //暂停
     public static final int CURRENT_STATE_PAUSE = 5;
     //自动播放结束
@@ -176,16 +168,11 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     private OrientationUtils orientationUtils;
 
 
-    private ArrayList<Comment> userComments;
     private ArrayList<ChooseClass> chooseClasses;
 
     private VideoCommentAdapter videoCommentAdapter;
     private ChooseClassAdapter chooseClassAdapter;
-    private ScrollSpeedLinearLayoutManager scrollSpeedLinearLayoutManager;
-    private ImageView imageView;
 
-    private static int COMPLETED = 1;
-    private Bitmap bitmap;
     private int mCurrentState = -1;
 
     private int ChoosePosition = 0;
@@ -443,13 +430,6 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-    }
-
 
 
     public void LoadView(final VideoDetail videoDetail) {
@@ -460,10 +440,13 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         videoDescription.setText(videoDetail.getClassDetailList().getClassd_des());
         viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
         favCount.setText(videoDetail.getClassDetailList().getClassd_like());
-        imageView = new ImageView(this);
+        ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.loadImageViewThumbnailwitherror(this,videoDetail.getClassDetailList().getClassd_video_cover(),imageView,R.drawable.defalutimg);
-
+        final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+        ImageView target = imageViewWeakReference.get();
+        if (target != null) {
+            ImageLoader.loadImageViewThumbnailwitherror(this, videoDetail.getClassDetailList().getClassd_video_cover(), target, R.drawable.defalutimg);
+        }
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -474,7 +457,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         orientationUtils.setEnable(false);
 
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-        gsyVideoOption.setThumbImageView(imageView)
+        gsyVideoOption.setThumbImageView(target)
                 .setIsTouchWiget(true)
                 .setRotateViewAuto(true)
                 .setLockLand(false)
@@ -573,7 +556,6 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         popupWindow.setAnimationStyle(R.style.popupWindow_anim_style);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
-        //popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         editComment = (MaterialEditText)popview.findViewById(R.id.edit_comment);
         replyToWho = (TextView)popview.findViewById(R.id.reply_to_who);

@@ -2,9 +2,9 @@ package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,8 +31,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -78,7 +76,9 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
     public void initData() {
 
         writeArticlePresenter = new WriteArticlePresenter(this);
-        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);    }
+        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);
+    }
+
     @Override
     public void initView() {
         setToolbarSubTitle("");

@@ -1,7 +1,6 @@
 package com.leothon.cogito.Mvp.View.Activity.PayInfoActivity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,14 +41,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 
     @BindView(R.id.art_coin_use_rebate)
     TextView artCoinUseRebate;//艺币数量
-//    @BindView(R.id.activity_layout_pay_info)
-//    LinearLayout activityLayoutPayInfo;//是否显示活动信息
-//    @BindView(R.id.activity_time_pay_info)
-//    TextView activityTimePayInfo;//活动的时间
-//    @BindView(R.id.activity_address_pay_info)
-//    TextView activityAddressPayInfo;//活动的地点
-//    @BindView(R.id.activity_person_count_pay_info)
-//    TextView activityPersonCountPayInfo;//活动的人数
+
     @BindView(R.id.pay_info_rebate)
     TextView payInfoRebate;//收费的折扣
     @BindView(R.id.pay_info_price)
@@ -116,14 +108,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
             artCoinUseRebate.setText(userEntity.getUser_art_coin());
         }
 
-//        if (bundle.get("type").equals("class")){
-//            activityLayoutPayInfo.setVisibility(View.GONE);
-//        }else {
-//            activityLayoutPayInfo.setVisibility(View.VISIBLE);
-//            activityTimePayInfo.setText(bundle.getString("time"));
-//            activityAddressPayInfo.setText(bundle.getString("address"));
-//            activityPersonCountPayInfo.setText(bundle.getString("count"));
-//        }
         payInfoRebate.setText("￥" + CommonUtils.stringto(artCoinUseRebate.getText().toString()));
         payInfoPrice.setText("￥" + calculater(selectClass.getSelectprice(),artCoinUseRebate.getText().toString()));
 
@@ -279,7 +263,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
-                        //TODO 删除该收藏
                         finish();
                     }
 

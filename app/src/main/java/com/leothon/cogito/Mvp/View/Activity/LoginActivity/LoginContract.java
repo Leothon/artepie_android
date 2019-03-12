@@ -19,20 +19,16 @@ public class LoginContract {
 
 
         void isQQRegister(String accessToken,OnLoginFinishedListener listener);
+        void isWechatRegister(String accessToken,OnLoginFinishedListener listener);
 
         void qqUserRegister(User user,OnLoginFinishedListener listener);
+        void weChatUserRegister(User user,OnLoginFinishedListener listener);
 
         void loginByQQ(String accessToken,OnLoginFinishedListener listener);
+        void loginByWeChat(String accessToken,OnLoginFinishedListener listener);
     }
 
     public interface ILoginView{
-        /**
-         * presenter对view的操作
-         * 这个地方放上VIew中需要操作的方法
-         */
-
-
-
         void addverifycode(String code);
 
         void showFailInfo(String err);
@@ -40,8 +36,10 @@ public class LoginContract {
         void registerORloginSuccess(User user);
 
         void isQQRegisterResult(String msg);
+        void isWeChatRegisterResult(String msg);
 
         void qqUserRegisterSuccess(User user);
+        void weChatUserRegisterSuccess(User user);
 
     }
 
@@ -55,6 +53,8 @@ public class LoginContract {
         void verifysuccess(String code);
         void isQQRegisterResult(String msg);
         void qqUserRegisterSuccess(User user);
+        void weChatUserRegisterSuccess(User user);
+        void isWeChatRegisterResult(String msg);
     }
 
     public interface ILoginPresenter{
@@ -63,7 +63,10 @@ public class LoginContract {
         void onDestroy();
         void verifyphone(String phoneNumber);
         void isQQRegister(String accessToken);
+        void isWechatRegister(String accessToken);
         void qqUserRegister(User user);
+        void weChatUserRegister(User user);
         void loginByQQ(String accessToken);
+        void loginByWeChat(String accessToken);
     }
 }

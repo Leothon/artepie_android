@@ -3,21 +3,15 @@ package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import android.util.Log;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,25 +24,19 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.AskAdapter;
-import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Base.BaseApplication;
-import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Bean.TokenValid;
-import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
-import com.leothon.cogito.Mvp.View.Activity.TeacherActivity.TeacherActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -74,7 +62,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
 
     @BindView(R.id.toolbar)
-    android.support.v7.widget.Toolbar askBar;
+    androidx.appcompat.widget.Toolbar askBar;
     @BindView(R.id.swp_ask)
     SwipeRefreshLayout swpAsk;
     @BindView(R.id.rv_ask)
@@ -134,7 +122,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     protected void initData() {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         askPresenter = new AskPresenter(this);
         initMorePopupWindow();
         TokenValid tokenValid = tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString());
@@ -144,6 +134,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         if (baseApplication == null){
             baseApplication = (BaseApplication)getApplication();
         }
+
     }
     @Override
     protected void initView() {
@@ -157,25 +148,11 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         asks = new ArrayList<>();
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swpAsk.setRefreshing(true);
-        //initAdapter();
         hostActivity = (HostActivity)getActivity();
         viewShowAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_show);
         viewHideAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_hide);
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            //Fragment隐藏时调用
-            return;
-        }else {
-            //Fragment显示时调用
-//            askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
-//            swpAsk.setRefreshing(true);
-        }
-
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String msg){

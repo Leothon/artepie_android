@@ -55,6 +55,20 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
+    @Override
+    public void weChatUserRegisterSuccess(User user) {
+        if (iLoginView != null){
+            iLoginView.weChatUserRegisterSuccess(user);
+        }
+    }
+
+    @Override
+    public void isWeChatRegisterResult(String msg) {
+        if (iLoginView != null){
+            iLoginView.isWeChatRegisterResult(msg);
+        }
+    }
+
 
     @Override
     public void login(String phoneNumber, String password) {
@@ -84,14 +98,29 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     }
 
     @Override
+    public void isWechatRegister(String accessToken) {
+        iLoginModel.isWechatRegister(accessToken,this);
+    }
+
+    @Override
     public void qqUserRegister(User user) {
 
         iLoginModel.qqUserRegister(user,this);
     }
 
     @Override
+    public void weChatUserRegister(User user) {
+        iLoginModel.weChatUserRegister(user,this);
+    }
+
+    @Override
     public void loginByQQ(String accessToken) {
         iLoginModel.loginByQQ(accessToken,this);
+    }
+
+    @Override
+    public void loginByWeChat(String accessToken) {
+        iLoginModel.loginByWeChat(accessToken,this);
     }
 
 }

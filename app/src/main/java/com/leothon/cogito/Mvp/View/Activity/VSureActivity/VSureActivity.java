@@ -2,8 +2,6 @@ package com.leothon.cogito.Mvp.View.Activity.VSureActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,8 +26,6 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -250,20 +246,6 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
     }
 
     protected void chooseImg() {
-//        ActionSheetDialog mDialog = new ActionSheetDialog(this).builder();
-//        mDialog.setTitle("选择");
-//        mDialog.setCancelable(false);
-//        mDialog.addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-//            @Override
-//            public void onClick(int which) {
-//                PhotoUtils.photograph(VSureActivity.this);
-//            }
-//        }).addSheetItem("从相册选取", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-//            @Override
-//            public void onClick(int which) {
-//                PhotoUtils.selectPictureFromAlbum(VSureActivity.this);
-//            }
-//        }).show();
         PictureSelector.create(VSureActivity.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 //.theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

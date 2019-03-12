@@ -5,8 +5,8 @@ package com.leothon.cogito.Mvp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
     public SharedPreferencesUtils fragmentsharedPreferencesUtils;
     @Nullable
     @Override
-    public View onCreateView(@android.support.annotation.NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@androidx.annotation.NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(setLayoutResourceID(),container,false);
         unbinder = ButterKnife.bind(this,mContentView);
         mContext = getContext();

@@ -2,7 +2,6 @@ package com.leothon.cogito.Mvp.View.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 
@@ -47,13 +46,11 @@ public class ContractActivity extends BaseActivity {
             contractContent.setText(R.string.register_contract);
         }
 
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(MessageEvent messageEvent) {
-        //信息处理操作
-    }
 
     @Override
     protected void onDestroy() {
@@ -61,6 +58,7 @@ public class ContractActivity extends BaseActivity {
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+        finish();
     }
 
 
