@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
 
     <View
@@ -76,7 +76,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
 
     </RelativeLayout>
     <View
@@ -111,7 +111,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -145,7 +145,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -180,7 +180,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
 
     <View
@@ -218,7 +218,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
 
 
@@ -257,7 +257,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -294,7 +294,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_24"/>
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"/>
     </RelativeLayout>
 
     <Button

@@ -2,10 +2,13 @@ package com.leothon.cogito.Mvp.View.Activity.NoticeActivity;
 
 import android.graphics.Color;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,7 +32,7 @@ import butterknife.BindView;
 /**
  * created by leothon on 2018.8.12
  */
-public class NoticeActivity extends BaseActivity implements NoticeContract.INoticeView,SwipeRefreshLayout.OnRefreshListener{
+public class NoticeActivity extends BaseActivity implements NoticeContract.INoticeView, SwipeRefreshLayout.OnRefreshListener{
 
 
     @BindView(R.id.rv_notice)

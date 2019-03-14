@@ -7,7 +7,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
-import androidx.multidex.MultiDex;
+import android.support.multidex.MultiDex;
 import android.view.WindowManager;
 
 import com.leothon.cogito.DataBase.DaoMaster;

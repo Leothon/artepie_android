@@ -3,9 +3,10 @@ package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.cardview.widget.CardView;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -77,11 +78,11 @@ public class HostActivity extends BaseActivity  {
     @BindView(R.id.bar_host)
     CardView barHost;
 
-    Fragment homePage = HomeFragment.newInstance();
-    Fragment micClassPage = ArticleListFragment.newInstance();
-    Fragment askPage = AskFragment.newInstance();
-    Fragment bagPage = BagFragment.newInstance();
-    Fragment aboutPage = AboutFragment.newInstance();
+    Fragment homePage;
+    Fragment micClassPage;
+    Fragment askPage;
+    Fragment bagPage;
+    Fragment aboutPage;
 
     private static final String HOMEPAGE = "homePage";
     private static final String MICCLASSPAGE = "micClassPage";
@@ -89,7 +90,7 @@ public class HostActivity extends BaseActivity  {
     private static final String BAGPAGE = "bagPage";
     private static final String ABOUTPAGE = "aboutPage";
 
-    //private FragmentTransaction transaction;
+    private FragmentTransaction transaction;
 
     private Intent intent;
     private Bundle bundle;
@@ -183,11 +184,7 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initData() {
 
-//        homePage = HomeFragment.newInstance();
-//        micClassPage = ArticleListFragment.newInstance();
-//        askPage = AskFragment.newInstance();
-//        bagPage = BagFragment.newInstance();
-//        aboutPage = AboutFragment.newInstance();
+
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
                 .compose(ThreadTransformer.switchSchedulers())
@@ -228,22 +225,22 @@ public class HostActivity extends BaseActivity  {
     }
 
 
-    private Fragment currentFragment = new Fragment();
-
-    private FragmentTransaction switchtoFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!targetFragment.isAdded()) {
-            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
-            if (currentFragment != null) {
-                transaction.hide(currentFragment);
-            }
-            transaction.add(R.id.container_home, targetFragment,targetFragment.getClass().getName());
-        } else {
-            transaction.hide(currentFragment).show(targetFragment);
-        }
-        currentFragment = targetFragment;
-        return transaction;
-    }
+//    private Fragment currentFragment = new Fragment();
+//
+//    private FragmentTransaction switchtoFragment(Fragment targetFragment) {
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        if (!targetFragment.isAdded()) {
+//            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
+//            if (currentFragment != null) {
+//                transaction.hide(currentFragment);
+//            }
+//            transaction.add(R.id.container_home, targetFragment,targetFragment.getClass().getName());
+//        } else {
+//            transaction.hide(currentFragment).show(targetFragment);
+//        }
+//        currentFragment = targetFragment;
+//        return transaction;
+//    }
 
 
     /**
@@ -252,70 +249,70 @@ public class HostActivity extends BaseActivity  {
      */
     public void switchFragment(String pageName){
 
-        //transaction = getSupportFragmentManager().beginTransaction();
-        //HideAllFragment(transaction);
+        transaction = getSupportFragmentManager().beginTransaction();
+        HideAllFragment(transaction);
         switch (pageName){
             case HOMEPAGE:
                 focusOnHome();
                 StatusBarUtils.transparencyBar(this);
-//                if (homePage == null){
-//                    homePage = HomeFragment.newInstance();
-//                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
-//                }else{
-//                    transaction.show(homePage);
-//
-//                }
-                switchtoFragment(homePage).commit();
+                if (homePage == null){
+                    homePage = HomeFragment.newInstance();
+                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
+                }else{
+                    transaction.show(homePage);
+
+                }
+                //switchtoFragment(homePage).commit();
                 break;
             case MICCLASSPAGE:
                 focusOnMic();
-//                if (micClassPage == null){
-//                    micClassPage = ArticleListFragment.newInstance();
-//                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
-//                }else{
-//                    transaction.show(micClassPage);
-//                }
-                switchtoFragment(micClassPage).commit();
+                if (micClassPage == null){
+                    micClassPage = ArticleListFragment.newInstance();
+                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+                }else{
+                    transaction.show(micClassPage);
+                }
+                //switchtoFragment(micClassPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ASKPAGE:
                 focusOnAsk();
-//                if (askPage == null){
-//                    askPage = AskFragment.newInstance();
-//                    transaction.add(R.id.container_home,askPage,ASKPAGE);
-//                }else{
-//                    transaction.show(askPage);
-//                }
-                switchtoFragment(askPage).commit();
+                if (askPage == null){
+                    askPage = AskFragment.newInstance();
+                    transaction.add(R.id.container_home,askPage,ASKPAGE);
+                }else{
+                    transaction.show(askPage);
+                }
+                //switchtoFragment(askPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case BAGPAGE:
                 focusOnBag();
-//                if (bagPage == null){
-//                    bagPage = BagFragment.newInstance();
-//                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
-//                }else{
-//                    transaction.show(bagPage);
-//                }
-                switchtoFragment(bagPage).commit();
+                if (bagPage == null){
+                    bagPage = BagFragment.newInstance();
+                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
+                }else{
+                    transaction.show(bagPage);
+                }
+                //switchtoFragment(bagPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ABOUTPAGE:
                 focusOnAbout();
-//                if (aboutPage == null){
-//                    aboutPage = AboutFragment.newInstance();
-//                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
-//                }else{
-//                    transaction.show(aboutPage);
-//                }
-                switchtoFragment(aboutPage).commit();
+                if (aboutPage == null){
+                    aboutPage = AboutFragment.newInstance();
+                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+                }else{
+                    transaction.show(aboutPage);
+                }
+                //switchtoFragment(aboutPage).commit();
                 StatusBarUtils.transparencyBar(this);
                 break;
         }
-        //transaction.commit();
+        transaction.commit();
     }
 
     /**

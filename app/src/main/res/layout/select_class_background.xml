@@ -12,14 +12,14 @@
         android:id="@+id/select_back_img"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/typeback"
+        app:srcCompat="@drawable/typeback"
         android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/select_class_fav"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:src="@drawable/fav"
+        app:srcCompat="@drawable/fav"
         android:layout_toLeftOf="@+id/select_class_share"
         android:layout_marginRight="15dp"
         android:layout_marginTop="25dp" />
@@ -30,7 +30,7 @@
         android:id="@+id/select_class_share"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/share"/>
+        app:srcCompat="@drawable/share"/>
     <LinearLayout
         android:id="@+id/select"
         android:layout_below="@id/select_back_img"

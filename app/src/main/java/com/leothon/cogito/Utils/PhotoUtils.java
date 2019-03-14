@@ -9,12 +9,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+
 
 /**
  * created by leothon on 8/15/2018.
@@ -107,7 +109,7 @@ public class PhotoUtils {
      * @param height
      * @param width
      */
-    public static void startPhotoZoom(Activity activity,Uri uri,int height,int width) {
+    public static void startPhotoZoom(Activity activity, Uri uri, int height, int width) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
@@ -132,7 +134,7 @@ public class PhotoUtils {
      * @param width	  	指定的剪辑图片的宽
      * @param destUri 	剪辑后的图片存放地址
      */
-    public static void startPhotoZoom(Activity activity,Uri uri,int height,int width,Uri destUri) {
+    public static void startPhotoZoom(Activity activity, Uri uri, int height, int width, Uri destUri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");

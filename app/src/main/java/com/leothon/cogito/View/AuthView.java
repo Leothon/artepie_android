@@ -8,12 +8,12 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.leothon.cogito.R;
 
-import androidx.annotation.Nullable;
 
 public class AuthView extends View {
 

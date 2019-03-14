@@ -2,9 +2,10 @@ package com.leothon.cogito.Mvp.View.Activity.AboutusActivity;
 
 import android.content.Intent;
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 

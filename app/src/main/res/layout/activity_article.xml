@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,13 +11,13 @@
 
 
 
-    <com.google.android.material.appbar.AppBarLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/article_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,7 +59,7 @@
             <include
                 layout="@layout/toolbar"
                 android:visibility="gone" />
-            <androidx.appcompat.widget.Toolbar
+            <android.support.v7.widget.Toolbar
                 android:id="@+id/article_detail_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,10 +88,10 @@
                     android:id="@+id/more_about_article"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/baseline_more_horiz_black_36"
+                    app:srcCompat="@drawable/baseline_more_horiz_black_36"
                     android:layout_gravity="right"
                     android:layout_marginEnd="10dp"/>
-            </androidx.appcompat.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>
 
 
 
@@ -103,7 +103,7 @@
                     <!--android:visibility="gone">-->
                     <!---->
                 <!--</android.support.v7.widget.ButtonBarLayout>-->
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
 
 
@@ -112,7 +112,7 @@
 
 
 
-        <androidx.cardview.widget.CardView
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="5dp"
@@ -158,15 +158,15 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </com.google.android.material.appbar.AppBarLayout>
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        </android.support.v7.widget.CardView>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swp_article_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.core.widget.NestedScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -204,10 +204,10 @@
                     android:text="发布于2018-02-12 21：20"/>
 
             </RelativeLayout>
-        </androidx.core.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

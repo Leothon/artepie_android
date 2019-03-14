@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -11,6 +12,8 @@ import android.view.WindowManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+
 
 /**
  * created by leothon on 2018.7.30
@@ -58,7 +61,7 @@ public class StatusBarUtils {
      * @param activity
      * @param colorId
      */
-    public static void setStatusBarColor(Activity activity,int colorId) {
+    public static void setStatusBarColor(Activity activity, int colorId) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
@@ -101,7 +104,7 @@ public class StatusBarUtils {
      * @param activity
      * @param type 1:MIUUI 2:Flyme 3:android6.0
      */
-    public static void StatusBarLightMode(Activity activity,int type){
+    public static void StatusBarLightMode(Activity activity, int type){
         if(type==1){
             MIUISetStatusBarLightMode(activity, true);
         }else if(type==2){
@@ -115,7 +118,7 @@ public class StatusBarUtils {
     /**
      * 状态栏暗色模式，清除MIUI、flyme或6.0以上版本状态栏黑色文字、图标
      */
-    public static void StatusBarDarkMode(Activity activity,int type){
+    public static void StatusBarDarkMode(Activity activity, int type){
         if(type==1){
             MIUISetStatusBarLightMode(activity, false);
         }else if(type==2){

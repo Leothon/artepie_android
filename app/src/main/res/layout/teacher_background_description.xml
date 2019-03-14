@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardBackgroundColor="@color/white"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground"
     android:clickable="true">
     <TextView
         android:id="@+id/tea_description_list"
@@ -17,4 +17,4 @@
         android:textSize="@dimen/tipsSize"
         android:layout_margin="8dp"
         android:textColor="@color/fontColor" />
-</androidx.cardview.widget.CardView>
+</android.support.v7.widget.CardView>

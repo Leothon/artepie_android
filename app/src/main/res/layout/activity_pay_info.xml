@@ -112,7 +112,7 @@
                     android:id="@+id/pay_info_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_keyboard_arrow_right_black_36"
+                    app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_36"
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"/>
             </RelativeLayout>

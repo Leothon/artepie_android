@@ -3,10 +3,11 @@ package com.leothon.cogito.Mvp.View.Activity.QAHisActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisView,SwipeRefreshLayout.OnRefreshListener {
+public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisView, SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.rv_upload)

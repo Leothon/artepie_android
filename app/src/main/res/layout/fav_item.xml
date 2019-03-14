@@ -64,7 +64,7 @@
                 android:layout_alignParentTop="true">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:src="@drawable/baseline_clear_black_24"
+                    app:srcCompat="@drawable/baseline_clear_black_24"
                     android:layout_height="match_parent"
                     android:padding="5dp"/>
             </FrameLayout>

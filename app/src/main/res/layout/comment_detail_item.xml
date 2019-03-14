@@ -54,7 +54,7 @@
             android:id="@+id/detail_comment_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_more_horiz_black_24"
+            app:srcCompat="@drawable/baseline_more_horiz_black_24"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
@@ -78,7 +78,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_favorite_border_black_18"
+                app:srcCompat="@drawable/baseline_favorite_border_black_18"
                 android:layout_centerVertical="true"/>
 
             <TextView

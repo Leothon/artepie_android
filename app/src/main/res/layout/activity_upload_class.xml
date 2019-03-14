@@ -28,7 +28,7 @@
                     android:id="@+id/cover_show"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/activityback"
+                    app:srcCompat="@drawable/activityback"
                     android:scaleType="centerCrop"/>
                 <View
                     android:id="@+id/cover_pall_view"
@@ -45,7 +45,7 @@
                         android:id="@+id/class_cover_upload"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/baseline_add_photo_alternate_black_48"
+                        app:srcCompat="@drawable/baseline_add_photo_alternate_black_48"
                         android:tint="@color/white"
                         android:layout_centerInParent="true"/>
                     <TextView
@@ -172,12 +172,12 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:textSize="@dimen/appBarSize"/>
-            <androidx.recyclerview.widget.RecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_type_upload_class"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
             <View
                 android:layout_width="match_parent"

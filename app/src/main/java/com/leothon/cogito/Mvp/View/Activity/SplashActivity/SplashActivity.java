@@ -2,8 +2,8 @@ package com.leothon.cogito.Mvp.View.Activity.SplashActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

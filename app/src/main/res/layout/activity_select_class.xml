@@ -10,22 +10,22 @@
         android:visibility="gone"
         layout="@layout/toolbar" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swp_select_class"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
 
-        <androidx.recyclerview.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_select_class"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    <androidx.cardview.widget.CardView
+    <android.support.v7.widget.CardView
         android:id="@+id/edit_class_btn"
         android:layout_width="match_parent"
         android:layout_marginStart="50dp"
@@ -71,6 +71,6 @@
                 android:layout_marginLeft="20dp"/>
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+
+
 /**
  * created by leothon on 2018.7.24
  */
@@ -81,7 +83,7 @@ public class IntentUtils {
      * @param bb
      * @param RESULT_OK
      */
-    public void setResult(Activity fromContext,Bundle bb,int RESULT_OK){
+    public void setResult(Activity fromContext, Bundle bb, int RESULT_OK){
         Intent intent=new Intent();
         intent.putExtras(bb);
         fromContext.setResult(RESULT_OK, intent);

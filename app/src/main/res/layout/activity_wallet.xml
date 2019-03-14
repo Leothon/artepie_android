@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:src="@drawable/typeback"
+            app:srcCompat="@drawable/typeback"
             android:scaleType="centerCrop"/>
         <FrameLayout
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     android:id="@+id/ask_coin"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/askartcoin"
+                    app:srcCompat="@drawable/askartcoin"
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"/>
                 <TextView
@@ -142,12 +142,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <androidx.recyclerview.widget.RecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 
-            </androidx.recyclerview.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

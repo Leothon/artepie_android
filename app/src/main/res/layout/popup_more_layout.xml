@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/copy"
+                app:srcCompat="@drawable/copy"
                 android:layout_marginStart="20dp"/>
             <TextView
                 android:layout_toRightOf="@+id/copy_img"
@@ -45,7 +45,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/clear"/>
+                app:srcCompat="@drawable/clear"/>
             <TextView
                 android:layout_toRightOf="@+id/delete_img"
                 android:layout_centerVertical="true"

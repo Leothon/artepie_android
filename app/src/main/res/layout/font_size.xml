@@ -8,7 +8,7 @@
         android:id="@+id/btn_font_size_small"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/spanstyle"
+        app:srcCompat="@drawable/spanstyle"
         android:tint="@color/fontColor"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"/>
@@ -17,7 +17,7 @@
         android:id="@+id/btn_font_size_normal"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/spanstyle"
+        app:srcCompat="@drawable/spanstyle"
         android:layout_centerVertical="true"
         android:tint="@color/fontColor"
         android:layout_toRightOf="@+id/btn_font_size_small"
@@ -28,7 +28,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:tint="@color/fontColor"
-        android:src="@drawable/spanstyle"
+        app:srcCompat="@drawable/spanstyle"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/btn_font_size_normal"
         android:layout_marginLeft="10dp"/>

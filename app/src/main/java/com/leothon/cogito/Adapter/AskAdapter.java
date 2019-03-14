@@ -6,7 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.RecyclerView;
+
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;

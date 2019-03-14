@@ -16,7 +16,7 @@
             android:id="@+id/success_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/checked"
+            app:srcCompat="@drawable/checked"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:layout_margin="10dp"

@@ -1,8 +1,10 @@
 package com.leothon.cogito.Mvp.View.Fragment.BagPage;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ import static com.leothon.cogito.Base.BaseApplication.getApplication;
 public class BagFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,BagContract.IBagView {
 
     @BindView(R.id.toolbar)
-    androidx.appcompat.widget.Toolbar bagBar;
+    Toolbar bagBar;
 
     @BindView(R.id.toolbar_subtitle)
     TextView subtitle;

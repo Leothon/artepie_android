@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,10 +13,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;

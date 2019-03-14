@@ -3,12 +3,12 @@ package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -41,6 +41,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import butterknife.BindView;
 import butterknife.OnClick;

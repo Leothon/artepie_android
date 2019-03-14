@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
+
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;

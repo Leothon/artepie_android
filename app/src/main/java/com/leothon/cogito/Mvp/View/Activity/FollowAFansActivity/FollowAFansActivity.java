@@ -1,9 +1,11 @@
 package com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity;
 
 import android.content.Intent;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+
 
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;

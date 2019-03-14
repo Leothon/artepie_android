@@ -30,7 +30,7 @@
                     android:id="@+id/individual_back"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/activityback"
+                    app:srcCompat="@drawable/activityback"
                     android:scaleType="centerCrop"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                             android:layout_above="@id/individual_signal"
                             android:layout_width="18dp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/defaultsex"
+                            app:srcCompat="@drawable/defaultsex"
                             android:layout_marginLeft="8dp"/>
 
                         <TextView
@@ -229,7 +229,7 @@
                         android:layout_centerInParent="true"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/baseline_backup_black_24"/>
+                        app:srcCompat="@drawable/baseline_backup_black_24"/>
                     <TextView
                         android:layout_marginLeft="10dp"
                         android:id="@+id/up"

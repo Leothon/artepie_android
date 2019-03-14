@@ -7,8 +7,8 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import androidx.annotation.Keep;
-import androidx.annotation.Nullable;
+import android.support.annotation.Keep;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 

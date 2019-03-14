@@ -13,10 +13,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
@@ -50,6 +48,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /*
 * created by leothon on 2017.7.23

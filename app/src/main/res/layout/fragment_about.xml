@@ -112,7 +112,7 @@
                         android:id="@+id/fav_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/favicon"
+                        app:srcCompat="@drawable/favicon"
                         android:tint="@color/colorPrimary"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"/>
@@ -137,7 +137,7 @@
                         android:id="@+id/download_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/download"
+                        app:srcCompat="@drawable/download"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -161,7 +161,7 @@
                         android:id="@+id/upload_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/upload"
+                        app:srcCompat="@drawable/upload"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -186,7 +186,7 @@
                         android:id="@+id/history_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/history"
+                        app:srcCompat="@drawable/history"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -225,7 +225,7 @@
                         android:id="@+id/wallet_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/bullet"
+                        app:srcCompat="@drawable/bullet"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"/>
 
@@ -251,7 +251,7 @@
                         android:id="@+id/message_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/message"
+                        app:srcCompat="@drawable/message"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -285,7 +285,7 @@
                         android:id="@+id/settings_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/settings"
+                        app:srcCompat="@drawable/settings"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -310,7 +310,7 @@
                         android:id="@+id/about_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/about"
+                        app:srcCompat="@drawable/about"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 

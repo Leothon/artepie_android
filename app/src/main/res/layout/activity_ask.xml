@@ -37,7 +37,7 @@
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:background="@drawable/ripple"
-            android:src="@drawable/baseline_videocam_black_24"
+            app:srcCompat="@drawable/baseline_videocam_black_24"
             android:tint="@color/askImg"
             android:layout_centerInParent="true"
             android:layout_alignParentStart="true"
@@ -48,7 +48,7 @@
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:background="@drawable/ripple"
-            android:src="@drawable/sound"
+            app:srcCompat="@drawable/sound"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/ask_add_img"
             android:layout_marginLeft="20dp"/>
@@ -101,7 +101,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/delete"
+                    app:srcCompat="@drawable/delete"
                     android:tint="@color/colorAccent"
                     android:id="@+id/delete_video"
                     android:layout_alignParentEnd="true"
@@ -111,7 +111,7 @@
                     android:id="@+id/preview_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/video_play_normal"
+                    app:srcCompat="@drawable/video_play_normal"
                     android:layout_centerInParent="true"/>
             </RelativeLayout>
             <RelativeLayout

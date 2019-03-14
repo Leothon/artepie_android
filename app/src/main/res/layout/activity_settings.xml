@@ -38,7 +38,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/baseline_keyboard_arrow_right_black_24"
+                    app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
@@ -63,7 +63,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/baseline_keyboard_arrow_right_black_24"
+                    app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_24"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="20dp"/>
             </RelativeLayout>

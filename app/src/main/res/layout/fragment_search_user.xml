@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".Mvp.View.Fragment.SearchPage.SearchUserFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_search_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

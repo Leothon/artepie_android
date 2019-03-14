@@ -3,8 +3,9 @@ package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
+
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

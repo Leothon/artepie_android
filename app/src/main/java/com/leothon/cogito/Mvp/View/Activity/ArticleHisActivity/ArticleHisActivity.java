@@ -2,10 +2,12 @@ package com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity;
 
 import android.content.Intent;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class ArticleHisActivity extends BaseActivity implements ArticleHisContract.IArticleHisView,SwipeRefreshLayout.OnRefreshListener {
+public class ArticleHisActivity extends BaseActivity implements ArticleHisContract.IArticleHisView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.rv_article_his)
     RecyclerView rvArticleHis;
     @BindView(R.id.swp_article_his)

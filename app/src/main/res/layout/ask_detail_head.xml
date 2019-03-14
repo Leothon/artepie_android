@@ -58,7 +58,7 @@
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_more_horiz_black_24"
+            app:srcCompat="@drawable/baseline_more_horiz_black_24"
             android:layout_centerInParent="true"
             android:padding="8dp"/>
     </RelativeLayout>
@@ -176,7 +176,7 @@
             android:id="@+id/re_btn_detail"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/retw"
+            app:srcCompat="@drawable/retw"
             android:tint="@color/fontColor"
             android:layout_toRightOf="@+id/comment_ask_detail"
             android:layout_marginLeft="20dp"

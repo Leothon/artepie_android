@@ -1,7 +1,8 @@
 package com.leothon.cogito.Listener;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 public abstract class loadMoreDataArticleListener extends RecyclerView.OnScrollListener{
     private StaggeredGridLayoutManager staggeredGridLayoutManager;

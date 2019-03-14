@@ -5,13 +5,14 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
 
     @BindView(R.id.toolbar)
-    androidx.appcompat.widget.Toolbar askBar;
+    Toolbar askBar;
     @BindView(R.id.swp_ask)
     SwipeRefreshLayout swpAsk;
     @BindView(R.id.rv_ask)

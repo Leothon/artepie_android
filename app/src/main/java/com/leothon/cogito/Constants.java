@@ -20,7 +20,6 @@ public class Constants {
 
     public static final String WeChat_APP_ID = "wxa5fe8fbb04701e46";
 
-    //public static IWXAPI wx_api;
 
 
 

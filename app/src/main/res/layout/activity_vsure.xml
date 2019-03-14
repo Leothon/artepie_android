@@ -28,7 +28,7 @@
                     android:id="@+id/img_vsure"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/idcard"
+                    app:srcCompat="@drawable/idcard"
                     android:scaleType="centerCrop"
                     android:layout_centerInParent="true"/>
                 <TextView
@@ -159,7 +159,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:id="@+id/auth_info_schedule_mark"
-                    android:src="@drawable/unpass"/>
+                    app:srcCompat="@drawable/unpass"/>
 
                 <TextView
                     android:id="@+id/auth_info_advice"
@@ -198,7 +198,7 @@
                     android:id="@+id/add_v_sure"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/baseline_add_black_36"
+                    app:srcCompat="@drawable/baseline_add_black_36"
                     android:layout_centerHorizontal="true"/>
                 <TextView
                     android:id="@+id/v_sure_des"
@@ -219,7 +219,7 @@
                         android:layout_width="200dp"
                         android:layout_height="100dp"
                         android:id="@+id/ensure_img_v_sure"
-                        android:src="@drawable/defalutimg"
+                        app:srcCompat="@drawable/defalutimg"
                         android:scaleType="centerCrop"
                         android:gravity="center"
                         android:visibility="gone"

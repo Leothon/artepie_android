@@ -1,12 +1,10 @@
 package com.leothon.cogito.wxapi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.telecom.Call;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,7 +14,6 @@ import com.leothon.cogito.Bean.WeChatUserInfo;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
-import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailContract;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.WechatUtils;
@@ -31,22 +28,22 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+
 import okhttp3.Response;
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
     private BaseResp resp = null;
     // 获取第一步的code后，请求以下链接获取access_token
     private String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     // 获取用户个人信息
     private String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
-    private String WX_APP_SECRET = "0ff260b7e7d8ce9a7a44e97b18edea5b";
+    private String WX_APP_SECRET = "46601a2aa172c3884927f6cbcc502ec3";
 
     private String accessToken = "";
 
@@ -273,7 +270,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
         wx_api.sendReq(req);
-        finish();
+        //finish();
     }
 
 

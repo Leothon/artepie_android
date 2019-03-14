@@ -9,7 +9,7 @@
         android:layout_height="25dp"
         android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/style_b"
+        app:srcCompat="@drawable/style_b"
         android:tint="@color/fontColor" />
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/style_i"
+        app:srcCompat="@drawable/style_i"
         android:tint="@color/fontColor"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/btn_bold"/>
@@ -27,7 +27,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/style_u"
+        app:srcCompat="@drawable/style_u"
         android:tint="@color/fontColor"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/btn_italic"/>
@@ -37,7 +37,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/style_s"
+        app:srcCompat="@drawable/style_s"
         android:tint="@color/fontColor"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/btn_underline"/>
