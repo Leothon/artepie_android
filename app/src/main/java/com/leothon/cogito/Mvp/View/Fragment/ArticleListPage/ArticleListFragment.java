@@ -3,32 +3,46 @@ package com.leothon.cogito.Mvp.View.Fragment.ArticleListPage;
 import android.os.Bundle;
 
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.ArticleAdapter;
+import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.DTO.ArticleData;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Listener.loadMoreDataArticleListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
+import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.Banner;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,22 +63,11 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
 
 
-    @BindView(R.id.voice_bar_layout)
-    AppBarLayout voiceBarLayout;
-    @BindView(R.id.voice_bar)
-    CardView voiceBar;
-
-    @BindView(R.id.toolbar_title)
-    TextView title;
-    @BindView(R.id.toolbar_subtitle)
-    TextView subtitle;
-
-    @BindView(R.id.send_icon)
-    RoundedImageView sendIcon;
 
 
-    @BindView(R.id.article_banner)
-    Banner articleBanner;
+
+    @BindView(R.id.toolbar)
+    Toolbar articleBar;
 
     @BindView(R.id.article_rv)
     RecyclerView articleRv;
@@ -72,11 +75,20 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     @BindView(R.id.swp_article)
     SwipeRefreshLayout swpArticle;
 
-    @BindView(R.id.banner_title_article)
-    TextView bannerTitle;
-    private ArticleData articleData;
-    private ArrayList<Article> articles;
+    @BindView(R.id.float_btn_article)
+    FloatingActionButton writeArticle;
 
+    private ArticleData articleData;
+
+    @BindView(R.id.toolbar_title)
+    TextView title;
+    @BindView(R.id.toolbar_subtitle)
+    TextView subtitle;
+
+
+    public static final int SCROLL_STATE_IDLE = 0;
+    public static final int SCROLL_STATE_DRAGGING = 1;
+    public static final int SCROLL_STATE_SETTLING = 2;
 
     private ArticleAdapter articleAdapter;
 
@@ -86,11 +98,14 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     private BaseApplication baseApplication;
     private ArticleListPresenter articleListPresenter;
 
+    private static int THRESHOLD_OFFSET = 10;
+    private ArrayList<Article> articles;
 
 
+    private UserEntity userEntity;
 
 
-
+    private HostActivity hostActivity;
     public ArticleListFragment() { }
 
     /**
@@ -124,12 +139,19 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             EventBus.getDefault().register(this);
         }
         articleListPresenter = new ArticleListPresenter(this);
+        ViewGroup.LayoutParams layoutParams = articleBar.getLayoutParams();
+        layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) + CommonUtils.dip2px(getMContext(),45);
+        articleBar.setLayoutParams(layoutParams);
+        articleBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
+        userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?", tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);
     }
 
     @Override
     protected void initView() {
-        title.setText("");
+        title.setText("艺条");
         subtitle.setText("");
+        hostActivity = (HostActivity)getActivity();
+
         showAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_in);
         hideAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_out);
         articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString());
@@ -140,33 +162,115 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
 
         swpArticle.setOnRefreshListener(this);
-        articleAdapter = new ArticleAdapter(getMContext(),articles);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        articleRv.setLayoutManager(staggeredGridLayoutManager);
+        articleAdapter = new ArticleAdapter(articleData,getMContext());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getMContext(),2,LinearLayout.VERTICAL,false);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+
+                if(position >= 1){
+                    return 1;
+                }else{
+                    return 2;
+                }
+            }
+        });
+
+        articleRv.setLayoutManager(gridLayoutManager);
         articleRv.setAdapter(articleAdapter);
-        articleAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClickListener(View v, int position) {
 
-            }
-        });
-
-        articleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(View v, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("articleId",articleData.getArticles().get(position).getArticleId());
-                IntentUtils.getInstence().intent(getMContext(),ArticleActivity.class,bundle);
-            }
-        });
-        articleRv.addOnScrollListener(new loadMoreDataArticleListener(staggeredGridLayoutManager) {
+        articleRv.addOnScrollListener(new loadMoreDataArticleListener(gridLayoutManager) {
             @Override
             public void onLoadMoreArticleData(int currentPage) {
                 swpArticle.setRefreshing(true);
                 articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString(),currentPage * 15);
             }
         });
+        articleRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean controlVisible = true;
+            int scrollDistance = 0;
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
+                        //当屏幕停止滚动，加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).resumeRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_DRAGGING: // The RecyclerView is currently being dragged by outside input such as user touch input.
+                        //当屏幕滚动且用户使用的触碰或手指还在屏幕上，停止加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).pauseRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case SCROLL_STATE_SETTLING: // The RecyclerView is currently animating to a final position while not under outside control.
+                        //由于用户的操作，屏幕产生惯性滑动，停止加载图片
+                        try {
+                            if (getMContext() != null) Glide.with(getMContext()).pauseRequests();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
+
+            /**
+             * @param recyclerView
+             * @param dx
+             * @param dy
+             */
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (gridLayoutManager != null){
+
+                    int lastVisibleItem = gridLayoutManager.findLastVisibleItemPosition();
+                    int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                    if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
+                        animationHide();
+                        controlVisible = false;
+                        scrollDistance = 0;
+                    }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
+                        animationShow();
+                        controlVisible = true;
+                        scrollDistance = 0;
+                    }
+
+                    //当scrollDistance累计到隐藏（显示)ToolBar之后，如果Scroll向下（向上）滚动，则停止对scrollDistance的累加
+                    //直到Scroll开始往反方向滚动，再次启动scrollDistance的累加
+                    if ((controlVisible && dy > 0) || (!controlVisible && dy < 0)){
+                        scrollDistance += dy;
+                    }
+
+                    if (firstVisibleItem > 0) {
+
+                        title.setText("文章列表");
+                    }else {
+                        title.setText("艺条");
+                    }
+                }
+            }
+        });
+    }
+
+    private void animationHide(){
+        hostActivity.hideBottomBtn();
+        writeArticle.hide();
+        writeArticle.startAnimation(hideAnimation);
+
+    }
+
+    private void animationShow(){
+        hostActivity.showBottomBtn();
+        writeArticle.show();
+        writeArticle.startAnimation(showAnimation);
+
     }
 
     @Override
@@ -176,28 +280,14 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             swpArticle.setRefreshing(false);
         }
         articles = articleData.getArticles();
-        ArrayList<String> urls = new ArrayList<>();
-        for (int i = 0;i < articleData.getBanners().size();i ++){
-            urls.add(articleData.getBanners().get(i).getBanner_img());
-        }
-
-        articleBanner.setImageUrl(urls);
-        articleBanner.setPointPosition(2);//位置点为右边
+        this.articleData.setUser_icon(userEntity.getUser_icon());
         initAdapter();
-        articleBanner.setOnItemClickListener(new Banner.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("articleId",articleData.getBanners().get(position).getBanner_id());
-                IntentUtils.getInstence().intent(getMContext(),ArticleActivity.class,bundle);
-            }
-        });
-        articleBanner.setOnPositionListener(new Banner.OnPositionListener() {
-            @Override
-            public void onPositionChange(int position) {
-                bannerTitle.setText("" + articleData.getBanners().get(position).getBanner_url());
-            }
-        });
+
+    }
+
+    @OnClick(R.id.float_btn_article)
+    public void writeArticle(View view){
+        toWriteArticle();
     }
 
     @Override
@@ -215,14 +305,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     public void Event(Article article) {
         articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString());
     }
-    @OnClick(R.id.write_article)
-    public void writeArticleByText(View view){
-        toWriteArticle();
-    }
-    @OnClick(R.id.write_img)
-    public void writeArticleByImg(View view){
-        toWriteArticle();
-    }
+
 
     private void toWriteArticle(){
         if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
@@ -238,15 +321,6 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     }
 
 
-    public void showTab(){
-        voiceBar.setVisibility(View.VISIBLE);
-        voiceBar.startAnimation(showAnimation);
-    }
-
-    public void hideTab(){
-        voiceBar.setVisibility(View.GONE);
-        voiceBar.startAnimation(hideAnimation);
-    }
 
 
     @Override

@@ -390,7 +390,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFormLineWidth(1f);
         lineDataSet.setFormSize(15.f);
-        lineDataSet.setCircleHoleColor(Color.parseColor("#f26402"));
+        lineDataSet.setCircleColorHole(Color.parseColor("#f26402"));
         lineDataSet.setCircleHoleRadius(4f);
 
 

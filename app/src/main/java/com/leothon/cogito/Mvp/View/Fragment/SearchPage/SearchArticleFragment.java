@@ -2,11 +2,14 @@ package com.leothon.cogito.Mvp.View.Fragment.SearchPage;
 
 import android.os.Bundle;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
+import com.leothon.cogito.Adapter.ArticleHisAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Mvp.BaseFragment;
@@ -23,7 +26,7 @@ public class SearchArticleFragment extends BaseFragment {
 
     @BindView(R.id.rv_search_article)
     RecyclerView rvSearchArticle;
-    private ArticleAdapter articleAdapter;
+    private ArticleHisAdapter articleHisAdapter;
     private ArrayList<Article> articles;
 
     public SearchArticleFragment() {
@@ -59,19 +62,18 @@ public class SearchArticleFragment extends BaseFragment {
 
 
     private void initAdapter(){
-        articleAdapter = new ArticleAdapter(getMContext(),articles);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        rvSearchArticle.setLayoutManager(staggeredGridLayoutManager);
-        rvSearchArticle.setAdapter(articleAdapter);
-        articleAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
+        articleHisAdapter = new ArticleHisAdapter(getMContext(),articles);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getMContext(),2, LinearLayout.VERTICAL,false);
+        rvSearchArticle.setLayoutManager(gridLayoutManager);
+        rvSearchArticle.setAdapter(articleHisAdapter);
+        articleHisAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClickListener(View v, int position) {
 
             }
         });
 
-        articleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+        articleHisAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
                 Bundle bundle = new Bundle();

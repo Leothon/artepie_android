@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.KeyEvent;
@@ -57,8 +58,8 @@ public class HostActivity extends BaseActivity  {
 
     @BindView(R.id.bottom_btn_home)
     BottomButton bottombtnHome;
-    @BindView(R.id.bottom_btn_mic_class)
-    BottomButton bottombtnMicClass;
+    @BindView(R.id.bottom_btn_article)
+    BottomButton bottombtnArticle;
     @BindView(R.id.bottom_btn_ask)
     BottomButton bottombtnAsk;
     @BindView(R.id.bottom_btn_bag)
@@ -78,14 +79,14 @@ public class HostActivity extends BaseActivity  {
     @BindView(R.id.bar_host)
     CardView barHost;
 
-    Fragment homePage;
-    Fragment micClassPage;
-    Fragment askPage;
-    Fragment bagPage;
-    Fragment aboutPage;
+    private HomeFragment homePage;
+    private ArticleListFragment articlePage;
+    private AskFragment askPage;
+    private BagFragment bagPage;
+    private AboutFragment aboutPage;
 
     private static final String HOMEPAGE = "homePage";
-    private static final String MICCLASSPAGE = "micClassPage";
+    private static final String ARTICLEPAGE = "articlePage";
     private static final String ASKPAGE = "askPage";
     private static final String BAGPAGE = "bagPage";
     private static final String ABOUTPAGE = "aboutPage";
@@ -129,9 +130,9 @@ public class HostActivity extends BaseActivity  {
                 focusOnHome();
                 switchFragment(HOMEPAGE);
                 break;
-            case "voice":
+            case "article":
                 focusOnMic();
-                switchFragment(MICCLASSPAGE);
+                switchFragment(ARTICLEPAGE);
                 break;
             case "ask":
                 focusOnAsk();
@@ -159,7 +160,7 @@ public class HostActivity extends BaseActivity  {
      */
     public void initBottomButton(){
         bottombtnHome.setTvAndIv("首页",R.drawable.baseline_music_note_black_24);
-        bottombtnMicClass.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
+        bottombtnArticle.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
         bottombtnAsk.setTvAndIv("互动",R.drawable.baseline_question_answer_black_24);
         bottombtnBag.setTvAndIv("小书包",R.drawable.baseline_class_black_24);
         bottombtnAbout.setTvAndIv("我的",R.drawable.baseline_perm_identity_black_24);
@@ -225,22 +226,6 @@ public class HostActivity extends BaseActivity  {
     }
 
 
-//    private Fragment currentFragment = new Fragment();
-//
-//    private FragmentTransaction switchtoFragment(Fragment targetFragment) {
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        if (!targetFragment.isAdded()) {
-//            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
-//            if (currentFragment != null) {
-//                transaction.hide(currentFragment);
-//            }
-//            transaction.add(R.id.container_home, targetFragment,targetFragment.getClass().getName());
-//        } else {
-//            transaction.hide(currentFragment).show(targetFragment);
-//        }
-//        currentFragment = targetFragment;
-//        return transaction;
-//    }
 
 
     /**
@@ -248,68 +233,57 @@ public class HostActivity extends BaseActivity  {
      * @param pageName
      */
     public void switchFragment(String pageName){
-
         transaction = getSupportFragmentManager().beginTransaction();
         HideAllFragment(transaction);
         switch (pageName){
             case HOMEPAGE:
-                focusOnHome();
                 StatusBarUtils.transparencyBar(this);
                 if (homePage == null){
                     homePage = HomeFragment.newInstance();
-                    transaction.add(R.id.container_home,homePage,HOMEPAGE);
+                    transaction.add(R.id.container_home,homePage);
                 }else{
                     transaction.show(homePage);
 
                 }
-                //switchtoFragment(homePage).commit();
                 break;
-            case MICCLASSPAGE:
-                focusOnMic();
-                if (micClassPage == null){
-                    micClassPage = ArticleListFragment.newInstance();
-                    transaction.add(R.id.container_home,micClassPage,MICCLASSPAGE);
+            case ARTICLEPAGE:
+                if (articlePage == null){
+                    articlePage = ArticleListFragment.newInstance();
+                    transaction.add(R.id.container_home,articlePage);
                 }else{
-                    transaction.show(micClassPage);
+                    transaction.show(articlePage);
                 }
-                //switchtoFragment(micClassPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ASKPAGE:
-                focusOnAsk();
                 if (askPage == null){
                     askPage = AskFragment.newInstance();
-                    transaction.add(R.id.container_home,askPage,ASKPAGE);
+                    transaction.add(R.id.container_home,askPage);
                 }else{
                     transaction.show(askPage);
                 }
-                //switchtoFragment(askPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case BAGPAGE:
-                focusOnBag();
                 if (bagPage == null){
                     bagPage = BagFragment.newInstance();
-                    transaction.add(R.id.container_home,bagPage,BAGPAGE);
+                    transaction.add(R.id.container_home,bagPage);
                 }else{
                     transaction.show(bagPage);
                 }
-                //switchtoFragment(bagPage).commit();
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
             case ABOUTPAGE:
-                focusOnAbout();
+                StatusBarUtils.transparencyBar(this);
                 if (aboutPage == null){
                     aboutPage = AboutFragment.newInstance();
-                    transaction.add(R.id.container_home,aboutPage,ABOUTPAGE);
+                    transaction.add(R.id.container_home,aboutPage);
                 }else{
                     transaction.show(aboutPage);
                 }
-                //switchtoFragment(aboutPage).commit();
-                StatusBarUtils.transparencyBar(this);
                 break;
         }
         transaction.commit();
@@ -323,8 +297,8 @@ public class HostActivity extends BaseActivity  {
         if (homePage != null){
             transaction.hide(homePage);
         }
-        if (micClassPage != null){
-            transaction.hide(micClassPage);
+        if (articlePage != null){
+            transaction.hide(articlePage);
         }
         if (askPage != null){
             transaction.hide(askPage);
@@ -343,11 +317,12 @@ public class HostActivity extends BaseActivity  {
         switchFragment(HOMEPAGE);
     }
 
-    @OnClick(R.id.bottom_btn_mic_class)
+
+    @OnClick(R.id.bottom_btn_article)
     public void showType(View v){
-        //跳转一条
+        //跳转文章
         focusOnMic();
-        switchFragment(MICCLASSPAGE);
+        switchFragment(ARTICLEPAGE);
     }
 
     @OnClick(R.id.bottom_btn_ask)
@@ -379,8 +354,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnHome.setIvColor(getResources().getColor(R.color.colorPrimary));
         //bottombtnHome.focusOnButton();
-        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
@@ -398,8 +373,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnHome.resetButton();
-        bottombtnMicClass.setTvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnMicClass.setIvColor(getResources().getColor(R.color.colorPrimary));
+        bottombtnArticle.setTvColor(getResources().getColor(R.color.colorPrimary));
+        bottombtnArticle.setIvColor(getResources().getColor(R.color.colorPrimary));
         //bottombtnMicClass.focusOnButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
@@ -417,8 +392,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnHome.resetButton();
-        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.colorPrimary));
@@ -436,8 +411,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnHome.resetButton();
-        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
@@ -455,8 +430,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnHome.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnHome.resetButton();
-        bottombtnMicClass.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnMicClass.setIvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setTvColor(getResources().getColor(R.color.fontColor));
+        bottombtnArticle.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnMicClass.resetButton();
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));

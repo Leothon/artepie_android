@@ -1,5 +1,7 @@
 package com.leothon.cogito.DTO;
 
+import android.support.annotation.NonNull;
+
 import com.leothon.cogito.Bean.Banner;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.Teacher;
@@ -7,7 +9,7 @@ import com.leothon.cogito.Bean.User;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
+
 
 public class HomeData {
 

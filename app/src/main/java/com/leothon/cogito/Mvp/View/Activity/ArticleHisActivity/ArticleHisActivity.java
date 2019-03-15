@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.leothon.cogito.Adapter.ArticleAdapter;
+import com.leothon.cogito.Adapter.ArticleHisAdapter;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
@@ -31,7 +34,7 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
     RecyclerView rvArticleHis;
     @BindView(R.id.swp_article_his)
     SwipeRefreshLayout swpArticleHis;
-    private ArticleAdapter articleAdapter;
+    private ArticleHisAdapter articleHisAdapter;
     private ArrayList<Article> articles;
 
     private UserEntity userEntity;
@@ -78,15 +81,12 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
 
     private void initAdapter(){
         swpArticleHis.setOnRefreshListener(this);
-        articleAdapter = new ArticleAdapter(this,articles);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        rvArticleHis.setLayoutManager(staggeredGridLayoutManager);
-        rvArticleHis.setAdapter(articleAdapter);
+        articleHisAdapter = new ArticleHisAdapter(this,articles);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2, LinearLayout.VERTICAL,false);
+        rvArticleHis.setLayoutManager(gridLayoutManager);
+        rvArticleHis.setAdapter(articleHisAdapter);
 
-
-
-        rvArticleHis.addOnScrollListener(new loadMoreDataArticleListener(staggeredGridLayoutManager) {
+        rvArticleHis.addOnScrollListener(new loadMoreDataArticleListener(gridLayoutManager) {
             @Override
             public void onLoadMoreArticleData(int currentPage) {
                 swpArticleHis.setRefreshing(true);
@@ -94,7 +94,7 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
             }
         });
 
-        articleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+        articleHisAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
                 Bundle bundle = new Bundle();
@@ -103,7 +103,7 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
             }
         });
 
-        articleAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
+        articleHisAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClickListener(View v, int position) {
 
@@ -136,7 +136,7 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
         for (int i = 0;i < articles.size();i ++){
             this.articles.add(articles.get(i));
         }
-        articleAdapter.notifyDataSetChanged();
+        articleHisAdapter.notifyDataSetChanged();
     }
 
     @Override

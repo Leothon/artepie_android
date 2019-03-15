@@ -1,6 +1,6 @@
 package com.leothon.cogito.Bean;
 
-import androidx.annotation.NonNull;
+
 
 public class WeChatData {
 

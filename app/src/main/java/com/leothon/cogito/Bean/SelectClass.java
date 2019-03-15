@@ -1,11 +1,13 @@
 package com.leothon.cogito.Bean;
 
+import android.support.annotation.NonNull;
+
 import com.leothon.cogito.Http.BaseResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
+
 
 /**
  * created by leothon on 2018.8.7

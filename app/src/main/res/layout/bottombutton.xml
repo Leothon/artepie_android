@@ -20,7 +20,7 @@
 
         </com.leothon.cogito.Weight.BottomButton>
         <com.leothon.cogito.Weight.BottomButton
-            android:id="@+id/bottom_btn_mic_class"
+            android:id="@+id/bottom_btn_article"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

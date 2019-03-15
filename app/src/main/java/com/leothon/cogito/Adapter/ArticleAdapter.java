@@ -1,35 +1,219 @@
 package com.leothon.cogito.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.DTO.ArticleData;
+import com.leothon.cogito.DTO.QAData;
+import com.leothon.cogito.DTO.QADataDetail;
+import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.CommentDetailActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
+import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.Banner;
+import com.leothon.cogito.View.MyToast;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class ArticleAdapter extends BaseAdapter {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    public ArticleAdapter(Context context, ArrayList<Article> articles){
-        super(context, R.layout.article_item,articles);
+public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+
+    private ArticleData articleData;
+
+
+    private Context context;
+    private int HEAD0 = 0;
+    private int HEAD1 = 1;
+
+
+    private SharedPreferencesUtils sharedPreferencesUtils;
+    private String userId;
+
+
+    public ArticleAdapter(ArticleData articleData, Context context){
+        this.articleData = articleData;
+        this.context = context;
     }
+
     @Override
-    public <T> void convert(BaseViewHolder holder, T bean, int position) {
-        Article article = (Article)bean;
-        holder.setImageUrls(R.id.article_img,article.getArticleImg());
-        holder.setImageUrls(R.id.article_author_icon,article.getArticleAuthorIcon());
-        holder.setText(R.id.article_author,article.getArticleAuthorName());
-        holder.setText(R.id.article_title,article.getArticleTitle());
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
-
-        int role = CommonUtils.isVIP(article.getAuthorRole());
-        if (role != 2){
-            holder.setAuthorVisible(R.id.auth_mark_article_list,role,1);
+        if (viewType == HEAD0) {
+            return new ArticleHeadViewHolder(LayoutInflater.from(context).inflate(R.layout.article_head,parent,false));
         }else {
-            holder.setAuthorVisible(R.id.auth_mark_article_list,role,0);
+            return new ArticleViewHolder(LayoutInflater.from(context).inflate(R.layout.article_item, parent, false));
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
+        int viewType = getItemViewType(position);
+        sharedPreferencesUtils = new SharedPreferencesUtils(context, "saveToken");
+        userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token", "").toString()).getUid();
+        if (viewType == HEAD0) {
+            ArticleHeadViewHolder articleHeadViewHolder = (ArticleHeadViewHolder)holder;
+
+            ArrayList<String> urls = new ArrayList<>();
+            for (int i = 0;i < articleData.getBanners().size();i ++){
+                urls.add(articleData.getBanners().get(i).getBanner_img());
+            }
+            ImageLoader.loadImageViewThumbnailwitherror(context,articleData.getUser_icon(),articleHeadViewHolder.articleTitleIcon,R.drawable.defaulticon);            articleHeadViewHolder.articleBanner.setImageUrl(urls);
+            articleHeadViewHolder.articleBanner.setPointPosition(2);//位置点为右边
+
+            articleHeadViewHolder.articleBanner.setOnItemClickListener(new com.leothon.cogito.View.Banner.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("articleId",articleData.getBanners().get(position).getBanner_id());
+                    IntentUtils.getInstence().intent(context,ArticleActivity.class,bundle);
+                }
+            });
+            articleHeadViewHolder.articleBanner.setOnPositionListener(new com.leothon.cogito.View.Banner.OnPositionListener() {
+                @Override
+                public void onPositionChange(int position) {
+                    articleHeadViewHolder.bannerTitle.setText("" + articleData.getBanners().get(position).getBanner_url());
+                }
+            });
+        }else if (viewType == HEAD1) {
+            int pos = position - 1;
+            ArticleViewHolder articleViewHolder = (ArticleViewHolder)holder;
+            Article article = articleData.getArticles().get(pos);
+            ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleImg(),articleViewHolder.articleImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleAuthorIcon(),articleViewHolder.articleAuthorIcon,R.drawable.defaulticon);
+            articleViewHolder.articleTitle.setText(article.getArticleTitle());
+            articleViewHolder.articleAuthor.setText(article.getArticleAuthorName());
+            articleViewHolder.articleTime.setText(CommonUtils.getTimeRange(article.getArticleTime()));
+
+            int role = CommonUtils.isVIP(article.getAuthorRole());
+            if (role != 2){
+                articleViewHolder.authorInfo.setVisibility(View.VISIBLE);
+                if (role == 0){
+                    articleViewHolder.authorInfo.setColor(Color.parseColor("#f26402"));
+                }else {
+                    articleViewHolder.authorInfo.setColor(Color.parseColor("#2298EF"));
+                }
+
+            }else {
+                articleViewHolder.authorInfo.setVisibility(View.GONE);
+            }
+
+            articleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("articleId",article.getArticleId());
+                    IntentUtils.getInstence().intent(context, ArticleActivity.class,bundle);
+                }
+            });
         }
 
+
+
+
     }
+
+
+    @Override
+    public int getItemViewType(int position) {
+
+
+        if (position == 0 ) {
+            return HEAD0;
+        }else {
+
+            return HEAD1;
+        }
+
+
+    }
+
+
+
+    @Override
+    public int getItemCount() {
+
+        return articleData.getArticles().size() + 1;
+
+    }
+
+
+
+
+    class ArticleHeadViewHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.article_banner)
+        Banner articleBanner;
+        @BindView(R.id.banner_title_article)
+        TextView bannerTitle;
+        @BindView(R.id.article_icon_title)
+        RoundedImageView articleTitleIcon;
+        public ArticleHeadViewHolder(View itemView){
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
+
+
+    class ArticleViewHolder extends RecyclerView.ViewHolder{
+
+
+        @BindView(R.id.article_img)
+        RoundedImageView articleImg;
+        @BindView(R.id.article_author_icon)
+        RoundedImageView articleAuthorIcon;
+        @BindView(R.id.article_author)
+        TextView articleAuthor;
+        @BindView(R.id.article_title)
+        TextView articleTitle;
+        @BindView(R.id.article_time)
+        TextView articleTime;
+        @BindView(R.id.auth_mark_article_list)
+        AuthView authorInfo;
+
+
+
+        public ArticleViewHolder(View itemView){
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
+
+
+
+
+
+
 
 }
