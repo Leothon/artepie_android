@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -253,12 +254,18 @@ public class Banner extends RelativeLayout {
     }
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        /**
+         * @param position
+         * @param positionOffset
+         * @param positionOffsetPixels
+         */
         @Override
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
 
             if (onPositionListener != null) {
-                onPositionListener.onPositionChange((position - 1) % mImageUrls.size());
+                Log.d("位置",position + "");
+                onPositionListener.onPositionChange(Math.abs(position - 1) % mImageUrls.size());
 
             }
         }

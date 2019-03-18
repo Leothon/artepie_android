@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
@@ -18,6 +21,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.MyToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +60,7 @@ public class SplashActivity extends AppCompatActivity {
         ImageLoader.loadImageViewThumbnailwitherror(this,img,SplashImg,R.drawable.defalutimg);
 
 
+        BaseApplication baseApplication = (BaseApplication)getApplication();
 
         tokenValid = new TokenValid();
         new Handler().postDelayed(new Runnable() {
@@ -65,7 +70,14 @@ public class SplashActivity extends AppCompatActivity {
                     String token = sharedPreferencesUtils.getParams("token","").toString();
                     tokenValid = tokenUtils.ValidToken(token);
                     if (tokenValid.isExpired()){
-                        //TODO token过期，需要重新登录
+                        MyToast.getInstance(SplashActivity.this).show("您的身份信息已过期，请重新登录", Toast.LENGTH_LONG);
+                        sharedPreferencesUtils.clear();
+                        baseApplication.getDaoSession().deleteAll(UserEntity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mark", "normal");
+                        IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
+                        finish();
+
                     }else {
 
                         Bundle bundle = new Bundle();
@@ -83,7 +95,7 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        },3500);
+        },2500);
 
         skipToHost.setVisibility(View.VISIBLE);
 //        skipToHost.setOnClickListener(new View.OnClickListener() {

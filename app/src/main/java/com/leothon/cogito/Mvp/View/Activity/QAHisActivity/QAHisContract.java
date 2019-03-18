@@ -14,6 +14,7 @@ public class QAHisContract {
 
         void addLike(String token,String qaId,OnQAHisFinishedListener listener);
         void removeLike(String token,String qaId,OnQAHisFinishedListener listener);
+        void deleteQa(String token,String qaId,OnQAHisFinishedListener listener);
     }
 
     public interface IQAHisView{
@@ -22,12 +23,14 @@ public class QAHisContract {
         void loadAskData(ArrayList<QAData> qaData);
         void loadAskMoreData(ArrayList<QAData> qaData);
         void showInfo(String msg);
+        void deleteSuccess(String msg);
     }
 
     public interface OnQAHisFinishedListener {
         void loadAskData(ArrayList<QAData> qaData);
         void loadAskMoreData(ArrayList<QAData> qaData);
         void showInfo(String msg);
+        void deleteSuccess(String msg);
 
     }
 
@@ -38,5 +41,6 @@ public class QAHisContract {
 
         void addLiked(String token,String qaId);
         void removeLiked(String token,String qaId);
+        void deleteQa(String token,String qaId);
     }
 }

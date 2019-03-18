@@ -35,6 +35,13 @@ public class QAHisPresenter implements QAHisContract.IQAHisPresenter,QAHisContra
     }
 
     @Override
+    public void deleteSuccess(String msg) {
+        if (iQAHisView != null){
+            iQAHisView.deleteSuccess(msg);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         iQAHisView = null;
         iQAHisModel = null;
@@ -59,5 +66,10 @@ public class QAHisPresenter implements QAHisContract.IQAHisPresenter,QAHisContra
     public void removeLiked(String token, String qaId) {
 
         iQAHisModel.removeLike(token,qaId,this);
+    }
+
+    @Override
+    public void deleteQa(String token, String qaId) {
+        iQAHisModel.deleteQa(token,qaId,this);
     }
 }

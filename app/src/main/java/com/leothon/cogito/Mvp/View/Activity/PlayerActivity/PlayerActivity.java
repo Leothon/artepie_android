@@ -47,6 +47,7 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -107,7 +108,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     @BindView(R.id.video_toolbar)
     Toolbar toolbar;
     @BindView(R.id.video_player)
-    StandardGSYVideoPlayer videoPlayer;
+    EPieVideoPlayer videoPlayer;
 
     @BindView(R.id.video_comment_list)
     RecyclerView videoCommentList;

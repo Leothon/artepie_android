@@ -130,6 +130,19 @@ public class WalletActivity extends BaseActivity {
         rvWallet.setLayoutManager(new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false));
         rvWallet.setAdapter(walletAdapter);
 
+        rvWallet.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });
+
+        rvWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 

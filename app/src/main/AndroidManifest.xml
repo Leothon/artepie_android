@@ -179,12 +179,12 @@
 
         <activity
             android:name=".Mvp.View.Activity.SplashActivity.SplashActivity"
-            android:theme="@style/FixSystemWindowTheme">
+            android:theme="@style/Theme.Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>>
         </activity>
         <activity
             android:name="com.tencent.tauth.AuthActivity"

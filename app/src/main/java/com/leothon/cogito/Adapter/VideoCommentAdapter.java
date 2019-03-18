@@ -103,6 +103,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }else {
                 if (comments.get(position).isComment_liked()){
                     commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+                    commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                 }
                 commentViewHolder.commentLikeQa.setText(comments.get(position).getComment_q_like());
             }
@@ -115,7 +116,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         addVideoLikeCommentOnClickListener.addVideoLikeCommentClickListener(comments.get(position).isComment_liked(),comments.get(position).getComment_q_id());
                         if (!comments.get(position).isComment_liked()){
                             commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                            commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                             String like = commentViewHolder.commentLikeQa.getText().toString();
                             if (like.equals("喜欢")){
                                 int likeint = 1;
@@ -164,6 +165,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }else {
                     if (comments.get(position).getReplies().get(0).isReply_liked()){
                         commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+                        commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                     }
                     commentViewHolder.comment1LikeQa.setText(comments.get(position).getReplies().get(0).getReply_like());
                 }
@@ -181,7 +183,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             addVideoLikeReplyOnClickListener.addVideoLikeReplyClickListener(comments.get(position).getReplies().get(0).isReply_liked(),comments.get(position).getReplies().get(0).getReply_id());
                             if (!comments.get(position).getReplies().get(0).isReply_liked()){
                                 commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                                commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                                 String like = commentViewHolder.comment1LikeQa.getText().toString();
                                 if (like.equals("喜欢")){
                                     int likeint = 1;

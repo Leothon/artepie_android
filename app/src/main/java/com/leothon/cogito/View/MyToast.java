@@ -20,9 +20,7 @@ public class MyToast{
     private static MyToast instance; //单例的
     private View mToastView;//自定义toast view
     private TextView mTextView;
-    private Boolean mIsShow;//记录状态 是否在显示
-    private Timer mTimer;//定时器
-    private WindowManager.LayoutParams mParams;
+
     private Context context;
     public static Toast mToast;
 

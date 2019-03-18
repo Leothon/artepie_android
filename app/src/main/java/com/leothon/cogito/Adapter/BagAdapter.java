@@ -160,8 +160,10 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             recommentClassHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
                     int pos = position2;
-                    if (recommentClassHolder.foryouPrice.getText().toString().equals("已购买") || recommentClassHolder.foryouPrice.getText().toString().equals("免费") || bagPageData.getSelectClasses().get(pos).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
+                    if (recommentClassHolder.foryouPrice.getText().toString().equals("已购买") || recommentClassHolder.foryouPrice.getText().toString().equals("免费") || bagPageData.getFineClasses().get(pos).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
                         Bundle bundle = new Bundle();
                         bundle.putString("classId",fineClass.getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);

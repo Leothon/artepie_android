@@ -1,14 +1,24 @@
 package com.leothon.cogito.Mvp.View.Activity.QAHisActivity;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.AskAdapter;
@@ -43,6 +53,12 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
     private Intent intent;
     private Bundle bundle;
 
+    private TextView deleteContent;
+    private TextView copyContent;
+    private RelativeLayout dismiss;
+    private View popview;
+    private PopupWindow popupWindow;
+
     private QAHisPresenter qaHisPresenter;
 
     @Override
@@ -59,6 +75,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         intent = getIntent();
         bundle = intent.getExtras();
+        initMorePopupWindow();
     }
     @Override
     public void initView() {
@@ -117,6 +134,11 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
+    @Override
+    public void deleteSuccess(String msg) {
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+    }
+
     private void initAdapter(){
         swpUpload.setOnRefreshListener(this);
         uploadAdapter = new AskAdapter(this,askArrayList,true);
@@ -152,6 +174,34 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
                 }
             }
         });
+        uploadAdapter.setDeleteQaOnClickListener(new AskAdapter.DeleteQaOnClickListener() {
+            @Override
+            public void deleteQaClickListener(String qaId, String qaUserId, String content, int position) {
+
+                showPopWindow();
+                deleteContent.setVisibility(View.VISIBLE);
+                copyContent.setVisibility(View.VISIBLE);
+                deleteContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        qaHisPresenter.deleteQa(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+                        askArrayList.remove(position);
+                        uploadAdapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
+                    }
+                });
+
+                copyContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setText(content);
+                        MyToast.getInstance(QAHisActivity.this).show("内容已复制",Toast.LENGTH_SHORT);
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
 
         rvUpload.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
             @Override
@@ -162,7 +212,33 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
         });
     }
 
+    public void initMorePopupWindow(){
+        popview = LayoutInflater.from(this).inflate(R.layout.qa_more_pop,null,false);
+        popupWindow = new PopupWindow(popview, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setAnimationStyle(R.style.popupQAWindow_anim_style);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+        dismiss = (RelativeLayout) popview.findViewById(R.id.miss_pop_more);
+        deleteContent = (TextView)popview.findViewById(R.id.delete_content_this);
+        copyContent = (TextView)popview.findViewById(R.id.copy_content_this);
+
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+
+            }
+        });
+    }
+    public void showPopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.fragment_ask,null);
+        popupWindow.showAtLocation(rootView, Gravity.CENTER,0,0);
+
+    }
 
     @Override
     public void onBackPressed() {

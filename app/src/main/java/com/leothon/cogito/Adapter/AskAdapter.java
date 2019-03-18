@@ -3,6 +3,7 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -139,11 +141,23 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
             if (ask.getQa_like() == null && ask.getQa_like().equals("0")){
                 askViewHolder.likeAsk.setText("喜欢");
+                Drawable drawableLeft = context.getResources().getDrawable(
+                        R.drawable.baseline_favorite_border_black_18);
+                drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
+                askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
             }else {
 
                 if (ask.isLiked()){
                     Drawable drawableLeft = context.getResources().getDrawable(
                             R.drawable.baseline_favorite_black_18);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
+                    askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                            null, null, null);
+                }else {
+                    Drawable drawableLeft = context.getResources().getDrawable(
+                            R.drawable.baseline_favorite_border_black_18);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
                     askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
                 }
@@ -247,6 +261,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                             Drawable drawableLeft = context.getResources().getDrawable(
                                     R.drawable.baseline_favorite_black_18);
+                            drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
 
                             askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                     null, null, null);
@@ -264,7 +279,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         } else {
                             Drawable drawableLeft = context.getResources().getDrawable(
                                     R.drawable.baseline_favorite_border_black_18);
-
+                            drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
                             askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                     null, null, null);
                             String like = askViewHolder.likeAsk.getText().toString();
@@ -538,12 +553,12 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         TextView reComment;
 
         @BindView(R.id.re_video_player)
-        StandardGSYVideoPlayer reVideo;
+        EPieVideoPlayer reVideo;
 
         @BindView(R.id.qa_list_time)
         TextView qaTime;
         @BindView(R.id.video_item_player)
-        StandardGSYVideoPlayer gsyVideoPlayer;
+        EPieVideoPlayer gsyVideoPlayer;
 
         public AskViewHolder(View itemView) {
             super(itemView);

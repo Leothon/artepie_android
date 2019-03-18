@@ -34,7 +34,6 @@ public abstract class BaseFragment extends Fragment {
         unbinder = ButterKnife.bind(this,mContentView);
         mContext = getContext();
         fragmentsharedPreferencesUtils = new SharedPreferencesUtils(getMContext(),"saveToken");
-        init();
         initData();
         initView();
         return mContentView;
@@ -42,7 +41,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int setLayoutResourceID();
 
-    protected  void init(){}
 
     protected abstract void initView();
 

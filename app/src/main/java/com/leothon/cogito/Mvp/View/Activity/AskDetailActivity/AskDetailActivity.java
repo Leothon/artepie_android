@@ -335,6 +335,8 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 });
             }
         });
+
+
     }
 
     @Override

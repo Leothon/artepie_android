@@ -2,6 +2,7 @@ package com.leothon.cogito.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -29,6 +30,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
+import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -170,6 +172,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (qaDataDetail.getQaData().isLiked()) {
                     Drawable drawableLeft = context.getResources().getDrawable(
                             R.drawable.baseline_favorite_black_18);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
                     detailViewHolder.likeDetail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
                 }
@@ -201,7 +204,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                         Drawable drawableLeft = context.getResources().getDrawable(
                                 R.drawable.baseline_favorite_black_18);
-
+                        drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
                         detailViewHolder.likeDetail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                 null, null, null);
                         String like = detailViewHolder.likeDetail.getText().toString();
@@ -461,9 +464,15 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (qaDataDetail.getComments().get(position1).getComment_q_like() == null && qaDataDetail.getComments().get(position1).getComment_q_like().equals("0")) {
                 commentViewHolder.commentLikeQa.setText("喜欢");
+                Drawable drawableLeft = context.getResources().getDrawable(
+                        R.drawable.baseline_favorite_border_black_18);
+                drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
+                commentViewHolder.commentLikeQa.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
             } else {
                 if (qaDataDetail.getComments().get(position1).isComment_liked()) {
                     commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+                    commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                 }
                 commentViewHolder.commentLikeQa.setText(qaDataDetail.getComments().get(position1).getComment_q_like());
             }
@@ -474,7 +483,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     addLikeCommentOnClickListener.addLikeCommentClickListener(qaDataDetail.getComments().get(position1).isComment_liked(), qaDataDetail.getComments().get(position1).getComment_q_id());
                     if (!qaDataDetail.getComments().get(position1).isComment_liked()) {
                         commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                        commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                         String like = commentViewHolder.commentLikeQa.getText().toString();
                         if (like.equals("喜欢")) {
                             int likeint = 1;
@@ -512,9 +521,16 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 commentViewHolder.firstReply.setVisibility(View.VISIBLE);
                 if (qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like() == null && qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like().equals("0")) {
                     commentViewHolder.comment1LikeQa.setText("喜欢");
+                    Drawable drawableLeft = context.getResources().getDrawable(
+                            R.drawable.baseline_favorite_border_black_18);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
+                    commentViewHolder.comment1LikeQa.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                            null, null, null);
                 } else {
                     if (qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked()) {
                         commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
+                        commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+
                     }
                     commentViewHolder.comment1LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like());
                 }
@@ -535,7 +551,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         addLikeReplyOnClickListener.addLikeReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked(), qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_id());
                         if (!qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked()) {
                             commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                            commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                             String like = commentViewHolder.comment1LikeQa.getText().toString();
                             if (like.equals("喜欢")) {
                                 int likeint = 1;
@@ -771,7 +787,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.content_ask_detail)
         TextView contentDetail;
         @BindView(R.id.detail_video_player)
-        StandardGSYVideoPlayer VideoPlayer;
+        EPieVideoPlayer VideoPlayer;
         @BindView(R.id.more_ask_detail)
         ImageView moreAskDetail;
         @BindView(R.id.like_ask_detail)
@@ -799,7 +815,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView reComment;
 
         @BindView(R.id.re_detail_video_player)
-        StandardGSYVideoPlayer reVideo;
+        EPieVideoPlayer reVideo;
 
         @BindView(R.id.auth_mark_ask)
         AuthView authMark;
@@ -876,12 +892,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this,itemView);
         }
     }
-//    class EmptyViewHolder extends RecyclerView.ViewHolder{
-//
-//        public EmptyViewHolder(View itemView) {
-//            super(itemView);
-//        }
-//    }
+
 
 
 

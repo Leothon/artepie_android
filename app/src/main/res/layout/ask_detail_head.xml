@@ -123,14 +123,14 @@
                 android:layout_below="@+id/re_detail_content"
                 android:layout_toRightOf="@+id/re_detail_like"
                 android:padding="5dp"/>
-            <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            <com.leothon.cogito.View.EPieVideoPlayer
                 android:layout_below="@+id/re_detail_like"
                 android:layout_margin="8dp"
                 android:id="@+id/re_detail_video_player"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/post_media_height"/>
         </RelativeLayout>
-        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        <com.leothon.cogito.View.EPieVideoPlayer
             android:layout_marginTop="10dp"
             android:id="@+id/detail_video_player"
             android:layout_width="match_parent"

@@ -96,6 +96,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             }else {
                 if (commentDetail.getComment().isComment_liked()){
                     commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+                    commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                 }
                 commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
             }
@@ -108,7 +109,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     addLikeCommentDetailOnClickListener.addLikeCommentDetailClickListener(commentDetail.getComment().isComment_liked(),commentDetail.getComment().getComment_q_id());
                     if (!commentDetail.getComment().isComment_liked()){
                         commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                        commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                         String like = commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
                         if (like.equals("喜欢")){
                             int likeint = 1;
@@ -173,6 +174,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             }else {
                 if (commentDetail.getReplies().get(position1).isReply_liked()){
                     commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
+                    commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                 }
                 commentDetailRvViewHolder.commentLikeCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_like());
             }
@@ -184,7 +186,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     addLikeCommentReplyOnClickListener.addLikeCommentReplyClickListener(commentDetail.getReplies().get(position1).isReply_liked(), commentDetail.getReplies().get(position1).getReply_id());
                     if (!commentDetail.getReplies().get(position1).isReply_liked()) {
                         commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-
+                        commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
                         String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
                         if (like.equals("喜欢")) {
                             int likeint = 1;

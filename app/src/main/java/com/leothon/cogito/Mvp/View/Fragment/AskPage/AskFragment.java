@@ -217,7 +217,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void deleteSuccess(String msg) {
-        MyToast.getInstance(getMContext()).show("删除成功",Toast.LENGTH_SHORT);
+        MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
     public void initAdapter(){

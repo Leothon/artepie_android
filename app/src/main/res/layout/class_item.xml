@@ -14,20 +14,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple">
+        android:background="@drawable/ripple"
+        android:padding="8dp">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/class_img"
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:src="@drawable/defalutimg"
             android:scaleType="centerCrop"
-            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
             app:riv_corner_radius="5dp"/>
         <RelativeLayout
             android:layout_toRightOf="@id/class_img"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/price_tag"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
+
+
+
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/class_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="声乐的出现过程"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"/>
 
             <TextView
                 android:id="@+id/class_title"
@@ -35,31 +51,21 @@
                 android:layout_height="wrap_content"
                 android:text="声乐的历史"
                 android:textSize="@dimen/littleTitle"
-                android:textColor="@color/black" />
-
-
+                android:textColor="@color/black"
+                android:layout_alignParentTop="true"/>
             <TextView
-                android:layout_marginTop="15dp"
-                android:layout_below="@id/class_title"
-                android:id="@+id/class_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="声乐的出现过程"
-                android:textSize="@dimen/tipsSize"
-                android:textColor="@color/fontColor"/>
-            <TextView
-                android:layout_below="@+id/class_description"
-                android:layout_marginTop="8dp"
                 android:id="@+id/class_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0人次已观看"
                 android:textSize="@dimen/tipsSize"
                 android:textColor="@color/fontColor"
+                android:layout_alignParentBottom="true"
                 />
         </RelativeLayout>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/price_tag"
             android:layout_alignParentEnd="true"
             android:visibility="visible"
             android:layout_width="wrap_content"
@@ -67,7 +73,7 @@
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="3dp"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="20dp">
+            android:layout_marginEnd="10dp">
             <TextView
                 android:id="@+id/class_price"
                 android:layout_width="wrap_content"

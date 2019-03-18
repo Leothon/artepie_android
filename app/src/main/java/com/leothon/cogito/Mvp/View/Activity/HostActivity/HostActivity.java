@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.leothon.cogito.Bean.Banner;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -124,6 +125,12 @@ public class HostActivity extends BaseActivity  {
         if (!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+
+//        homePage = HomeFragment.newInstance();
+//        articlePage = ArticleListFragment.newInstance();
+//        askPage = AskFragment.newInstance();
+//        bagPage = BagFragment.newInstance();
+//        aboutPage = AboutFragment.newInstance();
 
         switch (bundle.getString("type")){
             case "home":
@@ -472,6 +479,7 @@ public class HostActivity extends BaseActivity  {
                     MyToast.getInstance(this).show("再按一次退出艺派",Toast.LENGTH_SHORT);
                     exitTime = System.currentTimeMillis();
                 } else {
+                    GSYVideoManager.releaseAllVideos();
                     Intent home = new Intent(Intent.ACTION_MAIN);
                     home.addCategory(Intent.CATEGORY_HOME);
                     startActivity(home);
