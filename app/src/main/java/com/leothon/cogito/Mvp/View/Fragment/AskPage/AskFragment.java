@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -39,7 +40,9 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
+import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
+import com.shuyu.gsyvideoplayer.GSYVideoBaseManager;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -144,6 +147,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         askBar.setLayoutParams(layoutParams);
         askBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
 
+
         title.setText("互动论坛");
         subtitle.setText("");
         asks = new ArrayList<>();
@@ -152,6 +156,9 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         hostActivity = (HostActivity)getActivity();
         viewShowAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_show);
         viewHideAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_hide);
+
+
+
     }
 
 
@@ -272,11 +279,10 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 int firstVisibleItem = mlinearLayoutManager.findFirstVisibleItemPosition();
                 if (GSYVideoManager.instance().getPlayPosition() >= 0){
                     int position = GSYVideoManager.instance().getPlayPosition();
-                    if (GSYVideoManager.instance().getPlayTag().equals(AskAdapter.TAG) && (position < firstVisibleItem || position > lastVisibleItem)){
+                    if ( position < firstVisibleItem || position > lastVisibleItem){
                         if (GSYVideoManager.isFullState(getActivity())){
                             return;
                         }
-
                         GSYVideoManager.releaseAllVideos();
                         askAdapter.notifyDataSetChanged();
                     }

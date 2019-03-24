@@ -36,6 +36,7 @@ import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -96,6 +97,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
+
         sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid();
         int viewType = getItemViewType(position);
@@ -151,15 +153,17 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 if (ask.isLiked()){
                     Drawable drawableLeft = context.getResources().getDrawable(
                             R.drawable.baseline_favorite_black_18);
-                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
                     askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
+                    askViewHolder.likeAsk.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 }else {
                     Drawable drawableLeft = context.getResources().getDrawable(
                             R.drawable.baseline_favorite_border_black_18);
                     drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
                     askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
+                    askViewHolder.likeAsk.setTextColor(context.getResources().getColor(R.color.fontColor));
                 }
                 askViewHolder.likeAsk.setText(ask.getQa_like());
             }
@@ -171,6 +175,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 askViewHolder.commentAsk.setText(ask.getQa_comment());
             }
             if (ask.getQa_video() != null) {
+                GSYVideoManager.instance().setNeedMute(true);
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -185,8 +190,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                 GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
 
-
-
                 if (CommonUtils.isHaveChar(ask.getQa_video())){
                     try{
                         String url = URLEncoder.encode(ask.getQa_video(),"utf-8").replaceAll("\\+", "%20");
@@ -199,7 +202,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     gsyVideoOption.setUrl(ask.getQa_video());
                 }
                 gsyVideoOption
-                        .setPlayTag(TAG)
                         .setPlayPosition(position)
                         .setThumbImageView(target)
                         .setIsTouchWiget(true)
@@ -212,18 +214,19 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         .setVideoTitle("")
                         .setThumbPlay(true)
                         .build(askViewHolder.gsyVideoPlayer);
-                GSYVideoManager.instance().setNeedMute(true);
+
                 askViewHolder.gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
                 askViewHolder.gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //orientationUtils.resolveByClick();
+                       // orientationUtils.resolveByClick();
                         /**
                          *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                          *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                          */
-                        GSYVideoManager.instance().setNeedMute(false);
+
                         askViewHolder.gsyVideoPlayer.startWindowFullscreen(context, false, true);
+                        GSYVideoManager.instance().setNeedMute(false);
                     }
                 });
 
@@ -261,8 +264,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
                             Drawable drawableLeft = context.getResources().getDrawable(
                                     R.drawable.baseline_favorite_black_18);
-                            drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
-
+                            drawableLeft.setColorFilter(context.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                            askViewHolder.likeAsk.setTextColor(context.getResources().getColor(R.color.colorAccent));
                             askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                     null, null, null);
                             String like = askViewHolder.likeAsk.getText().toString();
@@ -280,6 +283,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             Drawable drawableLeft = context.getResources().getDrawable(
                                     R.drawable.baseline_favorite_border_black_18);
                             drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
+                            askViewHolder.likeAsk.setTextColor(context.getResources().getColor(R.color.fontColor));
                             askViewHolder.likeAsk.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                     null, null, null);
                             String like = askViewHolder.likeAsk.getText().toString();
@@ -352,6 +356,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     askViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
                 }
                 if (reShowQA.getQa_video() != null) {
+                    if (!GSYVideoManager.instance().isNeedMute()){
+                        GSYVideoManager.instance().setNeedMute(true);
+                    }
+
                     askViewHolder.reVideo.setVisibility(View.VISIBLE);
                     ImageView imageView = new ImageView(context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -377,7 +385,6 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                         gsyVideoOption.setUrl(reShowQA.getQa_video());
                     }
                     gsyVideoOption
-                            .setPlayTag(TAG)
                             .setThumbImageView(target)
                             .setPlayPosition(position)
                             .setIsTouchWiget(true)
@@ -390,7 +397,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             .setVideoTitle("")
                             .setThumbPlay(true)
                             .build(askViewHolder.reVideo);
-                    GSYVideoManager.instance().setNeedMute(true);
+//                    GSYVideoManager.instance().setNeedMute(true);
                     askViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
                     askViewHolder.reVideo.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -401,8 +408,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                              *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                              */
 
-                            GSYVideoManager.instance().setNeedMute(false);
+
                             askViewHolder.reVideo.startWindowFullscreen(context, false, true);
+                            GSYVideoManager.instance().setNeedMute(false);
                         }
                     });
                 }else {

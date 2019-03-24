@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.view.WindowManager;
 
+import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
 //import com.squareup.leakcanary.LeakCanary;
@@ -25,6 +26,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
+        registerActivityLifecycleCallbacks(ParallaxHelper.getInstance());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();

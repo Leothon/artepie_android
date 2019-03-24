@@ -81,9 +81,9 @@ public class WalletActivity extends BaseActivity {
         protocolRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("type","recharge");
-                IntentUtils.getInstence().intent(WalletActivity.this, ContractActivity.class,bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("type","recharge");
+//                IntentUtils.getInstence().intent(WalletActivity.this, ContractActivity.class,bundle);
             }
         });
         rechargeBtn.setOnClickListener(new View.OnClickListener() {

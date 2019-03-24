@@ -93,10 +93,12 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
             commentDetailViewHolder.commentTimeCommentDetail.setText(CommonUtils.getTimeRange(commentDetail.getComment().getComment_q_time()));
             if (commentDetail.getComment().getComment_q_like() == null ){
                 commentDetailViewHolder.commentLikeCommentDetail.setText("喜欢");
+                commentDetailViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.fontColor));
             }else {
                 if (commentDetail.getComment().isComment_liked()){
                     commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-                    commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                    commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                    commentDetailViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 }
                 commentDetailViewHolder.commentLikeCommentDetail.setText(commentDetail.getComment().getComment_q_like());
             }
@@ -109,7 +111,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     addLikeCommentDetailOnClickListener.addLikeCommentDetailClickListener(commentDetail.getComment().isComment_liked(),commentDetail.getComment().getComment_q_id());
                     if (!commentDetail.getComment().isComment_liked()){
                         commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-                        commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                        commentDetailViewHolder.likeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                        commentDetailViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         String like = commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
                         if (like.equals("喜欢")){
                             int likeint = 1;
@@ -122,7 +125,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }else {
                         commentDetailViewHolder.likeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
                         String like =commentDetailViewHolder.commentLikeCommentDetail.getText().toString();
-
+                        commentDetailViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.fontColor));
                         int likeint = Integer.parseInt(like) - 1;
                         if (likeint == 0){
                             commentDetailViewHolder.commentLikeCommentDetail.setText("喜欢");
@@ -171,10 +174,12 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (commentDetail.getReplies().get(position1).getReply_like() == null){
                 commentDetailRvViewHolder.commentLikeCommentDetail.setText("喜欢");
+                commentDetailRvViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.fontColor));
             }else {
                 if (commentDetail.getReplies().get(position1).isReply_liked()){
                     commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-                    commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                    commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                    commentDetailRvViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 }
                 commentDetailRvViewHolder.commentLikeCommentDetail.setText(commentDetail.getReplies().get(position1).getReply_like());
             }
@@ -186,7 +191,8 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     addLikeCommentReplyOnClickListener.addLikeCommentReplyClickListener(commentDetail.getReplies().get(position1).isReply_liked(), commentDetail.getReplies().get(position1).getReply_id());
                     if (!commentDetail.getReplies().get(position1).isReply_liked()) {
                         commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_black_18);
-                        commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                        commentDetailRvViewHolder.LikeImgCommentDetail.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                        commentDetailRvViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
                         if (like.equals("喜欢")) {
                             int likeint = 1;
@@ -199,6 +205,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         commentDetailRvViewHolder.LikeImgCommentDetail.setImageResource(R.drawable.baseline_favorite_border_black_18);
                         String like = commentDetailRvViewHolder.commentLikeCommentDetail.getText().toString();
+                        commentDetailRvViewHolder.commentLikeCommentDetail.setTextColor(context.getResources().getColor(R.color.fontColor));
 
                         int likeint = Integer.parseInt(like) - 1;
                         if (likeint == 0) {

@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.anzewei.parallaxbacklayout.ParallaxBack;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -43,7 +44,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 public class ArticleActivity extends BaseActivity implements ArticleContract.IArticleView,SwipeRefreshLayout.OnRefreshListener {
 
 

@@ -270,9 +270,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
     @OnClick(R.id.register_contract)
     public void registerContract(View view){
-        Bundle bundle = new Bundle();
-        bundle.putString("type","register");
-        IntentUtils.getInstence().intent(LoginActivity.this, ContractActivity.class,bundle);
+
+        IntentUtils.getInstence().intent(LoginActivity.this, ContractActivity.class);
     }
 
     @OnClick(R.id.wechat_login)

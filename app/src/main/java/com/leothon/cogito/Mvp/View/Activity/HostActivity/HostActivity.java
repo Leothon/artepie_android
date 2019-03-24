@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.Bean.Banner;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
@@ -117,6 +118,7 @@ public class HostActivity extends BaseActivity  {
             MyToast.getInstance(this).show("无网络连接",Toast.LENGTH_SHORT);
         }
         initBottomButton();
+        disableBack();
         StatusBarUtils.transparencyBar(this);
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
@@ -187,6 +189,10 @@ public class HostActivity extends BaseActivity  {
         hostBottom.setVisibility(View.VISIBLE);
         hostBottom.startAnimation(mShowAction);
 
+    }
+
+    private void disableBack(){
+        ParallaxHelper.getInstance().disableParallaxBack(this);
     }
 
     @Override

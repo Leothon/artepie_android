@@ -27,6 +27,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="leothon">
 
@@ -233,7 +234,8 @@
             android:label="关于我们"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".Mvp.View.Activity.NoticeActivity.NoticeActivity" />
-        <activity android:name=".Mvp.View.Activity.ContractActivity" />
+        <activity android:name=".Mvp.View.Activity.ContractActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".Mvp.View.Activity.PayInfoActivity.PayInfoActivity" />
 
 

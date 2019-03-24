@@ -124,7 +124,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
         int viewType = getItemViewType(position);
         sharedPreferencesUtils = new SharedPreferencesUtils(context, "saveToken");
         userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token", "").toString()).getUid();
@@ -172,7 +171,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (qaDataDetail.getQaData().isLiked()) {
                     Drawable drawableLeft = context.getResources().getDrawable(
                             R.drawable.baseline_favorite_black_18);
-                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
+                    drawableLeft.setColorFilter(context.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    detailViewHolder.likeDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                     detailViewHolder.likeDetail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
                 }
@@ -204,7 +204,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                         Drawable drawableLeft = context.getResources().getDrawable(
                                 R.drawable.baseline_favorite_black_18);
-                        drawableLeft.setColorFilter(context.getResources().getColor(R.color.pressColorAccent), PorterDuff.Mode.SRC_IN);
+                        drawableLeft.setColorFilter(context.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                        detailViewHolder.likeDetail.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         detailViewHolder.likeDetail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                 null, null, null);
                         String like = detailViewHolder.likeDetail.getText().toString();
@@ -219,7 +220,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } else {
                         Drawable drawableLeft = context.getResources().getDrawable(
                                 R.drawable.baseline_favorite_border_black_18);
-
+                        detailViewHolder.likeDetail.setTextColor(context.getResources().getColor(R.color.fontColor));
                         detailViewHolder.likeDetail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                                 null, null, null);
                         String like = detailViewHolder.likeDetail.getText().toString();
@@ -236,7 +237,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
             if (qaDataDetail.getQaData().getQa_video() != null) {
                 detailViewHolder.VideoPlayer.setVisibility(View.VISIBLE);
-
 
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -285,7 +285,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .setVideoTitle("")
                         .setThumbPlay(true)
                         .build(detailViewHolder.VideoPlayer);
-                GSYVideoManager.instance().setNeedMute(true);
+
                 detailViewHolder.VideoPlayer.getBackButton().setVisibility(View.GONE);
                 detailViewHolder.VideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -295,8 +295,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                          *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                          *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                          */
-                        GSYVideoManager.instance().setNeedMute(false);
+
                         detailViewHolder.VideoPlayer.startWindowFullscreen(context, false, true);
+                        GSYVideoManager.instance().setNeedMute(false);
                     }
                 });
 
@@ -338,7 +339,6 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 if (reShowQA.getQa_video() != null) {
                     detailViewHolder.reVideo.setVisibility(View.VISIBLE);
-
 
                     ImageView imageView = new ImageView(context);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -389,9 +389,10 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                              *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
                              *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
                              */
-                            GSYVideoManager.instance().setNeedMute(false);
+
 
                             detailViewHolder.reVideo.startWindowFullscreen(context, false, true);
+                            GSYVideoManager.instance().setNeedMute(false);
                         }
                     });
                 }else {
@@ -467,12 +468,14 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Drawable drawableLeft = context.getResources().getDrawable(
                         R.drawable.baseline_favorite_border_black_18);
                 drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
+                commentViewHolder.commentLikeQa.setTextColor(context.getResources().getColor(R.color.fontColor));
                 commentViewHolder.commentLikeQa.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                         null, null, null);
             } else {
                 if (qaDataDetail.getComments().get(position1).isComment_liked()) {
                     commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-                    commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                    commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                    commentViewHolder.commentLikeQa.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 }
                 commentViewHolder.commentLikeQa.setText(qaDataDetail.getComments().get(position1).getComment_q_like());
             }
@@ -483,7 +486,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     addLikeCommentOnClickListener.addLikeCommentClickListener(qaDataDetail.getComments().get(position1).isComment_liked(), qaDataDetail.getComments().get(position1).getComment_q_id());
                     if (!qaDataDetail.getComments().get(position1).isComment_liked()) {
                         commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-                        commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                        commentViewHolder.likeImgQa.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                        commentViewHolder.commentLikeQa.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         String like = commentViewHolder.commentLikeQa.getText().toString();
                         if (like.equals("喜欢")) {
                             int likeint = 1;
@@ -496,7 +500,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } else {
                         commentViewHolder.likeImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
                         String like = commentViewHolder.commentLikeQa.getText().toString();
-
+                        commentViewHolder.commentLikeQa.setTextColor(context.getResources().getColor(R.color.fontColor));
                         int likeint = Integer.parseInt(like) - 1;
                         if (likeint == 0) {
                             commentViewHolder.commentLikeQa.setText("喜欢");
@@ -526,11 +530,12 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     drawableLeft.setColorFilter(context.getResources().getColor(R.color.fontColor), PorterDuff.Mode.SRC_IN);
                     commentViewHolder.comment1LikeQa.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
+                    commentViewHolder.comment1LikeQa.setTextColor(context.getResources().getColor(R.color.fontColor));
                 } else {
                     if (qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked()) {
                         commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-                        commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
-
+                        commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.colorAccent));
+                        commentViewHolder.comment1LikeQa.setTextColor(context.getResources().getColor(R.color.colorAccent));
                     }
                     commentViewHolder.comment1LikeQa.setText(qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_like());
                 }
@@ -551,8 +556,9 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         addLikeReplyOnClickListener.addLikeReplyClickListener(qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked(), qaDataDetail.getComments().get(position1).getReplies().get(0).getReply_id());
                         if (!qaDataDetail.getComments().get(position1).getReplies().get(0).isReply_liked()) {
                             commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_black_18);
-                            commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.pressColorAccent));
+                            commentViewHolder.like1ImgQa.setColorFilter(context.getResources().getColor(R.color.colorAccent));
                             String like = commentViewHolder.comment1LikeQa.getText().toString();
+                            commentViewHolder.comment1LikeQa.setTextColor(context.getResources().getColor(R.color.colorAccent));
                             if (like.equals("喜欢")) {
                                 int likeint = 1;
                                 commentViewHolder.comment1LikeQa.setText(Integer.toString(likeint));
@@ -564,7 +570,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         } else {
                             commentViewHolder.like1ImgQa.setImageResource(R.drawable.baseline_favorite_border_black_18);
                             String like = commentViewHolder.comment1LikeQa.getText().toString();
-
+                            commentViewHolder.comment1LikeQa.setTextColor(context.getResources().getColor(R.color.fontColor));
                             int likeint = Integer.parseInt(like) - 1;
                             if (likeint == 0) {
                                 commentViewHolder.comment1LikeQa.setText("喜欢");

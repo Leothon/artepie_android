@@ -10,39 +10,38 @@
         android:id="@+id/contract_bar"
         layout="@layout/toolbar"/>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_below="@+id/contract_bar"
-        android:layout_above="@+id/button_layout"
+        android:id="@+id/contract_swp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/contract_content"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="里面显示协议的内容"
-            android:padding="5dp"
-            android:textColor="@color/fontColor"
-            android:textSize="@dimen/contentSize"/>
-    </ScrollView>
+            android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:elevation="3dp">
+            <com.leothon.cogito.View.RichEditTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/contract_content"
+                android:background="@null"
+                android:layout_margin="10dp"
+                android:lineSpacingMultiplier="1.1"/>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
         <Button
+            android:layout_alignParentBottom="true"
             android:id="@+id/btn_agree"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:background="@drawable/btnbackground"
             android:text="我同意该协议"
             android:textColor="@color/white"
             android:layout_centerInParent="true"/>
-    </RelativeLayout>
+
 
 </RelativeLayout>

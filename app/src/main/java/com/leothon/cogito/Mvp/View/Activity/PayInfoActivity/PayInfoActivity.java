@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,15 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     MDCheckBox aliPayCheck;
 
 
+    @BindView(R.id.pay_type_ll)
+    LinearLayout payTypeLL;
+
+    @BindView(R.id.pay_info_btn_ensure)
+    Button payInfoBtnEnsure;
+
+    @BindView(R.id.pay_info_btn)
+    Button payInfoBtn;
+
     private PayPresenter payPresenter;
 
     private Intent intent;
@@ -77,7 +87,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
 
     }
@@ -85,10 +94,11 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     public void initView() {
         intent = getIntent();
         bundle = intent.getExtras();
-
+        payInfoBtn.setVisibility(View.GONE);
+        payTypeLL.setVisibility(View.GONE);
         setToolbarTitle("确认支付信息");
         setToolbarSubTitle("");
-
+        showLoadingAnim();
         payPresenter.getClassPayInfo(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
 
     }
@@ -98,6 +108,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     public void getClassInfo(SelectClass selectClass) {
         this.selectClass = selectClass;
 
+        hideLoadingAnim();
         ImageLoader.loadImageViewThumbnailwitherror(this,selectClass.getSelectbackimg(),payInfoImg,R.drawable.defalutimg);
         titlePayInfo.setText(selectClass.getSelectlisttitle());
         desPayInfo.setText(selectClass.getSelectdesc());
@@ -179,6 +190,17 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         loadDialog(artCoinUseRebate.getText().toString());
     }
 
+
+
+    @OnClick(R.id.pay_info_btn_ensure)
+    public void sendTransInfo(View view){
+
+        //TODO 发送信息给后台，创建订单，成功后显示付款
+        MyToast.getInstance(this).show("订单已生成，请选择支付方式并付款",Toast.LENGTH_LONG);
+        payTypeLL.setVisibility(View.VISIBLE);
+        payInfoBtn.setVisibility(View.VISIBLE);
+        payInfoBtnEnsure.setVisibility(View.GONE);
+    }
     @OnClick(R.id.pay_info_btn)
     public void payInfoUp(View view){
         //TODO 提交数据,通过支付宝接口
@@ -209,6 +231,8 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 //            finish();
 //        }
     }
+
+
     @OnClick(R.id.wechat_pay)
     public void wechatPay(View view){
         if (weChatPayCheck.isChecked()){

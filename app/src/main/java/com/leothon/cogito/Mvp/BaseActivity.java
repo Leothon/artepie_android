@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.github.anzewei.parallaxbacklayout.ParallaxBack;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
@@ -48,7 +49,7 @@ import cn.jpush.android.api.JPushInterface;
 /*
  * created by leothon on 2018.7.22
  * */
-
+@ParallaxBack
 public abstract class BaseActivity extends AppCompatActivity {
     private int REQUEST_CODE_PERMISSION = 0x00099;
 

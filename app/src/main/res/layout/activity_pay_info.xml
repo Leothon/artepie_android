@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:animateLayoutChanges="true">
 
     <include
         android:id="@+id/pay_info_bar"
@@ -122,186 +123,111 @@
                 android:layout_height="15dp"
                 android:background="@color/dividerColor"/>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/pay_type_ll"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="请选择支付方式"
-                android:gravity="center"
-                android:textColor="@color/fontColor"
-                android:textSize="@dimen/littleTitle"
-                android:padding="10dp"/>
+                android:visibility="gone">
 
-            <View
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/dividerColor"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor"/>
-
-            <RelativeLayout
-                android:id="@+id/wechat_pay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    app:riv_oval="true"
-                    android:src="@drawable/wechat"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="微信支付"
-                    android:textSize="@dimen/contentSize"
+                    android:text="请选择支付方式"
+                    android:gravity="center"
                     android:textColor="@color/fontColor"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"/>
-                <com.leothon.cogito.Weight.MDCheckBox
-                    android:id="@+id/wechat_pay_check"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:color_background="@color/colorPrimary"
-                    app:color_border="@color/fontColor"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="20dp"
-                    app:size="24dp" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor"/>
-            <RelativeLayout
-                android:id="@+id/ali_pay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    app:riv_oval="true"
-                    android:src="@drawable/alipay"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/littleTitle"
+                    android:padding="10dp"/>
+
+                <View
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/dividerColor"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dividerColor"/>
+
+                <RelativeLayout
+                    android:id="@+id/wechat_pay"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="支付宝支付"
-                    android:textSize="@dimen/contentSize"
-                    android:textColor="@color/fontColor"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    />
-                <com.leothon.cogito.Weight.MDCheckBox
-                    android:id="@+id/ali_pay_check"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:color_background="@color/colorPrimary"
-                    app:color_border="@color/fontColor"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="20dp"
-                    app:size="24dp" />
-            </RelativeLayout>
+                    android:background="@drawable/ripple">
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        app:riv_oval="true"
+                        android:src="@drawable/wechat"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="微信支付"
+                        android:textSize="@dimen/contentSize"
+                        android:textColor="@color/fontColor"
+                        android:layout_marginStart="45dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"/>
+                    <com.leothon.cogito.Weight.MDCheckBox
+                        android:id="@+id/wechat_pay_check"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:color_background="@color/colorPrimary"
+                        app:color_border="@color/fontColor"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="20dp"
+                        app:size="24dp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dividerColor"/>
+                <RelativeLayout
+                    android:id="@+id/ali_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple">
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        app:riv_oval="true"
+                        android:src="@drawable/alipay"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付宝支付"
+                        android:textSize="@dimen/contentSize"
+                        android:textColor="@color/fontColor"
+                        android:layout_marginStart="45dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        />
+                    <com.leothon.cogito.Weight.MDCheckBox
+                        android:id="@+id/ali_pay_check"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:color_background="@color/colorPrimary"
+                        app:color_border="@color/fontColor"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="20dp"
+                        app:size="24dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/dividerColor"/>
-            <!--<LinearLayout-->
-                <!--android:id="@+id/activity_layout_pay_info"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_marginTop="20dp">-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/dividerColor"/>-->
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="15dp"-->
-                    <!--android:background="@drawable/ripple"-->
-                    <!--android:clickable="true">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="时间："-->
-                        <!--android:textColor="@color/fontColor"/>-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/activity_time_pay_info"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="2018-9-21 13:00"-->
-                        <!--android:textColor="@color/fontColor"-->
-                        <!--android:layout_centerInParent="true"/>-->
-                <!--</RelativeLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/dividerColor"/>-->
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="15dp"-->
-                    <!--android:background="@drawable/ripple"-->
-                    <!--android:clickable="true">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="地点："-->
-                        <!--android:textColor="@color/fontColor"/>-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/activity_address_pay_info"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="北京朝阳区"-->
-                        <!--android:textColor="@color/fontColor"-->
-                        <!--android:layout_centerInParent="true"/>-->
-                <!--</RelativeLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/dividerColor"/>-->
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="15dp"-->
-                    <!--android:background="@drawable/ripple"-->
-                    <!--android:clickable="true">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="参加人数："-->
-                        <!--android:textColor="@color/fontColor"/>-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/activity_person_count_pay_info"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="2 人"-->
-                        <!--android:textColor="@color/fontColor"-->
-                        <!--android:layout_centerInParent="true"/>-->
-                <!--</RelativeLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/dividerColor"/>-->
-                <!--<TextView-->
-                    <!--android:layout_marginTop="15dp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="请确认信息无误之后，确认提交"-->
-                    <!--android:layout_gravity="center" />-->
-            <!--</LinearLayout>-->
+
         </LinearLayout>
     </ScrollView>
 
@@ -343,7 +269,18 @@
             android:background="@drawable/pay_btn_back"
             android:layout_alignParentEnd="true"
             android:text="提交支付"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/pay_info_btn_ensure"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/pay_btn_back"
+            android:layout_alignParentEnd="true"
+            android:text="确认订单"
+            android:textColor="@color/white"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/pay_info_price"
