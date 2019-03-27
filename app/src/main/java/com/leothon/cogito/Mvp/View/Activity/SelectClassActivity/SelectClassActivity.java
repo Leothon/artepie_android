@@ -126,12 +126,15 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             swpSelect.setRefreshing(false);
         }
         if (classDetail.getTeaClasss().getSelectauthorid().equals(userId)){
+
             editClassBtn.setVisibility(View.VISIBLE);
         }
         setToolbarTitle(classDetail.getTeaClasss().getSelectlisttitle());
         this.classDetail = classDetail;
         initAdapter();
     }
+
+
 
     @OnClick(R.id.edit_my_class)
     public void editMyClass(View view){

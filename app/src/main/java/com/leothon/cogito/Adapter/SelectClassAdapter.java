@@ -143,8 +143,9 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Bundle bundle = new Bundle();
                         bundle.putString("classdid",classDetail.getClassDetailLists().get(realposition).getClassd_id());
                         bundle.putString("classid",classDetail.getTeaClasss().getSelectId());
+                        bundle.putBoolean("myself",true);
                         IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
-                    }else {
+                    }else if (classDetail.getClassDetailLists().get(realposition).getClassdStatus() == 1){
                         if (realposition >= 1 && !classDetail.getTeaClasss().getSelectprice().equals("0.00")){
 
                             loadDialog(classDetail);
@@ -152,8 +153,11 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             Bundle bundle = new Bundle();
                             bundle.putString("classdid",classDetail.getClassDetailLists().get(realposition).getClassd_id());
                             bundle.putString("classid",classDetail.getTeaClasss().getSelectId());
+                            bundle.putBoolean("myself",false);
                             IntentUtils.getInstence().intent(context, PlayerActivity.class,bundle);
                         }
+                    }else {
+                        MyToast.getInstance(context).show("该节课程正在审核中",Toast.LENGTH_LONG);
                     }
                 }
             });

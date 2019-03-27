@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 
 import com.github.anzewei.parallaxbacklayout.ParallaxBack;
+import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
+import com.github.anzewei.parallaxbacklayout.widget.ParallaxBackLayout;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
@@ -45,6 +47,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
+
+import static com.github.anzewei.parallaxbacklayout.widget.ParallaxBackLayout.EDGE_MODE_FULL;
 
 /*
  * created by leothon on 2018.7.22
@@ -101,7 +105,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initData();
         initView();
-
+        ParallaxBackLayout layout = ParallaxHelper.getParallaxBackLayout(this, true);
+        layout.setEdgeMode(EDGE_MODE_FULL);//全屏滑动
 
     }
 

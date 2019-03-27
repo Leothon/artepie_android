@@ -104,8 +104,6 @@ public class EPieVideoPlayer extends StandardGSYVideoPlayer {
     }
 
 
-
-
     @Override
     protected void changeUiToNormal() {
         super.changeUiToNormal();

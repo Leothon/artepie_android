@@ -180,6 +180,7 @@ public interface HttpService {
     @GET("getclassdetail")
     Observable<BaseResponse<ClassDetail>> getClassDetail(@Query("token") String token,@Query("classid") String classId);
 
+
     /**
      * 通过课程ID获取课程数据
      * @param classId
@@ -197,6 +198,8 @@ public interface HttpService {
      */
     @GET("getclassvideo")
     Observable<BaseResponse<VideoDetail>> getClassVideo(@Query("token") String token,@Query("classdid") String classdId,@Query("classid") String classId);
+
+
 
     /**
      * 通过讲师ID获取讲师信息及课程数据

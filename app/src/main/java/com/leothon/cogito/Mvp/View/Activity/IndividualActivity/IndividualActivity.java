@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditClassActivity.EditClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
@@ -311,7 +313,18 @@ public class IndividualActivity extends BaseActivity {
     @OnClick(R.id.v_sure)
     public void vSure(View view){
 
-        IntentUtils.getInstence().intent(IndividualActivity.this, VSureActivity.class);
+
+        if (userEntity.getUser_phone() != null){
+            if (!userEntity.getUser_phone().equals("")){
+                VsureDialog();
+            }else {
+                bindPhoneDialog();
+            }
+        }else {
+            bindPhoneDialog();
+        }
+
+
     }
 
     @OnClick(R.id.individual_content)
@@ -345,27 +358,85 @@ public class IndividualActivity extends BaseActivity {
     private void createDialog(){
         final CommonDialog dialog = new CommonDialog(this);
 
-        dialog.setCancelable(false);
 
-        dialog.setMessage("该选择会创建新的课程，若您已创建成功课程，请在我制作的课程页面上传内容或者编辑")
+
+        dialog.setMessage("该选择会创建新的课程\n若您已创建成功课程，请在我制作的课程页面上传内容或者编辑")
                 .setTitle("提示")
                 .setSingle(false)
-                .setNegtive("我知道，继续创建")
-                .setPositive("取消")
+                .setNegtive("取消")
+                .setPositive("我知道，继续创建")
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
                         dialog.dismiss();
-
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("type","create");
+                        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class,bundleto);
 
                     }
 
                     @Override
                     public void onNegativeClick() {
                         dialog.dismiss();
-                        Bundle bundleto = new Bundle();
-                        bundleto.putString("type","create");
-                        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class,bundleto);
+
+                    }
+
+                })
+
+                .show();
+    }
+
+
+    private void VsureDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+
+        dialog.setMessage("您将认证个人身份\n请阅读相关用户协议")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("阅读用户协议")
+                .setPositive("我已阅读，继续认证")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(IndividualActivity.this, VSureActivity.class);
+
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(IndividualActivity.this, ContractActivity.class);
+                    }
+
+                })
+
+                .show();
+    }
+    private void bindPhoneDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+
+        dialog.setMessage("您尚未绑定手机号码或者绑定有误\n请重新绑定")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("取消")
+                .setPositive("前往绑定")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(IndividualActivity.this, EditIndividualActivity.class);
+
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
                     }
 
                 })

@@ -14,9 +14,12 @@ import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -99,8 +102,46 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         setToolbarTitle("确认支付信息");
         setToolbarSubTitle("");
         showLoadingAnim();
-        payPresenter.getClassPayInfo(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
 
+        if (userEntity.getUser_phone() != null){
+            if (!userEntity.getUser_phone().equals("")){
+                payPresenter.getClassPayInfo(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"));
+            }else {
+                bindPhoneDialog();
+            }
+        }else {
+            bindPhoneDialog();
+        }
+
+    }
+    private void bindPhoneDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+        dialog.setCancelable(false);
+
+        dialog.setMessage("您尚未绑定手机号码或者绑定有误，请重新绑定")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("暂不绑定")
+                .setPositive("前往绑定")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(PayInfoActivity.this, EditIndividualActivity.class);
+                        finish();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                        finish();
+
+                    }
+
+                })
+
+                .show();
     }
 
 

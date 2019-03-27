@@ -18,6 +18,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +109,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     @BindView(R.id.video_toolbar)
     Toolbar toolbar;
     @BindView(R.id.video_player)
-    EPieVideoPlayer videoPlayer;
+    StandardGSYVideoPlayer videoPlayer;
 
     @BindView(R.id.video_comment_list)
     RecyclerView videoCommentList;
@@ -238,7 +239,10 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         nowClassDId = bundle.getString("classdid");
         //count = bundle.getInt("count");
         swpVideoComment.setRefreshing(true);
+
         playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classdid"),bundle.getString("classid"));
+
+
 
 
         appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -297,7 +301,10 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
+
         playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),nowClassDId,bundle.getString("classid"));
+
+
 
     }
 
@@ -316,6 +323,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         loadAll(videoDetail,ChoosePosition);
 
     }
+
+
 
     @Override
     public void showInfo(String msg) {
@@ -443,6 +452,85 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         videoDescription.setText(videoDetail.getClassDetailList().getClassd_des());
         viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
         favCount.setText(videoDetail.getClassDetailList().getClassd_like());
+        if (videoDetail.getClassDetailList().getClassdStatus() == 0 && !videoDetail.getAuthorId().equals(uuid)){
+            Log.e(TAG, "LoadView: 走这里" );
+            MyToast.getInstance(this).show("该课程正在审核中，暂不能查看",Toast.LENGTH_LONG);
+            ImageView imageView = new ImageView(this);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
+            ImageView target = imageViewWeakReference.get();
+            if (target != null) {
+                ImageLoader.loadImageViewThumbnailwitherror(this, null, target, R.drawable.defalutimg);
+            }
+            videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+            orientationUtils = new OrientationUtils(this,videoPlayer);
+            orientationUtils.setEnable(false);
+
+            GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+            gsyVideoOption.setThumbImageView(target)
+                    .setIsTouchWiget(true)
+                    .setRotateViewAuto(true)
+                    .setLockLand(false)
+                    .setAutoFullWithSize(true)
+                    .setShowFullAnimation(false)
+                    .setNeedLockFull(true)
+                    .setUrl(null)
+                    .setCacheWithPlay(false)
+                    .setVideoTitle("")
+                    .setVideoAllCallBack(new GSYSampleCallBack(){
+                        @Override
+                        public void onPrepared(String url, Object... objects) {
+                            super.onPrepared(url, objects);
+                            orientationUtils.setEnable(true);
+                            isPlay = true;
+                            playerPresenter.addVideoView(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClass_classd_id(),nowClassDId);
+                        }
+
+                        @Override
+                        public void onQuitFullscreen(String url, Object... objects) {
+                            super.onQuitFullscreen(url, objects);
+                            if (orientationUtils != null){
+                                orientationUtils.backToProtVideo();
+                            }
+                        }
+                    }).setLockClickListener(new LockClickListener() {
+                @Override
+                public void onClick(View view, boolean lock) {
+                    if (orientationUtils != null){
+                        orientationUtils.setEnable(!lock);
+                    }
+                }
+            }).build(videoPlayer);
+
+
+            videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    orientationUtils.resolveByClick();
+                    /**
+                     *  bug描述：在本页中，不显示状态栏，但是全屏后，再返回会出现状态栏，根据本方法可知，传入两个参数，是否有状态栏和标题栏
+                     *  默认传入两者都有，则程序执行时，会再退出全屏后重新生成状态栏，将此处两者设为没有（false)，则不会重新生成状态栏
+                     */
+
+                    videoPlayer.startWindowFullscreen(PlayerActivity.this,false,false);
+                }
+            });
+
+            //loadComment(null);
+
+            commentIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyToast.getInstance(PlayerActivity.this).show("请等视频审核通过后发布评论",Toast.LENGTH_LONG);
+                }
+            });
+            return;
+        }
         ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
@@ -457,7 +545,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
             }
         });
         orientationUtils = new OrientationUtils(this,videoPlayer);
-        orientationUtils.setEnable(false);
+        //orientationUtils.setEnable(false);
 
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
         gsyVideoOption.setThumbImageView(target)

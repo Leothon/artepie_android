@@ -238,7 +238,7 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
         dialog.setCancelable(false);
 
         dialog.setMessage("是否继续上传下一节课程？之后您可以在我的课程页面进行更新课程内容，编辑课程等操作")
-                .setTitle("本节课上传成功！")
+                .setTitle("本节课上传成功！请等待审核")
                 .setSingle(false)
                 .setNegtive("继续上传")
                 .setPositive("不再上传")
