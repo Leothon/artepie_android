@@ -113,4 +113,7 @@ dependencies {
     implementation 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     implementation group: 'com.android.support', name: 'support-annotations', version: '28.0.0'
     implementation group: 'com.android.support', name: 'versionedparcelable', version: '28.0.0'
+
+    implementation group: 'com.wanjian', name: 'cockroach', version: '0.0.5'
+
 }

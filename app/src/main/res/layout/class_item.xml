@@ -15,15 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple"
-        android:padding="8dp">
+        android:paddingEnd="8dp">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/class_img"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:src="@drawable/defalutimg"
             android:scaleType="centerCrop"
             android:layout_centerVertical="true"
-            app:riv_corner_radius="5dp"/>
+            android:foreground="@drawable/gradient_background"/>
         <RelativeLayout
             android:layout_toRightOf="@id/class_img"
             android:layout_width="wrap_content"
@@ -31,7 +31,9 @@
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@+id/price_tag"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
 
 

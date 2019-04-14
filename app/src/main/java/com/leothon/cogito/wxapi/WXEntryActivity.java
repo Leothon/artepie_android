@@ -272,13 +272,4 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         wx_api.sendReq(req);
         //finish();
     }
-
-
-
-
-
-
-
-
-
 }

@@ -4,10 +4,10 @@
     android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/dividerColor"/>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="5dp"-->
+            <!--android:background="@color/dividerColor"/>-->
         <TextView
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"

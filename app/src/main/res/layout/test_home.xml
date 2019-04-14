@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:background="@drawable/gradient_all">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/dividerColor"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="5dp"-->
+        <!--android:background="@color/dividerColor"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -23,8 +25,7 @@
                 android:id="@+id/test1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img1"
                     android:layout_width="40dp"
@@ -47,8 +48,7 @@
                 android:id="@+id/test2"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img2"
                     android:layout_width="40dp"
@@ -70,8 +70,7 @@
                 android:id="@+id/test3"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img3"
                     android:layout_width="40dp"
@@ -93,8 +92,7 @@
                 android:id="@+id/test4"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img4"
                     android:layout_width="40dp"
@@ -122,9 +120,7 @@
                 android:id="@+id/test5"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img5"
                     android:layout_width="40dp"
@@ -146,8 +142,7 @@
                 android:id="@+id/test6"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img6"
                     android:layout_width="40dp"
@@ -169,8 +164,7 @@
                 android:id="@+id/test7"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img7"
                     android:layout_width="40dp"
@@ -192,8 +186,7 @@
                 android:id="@+id/test8"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple">
+                android:layout_height="match_parent">
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/test_img8"
                     android:layout_width="40dp"
@@ -216,10 +209,10 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/dividerColor"
-        android:layout_gravity="bottom"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="5dp"-->
+        <!--android:background="@color/dividerColor"-->
+        <!--android:layout_gravity="bottom"/>-->
 
 </LinearLayout>

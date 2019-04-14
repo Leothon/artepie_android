@@ -6,13 +6,21 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
+import com.leothon.cogito.R;
+import com.leothon.cogito.View.MyToast;
+import com.wanjian.cockroach.App;
+import com.wanjian.cockroach.Cockroach;
 //import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
@@ -97,5 +105,56 @@ public class BaseApplication extends Application {
         return db;
     }
 
-
+//    private void install() {
+//        Cockroach.install(new Cockroach.ExceptionHandler() {
+//            @Override
+//            public void handlerException(Thread thread, Throwable throwable) {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Log.e("AndroidRuntime","--->CockroachException:"+thread+"<---",throwable);
+//                        Toast.makeText(App.this, "Exception Happend\n" + thread + "\n" + throwable.toString(), Toast.LENGTH_SHORT).show();
+////                        throw new RuntimeException("..."+(i++));
+//                    } catch (Throwable e) {
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            protected void onUncaughtExceptionHappened(Thread thread, Throwable throwable) {
+//                Log.e("AndroidRuntime", "--->onUncaughtExceptionHappened:" + thread + "<---", throwable);
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        MyToast.getInstance(BaseApplication.this).show("危险操作",Toast.LENGTH_SHORT);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            protected void onBandageExceptionHappened(Throwable throwable) {
+//                throwable.printStackTrace();//打印警告级别log，该throwable可能是最开始的bug导致的，无需关心
+//                toast.setText("Cockroach Worked");
+//                toast.show();
+//            }
+//
+//            @Override
+//            protected void onEnterSafeMode() {
+//
+//                MyToast.getInstance(BaseApplication.this).show("安全模式",Toast.LENGTH_LONG);
+//
+//            }
+//
+//            @Override
+//            protected void onMayBeBlackScreen(Throwable e) {
+//                Thread thread = Looper.getMainLooper().getThread();
+//                Log.e("AndroidRuntime", "--->onUncaughtExceptionHappened:" + thread + "<---", e);
+//                //黑屏时建议直接杀死app
+//                sysExcepHandler.uncaughtException(thread, new RuntimeException("black screen"));
+//            }
+//
+//        });
+//
+//    }
 }

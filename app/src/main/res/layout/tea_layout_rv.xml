@@ -9,7 +9,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center|top"
-        app:riv_oval="true"/>
+        app:riv_oval="true"
+        app:riv_border_width="0.5dp"
+        app:riv_border_color="@color/dark_gold"/>
     <TextView
         android:id="@+id/tea_name"
         android:layout_width="wrap_content"

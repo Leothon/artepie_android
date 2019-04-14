@@ -5,6 +5,6 @@ package com.leothon.cogito.Http;
 * */
 public class Api {
 
-    public static final String BaseUrl = "http://www.ddkjplus.com/cogitoweb-1.0-SNAPSHOT/";
+    public static final String BaseUrl = "http://www.ddkjplus.com/cogitoweb_war_exploded/";
     public static final String ComUrl = "http://www.ddkjplus.com/";
 }
