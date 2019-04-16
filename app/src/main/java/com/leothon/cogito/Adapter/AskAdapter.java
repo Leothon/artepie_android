@@ -33,6 +33,7 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.Weight.MarqueeTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -75,6 +76,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     private int HEAD0 = 0;
     private int HEAD1 = 1;
+    private int HEAD2 = 2;
 
     private String userId;
     private boolean isLogin;
@@ -87,6 +89,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEAD0) {
+
+            return new InformHolder(LayoutInflater.from(context).inflate(R.layout.inform_item, parent, false));
+        }else if (viewType == HEAD1){
             return new AskViewHolder(LayoutInflater.from(context).inflate(R.layout.askitem,parent,false));
         }else {
             return new BottomHolder(LayoutInflater.from(context).inflate(R.layout.bottom_show,parent,false));
@@ -101,8 +106,13 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         sharedPreferencesUtils = new SharedPreferencesUtils(context,"saveToken");
         userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid();
         int viewType = getItemViewType(position);
-        if (viewType == HEAD0 ) {
-            final QAData ask = asks.get(position);
+
+        if (viewType == HEAD0){
+            InformHolder informHolder = (InformHolder) holder;
+            informHolder.informText.setText("官方通告：测试长一点的通知，看能不能长时间的滚动显示圣诞放假啊【金佛爬进佛教按时交付【哦按时交付【静安寺【放假啊是【 ");
+        }else if (viewType == HEAD1 ) {
+            int realPosition = position - 1;
+            final QAData ask = asks.get(realPosition);
             final AskViewHolder askViewHolder = (AskViewHolder) holder;
 
             ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUser_icon(),askViewHolder.userIcon,R.drawable.defaulticon);
@@ -483,7 +493,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             });
 
 
-        }else if(viewType == HEAD1){
+        }else if(viewType == HEAD2){
             return;
         }
     }
@@ -508,20 +518,36 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     @Override
     public int getItemCount() {
-        return asks.size() + 1;
+        return asks.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < asks.size()) {
+        if (position == 0){
             return HEAD0;
-        }else {
+        }else if (position < asks.size() && position > 0) {
             return HEAD1;
+        }else {
+            return HEAD2;
         }
     }
     @Override
     public void onClick(View view) {
 
+    }
+
+
+    class InformHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.inform_text)
+        TextView informText;
+
+
+        public InformHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+
+        }
     }
     class AskViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_icon_ask)

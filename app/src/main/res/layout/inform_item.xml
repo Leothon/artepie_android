@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="31dp">
+
+
+    <ImageView
+        android:id="@+id/inform_img"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/inform"
+        android:tint="@color/fontColor"
+        android:layout_marginStart="5dp"/>
+    <TextView
+        android:gravity="start|center"
+        android:layout_toRightOf="@+id/inform_img"
+        android:id="@+id/inform_text"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:text="官方通告："
+        android:textSize="@dimen/tipsSize"
+        android:textColor="@color/fontColor"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true" />
+
+</RelativeLayout>
