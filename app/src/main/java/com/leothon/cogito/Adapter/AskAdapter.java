@@ -187,7 +187,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 askViewHolder.commentAsk.setText(ask.getQa_comment());
             }
             if (ask.getQa_video() != null) {
-                GSYVideoManager.instance().setNeedMute(true);
+                //GSYVideoManager.instance().setNeedMute(true);
                 askViewHolder.gsyVideoPlayer.setVisibility(View.VISIBLE);
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -368,9 +368,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                     askViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
                 }
                 if (reShowQA.getQa_video() != null) {
-                    if (!GSYVideoManager.instance().isNeedMute()){
-                        GSYVideoManager.instance().setNeedMute(true);
-                    }
+//                    if (!GSYVideoManager.instance().isNeedMute()){
+//                        GSYVideoManager.instance().setNeedMute(true);
+//                    }
 
                     askViewHolder.reVideo.setVisibility(View.VISIBLE);
                     ImageView imageView = new ImageView(context);

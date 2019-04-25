@@ -124,6 +124,16 @@
                     android:layout_alignParentEnd="true"
                     android:gravity="center"
                     android:layout_marginRight="20dp"/>
+
+                <View
+                    android:id="@+id/notice_bot_update_settings"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/red_bot"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <LinearLayout

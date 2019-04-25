@@ -297,6 +297,15 @@
                         android:text="设置"
                         android:textSize="@dimen/tipsSize"
                         android:gravity="center"/>
+                    <View
+                        android:id="@+id/notice_bot_update"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/red_bot"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="18dp"
+                        android:visibility="gone"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/about_about"

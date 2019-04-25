@@ -33,6 +33,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Message.NoticeMessage;
+import com.leothon.cogito.Message.UpdateMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Fragment.AboutPage.AboutFragment;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
@@ -162,13 +163,7 @@ public class HostActivity extends BaseActivity  {
         }
 
 
-        Intent intent = new Intent(HostActivity.this, DownloadService.class);
-        startService(intent);//启动服务
 
-        bindService(intent,connection,BIND_AUTO_CREATE);//绑定服务
-        if (ContextCompat.checkSelfPermission(HostActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(HostActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }
 
 
 
@@ -176,7 +171,7 @@ public class HostActivity extends BaseActivity  {
 //        articlePage = ArticleListFragment.newInstance();
 //        askPage = AskFragment.newInstance();
 //        bagPage = BagFragment.newInstance();
-//        aboutPage = AboutFragment.newInstance();
+        //aboutPage = AboutFragment.newInstance();
 
         switch (bundle.getString("type")){
             case "home":
@@ -204,6 +199,40 @@ public class HostActivity extends BaseActivity  {
                 switchFragment(HOMEPAGE);
                 break;
         }
+
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getUpdate(activitysharedPreferencesUtils.getParams("token","").toString())
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        MyToast.getInstance(HostActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        Update update = (Update)baseResponse.getData();
+                        String updateVersion = update.getUpdateVersion();
+                        if (!updateVersion.equals(CommonUtils.getVerName(HostActivity.this))){
+                            //TODO 检查更新
+                            //dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
+                            UpdateMessage updateMessage = new UpdateMessage();
+                            updateMessage.setMessage("show");
+                            EventBus.getDefault().post(updateMessage);
+                        }
+                    }
+                });
     }
 
 
@@ -242,7 +271,14 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initData() {
 
+        Intent intent = new Intent(HostActivity.this, DownloadService.class);
 
+
+        bindService(intent,connection,BIND_AUTO_CREATE);//绑定服务
+        startService(intent);//启动服务
+        if (ContextCompat.checkSelfPermission(HostActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(HostActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
                 .compose(ThreadTransformer.switchSchedulers())
@@ -276,45 +312,19 @@ public class HostActivity extends BaseActivity  {
                 });
 
 
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getUpdate(activitysharedPreferencesUtils.getParams("token","").toString())
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        MyToast.getInstance(HostActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
 
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        Update update = (Update)baseResponse.getData();
-                        String updateVersion = update.getUpdateVersion();
-                        if (!updateVersion.equals(CommonUtils.getVerName(HostActivity.this))){
-                            //TODO 检查更新
-                            dialogLoading();
-
-                        }
-                    }
-                });
     }
 
 
-
-    private  void dialogLoading(){
+    /**
+     * @param oldVersion
+     * @param newVersion
+     */
+    private  void dialogLoading(String oldVersion,String newVersion){
         final CommonDialog dialog = new CommonDialog(this);
 
 
-        dialog.setMessage("检查到新版本更新")
+        dialog.setMessage("检查到新版本更新\n当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
                 .setTitle("更新")
                 .setSingle(false)
                 .setNegtive("取消")
@@ -580,7 +590,7 @@ public class HostActivity extends BaseActivity  {
 
         if (GSYVideoManager.isFullState(this)){
             GSYVideoManager.backFromWindowFull(this);
-            GSYVideoManager.instance().setNeedMute(true);
+            //GSYVideoManager.instance().setNeedMute(true);
         }else {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 // 判断间隔时间 大于2秒就退出应用
@@ -611,6 +621,19 @@ public class HostActivity extends BaseActivity  {
         }else {
             noticeBot.setVisibility(View.GONE);
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UpdateMessage updateMessage) {
+
+        if (updateMessage.getMessage().equals("show")){
+            noticeBot.setVisibility(View.VISIBLE);
+        }else {
+            noticeBot.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override

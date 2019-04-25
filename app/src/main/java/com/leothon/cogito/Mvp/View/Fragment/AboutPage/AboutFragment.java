@@ -19,8 +19,10 @@ import android.widget.Toast;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.DTO.Update;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Message.NoticeMessage;
+import com.leothon.cogito.Message.UpdateMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
@@ -81,6 +83,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 
     @BindView(R.id.notice_bot_about)
     View noticeBot;
+
+    @BindView(R.id.notice_bot_update)
+    View noticeBotUpdate;
 
     @BindView(R.id.check_in)
     TextView checkIn;
@@ -322,6 +327,19 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         }else {
             noticeBot.setVisibility(View.GONE);
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UpdateMessage updateMessage) {
+
+        if (updateMessage.getMessage().equals("show")){
+            noticeBotUpdate.setVisibility(View.VISIBLE);
+        }else {
+            noticeBotUpdate.setVisibility(View.GONE);
+        }
+
+
     }
 
     private void toPersonPage(){

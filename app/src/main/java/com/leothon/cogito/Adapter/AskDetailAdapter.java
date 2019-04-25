@@ -377,7 +377,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .setVideoTitle("")
                             .setThumbPlay(true)
                             .build(detailViewHolder.reVideo);
-                    GSYVideoManager.instance().setNeedMute(true);
+                    //GSYVideoManager.instance().setNeedMute(true);
                     //detailViewHolder.reVideo.getFullscreenButton().setVisibility(View.GONE);
                     detailViewHolder.reVideo.getBackButton().setVisibility(View.GONE);
 
