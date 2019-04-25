@@ -9,7 +9,6 @@ import com.leothon.cogito.Bean.NoticeInfo;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.DTO.ArticleData;
 import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.DTO.ClassDetail;
@@ -53,22 +52,15 @@ public interface HttpService {
     @GET("isphoneexits")
     Observable<BaseResponse<String>> isPhoneExits(@Query("phone") String phoneNumber);
 
-    /**
-     * 验证手机号码
-     * @param phonenumber
-     * @return
-     */
-    @GET("verifyphone")
-    Observable<BaseResponse<verify>> verifyphone(@Query("phonenumber") String phonenumber);
+
 
     /**
      * 使用手机号码登录
      * @param phonenumber
-     * @param verfiCode
      * @return
      */
     @GET("usephonelogin")
-    Observable<BaseResponse<User>> usePhoneLogin(@Query("phonenumber") String phonenumber, @Query("verifycode") String verfiCode);
+    Observable<BaseResponse<User>> usePhoneLogin(@Query("phonenumber") String phonenumber);
 
     /**
      * 使用密码登录

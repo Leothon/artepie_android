@@ -27,6 +27,7 @@ import com.wanjian.cockroach.Cockroach;
 import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.sms.SMSSDK;
 
 public class BaseApplication extends Application {
     private static BaseApplication application;
@@ -45,7 +46,7 @@ public class BaseApplication extends Application {
         setDatabase();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-
+        SMSSDK.getInstance().initSdk(this);
         new Thread(new Runnable() {
             @Override
             public void run() {

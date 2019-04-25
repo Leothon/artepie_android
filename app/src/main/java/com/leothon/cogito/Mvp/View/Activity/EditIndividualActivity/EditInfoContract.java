@@ -11,7 +11,6 @@ public class EditInfoContract {
         void checkPhoneNumberIsExits(String number,OnEditInfoFinishedListener listener);
 
         void bindPhone(String number,String token,OnEditInfoFinishedListener listener);
-        void verifyPhoneNumber(String phoneNumber,OnEditInfoFinishedListener listener);
 
         void setPassword(String token,String password,OnEditInfoFinishedListener listener);
         void changePassword(String token,String oldPassword,String password,OnEditInfoFinishedListener listener);
@@ -30,7 +29,6 @@ public class EditInfoContract {
         void bindPhoneNumberSuccess(String msg);
         void bindPhoneNumberFailed(String msg);
 
-        void verifyCodeSuccess(String msg);
 
         void setPasswordSuccess(String msg);
         void setPasswordFailed(String msg);
@@ -46,7 +44,6 @@ public class EditInfoContract {
 
         void checkNumberResult(String msg);
         void bindPhoneNumberSuccess(String msg);
-        void verifyCodeSuccess(String msg);
         void setPasswordSuccess(String msg);
         void setPasswordFailed(String msg);
         void bindPhoneNumberFailed(String msg);
@@ -60,7 +57,6 @@ public class EditInfoContract {
         void updateUserInfo(User user);
         void checkPhoneNumberIsExits(String number);
         void bindPhone(String number,String token);
-        void verifyPhoneNumber(String phoneNumber);
         void setPassword(String token,String password);
         void changePassword(String token,String oldPassword,String password);
     }

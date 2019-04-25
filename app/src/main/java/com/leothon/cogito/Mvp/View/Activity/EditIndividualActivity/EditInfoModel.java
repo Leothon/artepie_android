@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -172,35 +171,7 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
                 });
     }
 
-    @Override
-    public void verifyPhoneNumber(String phoneNumber, final EditInfoContract.OnEditInfoFinishedListener listener) {
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .verifyphone(phoneNumber)
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        listener.showMsg(errorMsg);
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
 
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-
-                        verify verify = (verify)baseResponse.getData();
-                        listener.verifyCodeSuccess(verify.getCode());
-                    }
-                });
-    }
 
     @Override
     public void setPassword(String token, String password, final EditInfoContract.OnEditInfoFinishedListener listener) {

@@ -12,10 +12,9 @@ public class LoginContract {
         void login(String phoneNumber, String password,OnLoginFinishedListener Listener);
 
 
-        void register(User user,OnLoginFinishedListener Listener);
+        void register(String phonenumber,OnLoginFinishedListener Listener);
 
 
-        void verifyPhonenumber(String phoneNumber,OnLoginFinishedListener listener);
 
 
         void isQQRegister(String accessToken,OnLoginFinishedListener listener);
@@ -50,7 +49,6 @@ public class LoginContract {
         void registerORloginSuccess(User user);
 
         void showFailInfo(String err);
-        void verifysuccess(String code);
         void isQQRegisterResult(String msg);
         void qqUserRegisterSuccess(User user);
         void weChatUserRegisterSuccess(User user);
@@ -59,9 +57,8 @@ public class LoginContract {
 
     public interface ILoginPresenter{
         void login(String phoneNumber, String password);
-        void registerInfo(User user);
+        void registerInfo(String phonenumber);
         void onDestroy();
-        void verifyphone(String phoneNumber);
         void isQQRegister(String accessToken);
         void isWechatRegister(String accessToken);
         void qqUserRegister(User user);

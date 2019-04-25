@@ -1,14 +1,13 @@
 package com.leothon.cogito.Mvp.View.Fragment.HomePage;
 
 import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
-import com.leothon.cogito.Utils.CommonUtils;
+
 
 import java.util.ArrayList;
 

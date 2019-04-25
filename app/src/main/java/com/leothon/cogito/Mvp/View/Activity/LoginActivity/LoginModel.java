@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
-import com.leothon.cogito.Bean.verify;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
@@ -65,13 +64,12 @@ public class LoginModel implements LoginContract.ILoginModel {
     }
 
     @Override
-    public void register(User user, final LoginContract.OnLoginFinishedListener Listener) {
-        String phonenumber = user.getUser_phone();
-        String verifyCode = user.getVerifyCode();
+    public void register(String phonenumber, final LoginContract.OnLoginFinishedListener Listener) {
+
             //TODO 使用retrofit进行注册
         sharedPreferencesUtils = new SharedPreferencesUtils(CommonUtils.getContext(),"saveToken");
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .usePhoneLogin(phonenumber,verifyCode)
+                .usePhoneLogin(phonenumber)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
@@ -86,7 +84,6 @@ public class LoginModel implements LoginContract.ILoginModel {
                     }
                     @Override
                     public void doOnCompleted() {
-                        Log.e("返回", "完成");
                     }
 
                     @Override
@@ -106,35 +103,7 @@ public class LoginModel implements LoginContract.ILoginModel {
 
     }
 
-    @Override
-    public void verifyPhonenumber(String phoneNumber, final LoginContract.OnLoginFinishedListener listener) {
 
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .verifyphone(phoneNumber)
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        listener.showFailInfo(errorMsg);
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
-
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        verify verify = (verify)baseResponse.getData();
-                        listener.verifysuccess(verify.getCode());
-                    }
-        });
-    }
 
     @Override
     public void isQQRegister(String accessToken, final LoginContract.OnLoginFinishedListener listener) {

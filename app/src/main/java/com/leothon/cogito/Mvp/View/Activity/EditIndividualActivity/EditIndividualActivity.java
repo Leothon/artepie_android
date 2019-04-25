@@ -33,6 +33,7 @@ import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 
 import com.leothon.cogito.Utils.CommonUtils;
@@ -56,6 +57,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.sms.SMSSDK;
+import cn.jpush.sms.listener.SmscheckListener;
+import cn.jpush.sms.listener.SmscodeListener;
 
 public class EditIndividualActivity extends BaseActivity implements EditInfoContract.IEditInfoView {
 
@@ -272,11 +276,6 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         verifyCodeBind.setText("");
     }
 
-    @Override
-    public void verifyCodeSuccess(String msg) {
-        hideLoadingAnim();
-        verifyCodeBind.setText(msg);
-    }
 
     @Override
     public void setPasswordSuccess(String msg) {
@@ -568,8 +567,9 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             @Override
             public void onClick(View v) {
                 new Thread(new MyCountDownTimer()).start();
-                editInfoPresenter.verifyPhoneNumber(phoneNumberBind.getText().toString());
-                showLoadingAnim();
+                //editInfoPresenter.verifyPhoneNumber(phoneNumberBind.getText().toString());
+                getSmsCode(phoneNumberBind.getText().toString());
+
             }
         });
         alertDialogBuilder
@@ -584,8 +584,9 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                 }else {
                                     if (CommonUtils.isPhoneNumber(phoneNumberBind.getText().toString())){
                                         userNumber.setText(phoneNumberBind.getText().toString());
-                                        editInfoPresenter.bindPhone(phoneNumberBind.getText().toString(),activitysharedPreferencesUtils.getParams("token","").toString());
-                                        showLoadingAnim();
+                                        checkSmsCode(phoneNumberBind.getText().toString(),verifyCodeBind.getText().toString());
+                                        //editInfoPresenter.bindPhone(phoneNumberBind.getText().toString(),activitysharedPreferencesUtils.getParams("token","").toString());
+                                        //showLoadingAnim();
                                         dialog.cancel();
                                     }else {
                                         MyToast.getInstance(EditIndividualActivity.this).show("手机号码不合法",Toast.LENGTH_SHORT);
@@ -788,6 +789,39 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
 
 
+    private void getSmsCode(String phone){
+
+        SMSSDK.getInstance().getSmsCodeAsyn(phone, "161567", new SmscodeListener() {
+            @Override
+            public void getCodeSuccess(final String uuid) {
+                // 获取验证码成功，uuid 为此次获取的唯一标识码。
+                MyToast.getInstance(EditIndividualActivity.this).show("验证码发送成功",Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void getCodeFail(int errCode, final String errMsg) {
+                MyToast.getInstance(EditIndividualActivity.this).show("验证码发送失败，请重试。" + errMsg,Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private void checkSmsCode(String phone,String code){
+        SMSSDK.getInstance().checkSmsCodeAsyn(phone, code, new SmscheckListener() {
+            @Override
+            public void checkCodeSuccess(final String code) {
+                // 验证码验证成功，code 为验证码信息。
+                showLoadingAnim();
+                editInfoPresenter.bindPhone(phone,activitysharedPreferencesUtils.getParams("token","").toString());
+
+            }
+
+            @Override
+            public void checkCodeFail(int errCode, final String errMsg) {
+                // 验证码验证失败, errCode 为错误码，详情请见文档后面的错误码表；errMsg 为错误描述。
+                MyToast.getInstance(EditIndividualActivity.this).show("验证码不正确" + errMsg,Toast.LENGTH_SHORT);
+            }
+        });
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

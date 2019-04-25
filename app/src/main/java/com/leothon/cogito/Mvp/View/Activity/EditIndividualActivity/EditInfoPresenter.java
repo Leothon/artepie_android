@@ -46,12 +46,6 @@ public class EditInfoPresenter implements EditInfoContract.IEditInfoPresenter,Ed
         }
     }
 
-    @Override
-    public void verifyCodeSuccess(String msg) {
-        if (iEditInfoView != null){
-            iEditInfoView.verifyCodeSuccess(msg);
-        }
-    }
 
     @Override
     public void setPasswordSuccess(String msg) {
@@ -98,11 +92,6 @@ public class EditInfoPresenter implements EditInfoContract.IEditInfoPresenter,Ed
     @Override
     public void bindPhone(String number, String token) {
         iEditInfoModel.bindPhone(number,token,this);
-    }
-
-    @Override
-    public void verifyPhoneNumber(String phoneNumber) {
-        iEditInfoModel.verifyPhoneNumber(phoneNumber,this);
     }
 
     @Override

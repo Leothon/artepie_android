@@ -34,12 +34,6 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
-    @Override
-    public void verifysuccess(String code) {
-        if (iLoginView != null){
-            iLoginView.addverifycode(code);
-        }
-    }
 
     @Override
     public void isQQRegisterResult(String msg) {
@@ -76,8 +70,8 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     }
 
     @Override
-    public void registerInfo(User user) {
-        iLoginModel.register(user,this);
+    public void registerInfo(String phonenumber) {
+        iLoginModel.register(phonenumber,this);
     }
 
 
@@ -87,10 +81,7 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         iLoginModel = null;
     }
 
-    @Override
-    public void verifyphone(String phoneNumber) {
-        iLoginModel.verifyPhonenumber(phoneNumber,this);
-    }
+
 
     @Override
     public void isQQRegister(String accessToken) {

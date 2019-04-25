@@ -44,6 +44,9 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.sms.SMSSDK;
+import cn.jpush.sms.listener.SmscheckListener;
+import cn.jpush.sms.listener.SmscodeListener;
 
 /**
  * created by leothon on 2018.7.24
@@ -116,6 +119,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     private Handler mHandler = new Handler();
 
 
+
     private IWXAPI wx_api;
 
     @Override
@@ -158,8 +162,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             @Override
             public void onClick(View view) {
                 if (isRegisterPage){
-                    //finish();
-                    //removeAllActivity();
+
                     EventBus.getDefault().post(1);
                 }else {
                     //打开免密码登录
@@ -217,11 +220,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         rephone = phoneRegister.getText().toString();
         reverifyCode = verifyCode.getText().toString();
         if (!rephone.equals("") && !reverifyCode.equals("")){
-            User usere = new User();
-            usere.setUser_phone(rephone);
-            usere.setVerifyCode(reverifyCode);
-            showLoadingAnim();
-            loginPresenter.registerInfo(usere);
+
+            checkSmsCode(rephone,reverifyCode);
+
         }else if (!rephone.equals("")){
             MyToast.getInstance(this).show("手机号码为空",Toast.LENGTH_SHORT);
         }else {
@@ -233,10 +234,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @OnClick(R.id.get_verify_code)
     public void getVerifyCode(View view){
         if (!phoneRegister.getText().toString().equals("") && CommonUtils.isPhoneNumber(phoneRegister.getText().toString())){
-            MyToast.getInstance(this).show("已向" + phoneRegister.getText().toString() + "发送验证码",Toast.LENGTH_SHORT);
+            //MyToast.getInstance(this).show("已向" + phoneRegister.getText().toString() + "发送验证码",Toast.LENGTH_SHORT);
             new Thread(new MyCountDownTimer()).start();
-            loginPresenter.verifyphone(phoneRegister.getText().toString());
-
+            //loginPresenter.verifyphone(phoneRegister.getText().toString());
+            getSmsCode(phoneRegister.getText().toString());
 
         }else if (phoneRegister.getText().toString().equals("")){
             MyToast.getInstance(this).show("手机号码为空",Toast.LENGTH_SHORT);
@@ -291,6 +292,38 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
 
+    private void getSmsCode(String phone){
+
+        SMSSDK.getInstance().getSmsCodeAsyn(phone, "161567", new SmscodeListener() {
+            @Override
+            public void getCodeSuccess(final String uuid) {
+                // 获取验证码成功，uuid 为此次获取的唯一标识码。
+                MyToast.getInstance(LoginActivity.this).show("验证码发送成功",Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void getCodeFail(int errCode, final String errMsg) {
+                MyToast.getInstance(LoginActivity.this).show("验证码发送失败，请重试。" + errMsg,Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private void checkSmsCode(String phone,String code){
+        SMSSDK.getInstance().checkSmsCodeAsyn(phone, code, new SmscheckListener() {
+            @Override
+            public void checkCodeSuccess(final String code) {
+                // 验证码验证成功，code 为验证码信息。
+                showLoadingAnim();
+                loginPresenter.registerInfo(phone);
+            }
+
+            @Override
+            public void checkCodeFail(int errCode, final String errMsg) {
+                // 验证码验证失败, errCode 为错误码，详情请见文档后面的错误码表；errMsg 为错误描述。
+                MyToast.getInstance(LoginActivity.this).show("验证码不正确" + errMsg,Toast.LENGTH_SHORT);
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
