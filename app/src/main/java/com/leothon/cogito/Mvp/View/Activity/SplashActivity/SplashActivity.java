@@ -56,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
             sharedPreferencesUtilsSettings.setParams("classNotice",true);
         }
         final SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
-        String img = Api.ComUrl + "resource/splash.jpg";
+        String img = "https://www.artepie.com/image/splash.jpg";
         ImageLoader.loadImageViewThumbnailwitherror(this,img,SplashImg,R.drawable.defalutimg);
 
 

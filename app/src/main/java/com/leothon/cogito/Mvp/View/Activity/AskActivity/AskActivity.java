@@ -11,12 +11,14 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SendQAData;
@@ -26,6 +28,8 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.ImageUtils;
+import com.leothon.cogito.Utils.OssUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.View.ProgressView;
@@ -40,6 +44,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -73,13 +78,16 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     TextView reContent;
     @BindView(R.id.delete_video)
     ImageView deleteVideo;
+//
+//    @BindView(R.id.progress_show)
+//    CardView progressShow;
+//    @BindView(R.id.progress_bar)
+//    ProgressView progressView;
+//    @BindView(R.id.progress_content)
+//    TextView progressContent;
 
-    @BindView(R.id.progress_show)
-    CardView progressShow;
-    @BindView(R.id.progress_bar)
-    ProgressView progressView;
-    @BindView(R.id.progress_content)
-    TextView progressContent;
+    @BindView(R.id.progress_upload_video)
+    NumberProgressBar progressBar;
     String filePath = "";
 
     private Bundle bundle;
@@ -244,13 +252,46 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                     showLoadingAnim();
                     askActivityPresenter.sendData(sendQAData);
                 }else {
-                    progressShow.setVisibility(View.VISIBLE);
-                    askActivityPresenter.uploadFile(filePath);
+                    //progressShow.setVisibility(View.VISIBLE);
+                    //showLoadingAnim();
+                    progressBar.setVisibility(View.VISIBLE);
+                    uploadVideo(filePath);
+                    //askActivityPresenter.uploadFile(filePath);
 
                 }
             }
         }
 
+    }
+
+    private void uploadVideo(String path){
+        File file = new File(path);
+        OssUtils.getInstance().upVideo(CommonUtils.getContext(), new OssUtils.OssUpCallback() {
+            @Override
+            public void successImg(String img_url) {
+
+
+            }
+
+            /**
+             * @param video_url
+             */
+            @Override
+            public void successVideo(String video_url) {
+
+                sendQAData.setQa_video(video_url);
+                askActivityPresenter.sendData(sendQAData);
+
+            }
+
+            @Override
+            public void inProgress(long progress, long allsi) {
+                progressBar.setMax(Integer.parseInt(String.valueOf(progress)));
+                progressBar.incrementProgressBy(1);
+                progressBar.setProgress(Integer.parseInt(String.valueOf(allsi)));
+
+            }
+        },file.getName(),path);
     }
 
     @OnClick(R.id.ask_add_sound)
@@ -268,24 +309,27 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     @Override
     public void showProgress(long nowSize, long totalSize) {
 
-        progressContent.setText(nowSize / 1000 + "KB / " + totalSize / 1000000 + "MB");
-        float percent = (float)nowSize / (float)totalSize;
 
-        progressView.setPercentage(Float.parseFloat(df.format(percent * 100)));
+
+        progressBar.setMax(Integer.parseInt(String.valueOf(totalSize)));
+        progressBar.incrementProgressBy(Integer.parseInt(String.valueOf(nowSize)));
+//        progressContent.setText(nowSize / 1000 + "KB / " + totalSize / 1000000 + "MB");
+//        float percent = (float)nowSize / (float)totalSize;
+//
+//        progressView.setPercentage(Float.parseFloat(df.format(percent * 100)));
 
     }
 
     @Override
     public void getUploadUrl(String url) {
-        String urlPath = Api.ComUrl + "resource/" + url;
 
-        progressShow.setVisibility(View.GONE);
 
-        if (CommonUtils.fileType(url).equals("audio")){
-            sendQAData.setQa_audio(urlPath);
-        }else if (CommonUtils.fileType(url).equals("video")){
-            sendQAData.setQa_video(urlPath);
-        }
+        progressBar.setVisibility(View.GONE);
+
+        //hideLoadingAnim();
+        sendQAData.setQa_video(url);
+
+
         askActivityPresenter.sendData(sendQAData);
 
     }
@@ -349,7 +393,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
         hideLoadingAnim();
 
-        coverImg = Api.ComUrl + "resource/" + url;
+        coverImg = url;
     }
 
 
@@ -415,10 +459,10 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                     if (!CommonUtils.isBeyondVideoSizeLimited(filePath)){
                         uploadCover.setVisibility(View.VISIBLE);
                         uploadImgCover.setImageBitmap(CommonUtils.getVideoThumb(filePath));
-                        askActivityPresenter.uploadVideoImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(filePath)));
+                        askActivityPresenter.uploadVideoImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(filePath)).getName(),ImageUtils.getBytesByBitmap(CommonUtils.getVideoThumb(filePath)));
                         showLoadingAnim();
                     }else {
-                        MyToast.getInstance(AskActivity.this).show("您所选视频过大，请重新选择",Toast.LENGTH_SHORT);
+                        MyToast.getInstance(AskActivity.this).show("您所选视频大小超过500M，请重新选择",Toast.LENGTH_SHORT);
                     }
 
                     break;

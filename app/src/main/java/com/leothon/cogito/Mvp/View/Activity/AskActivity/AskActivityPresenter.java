@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.AskActivity;
 
+import android.util.Log;
+
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.SendQAData;
 
@@ -17,6 +19,7 @@ public class AskActivityPresenter implements AskActivityContract.IAskActivityPre
     @Override
     public void getUploadUrl(String url) {
         if (iAskActivityView != null){
+
             iAskActivityView.getUploadUrl(url);
         }
     }
@@ -91,7 +94,7 @@ public class AskActivityPresenter implements AskActivityContract.IAskActivityPre
     }
 
     @Override
-    public void uploadVideoImg(File file) {
-        iAskActivityModel.uploadVideoImg(file,this);
+    public void uploadVideoImg(String name,byte[] img) {
+        iAskActivityModel.uploadVideoImg(name,img,this);
     }
 }

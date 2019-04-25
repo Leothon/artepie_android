@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Http.Api;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.OssUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.View.ProgressView;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -29,6 +32,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -50,13 +54,8 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
     @BindView(R.id.add_class_video)
     ImageView addVideo;
 
-    @BindView(R.id.progress_show_class)
-    CardView progressShow;
-
-    @BindView(R.id.progress_bar)
-    ProgressView progressView;
-    @BindView(R.id.progress_content)
-    TextView progressContent;
+    @BindView(R.id.progress_upload_class)
+    NumberProgressBar progressBar;
 
     private Intent intent;
     private Bundle bundle;
@@ -91,8 +90,11 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
             public void onClick(View v) {
                 //TODO 上传课程
                 if (!titleClassDetail.getText().toString().equals("") && !contentClassDetail.getText().toString().equals("") && !path.equals("")){
-                    progressShow.setVisibility(View.VISIBLE);
-                    uploadClassDetailPresenter.uploadVideo(path);
+                    //progressShow.setVisibility(View.VISIBLE);
+                    //showLoadingAnim();
+                    progressBar.setVisibility(View.VISIBLE);
+                    uploadClassVideo(path);
+                    //uploadClassDetailPresenter.uploadVideo(path);
                 }else {
                     MyToast.getInstance(UploadClassDetailActivity.this).show("请完成所有内容后上传",Toast.LENGTH_SHORT);
                 }
@@ -173,9 +175,9 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
                         isHasVideo = true;
                         duration = String.valueOf(CommonUtils.getVideoDuration(path));
                         showLoadingAnim();
-                        uploadClassDetailPresenter.uploadImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(path)));
+                        uploadClassDetailPresenter.uploadImg(CommonUtils.compressImage(CommonUtils.getVideoThumb(path)).getName(), ImageUtils.getBytesByBitmap(CommonUtils.getVideoThumb(path)));
                     }else {
-                        MyToast.getInstance(UploadClassDetailActivity.this).show("您所选视频过大，请重新选择",Toast.LENGTH_SHORT);
+                        MyToast.getInstance(UploadClassDetailActivity.this).show("您所选视频大小超过500M，请重新选择",Toast.LENGTH_SHORT);
                     }
 
                     break;
@@ -184,18 +186,49 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
     }
 
 
+    private void uploadClassVideo(String path){
+        File file = new File(path);
+
+        OssUtils.getInstance().upVideo(CommonUtils.getContext(), new OssUtils.OssUpCallback() {
+            @Override
+            public void successImg(String img_url) {
+
+            }
+
+            @Override
+            public void successVideo(String video_url) {
+                showLoadingAnim();
+                ClassDetailList classDetailList = new ClassDetailList();
+                classDetailList.setClass_classd_id(bundle.getString("classId"));
+                classDetailList.setClassd_title(titleClassDetail.getText().toString());
+                classDetailList.setClassd_des(contentClassDetail.getText().toString());
+                classDetailList.setClassd_video(video_url);
+                classDetailList.setClassd_duration(duration);
+                classDetailList.setClassd_video_cover(coverUrl);
+                uploadClassDetailPresenter.sendClassDetail(classDetailList);
+            }
+
+            @Override
+            public void inProgress(long progress, long allsi) {
+                progressBar.setMax(Integer.parseInt(String.valueOf(progress)));
+                progressBar.incrementProgressBy(1);
+                progressBar.setProgress(Integer.parseInt(String.valueOf(allsi)));
+
+            }
+        },file.getName(),path);
+    }
     @Override
     public void showProgress(long nowSize, long totalSize) {
 
-        progressContent.setText(nowSize / 1000 + "KB / " + totalSize / 1000000 + "MB");
-        float percent = (float)nowSize / (float)totalSize;
-        progressView.setPercentage(Float.parseFloat(df.format(percent * 100)));
+//        progressContent.setText(nowSize / 1000 + "KB / " + totalSize / 1000000 + "MB");
+//        float percent = (float)nowSize / (float)totalSize;
+//        progressView.setPercentage(Float.parseFloat(df.format(percent * 100)));
     }
 
     @Override
     public void uploadVideoSuccess(String path) {
-        progressShow.setVisibility(View.GONE);
-        String url = Api.ComUrl + "resource/" + path;
+        //progressShow.setVisibility(View.GONE);
+        String url =  path;
         showLoadingAnim();
         ClassDetailList classDetailList = new ClassDetailList();
         classDetailList.setClass_classd_id(bundle.getString("classId"));
@@ -205,6 +238,7 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
         classDetailList.setClassd_duration(duration);
         classDetailList.setClassd_video_cover(coverUrl);
         uploadClassDetailPresenter.sendClassDetail(classDetailList);
+        hideLoadingAnim();
     }
 
     @Override
@@ -218,7 +252,7 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
     public void uploadImgSuccesss(String path) {
         hideLoadingAnim();
 
-        coverUrl = Api.ComUrl + "resource/" + path;
+        coverUrl =  path;
     }
 
     @Override

@@ -141,7 +141,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
 
     private void initAdapter(){
         swpUpload.setOnRefreshListener(this);
-        uploadAdapter = new AskAdapter(this,askArrayList,true);
+        uploadAdapter = new AskAdapter(this,askArrayList,"",true);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvUpload.setLayoutManager(mlinearLayoutManager);
         rvUpload.setAdapter(uploadAdapter);

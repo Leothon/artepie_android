@@ -134,7 +134,7 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
     @Override
     public void uploadImgSuccess(String msg) {
         hideLoadingAnim();
-        url = Api.ComUrl + "resource/" + msg;
+        url = msg;
     }
 
     @Override
@@ -319,9 +319,9 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
                     vSureDes.setVisibility(View.GONE);
                     isImgShow = true;
                 }
-                File file = new File(path);
+
                 showLoadingAnim();
-                vSurePresenter.uploadAuthImg(file);
+                vSurePresenter.uploadAuthImg(path);
                 showLoadingAnim();
             }
         }

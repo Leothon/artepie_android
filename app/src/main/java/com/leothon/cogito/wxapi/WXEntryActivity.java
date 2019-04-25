@@ -2,6 +2,7 @@ package com.leothon.cogito.wxapi;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.WeChatData;
 import com.leothon.cogito.Bean.WeChatUserInfo;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.WechatUtils;
 import com.leothon.cogito.View.MyToast;
@@ -23,11 +26,13 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -35,6 +40,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 
 import okhttp3.Response;
+
+import static com.leothon.cogito.Utils.ImageUtils.getBytesByBitmap;
 
 public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
@@ -48,6 +55,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     private String accessToken = "";
 
     private ClassDetail classDetail;
+    private Article article;
     private IWXAPI wx_api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +66,27 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         wx_api.registerApp(Constants.WeChat_APP_ID);
         if (getIntent().hasExtra("flag")){
             flag = getIntent().getStringExtra("flag");
-            classDetail = (ClassDetail)getIntent().getSerializableExtra("data");
-            Log.e("TGA",flag+"-----------------flag-----------");
-            if("1".equals(flag)){
-                shareWXSceneTimeline(classDetail);
-            }else if("2".equals(flag)){
-                shareWXSceneSession(classDetail);
-            }else{
-                finish();
+            if (getIntent().hasExtra("data")){
+                classDetail = (ClassDetail)getIntent().getSerializableExtra("data");
+                Log.e("TGA",flag+"-----------------flag-----------");
+                if("1".equals(flag)){
+                    shareWXSceneTimeline(classDetail);
+                }else if("2".equals(flag)){
+                    shareWXSceneSession(classDetail);
+                }else{
+                    finish();
+                }
+            }else {
+                article = (Article)getIntent().getSerializableExtra("article");
+                if("3".equals(flag)){
+                    shareArticleWXSceneTimeline(article);
+                }else if("4".equals(flag)){
+                    shareArticleWXSceneSession(article);
+                }else{
+                    finish();
+                }
             }
+
         }
 
     }
@@ -161,7 +181,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         super.onNewIntent(intent);
         setIntent(intent);
         wx_api.handleIntent(intent, this);
-        finish();
+        //finish();
     }
 
 
@@ -242,16 +262,27 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
 
     public void shareWXSceneSession(ClassDetail classDetail) {
-        share(SHARE_TYPE.Type_WXSceneSession,classDetail);
+        WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
+        miniProgramObj.webpageUrl = "http://www.artepie.cn"; // 兼容低版本的网页链接
+        miniProgramObj.miniprogramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;// 正式版:0，测试版:1，体验版:2
+        miniProgramObj.userName = "gh_e3995a920cc1";     // 小程序原始id
+        miniProgramObj.path = "pages/index/index?classid=" + classDetail.getTeaClasss().getSelectId();            //小程序页面路径
+        WXMediaMessage msg = new WXMediaMessage(miniProgramObj);
+        msg.title = classDetail.getTeaClasss().getSelectlisttitle();                    // 小程序消息title
+        msg.description = classDetail.getTeaClasss().getSelectdesc();               // 小程序消息desc
+        msg.thumbData = getThumb();                      // 小程序消息封面图片，小于128k 这个字节数组不能为空 否则无法调起微信页面 调试的时候可以先随便赋值一个new byte[n]
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneSession;  // 目前支持会话
+        wx_api.sendReq(req);
+        finish();
     }
 
     public void shareWXSceneTimeline(ClassDetail classDetail) {
-        share(SHARE_TYPE.Type_WXSceneTimeline,classDetail);
-    }
-
-    private void share(SHARE_TYPE type,ClassDetail classDetail) {
         WXWebpageObject webpageObject = new WXWebpageObject();
-        webpageObject.webpageUrl = "https://github.com/leothon";
+        webpageObject.webpageUrl = "http://www.artepie.cn";
         WXMediaMessage msg = new WXMediaMessage(webpageObject);
         msg.title = classDetail.getTeaClasss().getSelectlisttitle();
         msg.description = classDetail.getTeaClasss().getSelectdesc();
@@ -261,15 +292,65 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.message = msg;
-        switch (type) {
-            case Type_WXSceneSession:
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                break;
-            case Type_WXSceneTimeline:
-                req.scene = SendMessageToWX.Req.WXSceneTimeline;
-                break;
-        }
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
         wx_api.sendReq(req);
-        //finish();
+        finish();
+    }
+
+
+
+    public void shareArticleWXSceneTimeline(Article article) {
+        WXWebpageObject webpageObject = new WXWebpageObject();
+        webpageObject.webpageUrl = "http://www.artepie.cn";
+        WXMediaMessage msg = new WXMediaMessage(webpageObject);
+        msg.title = article.getArticleTitle();
+        msg.description = article.getArticleAuthorName();
+        BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(
+                R.drawable.icon);
+        Bitmap thumb = bmpDraw.getBitmap();
+        msg.setThumbImage(thumb);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        wx_api.sendReq(req);
+        finish();
+    }
+
+
+    public void shareArticleWXSceneSession(Article article) {
+        WXWebpageObject webpageObject = new WXWebpageObject();
+        webpageObject.webpageUrl = "http://www.artepie.cn";
+        WXMediaMessage msg = new WXMediaMessage(webpageObject);
+        msg.title = article.getArticleTitle();
+        msg.description = article.getArticleAuthorName();
+        BitmapDrawable bmpDraw = (BitmapDrawable) getResources().getDrawable(
+                R.drawable.icon);
+        Bitmap thumb = bmpDraw.getBitmap();
+        msg.setThumbImage(thumb);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        wx_api.sendReq(req);
+        finish();
+    }
+
+
+    private static byte[] getThumb(){
+        byte[] thumb;
+        Bitmap bitmap= BitmapFactory.decodeResource(CommonUtils.getContext().getResources(), R.mipmap.icon_about);
+        Bitmap sendBitmap=Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+        thumb = getBytesByBitmap(sendBitmap);
+        bitmap.recycle();
+        return thumb;
+    }
+
+
+
+
+
+
+
+    private static String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 }

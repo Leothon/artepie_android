@@ -1,5 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
+import android.util.Log;
+
 import com.leothon.cogito.Bean.Article;
 
 import java.io.File;
@@ -20,10 +22,15 @@ public class WriteArticlePresenter implements WriteArticleContract.IWriteArticle
         }
     }
 
+    /**
+     * @param url
+     */
     @Override
     public void getUploadImgUrl(String url) {
         if (iWriteArticleView != null){
+
             iWriteArticleView.getUploadImgUrl(url);
+
         }
     }
 

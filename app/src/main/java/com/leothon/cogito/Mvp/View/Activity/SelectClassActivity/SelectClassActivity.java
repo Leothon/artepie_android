@@ -88,7 +88,6 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     private RelativeLayout shareToWeChat;
     private RelativeLayout shareToMore;
 
-    private ClassDetail shareClassDetail;
     private PopupWindow sharePopup;
 
     private View popUPView;
@@ -232,7 +231,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             @Override
             public void setQQUIListener(ClassDetail classDetail) {
                 showShareWindow();
-                shareClassDetail = classDetail;
+                //shareClassDetail = classDetail;
                 //shareToQQClass(classDetail);
             }
         });
@@ -283,7 +282,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     {
         Bundle bundle = new Bundle();
         //这条分享消息被好友点击后的跳转URL。
-        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "https://github.com/leothon");
+        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://www.artepie.cn");
         //分享的标题。注：PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
         bundle.putString(QQShare.SHARE_TO_QQ_TITLE, classDetail.getTeaClasss().getSelectlisttitle());
         //分享的图片URL
@@ -295,7 +294,6 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         //标识该消息的来源应用，值为应用名称+AppId。
         bundle.putString(QQShare.SHARE_TO_QQ_APP_NAME, "艺派" + Constants.APP_ID);
         mTencent.shareToQQ(this, bundle , qqShareListener);
-        //mTencent.shareToQzone(this,bundle,qqShareListener);
     }
 
 
@@ -352,7 +350,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         shareToQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareToQQClass(shareClassDetail);
+                //shareToQQClass(shareClassDetail);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
             }
@@ -362,7 +360,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             public void onClick(View view) {
                 Bundle bundleto = new Bundle();
                 bundleto.putString("flag","1");
-                bundleto.putSerializable("data",shareClassDetail);
+                //bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
@@ -373,7 +371,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             public void onClick(View view) {
                 Bundle bundleto = new Bundle();
                 bundleto.putString("flag","2");
-                bundleto.putSerializable("data",shareClassDetail);
+                //bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
@@ -382,7 +380,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         shareToMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareToMoreInfo(shareClassDetail);
+                ///shareToMoreInfo(shareClassDetail);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
             }
@@ -399,7 +397,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         share_intent.setAction(Intent.ACTION_SEND);
         share_intent.setType("text/plain");
         share_intent.putExtra(Intent.EXTRA_SUBJECT, "艺派");
-        share_intent.putExtra(Intent.EXTRA_TEXT, "我正在艺派APP学习课程" + classDetail.getTeaClasss().getSelectlisttitle() + "\n戳我查看：https://github.com/leothon");
+        share_intent.putExtra(Intent.EXTRA_TEXT, "我正在艺派APP学习课程" + classDetail.getTeaClasss().getSelectlisttitle() + "\n戳我查看：http://www.artepie.cn");
         share_intent = Intent.createChooser(share_intent, "分享");
         startActivity(share_intent);
     }

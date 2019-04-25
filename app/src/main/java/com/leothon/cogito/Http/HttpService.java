@@ -15,12 +15,14 @@ import com.leothon.cogito.DTO.BagPageData;
 import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
+import com.leothon.cogito.DTO.Inform;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SearchResult;
 import com.leothon.cogito.DTO.SendQAData;
 import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.DTO.TypeClass;
+import com.leothon.cogito.DTO.Update;
 import com.leothon.cogito.DTO.VideoDetail;
 
 import java.util.ArrayList;
@@ -117,6 +119,16 @@ public interface HttpService {
      */
     @GET("getquestion")
     Observable<BaseResponse<ArrayList<QAData>>> getQAData(@Query("token") String token);
+
+
+
+
+    @GET("getinform")
+    Observable<BaseResponse<Inform>> getInform(@Query("token") String token);
+
+
+    @GET("getupdate")
+    Observable<BaseResponse<Update>> getUpdate(@Query("token") String token);
 
     /**
      * 获取互动页面更多数据
@@ -661,4 +673,6 @@ public interface HttpService {
      */
     @POST("bindphone")
     Observable<BaseResponse<String>> bindPhoneNumber(@Query("token") String token,@Query("phonenumber") String phoneNumber);
+
+
 }

@@ -12,7 +12,7 @@ public class VSureContract {
 
         void sendAuthInfo(String token,String img,String content,OnVSureFinishedListener listener);
         void getAuthInfo(String token,OnVSureFinishedListener listener);
-        void uploadAuthImg(File file, OnVSureFinishedListener listener);
+        void uploadAuthImg(String path, OnVSureFinishedListener listener);
 
         void getUserInfo(String token,OnVSureFinishedListener listener);
     }
@@ -41,7 +41,7 @@ public class VSureContract {
         void onDestroy();
         void sendAuthInfo(String token,String img,String content);
         void getAuthInfo(String token);
-        void uploadAuthImg(File file);
+        void uploadAuthImg(String path);
 
         void getUserInfo(String token);
     }

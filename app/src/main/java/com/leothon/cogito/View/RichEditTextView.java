@@ -79,6 +79,7 @@ public class RichEditTextView extends AppCompatEditText implements View.OnClickL
     //public void setFontColor(int color){ setForcegroundColor(color); }
     public void setImg(String path){
         if(!TextUtils.isEmpty(path)) {
+
             ImagePlate plate = new ImagePlate(this, mContext);
             plate.image(path);
         }

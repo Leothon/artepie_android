@@ -27,6 +27,13 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Weight.CommonDialog;
@@ -169,6 +176,7 @@ public class CommonUtils {
 
     public static String fileType(String filename){
         String fileType = filename.substring(filename.lastIndexOf(".") + 1, filename.length()).toLowerCase();
+        Log.e("fileType: ",fileType );
         String audio[] = {  "mp3", "wma", "wav", "mod", "ra", "cd", "md", "asf", "aac", "vqf", "ape", "mid", "ogg",
                 "m4a", "vqf" };
         String video[] = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" };
@@ -289,7 +297,7 @@ public class CommonUtils {
     public static boolean isBeyondVideoSizeLimited(String path){
         File f= new File(path);
         if (f.exists() && f.isFile()){
-            if (f.length() <= 1048576000){
+            if (f.length() <= 524288000){
                 return false;
             }else {
                 return true;
@@ -1063,6 +1071,25 @@ public class CommonUtils {
     }
 
     /**
+     * 获取版本号名称
+     *
+     * @param context 上下文
+     * @return
+     */
+    public static String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().
+                    getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return verName;
+    }
+
+
+
+    /**
      * 获取设备的唯一标识，deviceId
      *
      * @param context
@@ -1126,5 +1153,7 @@ public class CommonUtils {
         }
         return duration;
     }
+
+
 
 }

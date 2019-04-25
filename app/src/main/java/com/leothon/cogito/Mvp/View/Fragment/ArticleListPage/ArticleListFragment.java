@@ -34,6 +34,7 @@ import com.leothon.cogito.Listener.loadMoreDataArticleListener;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
 import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -41,6 +42,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.Banner;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -260,14 +262,14 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     }
 
     private void animationHide(){
-        hostActivity.hideBottomBtn();
+        //hostActivity.hideBottomBtn();
         writeArticle.hide();
         writeArticle.startAnimation(hideAnimation);
 
     }
 
     private void animationShow(){
-        hostActivity.showBottomBtn();
+        //hostActivity.showBottomBtn();
         writeArticle.show();
         writeArticle.startAnimation(showAnimation);
 
@@ -287,7 +289,38 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
     @OnClick(R.id.float_btn_article)
     public void writeArticle(View view){
-        toWriteArticle();
+        if (CommonUtils.isVIP(userEntity.getUser_role()) == 2){
+            dialogLoading();
+        }else {
+            toWriteArticle();
+        }
+
+    }
+
+    private  void dialogLoading(){
+        final CommonDialog dialog = new CommonDialog(getContext());
+
+
+        dialog.setMessage("你未成为认证用户，暂不可发表文章")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("取消")
+                .setPositive("去认证")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(getContext(), VSureActivity.class);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                    }
+
+                })
+                .show();
+
     }
 
     @Override

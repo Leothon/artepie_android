@@ -8,7 +8,7 @@ public class UploadClassDetailContract {
     public interface IUploadClassDetailModel{
 
         void uploadVideo(String path,OnUploadClassDetailFinishedListener listener);
-        void uploadImg(File file, OnUploadClassDetailFinishedListener listener);
+        void uploadImg(String name,byte[] img, OnUploadClassDetailFinishedListener listener);
         void sendClassDetail(ClassDetailList classDetailList,OnUploadClassDetailFinishedListener listener);
     }
 
@@ -34,7 +34,7 @@ public class UploadClassDetailContract {
         void onDestroy();
         void uploadVideo(String path);
         void sendClassDetail(ClassDetailList classDetailList);
-        void uploadImg(File file);
+        void uploadImg(String name,byte[] img);
 
     }
 }

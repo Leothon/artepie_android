@@ -171,8 +171,9 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     public void getIconUrl(String url) {
 
 
-        icon = Api.ComUrl + "resource/" + url;
+        icon = url;
 
+        hideLoadingAnim();
         uploadAll();
 
     }

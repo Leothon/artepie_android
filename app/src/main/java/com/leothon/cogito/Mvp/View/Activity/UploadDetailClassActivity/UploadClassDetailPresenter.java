@@ -65,7 +65,7 @@ public class UploadClassDetailPresenter implements UploadClassDetailContract.IUp
     }
 
     @Override
-    public void uploadImg(File file) {
-        iUploadClassDetailModel.uploadImg(file,this);
+    public void uploadImg(String name,byte[] img) {
+        iUploadClassDetailModel.uploadImg(name, img,this);
     }
 }

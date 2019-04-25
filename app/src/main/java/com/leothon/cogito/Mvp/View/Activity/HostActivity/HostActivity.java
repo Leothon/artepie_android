@@ -1,13 +1,21 @@
 package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
+import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 
+import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 
 import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.Bean.Banner;
+import com.leothon.cogito.DTO.Update;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -31,11 +40,14 @@ import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
+
+import com.leothon.cogito.Service.DownloadService;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.BottomButton;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
@@ -47,6 +59,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -105,6 +118,26 @@ public class HostActivity extends BaseActivity  {
     private String info;
 
 
+    private DownloadService.DownloadBinder downloadBinder;
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.e(TAG, "执行了");
+            downloadBinder = (DownloadService.DownloadBinder) service;
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+
+
     @Override
     public int initLayout() {
         return R.layout.activity_host;
@@ -127,6 +160,17 @@ public class HostActivity extends BaseActivity  {
         if (!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+
+
+        Intent intent = new Intent(HostActivity.this, DownloadService.class);
+        startService(intent);//启动服务
+
+        bindService(intent,connection,BIND_AUTO_CREATE);//绑定服务
+        if (ContextCompat.checkSelfPermission(HostActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(HostActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+
+
 
 //        homePage = HomeFragment.newInstance();
 //        articlePage = ArticleListFragment.newInstance();
@@ -230,9 +274,69 @@ public class HostActivity extends BaseActivity  {
                         }
                     }
                 });
+
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getUpdate(activitysharedPreferencesUtils.getParams("token","").toString())
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        MyToast.getInstance(HostActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        Update update = (Update)baseResponse.getData();
+                        String updateVersion = update.getUpdateVersion();
+                        if (!updateVersion.equals(CommonUtils.getVerName(HostActivity.this))){
+                            //TODO 检查更新
+                            dialogLoading();
+
+                        }
+                    }
+                });
     }
 
 
+
+    private  void dialogLoading(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+        dialog.setMessage("检查到新版本更新")
+                .setTitle("更新")
+                .setSingle(false)
+                .setNegtive("取消")
+                .setPositive("下载")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+
+
+                        downloadBinder.startDownload("http://www.artepie.cn/apk/artparty.apk");
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                    }
+
+                })
+                .show();
+
+    }
 
     public String getBotStatus(){
         return info;

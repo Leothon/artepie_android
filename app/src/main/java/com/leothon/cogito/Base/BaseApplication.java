@@ -18,6 +18,7 @@ import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.OssUtils;
 import com.leothon.cogito.View.MyToast;
 import com.wanjian.cockroach.App;
 import com.wanjian.cockroach.Cockroach;
@@ -44,6 +45,16 @@ public class BaseApplication extends Application {
         setDatabase();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OssUtils.getInstance().getOSs(BaseApplication.this);
+
+
+            }
+        }).start();
+
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.

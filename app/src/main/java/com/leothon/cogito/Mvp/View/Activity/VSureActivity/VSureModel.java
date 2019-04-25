@@ -7,6 +7,8 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.OssUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,37 +81,57 @@ public class VSureModel implements VSureContract.IVSureModel {
     }
 
     @Override
-    public void uploadAuthImg(File file, final VSureContract.OnVSureFinishedListener listener) {
-        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
+    public void uploadAuthImg(String path, final VSureContract.OnVSureFinishedListener listener) {
 
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .updataFile(photo)
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+        File file = new File(path);
+        OssUtils.getInstance().upImage(CommonUtils.getContext(), new OssUtils.OssUpCallback() {
+            @Override
+            public void successImg(String img_url) {
+                listener.uploadImgSuccess(img_url);
 
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
+            }
 
-                    }
-                    @Override
-                    public void doOnCompleted() {
+            @Override
+            public void successVideo(String video_url) {
 
-                    }
+            }
 
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        String url = baseResponse.getMsg();
+            @Override
+            public void inProgress(long progress, long allsi) {
 
-                        listener.uploadImgSuccess(url);
-                    }
-                });
+
+            }
+        },file.getName(),path);
+//        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Part photo = MultipartBody.Part.createFormData("file", file.getName(), photoRequestBody);
+//
+//        RetrofitServiceManager.getInstance().create(HttpService.class)
+//                .updataFile(photo)
+//                .compose(ThreadTransformer.switchSchedulers())
+//                .subscribe(new BaseObserver() {
+//                    @Override
+//                    public void doOnSubscribe(Disposable d) { }
+//                    @Override
+//                    public void doOnError(String errorMsg) {
+//                        listener.showInfo(errorMsg);
+//
+//                    }
+//                    @Override
+//                    public void doOnNext(BaseResponse baseResponse) {
+//
+//                    }
+//                    @Override
+//                    public void doOnCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(BaseResponse baseResponse) {
+//                        String url = baseResponse.getMsg();
+//
+//                        listener.uploadImgSuccess(url);
+//                    }
+//                });
     }
 
     @Override

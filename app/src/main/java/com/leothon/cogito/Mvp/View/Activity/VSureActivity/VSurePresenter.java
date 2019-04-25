@@ -67,8 +67,8 @@ public class VSurePresenter implements VSureContract.IVSurePresenter,VSureContra
     }
 
     @Override
-    public void uploadAuthImg(File file) {
-        ivSureModel.uploadAuthImg(file,this);
+    public void uploadAuthImg(String path) {
+        ivSureModel.uploadAuthImg(path,this);
     }
 
     @Override

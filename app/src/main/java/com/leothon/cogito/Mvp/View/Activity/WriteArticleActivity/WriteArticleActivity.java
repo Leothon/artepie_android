@@ -1,10 +1,12 @@
 package com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -172,7 +174,11 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
                 }
 
                 //writeArticleContent.setImg(filePath);
-                writeArticlePresenter.uploadSelectImg(CommonUtils.compressImage(ImageUtils.drawTextToRightBottom(WriteArticleActivity.this,ImageUtils.getImageBitmap(filePath),"艺派 @" + userEntity.getUser_name(),10,Color.WHITE,10,10)));
+
+                Bitmap bitmap = ImageUtils.drawTextToRightBottom(WriteArticleActivity.this,ImageUtils.getImageBitmap(filePath),"艺派 @" + userEntity.getUser_name(),10,Color.WHITE,10,10);
+
+                writeArticlePresenter.uploadSelectImg(CommonUtils.compressImage(bitmap));
+
                 showLoadingAnim();
                 filePath = null;
             }
@@ -201,8 +207,8 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
 
     @Override
     public void getUploadImgUrl(String url) {
-        String urlPath = Api.ComUrl + "resource/" + url;
-        writeArticleContent.setImg(urlPath);
+        String trueUrl = Api.ComUrl + "image/" + url;
+        writeArticleContent.setImg(trueUrl);
         hideLoadingAnim();
     }
 

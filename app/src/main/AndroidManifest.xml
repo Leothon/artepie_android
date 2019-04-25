@@ -264,7 +264,7 @@
         <activity
             android:exported="true"
             android:name="com.leothon.cogito.wxapi.WXEntryActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoDisplay"/>
     </application>
 

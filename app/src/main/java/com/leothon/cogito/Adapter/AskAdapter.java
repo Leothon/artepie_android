@@ -60,6 +60,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     public static final String TAG = "adapter";
     private Context context;
     private ArrayList<QAData> asks;
+    private String text;
 
     private SharedPreferencesUtils sharedPreferencesUtils;
     public addLikeOnClickListener addLikeOnClickListener;
@@ -80,10 +81,11 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
     private String userId;
     private boolean isLogin;
-    public AskAdapter(Context context, ArrayList<QAData> asks,boolean isLogin){
+    public AskAdapter(Context context, ArrayList<QAData> asks,String text,boolean isLogin){
         this.context = context;
         this.asks = asks;
         this.isLogin = isLogin;
+        this.text = text;
     }
 
     @Override
@@ -109,7 +111,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
         if (viewType == HEAD0){
             InformHolder informHolder = (InformHolder) holder;
-            informHolder.informText.setText("官方通告：测试长一点的通知，看能不能长时间的滚动显示圣诞放假啊【金佛爬进佛教按时交付【哦按时交付【静安寺【放假啊是【 ");
+            informHolder.informText.setText(text);
         }else if (viewType == HEAD1 ) {
             int realPosition = position - 1;
             final QAData ask = asks.get(realPosition);

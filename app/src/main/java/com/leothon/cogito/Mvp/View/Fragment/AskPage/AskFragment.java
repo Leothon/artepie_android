@@ -101,6 +101,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private View popview;
     private PopupWindow popupWindow;
 
+    private String informText;
     String uuid;
     public AskFragment() {}
 
@@ -170,11 +171,11 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     @Override
     public void loadAskData(ArrayList<QAData> qaData) {
 
-        if (swpAsk.isRefreshing()){
-            swpAsk.setRefreshing(false);
-        }
+
         asks = qaData;
-        initAdapter();
+
+        askPresenter.getInform(fragmentsharedPreferencesUtils.getParams("token","").toString());
+
     }
 
     @Override
@@ -227,6 +228,17 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         MyToast.getInstance(getMContext()).show(msg,Toast.LENGTH_SHORT);
     }
 
+    @Override
+    public void getInformSuccess(String text) {
+
+        if (swpAsk.isRefreshing()){
+            swpAsk.setRefreshing(false);
+        }
+        informText = text;
+
+        initAdapter();
+    }
+
     public void initAdapter(){
         swpAsk.setOnRefreshListener(this);
         if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
@@ -234,7 +246,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         }else {
             isLogin = false;
         }
-        askAdapter = new AskAdapter(getMContext(),asks,isLogin);
+        askAdapter = new AskAdapter(getMContext(),asks,informText,isLogin);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(getMContext(),LinearLayoutManager.VERTICAL,false);
         rvAsk.setLayoutManager(mlinearLayoutManager);
         rvAsk.setAdapter(askAdapter);

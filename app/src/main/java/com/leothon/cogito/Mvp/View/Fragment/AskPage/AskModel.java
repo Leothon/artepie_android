@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.DTO.Inform;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
@@ -165,6 +166,35 @@ public class AskModel implements AskFragmentContract.IAskModel {
                         }else {
                             listener.deleteSuccess("失败，请重试");
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void getInform(String token, AskFragmentContract.OnAskFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getInform(token)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        Inform inform = (Inform)baseResponse.getData();
+                        listener.getInformSuccess(inform.getInformText());
                     }
                 });
     }

@@ -365,7 +365,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
 
     @Override
     public void imgSendSuccess(String msg) {
-        String url = Api.ComUrl + "resource/" + msg;
+        String url =  msg;
 
         if (bundle.get("type").equals("create")){
             SelectClass selectClass = new SelectClass();

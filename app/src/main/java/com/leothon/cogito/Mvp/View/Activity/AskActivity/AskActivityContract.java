@@ -19,7 +19,7 @@ public class AskActivityContract {
 
         void reContent(String token,String content,String qaId,OnAskActivityFinishedListener listener);
 
-        void uploadVideoImg(File file,OnAskActivityFinishedListener listener);
+        void uploadVideoImg(String name,byte[] img,OnAskActivityFinishedListener listener);
     }
 
     public interface IAskActivityView{
@@ -60,6 +60,6 @@ public class AskActivityContract {
         void sendData(SendQAData sendQAData);
         void getReInfo(String qaId, String token);
         void reContent(String token,String content,String qaId);
-        void uploadVideoImg(File file);
+        void uploadVideoImg(String name,byte[] img);
     }
 }
