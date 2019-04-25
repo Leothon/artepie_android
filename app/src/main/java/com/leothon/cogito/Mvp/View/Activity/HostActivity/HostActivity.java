@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 
@@ -226,7 +227,7 @@ public class HostActivity extends BaseActivity  {
                         String updateVersion = update.getUpdateVersion();
                         if (!updateVersion.equals(CommonUtils.getVerName(HostActivity.this))){
                             //TODO 检查更新
-                            //dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
+                            dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
                             UpdateMessage updateMessage = new UpdateMessage();
                             updateMessage.setMessage("show");
                             EventBus.getDefault().post(updateMessage);
@@ -334,8 +335,12 @@ public class HostActivity extends BaseActivity  {
                     public void onPositiveClick() {
                         dialog.dismiss();
 
+                        Intent intent = new Intent();
 
-                        downloadBinder.startDownload("http://www.artepie.cn/apk/artparty.apk");
+                        intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));//Url 就是你要打开的网址
+                        intent.setAction(Intent.ACTION_VIEW);
+                        startActivity(intent); //启动浏览器
+                        //downloadBinder.startDownload("http://www.artepie.cn/apk/artparty.apk");
                     }
 
                     @Override
