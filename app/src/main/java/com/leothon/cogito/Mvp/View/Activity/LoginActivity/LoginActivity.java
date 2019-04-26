@@ -330,12 +330,15 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         hideLoadingAnim();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        if (bundle.containsKey("wechatinfo")){
-            WeChatUserInfo weChatUserInfo = (WeChatUserInfo)bundle.getSerializable("wechatinfo");
-            Log.e(TAG, "姓名" + weChatUserInfo.getNickname() + "\n性别" + weChatUserInfo.getSex() + "\n位置" + weChatUserInfo.getCountry() + weChatUserInfo.getCity() + weChatUserInfo.getProvince() + "\naccessToken" + weChatUserInfo.getAccesstoken() + "\n头像" + weChatUserInfo.getHeadimgurl());
-            loginPresenter.isWechatRegister(weChatUserInfo.getAccesstoken());
-            this.weChatUserInfo = weChatUserInfo;
+        if (bundle != null){
+            if (bundle.containsKey("wechatinfo")){
+                WeChatUserInfo weChatUserInfo = (WeChatUserInfo)bundle.getSerializable("wechatinfo");
+                Log.e(TAG, "姓名" + weChatUserInfo.getNickname() + "\n性别" + weChatUserInfo.getSex() + "\n位置" + weChatUserInfo.getCountry() + weChatUserInfo.getCity() + weChatUserInfo.getProvince() + "\naccessToken" + weChatUserInfo.getAccesstoken() + "\n头像" + weChatUserInfo.getHeadimgurl());
+                loginPresenter.isWechatRegister(weChatUserInfo.getAccesstoken());
+                this.weChatUserInfo = weChatUserInfo;
+            }
         }
+
     }
 
     @Override

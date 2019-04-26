@@ -45,7 +45,7 @@ public class AboutusActivity extends AppCompatActivity {
                 .addGroup("课程合作")
                 .addItem(new Element().setTitle("如果您希望在艺派上开设课程，请与我们联系。"))
                 .addEmail("CogitoTec@163.com","点击此处发送邮件")
-                .addItem(new Element().setTitle("联系电话：(010)5338 1318 点击拨打").setIconDrawable(R.drawable.baseline_phone_black_24).setOnClickListener(new View.OnClickListener() {
+                .addItem(new Element().setTitle("联系电话：(010)5338 1318 点击拨打").setIconDrawable(R.drawable.phoneabout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //TODO 跳转到拨号
@@ -57,7 +57,7 @@ public class AboutusActivity extends AppCompatActivity {
                 }))
                 .addGroup("商务合作")
                 .addEmail("CogitoTec@163.com","点击此处发送邮件")
-                .addItem(new Element().setTitle("联系电话：(010)5338 1318 点击拨打").setIconDrawable(R.drawable.baseline_phone_black_24).setOnClickListener(new View.OnClickListener() {
+                .addItem(new Element().setTitle("联系电话：(010)5338 1318 点击拨打").setIconDrawable(R.drawable.phoneabout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //TODO 跳转到拨号
@@ -68,7 +68,7 @@ public class AboutusActivity extends AppCompatActivity {
                     }
                 }))
                 //.addWebsite("")
-                .addGitHub("Leothon")
+                //.addGitHub("Leothon")
                 .addItem(new Element().setTitle("版本号 V 1.0").setGravity(Gravity.CENTER))
                 .create();
         setContentView(aboutPage);
