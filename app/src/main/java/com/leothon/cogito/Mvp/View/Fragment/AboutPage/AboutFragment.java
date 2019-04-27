@@ -295,7 +295,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
     @OnClick(R.id.wallet_about)
     public void walletClick(View v){
-        toWalletPage();
+        MyToast.getInstance(getMContext()).show("暂未开放，敬请期待",Toast.LENGTH_SHORT);
+        //toWalletPage();
     }
     @OnClick(R.id.message_about)
     public void messageClick(View v){
