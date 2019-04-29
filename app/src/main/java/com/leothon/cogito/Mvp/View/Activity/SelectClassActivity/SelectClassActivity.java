@@ -89,6 +89,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     private RelativeLayout shareToMore;
 
     private PopupWindow sharePopup;
+    private ClassDetail shareClassDetail;
 
     private View popUPView;
 
@@ -231,7 +232,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             @Override
             public void setQQUIListener(ClassDetail classDetail) {
                 showShareWindow();
-                //shareClassDetail = classDetail;
+                shareClassDetail = classDetail;
                 //shareToQQClass(classDetail);
             }
         });
@@ -350,7 +351,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         shareToQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //shareToQQClass(shareClassDetail);
+                shareToQQClass(shareClassDetail);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
             }
@@ -360,7 +361,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             public void onClick(View view) {
                 Bundle bundleto = new Bundle();
                 bundleto.putString("flag","1");
-                //bundleto.putSerializable("data",shareClassDetail);
+                bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
@@ -371,7 +372,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             public void onClick(View view) {
                 Bundle bundleto = new Bundle();
                 bundleto.putString("flag","2");
-                //bundleto.putSerializable("data",shareClassDetail);
+                bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
@@ -380,7 +381,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         shareToMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ///shareToMoreInfo(shareClassDetail);
+                shareToMoreInfo(shareClassDetail);
                 sharePopup.dismiss();
                 dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
             }

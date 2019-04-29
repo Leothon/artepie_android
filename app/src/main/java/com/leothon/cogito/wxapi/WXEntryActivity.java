@@ -57,6 +57,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     private ClassDetail classDetail;
     private Article article;
     private IWXAPI wx_api;
+
+    private String openId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +125,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             @Override
                             public void success(okhttp3.Call call, Response response) throws IOException {
                                 String responseData = response.body().string();
+                                Log.e( "success: ", responseData);
                                 parseJSONWithGSON(responseData);
                             }
 
@@ -158,6 +161,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      * @param user_info_url
      */
     private void getUserInfo(String user_info_url) {
+
         Map<String, String> reqBody = new ConcurrentSkipListMap<>();
         WechatUtils netUtils = WechatUtils.getInstance();
         netUtils.postDataAsynToNet(user_info_url, reqBody,
@@ -165,6 +169,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     @Override
                     public void success(okhttp3.Call call, Response response) throws IOException {
                         String str = response.body().string();
+                        Log.e( "success: ", "用户信息" + str);
                         parseJSONUser(str);
                     }
 
@@ -239,6 +244,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
         WeChatData weChatData = gson.fromJson(jsonData,WeChatData.class);
         accessToken = weChatData.getAccess_token();
+        openId = weChatData.getOpenid();
         String str = getUserInfo(weChatData.getAccess_token(), weChatData.getOpenid());
         getUserInfo(str);
     }
@@ -246,10 +252,10 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     // 解析用户信息
     private void parseJSONUser(String jsonData) {
         Gson gson = new Gson();
-        Log.e( "parseJSONUser: ", jsonData);
-        WeChatUserInfo weChatUserInfo = gson.fromJson(jsonData,WeChatUserInfo.class);
 
-        weChatUserInfo.setAccesstoken(accessToken);
+        WeChatUserInfo weChatUserInfo = gson.fromJson(jsonData,WeChatUserInfo.class);
+        //TODO
+        weChatUserInfo.setAccesstoken(openId);
         Bundle bundle = new Bundle();
         bundle.putSerializable("wechatinfo",weChatUserInfo);
         IntentUtils.getInstence().intent(WXEntryActivity.this,LoginActivity.class,bundle);

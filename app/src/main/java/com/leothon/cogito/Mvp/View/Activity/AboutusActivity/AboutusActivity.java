@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
@@ -24,9 +25,8 @@ public class AboutusActivity extends AppCompatActivity {
         aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.mipmap.icon_about)
-                .setDescription("艺派联手国内各大知名艺术教育家推出线上教育视频学习、互动、在线提问等一站式用户知识管理解决方案，用户通过互联网渠道获取教学资源，让每个用户都能接受公平的、优质的、科学的高等教育。")
-                .addItem(new Element().setTitle("Copyright©2018-2019").setGravity(Gravity.CENTER))
-                .addItem(new Element().setTitle("叮点科技（北京）有限公司版权所有").setGravity(Gravity.CENTER))
+                .setDescription("艺派，是一所没有围墙的创新型艺术大学。将联手国内各大智慧艺术教育家推出在线视频学习、直播、问答等功能，让每个艺术爱好者都能获得公平、优质、专业的学习资源。")
+
                 .addItem(new Element().setTitle("联系我们").setGravity(Gravity.CENTER))
                 .addGroup("客户服务")
                 .addEmail("CogitoTec@163.com","点击此处发送邮件")
@@ -69,7 +69,8 @@ public class AboutusActivity extends AppCompatActivity {
                 }))
                 //.addWebsite("")
                 //.addGitHub("Leothon")
-                .addItem(new Element().setTitle("版本号 V 1.0").setGravity(Gravity.CENTER))
+                .addItem(new Element().setTitle("叮点科技（北京）有限公司版权所有").setGravity(Gravity.CENTER))
+                .addItem(new Element().setTitle("Copyright©2018-2019  版本号 V " + CommonUtils.getVerName(this)).setGravity(Gravity.CENTER))
                 .create();
         setContentView(aboutPage);
 

@@ -22,7 +22,7 @@ public class ArticleHisModel implements ArticleHisContract.IArticleHisModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        //listener.showInfo(errorMsg);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -51,7 +51,7 @@ public class ArticleHisModel implements ArticleHisContract.IArticleHisModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        //listener.showInfo(errorMsg);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {

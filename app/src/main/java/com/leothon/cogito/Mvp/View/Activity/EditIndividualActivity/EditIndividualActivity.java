@@ -212,8 +212,19 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         userSend.setUser_role(userEntity.getUser_role());
         userInsert.setUser_role(userEntity.getUser_role());
 
-        userSend.setUser_birth(userBirth.getText().toString());
-        userInsert.setUser_birth(userBirth.getText().toString());
+        if (userBirth.getText().toString() != null){
+            if (!userBirth.getText().toString().equals("")){
+                userSend.setUser_birth(userBirth.getText().toString());
+                userInsert.setUser_birth(userBirth.getText().toString());
+            }else {
+                userSend.setUser_birth("");
+                userInsert.setUser_birth("");
+            }
+        }else {
+            userSend.setUser_birth("");
+            userInsert.setUser_birth("");
+        }
+
         userSend.setUser_phone(userNumber.getText().toString());
         userInsert.setUser_phone(userNumber.getText().toString());
         userSend.setUser_signal(userSignal.getText().toString());

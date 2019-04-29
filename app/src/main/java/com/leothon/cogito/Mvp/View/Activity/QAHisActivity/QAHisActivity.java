@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,6 +110,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
         if (swpUpload.isRefreshing()){
             swpUpload.setRefreshing(false);
         }
+
         initAdapter();
     }
 
@@ -141,7 +143,7 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
 
     private void initAdapter(){
         swpUpload.setOnRefreshListener(this);
-        uploadAdapter = new AskAdapter(this,askArrayList,"",true);
+        uploadAdapter = new AskAdapter(this,askArrayList,"通知",true);
         final LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvUpload.setLayoutManager(mlinearLayoutManager);
         rvUpload.setAdapter(uploadAdapter);

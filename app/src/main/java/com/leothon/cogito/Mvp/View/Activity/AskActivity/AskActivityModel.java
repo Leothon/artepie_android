@@ -98,7 +98,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        //listener.showInfo(errorMsg);
 
                     }
                     @Override
@@ -130,7 +130,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        //listener.showInfo(errorMsg);
 
                     }
                     @Override
@@ -162,7 +162,7 @@ public class AskActivityModel implements AskActivityContract.IAskActivityModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        //listener.showInfo(errorMsg);
 
                     }
                     @Override

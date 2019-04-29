@@ -368,7 +368,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void isQQRegisterResult(String msg) {
         if (msg.equals("0")){
 
-            loginPresenter.loginByQQ(mTencent.getAccessToken());
+            loginPresenter.loginByQQ(mTencent.getOpenId());
 
         }else if (msg.equals("1")){
             User user = new User();
@@ -383,7 +383,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 }else {
                     user.setUser_sex(0);
                 }
-                user.setTencent_token(mTencent.getAccessToken());
+                user.setTencent_token(mTencent.getOpenId());
                 loginPresenter.qqUserRegister(user);
             }catch (JSONException e){
                 e.printStackTrace();
@@ -398,7 +398,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void isWeChatRegisterResult(String msg) {
         if (msg.equals("0")){
 
-            loginPresenter.loginByQQ(mTencent.getAccessToken());
+//            loginPresenter.loginByQQ(mTencent.getAccessToken());
+            loginPresenter.loginByQQ(weChatUserInfo.getAccesstoken());
 
         }else if (msg.equals("1")){
             User user = new User();
@@ -530,6 +531,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 String openID = obj.getString("openid");
                 final String accessToken = obj.getString("access_token");
                 String expires = obj.getString("expires_in");
+                String openId = obj.getString("openid");
                 mTencent.setOpenId(openID);
                 mTencent.setAccessToken(accessToken,expires);
                 QQToken qqToken = mTencent.getQQToken();
@@ -539,7 +541,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                     public void onComplete(Object response) {
                         //MyToast.getInstance(this).show(LoginActivity.this,"登录成功");
                         loginSuccessResult = response;
-                        loginPresenter.isQQRegister(accessToken);
+                        loginPresenter.isQQRegister(openId);
                         //Log.e(TAG,"登录成功" + response.toString());
                     }
 
