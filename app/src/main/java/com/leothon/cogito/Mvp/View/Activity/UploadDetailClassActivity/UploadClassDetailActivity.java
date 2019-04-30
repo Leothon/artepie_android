@@ -170,7 +170,7 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
 
                     path = selectList.get(0).getPath();
                     if (!CommonUtils.isBeyondVideoSizeLimited(path)){
-                        addVideo.setImageResource(R.drawable.video_play_normal);
+                        addVideo.setImageResource(R.drawable.baseline_play_circle_outline_black_24);
                         uploadVideo.setImageBitmap(CommonUtils.getVideoThumb(path));
                         isHasVideo = true;
                         duration = String.valueOf(CommonUtils.getVideoDuration(path));

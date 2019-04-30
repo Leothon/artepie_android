@@ -344,7 +344,10 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                     public void onClick(View v) {
                         askPresenter.deleteQa(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
                         asks.remove(position);
-                        askAdapter.notifyDataSetChanged();
+                        askAdapter.notifyItemRemoved(position);
+                        //askAdapter.notifyItemChanged(position);
+                        //askAdapter.notifyItemRangeChanged(position, asks.size());
+                        //askAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
                     }
                 });

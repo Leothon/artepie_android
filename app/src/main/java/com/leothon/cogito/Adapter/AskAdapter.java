@@ -318,20 +318,33 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
             askViewHolder.userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isLogin){
+                        intoIndividual(ask);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
 
-                   intoIndividual(ask);
                 }
             });
             askViewHolder.userName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    intoIndividual(ask);
+                    if (isLogin){
+                        intoIndividual(ask);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
+
                 }
             });
             askViewHolder.userDes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   intoIndividual(ask);
+                    if (isLogin){
+                        intoIndividual(ask);
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
                 }
             });
 

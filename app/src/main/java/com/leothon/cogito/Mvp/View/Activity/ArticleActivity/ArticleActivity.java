@@ -302,15 +302,20 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     @OnClick(R.id.article_author_icon_detail)
     public void toUserZone(View view){
-        Bundle bundleto = new Bundle();
-        if (article.getArticleAuthorId().equals(uuid)){
-            bundleto.putString("type","individual");
+        if((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            Bundle bundleto = new Bundle();
+            if (article.getArticleAuthorId().equals(uuid)){
+                bundleto.putString("type","individual");
+            }else {
+                bundleto.putString("type","other");
+                bundleto.putString("userId",article.getArticleAuthorId());
+            }
+
+            IntentUtils.getInstence().intent(ArticleActivity.this, IndividualActivity.class,bundleto);
         }else {
-            bundleto.putString("type","other");
-            bundleto.putString("userId",article.getArticleAuthorId());
+            CommonUtils.loadinglogin(this);
         }
 
-        IntentUtils.getInstence().intent(ArticleActivity.this, IndividualActivity.class,bundleto);
 
     }
 

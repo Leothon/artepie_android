@@ -145,7 +145,9 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) + CommonUtils.dip2px(getMContext(),45);
         articleBar.setLayoutParams(layoutParams);
         articleBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
-        userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?", tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token","").toString()).getUid()).get(0);
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)) {
+            userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class, "where user_id = ?", tokenUtils.ValidToken(fragmentsharedPreferencesUtils.getParams("token", "").toString()).getUid()).get(0);
+        }
     }
 
     @Override
@@ -282,18 +284,28 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             swpArticle.setRefreshing(false);
         }
         articles = articleData.getArticles();
-        this.articleData.setUser_icon(userEntity.getUser_icon());
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            this.articleData.setUser_icon(userEntity.getUser_icon());
+        }else {
+            this.articleData.setUser_icon("");
+        }
+
         initAdapter();
 
     }
 
     @OnClick(R.id.float_btn_article)
     public void writeArticle(View view){
-        if (CommonUtils.isVIP(userEntity.getUser_role()) == 2){
-            dialogLoading();
+        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            if (CommonUtils.isVIP(userEntity.getUser_role()) == 1){
+                toWriteArticle();
+            }else {
+                dialogLoading();
+            }
         }else {
-            toWriteArticle();
+            CommonUtils.loadinglogin(getContext());
         }
+
 
     }
 
@@ -301,7 +313,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         final CommonDialog dialog = new CommonDialog(getContext());
 
 
-        dialog.setMessage("你未成为认证用户，暂不可发表文章")
+        dialog.setMessage("您未认证讲师，暂不可发表文章")
                 .setTitle("提示")
                 .setSingle(false)
                 .setNegtive("取消")

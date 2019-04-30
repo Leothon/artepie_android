@@ -102,7 +102,9 @@ public class IndividualActivity extends BaseActivity {
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
 
-        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        }
     }
     @Override
     public void initView() {
@@ -315,7 +317,7 @@ public class IndividualActivity extends BaseActivity {
 
 
         if (userEntity.getUser_phone() != null){
-            if (!userEntity.getUser_phone().equals("")){
+            if (!userEntity.getUser_phone().equals("") && CommonUtils.isPhoneNumber(userEntity.getUser_phone())){
                 VsureDialog();
             }else {
                 bindPhoneDialog();

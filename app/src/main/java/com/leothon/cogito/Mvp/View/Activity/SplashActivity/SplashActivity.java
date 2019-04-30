@@ -66,34 +66,49 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (sharedPreferencesUtils.contain("token")){
-                    String token = sharedPreferencesUtils.getParams("token","").toString();
-                    tokenValid = tokenUtils.ValidToken(token);
-                    if (tokenValid.isExpired()){
-                        MyToast.getInstance(SplashActivity.this).show("您的身份信息已过期，请重新登录", Toast.LENGTH_LONG);
-                        sharedPreferencesUtils.clear();
-                        baseApplication.getDaoSession().deleteAll(UserEntity.class);
+                if (sharedPreferencesUtils.contain("login")){
+                    if ((boolean)sharedPreferencesUtils.getParams("login",false)){
+                        if (sharedPreferencesUtils.contain("token")){
+                            String token = sharedPreferencesUtils.getParams("token","").toString();
+                            tokenValid = tokenUtils.ValidToken(token);
+                            if (tokenValid.isExpired()){
+                                MyToast.getInstance(SplashActivity.this).show("您的身份信息已过期，请重新登录", Toast.LENGTH_LONG);
+                                sharedPreferencesUtils.clear();
+                                baseApplication.getDaoSession().deleteAll(UserEntity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mark", "normal");
+                                IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
+                                finish();
+
+                            }else {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type","home");
+                                IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
+                                sharedPreferencesUtils.setParams("login",true);
+                                finish();
+
+                            }
+
+                        }else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mark", "normal");
+                            IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
+                            finish();
+                        }
+                    }else {
                         Bundle bundle = new Bundle();
                         bundle.putString("mark", "normal");
                         IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
                         finish();
-
-                    }else {
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("type","home");
-                        IntentUtils.getInstence().intent(SplashActivity.this,HostActivity.class,bundle);
-                        sharedPreferencesUtils.setParams("login",true);
-                        finish();
-
                     }
-
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putString("mark", "normal");
                     IntentUtils.getInstence().intent(SplashActivity.this, LoginActivity.class, bundle);
                     finish();
                 }
+
             }
         },2500);
 

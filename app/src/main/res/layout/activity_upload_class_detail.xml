@@ -11,15 +11,23 @@
 
 
     <include
-        android:id="@+id/progress_show_class"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        layout="@layout/progress_view"
-        android:layout_margin="10dp"
+        android:id="@+id/upload_bar"
+        layout="@layout/toolbar"/>
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:layout_below="@+id/upload_bar"
+        android:id="@+id/progress_upload_class"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/NumberProgressBar_Twinkle_Night"
+
+        android:visibility="invisible"
         />
     <ScrollView
+        android:layout_below="@+id/progress_upload_class"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -90,27 +98,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.daimajia.numberprogressbar.NumberProgressBar
-        android:layout_margin="20dp"
-        android:id="@+id/progress_upload_class"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
-        custom:progress_unreached_color="#CCCCCC"
-        custom:progress_reached_color="@color/colorPrimary"
-
-        custom:progress_unreached_bar_height="8dp"
-        custom:progress_reached_bar_height="10dp"
-
-        custom:progress_text_size="20sp"
-        custom:progress_text_color="@color/colorPrimary"
-        custom:progress_text_offset="3dp"
-        custom:progress_text_visibility="visible"
-
-        custom:progress_max="100"
-
-        android:visibility="gone"
-        />
 
 </RelativeLayout> 

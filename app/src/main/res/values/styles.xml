@@ -118,4 +118,22 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+
+
+    <style name="NumberProgressBar_Twinkle_Night">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#f26402</item>
+        <item name="progress_text_size">15sp</item>
+        <item name="progress_text_color">#f26402</item>
+
+        <item name="progress_reached_bar_height">2.5dp</item>
+        <item name="progress_unreached_bar_height">2dp</item>
+    </style>
+
 </resources>

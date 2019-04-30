@@ -151,6 +151,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
         if (userEntity.getUser_birth() != null){
             userBirth.setText(userEntity.getUser_birth());
+        }else {
+            userBirth.setText(CommonUtils.getNowTime());
         }
         if (userEntity.getUser_phone() != null){
             phone = userEntity.getUser_phone();
@@ -376,7 +378,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         final CommonDialog dialog = new CommonDialog(this);
 
 
-        dialog.setMessage("个人信息已经修改，请点击完成进行保存")
+        dialog.setMessage("个人信息已经修改，请点击完成保存")
                 .setTitle("修改提示")
                 .setSingle(false)
                 .setNegtive("不保存")

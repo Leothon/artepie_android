@@ -16,6 +16,18 @@
         layout="@layout/toolbar"/>
 
 
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:layout_below="@+id/ask_bar_ask"
+        android:id="@+id/progress_upload_video"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/NumberProgressBar_Twinkle_Night"
+
+        android:visibility="invisible"
+        />
     <RelativeLayout
         android:id="@+id/ask_bottom"
         android:layout_width="match_parent"
@@ -59,7 +71,7 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_below="@+id/ask_bar_ask"
+        android:layout_below="@+id/progress_upload_video"
         android:layout_above="@+id/ask_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -137,28 +149,7 @@
 
 
 
-        <com.daimajia.numberprogressbar.NumberProgressBar
-            android:layout_margin="20dp"
-            android:id="@+id/progress_upload_video"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            custom:progress_unreached_color="#CCCCCC"
-            custom:progress_reached_color="@color/colorPrimary"
-
-            custom:progress_unreached_bar_height="8dp"
-            custom:progress_reached_bar_height="10dp"
-
-            custom:progress_text_size="20sp"
-            custom:progress_text_color="@color/colorPrimary"
-            custom:progress_text_offset="3dp"
-            custom:progress_text_visibility="visible"
-
-            custom:progress_max="100"
-
-            android:visibility="gone"
-            />
 
 
 

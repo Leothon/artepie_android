@@ -255,6 +255,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
                     //progressShow.setVisibility(View.VISIBLE);
                     //showLoadingAnim();
                     progressBar.setVisibility(View.VISIBLE);
+                    send.setEnabled(false);
                     uploadVideo(filePath);
                     //askActivityPresenter.uploadFile(filePath);
 
@@ -286,9 +287,9 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
             @Override
             public void inProgress(long progress, long allsi) {
-                progressBar.setMax(Integer.parseInt(String.valueOf(progress)));
+                progressBar.setMax(Integer.parseInt(String.valueOf(allsi)));
                 progressBar.incrementProgressBy(1);
-                progressBar.setProgress(Integer.parseInt(String.valueOf(allsi)));
+                progressBar.setProgress(Integer.parseInt(String.valueOf(progress)));
 
             }
         },file.getName(),path);
@@ -324,7 +325,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     public void getUploadUrl(String url) {
 
 
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.INVISIBLE);
 
         //hideLoadingAnim();
         sendQAData.setQa_video(url);
