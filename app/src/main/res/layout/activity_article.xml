@@ -189,7 +189,8 @@
                     android:id="@+id/article_content_show"
                     android:background="@null"
                     android:layout_margin="10dp"
-                    android:lineSpacingMultiplier="1"/>
+                    android:lineSpacingMultiplier="1"
+                    android:lineSpacingExtra="10dp"/>
 
                 <TextView
                     android:layout_below="@+id/article_content_show"

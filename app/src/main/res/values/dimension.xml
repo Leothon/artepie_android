@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="littleSize">10sp</dimen>
+    <dimen name="littleSize">8sp</dimen>
 
-    <dimen name="tipsSize">12sp</dimen>
-    <dimen name="contentSize">14sp</dimen>
-    <dimen name="littleTitle">16sp</dimen>
-    <dimen name="appBarSize">20sp</dimen>
-    <dimen name="largeTitle">24sp</dimen>
-    <dimen name="hugeTitle">36sp</dimen>
-    <dimen name="post_media_height">200dp</dimen>
-    <dimen name="progress_height">10dp</dimen>
+    <dimen name="tipsSize">10sp</dimen>
+    <dimen name="contentSize">12sp</dimen>
+    <dimen name="littleTitle">14sp</dimen>
+    <dimen name="appBarSize">18sp</dimen>
+    <dimen name="largeTitle">22sp</dimen>
+    <dimen name="hugeTitle">34sp</dimen>
+    <dimen name="post_media_height">198dp</dimen>
+    <dimen name="progress_height">8dp</dimen>
 </resources>

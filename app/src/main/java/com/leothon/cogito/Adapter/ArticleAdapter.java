@@ -57,8 +57,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int HEAD1 = 1;
 
 
-    private SharedPreferencesUtils sharedPreferencesUtils;
-    private String userId;
+//    private SharedPreferencesUtils sharedPreferencesUtils;
+//    private String userId;
 
 
     public ArticleAdapter(ArticleData articleData, Context context){
@@ -80,8 +80,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         int viewType = getItemViewType(position);
-        sharedPreferencesUtils = new SharedPreferencesUtils(context, "saveToken");
-        userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token", "").toString()).getUid();
+//        sharedPreferencesUtils = new SharedPreferencesUtils(context, "saveToken");
+//        userId = tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token", "").toString()).getUid();
         if (viewType == HEAD0) {
             ArticleHeadViewHolder articleHeadViewHolder = (ArticleHeadViewHolder)holder;
 
@@ -114,8 +114,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleAuthorIcon(),articleViewHolder.articleAuthorIcon,R.drawable.defaulticon);
             articleViewHolder.articleTitle.setText(article.getArticleTitle());
             articleViewHolder.articleAuthor.setText(article.getArticleAuthorName());
-            articleViewHolder.articleTime.setText(CommonUtils.getTimeRange(article.getArticleTime()));
-
+            //articleViewHolder.articleTime.setText(CommonUtils.getTimeRange(article.getArticleTime()));
+            articleViewHolder.articleTime.setVisibility(View.GONE);
+            articleViewHolder.articleCount.setText("阅读 " + CommonUtils.numToChar(article.getArticleVisionCount()));
             int role = CommonUtils.isVIP(article.getAuthorRole());
             if (role != 2){
                 articleViewHolder.authorInfo.setVisibility(View.VISIBLE);
@@ -189,6 +190,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class ArticleViewHolder extends RecyclerView.ViewHolder{
 
 
+        @BindView(R.id.article_vision_count)
+        TextView articleCount;
         @BindView(R.id.article_img)
         RoundedImageView articleImg;
         @BindView(R.id.article_author_icon)

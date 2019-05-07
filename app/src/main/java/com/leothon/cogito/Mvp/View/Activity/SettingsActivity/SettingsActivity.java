@@ -35,6 +35,7 @@ import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.Weight.UpdateDialog;
 import com.tencent.tauth.Tencent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -72,6 +73,8 @@ public class SettingsActivity extends BaseActivity {
     private boolean isNewVersion = true;
 
     private BaseApplication baseApplication;
+
+    private String updateVersion;
 
     @Override
     public int initLayout() {
@@ -132,7 +135,7 @@ public class SettingsActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseResponse baseResponse) {
                         Update update = (Update)baseResponse.getData();
-                        String updateVersion = update.getUpdateVersion();
+                        updateVersion = update.getUpdateVersion();
                         if (!updateVersion.equals(CommonUtils.getVerName(SettingsActivity.this))){
                             //TODO 检查更新
                             //dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
@@ -180,20 +183,51 @@ public class SettingsActivity extends BaseActivity {
             UpdateMessage updateMessage = new UpdateMessage();
             updateMessage.setMessage("hide");
             EventBus.getDefault().post(updateMessage);
-            Intent intent = new Intent();
+//            Intent intent = new Intent();
+//
+//            intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));//Url 就是你要打开的网址
+//            intent.setAction(Intent.ACTION_VIEW);
+//            startActivity(intent); //启动浏览器
 
-            intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));//Url 就是你要打开的网址
-            intent.setAction(Intent.ACTION_VIEW);
-            startActivity(intent); //启动浏览器
+            dialogLoading(CommonUtils.getVerName(SettingsActivity.this),updateVersion);
 
             //downloadBinder.startDownload();
         }
 
 
-
     }
 
 
+    private  void dialogLoading(String oldVersion,String newVersion){
+        final UpdateDialog dialog = new UpdateDialog(this);
+
+
+        dialog.setMessage("检查到新版本更新\n当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
+                .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
+                    @Override
+                    public void onMarketClick() {
+                        dialog.dismiss();
+                        CommonUtils.toMarket(SettingsActivity.this);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onLinkClick() {
+                        dialog.dismiss();
+                        Intent intent = new Intent();
+
+                        intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));
+                        intent.setAction(Intent.ACTION_VIEW);
+                        startActivity(intent); //启动浏览器
+                    }
+                }).show();
+
+    }
     @OnClick(R.id.log_out_settings)
     public void logout(View view){
         SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(this,"saveToken");
@@ -212,14 +246,9 @@ public class SettingsActivity extends BaseActivity {
     @Override
     public void initData() {
 
-        Intent intent = new Intent(SettingsActivity.this, DownloadService.class);
-
-
-        bindService(intent,connection,BIND_AUTO_CREATE);//绑定服务
-        startService(intent);//启动服务
-        if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(SettingsActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }
+        Intent intentService = new Intent(this, DownloadService.class);
+        startService(intentService);
+        bindService(intentService, connection, BIND_AUTO_CREATE);
         mTencent = Tencent.createInstance(Constants.APP_ID,SettingsActivity.this.getApplicationContext());
 
         if (baseApplication == null){

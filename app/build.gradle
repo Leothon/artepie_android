@@ -117,4 +117,7 @@ dependencies {
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation files('libs/jsms_android-1.2.2.jar')
     //implementation files('libs/aapt2-3.2.0-4818971-windows.jar')
+
+
+    implementation 'cn.bingoogolapple:bga-update:1.0.2@aar'
 }

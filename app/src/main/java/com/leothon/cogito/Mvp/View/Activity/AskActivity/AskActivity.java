@@ -279,7 +279,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
              */
             @Override
             public void successVideo(String video_url) {
-
+                Log.e(TAG, "successVideo: " + video_url);
                 sendQAData.setQa_video(video_url);
                 askActivityPresenter.sendData(sendQAData);
 
@@ -287,6 +287,7 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
             @Override
             public void inProgress(long progress, long allsi) {
+                Log.e(TAG, "inProgress: 运行" );
                 progressBar.setMax(Integer.parseInt(String.valueOf(allsi)));
                 progressBar.incrementProgressBy(1);
                 progressBar.setProgress(Integer.parseInt(String.valueOf(progress)));

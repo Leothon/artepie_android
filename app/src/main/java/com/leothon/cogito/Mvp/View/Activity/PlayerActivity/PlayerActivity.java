@@ -521,6 +521,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                 }
             });
 
+
+
             //loadComment(null);
 
             commentIn.setOnClickListener(new View.OnClickListener() {

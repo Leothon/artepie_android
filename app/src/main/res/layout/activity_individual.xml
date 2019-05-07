@@ -188,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="认证个人或教师"
+                    android:textSize="@dimen/contentSize"
                     android:background="@drawable/v_ensure"
                     android:textColor="@color/white"
                     android:gravity="center"
@@ -195,6 +196,7 @@
                 <TextView
                     android:id="@+id/individual_content"
                     android:text="我的课程"
+                    android:textSize="@dimen/contentSize"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/textviewbackground"

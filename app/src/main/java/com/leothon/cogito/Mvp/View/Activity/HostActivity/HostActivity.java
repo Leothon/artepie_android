@@ -50,6 +50,7 @@ import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.BottomButton;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.leothon.cogito.Weight.UpdateDialog;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
@@ -62,6 +63,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import cn.bingoogolapple.update.BGADownloadProgressEvent;
+import cn.bingoogolapple.update.BGAUpgradeUtil;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -120,23 +123,23 @@ public class HostActivity extends BaseActivity  {
     private String info;
 
 
-    private DownloadService.DownloadBinder downloadBinder;
-
-    private ServiceConnection connection = new ServiceConnection() {
-
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(TAG, "执行了");
-            downloadBinder = (DownloadService.DownloadBinder) service;
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
+//    private DownloadService.DownloadBinder downloadBinder;
+//
+//    private ServiceConnection connection = new ServiceConnection() {
+//
+//
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.e(TAG, "执行了");
+//            downloadBinder = (DownloadService.DownloadBinder) service;
+//
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//
+//        }
+//    };
 
 
 
@@ -163,8 +166,21 @@ public class HostActivity extends BaseActivity  {
             EventBus.getDefault().register(this);
         }
 
+//        BGAUpgradeUtil.getDownloadProgressEventObservable()
+//                .compose(this.<BGADownloadProgressEvent>bindToLifecycle())
+//                .subscribe(new Action1<BGADownloadProgressEvent>() {
+//                    @Override
+//                    public void call(BGADownloadProgressEvent downloadProgressEvent) {
+//                        if (mDownloadingDialog != null && mDownloadingDialog.isShowing() && downloadProgressEvent.isNotDownloadFinished()) {
+//                            mDownloadingDialog.setProgress(downloadProgressEvent.getProgress(), downloadProgressEvent.getTotal());
+//                        }
+//                    }
+//                });
 
 
+//        Intent intentService = new Intent(this, DownloadService.class);
+//        startService(intentService);
+//        bindService(intentService, connection, BIND_AUTO_CREATE);
 
 
 
@@ -200,6 +216,7 @@ public class HostActivity extends BaseActivity  {
                 switchFragment(HOMEPAGE);
                 break;
         }
+        //dialogLoading("1","2");
 
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
@@ -272,14 +289,7 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initData() {
 
-        Intent intent = new Intent(HostActivity.this, DownloadService.class);
 
-
-        bindService(intent,connection,BIND_AUTO_CREATE);//绑定服务
-        startService(intent);//启动服务
-        if (ContextCompat.checkSelfPermission(HostActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(HostActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
                 .compose(ThreadTransformer.switchSchedulers())
@@ -322,34 +332,33 @@ public class HostActivity extends BaseActivity  {
      * @param newVersion
      */
     private  void dialogLoading(String oldVersion,String newVersion){
-        final CommonDialog dialog = new CommonDialog(this);
+        final UpdateDialog dialog = new UpdateDialog(this);
 
 
         dialog.setMessage("检查到新版本更新\n当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
-                .setTitle("更新")
-                .setSingle(false)
-                .setNegtive("取消")
-                .setPositive("下载")
-                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
                     @Override
-                    public void onPositiveClick() {
+                    public void onMarketClick() {
                         dialog.dismiss();
-
-                        Intent intent = new Intent();
-
-                        intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));//Url 就是你要打开的网址
-                        intent.setAction(Intent.ACTION_VIEW);
-                        startActivity(intent); //启动浏览器
-                        //downloadBinder.startDownload("http://www.artepie.cn/apk/artparty.apk");
+                        CommonUtils.toMarket(HostActivity.this);
                     }
 
                     @Override
                     public void onNegativeClick() {
                         dialog.dismiss();
+
                     }
 
-                })
-                .show();
+                    @Override
+                    public void onLinkClick() {
+                        dialog.dismiss();
+                        Intent intent = new Intent();
+
+                        intent.setData(Uri.parse("http://www.artepie.cn/apk/artparty.apk"));
+                        intent.setAction(Intent.ACTION_VIEW);
+                        startActivity(intent); //启动浏览器
+                    }
+                }).show();
 
     }
 

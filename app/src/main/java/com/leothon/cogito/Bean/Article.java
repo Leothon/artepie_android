@@ -16,6 +16,15 @@ public class Article extends BaseResponse implements Serializable {
     private String articleAuthorId;
 
 
+    private String articleVisionCount;
+
+    public String getArticleVisionCount() {
+        return articleVisionCount;
+    }
+
+    public void setArticleVisionCount(String articleVisionCount) {
+        this.articleVisionCount = articleVisionCount;
+    }
     private String authorRole;
 
     public String getAuthorRole() {

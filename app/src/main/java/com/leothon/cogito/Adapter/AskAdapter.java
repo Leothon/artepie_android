@@ -140,7 +140,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
 
 
-            askViewHolder.qaTime.setText(CommonUtils.getTimeRange(ask.getQa_time()));
+            //askViewHolder.qaTime.setText(CommonUtils.getTimeRange(ask.getQa_time()));
+            askViewHolder.qaTime.setVisibility(View.GONE);
             String re = ask.getQa_content();
 
             SpannableString spannableString = new SpannableString(re);

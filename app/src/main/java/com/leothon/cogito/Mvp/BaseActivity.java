@@ -79,7 +79,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitUtils.autoFit(this,false);
+        //FitUtils.autoFit(this,false);
+        FitUtils.serCustomDensity(this,getApplication());
         if (!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }

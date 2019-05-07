@@ -48,13 +48,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="65dp"
-            app:fabSize="normal"
+            android:layout_marginBottom="70dp"
+            app:fabSize="mini"
             android:src="@drawable/write"
             android:tint="@color/white"
             app:backgroundTint="@color/elegance_black"
             app:rippleColor="@color/contentColor"
-            android:elevation="6dp" />
+            app:elevation="6dp" />
     </android.support.design.widget.CoordinatorLayout>
 
 

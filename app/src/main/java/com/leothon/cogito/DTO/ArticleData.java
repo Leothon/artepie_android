@@ -12,6 +12,9 @@ public class ArticleData {
 
     private String user_icon;
 
+
+
+
     public String getUser_icon() {
         return user_icon;
     }

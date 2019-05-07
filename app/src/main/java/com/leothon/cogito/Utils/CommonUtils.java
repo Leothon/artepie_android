@@ -11,6 +11,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -36,6 +37,7 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
+import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1152,6 +1155,62 @@ public class CommonUtils {
             mediaPlayer.release();
         }
         return duration;
+    }
+
+    /**
+     * @param num
+     * @return
+     */
+    public static String numToChar(String num){
+        int length = num.length();
+        DecimalFormat df=new DecimalFormat("0.0");
+        switch (length){
+            case 1:
+                return num;
+            case 2:
+                return num;
+            case 3:
+                return num;
+            case 4:
+                return num;
+            case 5:
+                return df.format((float)Integer.parseInt(num)/10000) + "万";
+            case 6:
+                return df.format((float)Integer.parseInt(num)/10000) + "万";
+            case 7:
+                return df.format((float)Integer.parseInt(num)/100000) + "百万";
+            case 8:
+                return df.format((float)Integer.parseInt(num)/1000000) + "千万";
+            default:
+                return df.format((float)Integer.parseInt(num)/1000000) + "千万+";
+        }
+
+    }
+
+
+    public static boolean toMarket(Context context) {
+
+        String appPkg = "com.leothon.cogito";
+        String marketPkg = null;
+        Uri uri = Uri.parse("market://details?id=" + appPkg);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (marketPkg != null) {
+            intent.setPackage(marketPkg);
+        }
+        try {
+            if (intent.resolveActivity(context.getPackageManager()) != null){
+                context.startActivity(intent);
+                return true;
+            }else {
+                MyToast.getInstance(context).show("没有应用市场",Toast.LENGTH_SHORT);
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
 

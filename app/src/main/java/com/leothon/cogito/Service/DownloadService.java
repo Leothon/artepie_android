@@ -73,8 +73,7 @@ public class DownloadService extends Service {
     };
 
 
-    public DownloadService() {
-    }
+    public DownloadService() { }
 
     private DownloadBinder mBinder = new DownloadBinder();
 
@@ -95,9 +94,9 @@ public class DownloadService extends Service {
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
         builder.setContentIntent(pi);
         builder.setContentTitle(title);
-        if (progress>=0){
+        if (progress >= 0){
             //当progress大于或者等于0时才需显示下载进度
-            builder.setContentText(progress+"%");
+            builder.setContentText(progress + "%");
             builder.setProgress(100,progress,false);
         }
         return builder.build();

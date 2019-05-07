@@ -35,11 +35,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="65dp"
-            app:fabSize="normal"
+            android:layout_marginBottom="70dp"
+            app:fabSize="mini"
             android:src="@drawable/ask"
             app:rippleColor="@color/contentColor"
-            android:elevation="6dp" />
+            app:elevation="6dp" />
         </android.support.design.widget.CoordinatorLayout>
 
 
