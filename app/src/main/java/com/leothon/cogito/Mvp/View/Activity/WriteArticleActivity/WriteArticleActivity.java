@@ -232,10 +232,13 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
         Article article = new Article();
         if (!writeArticleContent.getText().toString().equals("") && !writeArticleTitle.getText().toString().equals("")){
 
-            String articleImg = CommonUtils.getImgStr(CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)).get(0);
-            if (!articleImg.equals("")){
-                article.setArticleImg(articleImg);
+            if (CommonUtils.getImgStr(CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)).size() != 0){
+                String articleImg = CommonUtils.getImgStr(CustomHtml.toHtml(writeArticleContent.getEditableText(),CustomHtml.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)).get(0);
+                if (!articleImg.equals("")){
+                    article.setArticleImg(articleImg);
+                }
             }
+
 
 
             article.setArticleTitle(writeArticleTitle.getText().toString());

@@ -5,8 +5,8 @@
     <ImageView
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/iv"
-        android:layout_width="23dp"
-        android:layout_height="23dp"/>
+        android:layout_width="21dp"
+        android:layout_height="21dp"/>
 
     <TextView
         android:id="@+id/tv"

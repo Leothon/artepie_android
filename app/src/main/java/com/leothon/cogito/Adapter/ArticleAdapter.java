@@ -89,7 +89,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             for (int i = 0;i < articleData.getBanners().size();i ++){
                 urls.add(articleData.getBanners().get(i).getBanner_img());
             }
-            ImageLoader.loadImageViewThumbnailwitherror(context,articleData.getUser_icon(),articleHeadViewHolder.articleTitleIcon,R.drawable.defaulticon);            articleHeadViewHolder.articleBanner.setImageUrl(urls);
+            ImageLoader.loadImageViewThumbnailwitherror(context,articleData.getUser_icon(),articleHeadViewHolder.articleTitleIcon,R.drawable.defaulticon);
+            articleHeadViewHolder.articleBanner.setImageUrl(urls);
             articleHeadViewHolder.articleBanner.setPointPosition(2);//位置点为右边
 
             articleHeadViewHolder.articleBanner.setOnItemClickListener(new com.leothon.cogito.View.Banner.OnItemClickListener() {
@@ -110,7 +111,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int pos = position - 1;
             ArticleViewHolder articleViewHolder = (ArticleViewHolder)holder;
             Article article = articleData.getArticles().get(pos);
-            ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleImg(),articleViewHolder.articleImg,R.drawable.defalutimg);
+            ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleImg(),articleViewHolder.articleImg,R.drawable.default_cover);
             ImageLoader.loadImageViewThumbnailwitherror(context,article.getArticleAuthorIcon(),articleViewHolder.articleAuthorIcon,R.drawable.defaulticon);
             articleViewHolder.articleTitle.setText(article.getArticleTitle());
             articleViewHolder.articleAuthor.setText(article.getArticleAuthorName());

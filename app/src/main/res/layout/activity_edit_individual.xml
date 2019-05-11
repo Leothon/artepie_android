@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="头像"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -58,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="昵称"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -93,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="性别"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -127,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="生日"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -161,6 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="修改绑定号码"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -199,6 +204,7 @@
             android:layout_height="match_parent"
             android:text="修改签名"
             android:gravity="center"
+            android:textSize="@dimen/contentSize"
             android:layout_marginLeft="20dp"/>
 
 
@@ -237,6 +243,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="修改地址"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 
@@ -274,6 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="修改密码"
+            android:textSize="@dimen/contentSize"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
 

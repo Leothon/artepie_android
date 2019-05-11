@@ -170,8 +170,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     public void loadArticleData(final Article article) {
 
         this.article = article;
-        ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleImg(),articleImg,R.drawable.defalutimg);
-        ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleAuthorIcon(),articleAuthorIcon,R.drawable.defalutimg);
+        ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleImg(),articleImg,R.drawable.default_cover);
+        ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleAuthorIcon(),articleAuthorIcon,R.drawable.defaulticon);
         articleTitle.setText(article.getArticleTitle());
         articleAuthor.setText(article.getArticleAuthorName());
         articleRight.setText("本文著作权归作者 @" + article.getArticleAuthorName() + " 所有，转载请联系作者");

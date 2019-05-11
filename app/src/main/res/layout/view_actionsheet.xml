@@ -43,7 +43,7 @@
         android:background="@drawable/actionsheet_single_selector"
         android:gravity="center"
         android:text="@string/_cancel_action"
-        android:textColor="@color/actionsheet_blue"
-        android:textSize="16sp"/>
+        android:textColor="@color/pressColorPrimary"
+        android:textSize="@dimen/littleTitle"/>
 
 </LinearLayout>

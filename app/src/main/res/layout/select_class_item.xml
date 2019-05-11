@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="第一课："
+            android:textSize="@dimen/contentSize"
             android:layout_centerInParent="true"
             android:layout_alignParentStart="true"
             android:textColor="@color/fontColor"/>
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="声乐的产生"
+            android:textSize="@dimen/contentSize"
             android:layout_toRightOf="@+id/select_class_index"
             android:layout_centerInParent="true"
             android:textColor="@color/fontColor"

@@ -198,6 +198,7 @@ public class VSureActivity extends BaseActivity implements VSureContract.IVSureV
                 authInfoMark.setImageResource(R.drawable.unpass);
                 authAdvice.setText("认证建议 : " + authInfo.getAuthAdvice());
                 reAuthBtn.setVisibility(View.GONE);
+                sendVSure.setVisibility(View.GONE);
             }
 
         }

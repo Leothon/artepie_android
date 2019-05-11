@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +137,7 @@ public class ActionSheetDialog {
 
             TextView textView = new TextView(context);
             textView.setText(strItem);
-            textView.setTextSize(16);
+            textView.setTextSize(14);
             textView.setGravity(Gravity.CENTER);
 
             // 背景图片
@@ -166,11 +167,12 @@ public class ActionSheetDialog {
 
             // 字体颜色
             if (color == null) {
-                textView.setTextColor(Color.parseColor(SheetItemColor.Blue
+                textView.setTextColor(Color.parseColor(SheetItemColor.colorPrimary
                         .getName()));
             } else {
                 textView.setTextColor(Color.parseColor(color.getName()));
             }
+
 
             // 高度
             float scale = context.getResources().getDisplayMetrics().density;
@@ -214,7 +216,7 @@ public class ActionSheetDialog {
     }
 
     public enum SheetItemColor {
-        Blue("#037BFF"), Red("#FD4A2E");
+        colorPrimary("#f26402"), colorAccent("#db4437");
 
         private String name;
 

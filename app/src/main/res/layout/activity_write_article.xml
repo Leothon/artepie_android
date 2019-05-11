@@ -88,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:hint="输入内容"
                 android:minHeight="200dp"
+                android:textSize="@dimen/contentSize"
                 android:lineSpacingMultiplier="1.2"
                 android:background="@null"
                 android:gravity="top|left"

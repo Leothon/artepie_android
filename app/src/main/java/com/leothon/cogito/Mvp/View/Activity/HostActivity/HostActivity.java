@@ -63,8 +63,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import cn.bingoogolapple.update.BGADownloadProgressEvent;
-import cn.bingoogolapple.update.BGAUpgradeUtil;
+
 import io.reactivex.disposables.Disposable;
 
 /**

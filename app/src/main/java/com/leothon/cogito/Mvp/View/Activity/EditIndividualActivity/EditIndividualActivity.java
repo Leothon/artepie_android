@@ -38,6 +38,7 @@ import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.R;
 
+import com.leothon.cogito.Utils.AddressPickTask;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.MD5Utils;
@@ -59,6 +60,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.addapp.pickers.entity.City;
+import cn.addapp.pickers.entity.County;
+import cn.addapp.pickers.entity.Province;
 import cn.jpush.sms.SMSSDK;
 import cn.jpush.sms.listener.SmscheckListener;
 import cn.jpush.sms.listener.SmscodeListener;
@@ -337,7 +341,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     @OnClick(R.id.edit_address)
     public void editAddress(View view){
-        onTextEditDialog(ADDRESS);
+        //onTextEditDialog(ADDRESS);
+        getAddress();
     }
 
     @OnClick(R.id.edit_password)
@@ -423,8 +428,8 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
      * 显示性别对话框
      */
     private void showSexChooseDialog() {
-        AlertDialog.Builder builder3 = new AlertDialog.Builder(this);// 自定义对话框
-        builder3.setSingleChoiceItems(sexArray, 0, new DialogInterface.OnClickListener() {// 2默认的选中
+        AlertDialog.Builder builderSex = new AlertDialog.Builder(this);// 自定义对话框
+        builderSex.setSingleChoiceItems(sexArray, 0, new DialogInterface.OnClickListener() {// 2默认的选中
 
             @Override
             public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
@@ -433,7 +438,14 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                 dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
             }
         });
-        builder3.show();// 让弹出框显示
+        //builder3.show();// 让弹出框显示
+        AlertDialog alertDialog = builderSex.create();
+
+        alertDialog.show();
+        WindowManager.LayoutParams layoutParams = alertDialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alertDialog.getWindow().setAttributes(layoutParams);
     }
 
     private void onPasswordEditDialog(){
@@ -539,6 +551,10 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         AlertDialog alertDialog = alertDialogBuilder.create();
 
         alertDialog.show();
+        WindowManager.LayoutParams layoutParams = alertDialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alertDialog.getWindow().setAttributes(layoutParams);
     }
 
     private void onPhoneEditDialog(){
@@ -621,6 +637,10 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         AlertDialog alertDialog = alertDialogBuilder.create();
 
         alertDialog.show();
+        WindowManager.LayoutParams layoutParams = alertDialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alertDialog.getWindow().setAttributes(layoutParams);
     }
     /**
      * 文本编辑
@@ -690,50 +710,83 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
                                     }
                                 });
                 break;
-            case ADDRESS:
-                userInput.setFloatingLabelText("修改地址");
-                userInput.setText(userEntity.getUser_address() + "");
-                userInput.setHint("修改地址");
-                // 设置Dialog按钮
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("确认修改",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // 获取edittext的内容,显示到textview
-                                        if (!userInput.getText().toString().equals("")){
-                                            address = userInput.getText().toString();
-                                            userAddress.setText(address);
-                                            isEdit = true;
-                                        }
-
-                                    }
-                                })
-                        .setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
+//            case ADDRESS:
+//                userInput.setFloatingLabelText("修改地址");
+//                userInput.setText(userEntity.getUser_address() + "");
+//                userInput.setHint("修改地址");
+//                // 设置Dialog按钮
+//                alertDialogBuilder
+//                        .setCancelable(false)
+//                        .setPositiveButton("确认修改",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        // 获取edittext的内容,显示到textview
+//                                        if (!userInput.getText().toString().equals("")){
+//                                            address = userInput.getText().toString();
+//                                            userAddress.setText(address);
+//                                            isEdit = true;
+//                                        }
+//
+//                                    }
+//                                })
+//                        .setNegativeButton("取消",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
             default:
                 break;
 
         }
 
 
+
         AlertDialog alertDialog = alertDialogBuilder.create();
 
-        WindowManager.LayoutParams lp = alertDialog.getWindow().getAttributes();
 
 
-
-        lp.gravity = Gravity.CENTER;
-        alertDialog.getWindow().setAttributes(lp);
 
         alertDialog.show();
+        WindowManager.LayoutParams layoutParams = alertDialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alertDialog.getWindow().setAttributes(layoutParams);
     }
 
 
+    private void getAddress(){
+        AddressPickTask task = new AddressPickTask(this);
+        task.setHideProvince(false);
+        task.setHideCounty(false);
+        task.setCallback(new AddressPickTask.Callback() {
+            @Override
+            public void onAddressInitFailed() {
+                MyToast.getInstance(EditIndividualActivity.this).show("数据初始化失败",Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onAddressPicked(Province province, City city, County county) {
+                if (county == null) {
+                    setAddress(province.getAreaName() + " " + city.getAreaName());
+                } else {
+                    if (province.getAreaName().equals("北京") || province.getAreaName().equals("上海") || province.getAreaName().equals("天津") || province.getAreaName().equals("重庆")){
+                        setAddress(province.getAreaName() + " " + county.getAreaName());
+                    }else {
+                        setAddress(province.getAreaName() + " " + city.getAreaName() + " " + county.getAreaName());
+                    }
+
+                }
+            }
+        });
+        task.execute("北京", "北京", "东城区");
+    }
+
+    private void setAddress(String addressString){
+        address = addressString;
+        userAddress.setText(address);
+        isEdit = true;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -796,12 +849,12 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
         ActionSheetDialog mDialog = new ActionSheetDialog(this).builder();
         mDialog.setTitle("选择");
         mDialog.setCancelable(false);
-        mDialog.addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+        mDialog.addSheetItem("拍照", ActionSheetDialog.SheetItemColor.colorPrimary, new ActionSheetDialog.OnSheetItemClickListener() {
             @Override
             public void onClick(int which) {
                 PhotoUtils.photograph(EditIndividualActivity.this);
             }
-        }).addSheetItem("从相册选取", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+        }).addSheetItem("从相册选取", ActionSheetDialog.SheetItemColor.colorPrimary, new ActionSheetDialog.OnSheetItemClickListener() {
             @Override
             public void onClick(int which) {
                 PhotoUtils.selectPictureFromAlbum(EditIndividualActivity.this);

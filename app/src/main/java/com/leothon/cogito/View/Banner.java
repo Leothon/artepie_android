@@ -328,7 +328,7 @@ public class Banner extends RelativeLayout {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(0,5,0,5);
             if (isImageUrl) {
-                ImageLoader.loadImageViewThumbnailwitherror(getContext(),mImageUrls.get(toRealPosition(position)),imageView,R.drawable.defalutimg);
+                ImageLoader.loadImageViewThumbnailwitherror(getContext(),mImageUrls.get(toRealPosition(position)),imageView,R.drawable.default_cover);
             } else {
                 imageView.setImageResource(mImages.get(toRealPosition(position)));
             }
