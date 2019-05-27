@@ -2,6 +2,7 @@ package com.leothon.cogito.Http;
 
 
 import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.FeedbackInfo;
@@ -355,6 +356,80 @@ public interface HttpService {
     @GET("searchresult")
     Observable<BaseResponse<SearchResult>> searchResult(@Query("keyword") String keyword,@Query("token") String token);
 
+
+    /**
+     * 获取文章留言
+     * @param articleId
+     * @return
+     */
+    @GET("getarticlecomment")
+    Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleComment(@Query("articleid") String articleId);
+
+    /**
+     * 分页获取文章留言
+     * @param articleId
+     * @param currentPage
+     * @return
+     */
+    @GET("getarticlecommentmore")
+    Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleCommentMore(@Query("articleid") String articleId,@Query("currentPage") int currentPage);
+
+    /**
+     * 留言
+     * @param artComArtId
+     * @param token
+     * @param artCom
+     * @return
+     */
+    @POST("insertarticlecomment")
+    Observable<BaseResponse<String>> insertArticleComment(@Query("artcomartid") String artComArtId,@Query("token") String token,@Query("artcom") String artCom);
+
+    /**
+     * 作者回复留言
+     * @param artComId
+     * @param token
+     * @param artComReply
+     * @return
+     */
+    @POST("replyarticlecomment")
+    Observable<BaseResponse<String>> replyArticleComment(@Query("artcomid") String artComId,@Query("token") String token,@Query("artcomreply") String artComReply);
+
+    /**
+     * 删除留言
+     * @param artComId
+     * @param token
+     * @return
+     */
+    @POST("deletearticlecomment")
+    Observable<BaseResponse<String>> deleteArticleComment(@Query("artcomid") String artComId,@Query("token") String token);
+
+    /**
+     * 作者删除对留言的回复
+     * @param artComId
+     * @param token
+     * @return
+     */
+    @POST("deletereplyarticlecomment")
+    Observable<BaseResponse<String>> deleteReplyArticleComment(@Query("artcomid") String artComId,@Query("token") String token);
+
+    /**
+     * 赞同留言
+     * @param token
+     * @param artCommentId
+     * @return
+     */
+    @POST("likeariclecomment")
+    Observable<BaseResponse<String>> likeArticleComment(@Query("token") String token,@Query("artcommentid") String artCommentId);
+
+    /**
+     * 取消赞同留言
+     * @param artCommentId
+     * @param token
+     * @return
+     */
+    @POST("removelikearticlecomment")
+    Observable<BaseResponse<String>> removeLikeArticleComment(@Query("artcommentid") String artCommentId,@Query("token") String token);
+
     /**
      * 设置初始密码
      * @param token
@@ -666,5 +741,23 @@ public interface HttpService {
     @POST("bindphone")
     Observable<BaseResponse<String>> bindPhoneNumber(@Query("token") String token,@Query("phonenumber") String phoneNumber);
 
+
+    /**
+     * 推荐文章
+     * @param token
+     * @param articleId
+     * @return
+     */
+    @POST("addlikearticle")
+    Observable<BaseResponse<String>> addLikeArticle(@Query("token") String token,@Query("articleid") String articleId);
+
+    /**
+     * 取消推荐
+     * @param token
+     * @param articleId
+     * @return
+     */
+    @POST("removelikearticle")
+    Observable<BaseResponse<String>> removeLikeArticle(@Query("token") String token,@Query("articleid") String articleId);
 
 }

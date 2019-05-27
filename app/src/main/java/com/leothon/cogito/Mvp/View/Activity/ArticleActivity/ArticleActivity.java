@@ -1,6 +1,8 @@
 package com.leothon.cogito.Mvp.View.Activity.ArticleActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 
@@ -8,15 +10,26 @@ import android.graphics.drawable.BitmapDrawable;
 
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -25,12 +38,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.anzewei.parallaxbacklayout.ParallaxBack;
+import com.leothon.cogito.Adapter.ArticleCommentAdapter;
 import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -44,12 +61,15 @@ import com.leothon.cogito.handle.CustomHtml;
 import com.leothon.cogito.handle.RichEditImageGetter;
 import com.leothon.cogito.wxapi.WXEntryActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -92,6 +112,18 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @BindView(R.id.share_article)
     ImageView shareArticle;
 
+    @BindView(R.id.like_article)
+    TextView likeArticle;
+
+    @BindView(R.id.show_like_article_count)
+    TextView showLikeCount;
+
+    @BindView(R.id.to_comment_article)
+    RelativeLayout toComment;
+
+    @BindView(R.id.text_comment_article)
+    TextView commentCount;
+
     private TextView deleteContent;
     private TextView copyContent;
     private RelativeLayout dismissArt;
@@ -123,6 +155,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     private View popUPView;
 
+    private boolean isLike = false;
 
     private enum CollapsingToolbarLayoutState {
         EXPANDED,
@@ -151,6 +184,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 onBackPressed();
             }
         });
+
     }
     @Override
     public void initView() {
@@ -166,10 +200,13 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     }
 
+
+
     @Override
     public void loadArticleData(final Article article) {
 
         this.article = article;
+
         ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleImg(),articleImg,R.drawable.default_cover);
         ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleAuthorIcon(),articleAuthorIcon,R.drawable.defaulticon);
         articleTitle.setText(article.getArticleTitle());
@@ -196,6 +233,20 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         articleContent.setFocusableInTouchMode(false);
         if (swpArticle.isRefreshing()){
             swpArticle.setRefreshing(false);
+        }
+
+        if (article.isLike()){
+            isLike = true;
+            likeArticle.setBackgroundResource(R.drawable.btn_article_like);
+            likeArticle.setTextColor(getResources().getColor(R.color.white));
+            likeArticle.setText("已推荐");
+        }
+
+        showLikeCount.setText(article.getLikeCount() + "人已推荐");
+        if (article.getCommentCount().equals("0")){
+            commentCount.setText("留言");
+        }else {
+            commentCount.setText(article.getCommentCount() + "留言");
         }
 
         articleAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -248,6 +299,24 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     }
 
 
+
+
+    /**
+     * @param view
+     */
+    @OnClick(R.id.like_article)
+    public void likeArticle(View view){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            if (isLike){
+                articlePresenter.removeLikeArticle(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId());
+            }else {
+                articlePresenter.addLikeArticle(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId());
+            }
+        }else {
+            CommonUtils.loadinglogin(this);
+        }
+
+    }
     @OnClick(R.id.more_about_article)
     public void MoreAboutArticle(View view){
         showQAPopWindow();
@@ -332,6 +401,53 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         Article article = new Article();
         EventBus.getDefault().post(article);
         super.onBackPressed();
+    }
+
+    @Override
+    public void addLikeSuccess(String msg) {
+        likeArticle.setText("已推荐");
+        likeArticle.setTextColor(getResources().getColor(R.color.white));
+        likeArticle.setBackgroundResource(R.drawable.btn_article_like);
+        isLike = true;
+        showLikeCount.setText((Integer.parseInt(article.getLikeCount()) + 1) + "人已推荐");
+    }
+
+    @Override
+    public void removeLikeSuccess(String msg) {
+        likeArticle.setText("推荐");
+        likeArticle.setTextColor(getResources().getColor(R.color.colorPrimary));
+        likeArticle.setBackgroundResource(R.drawable.btn_article_unlike);
+        isLike = false;
+        showLikeCount.setText((Integer.parseInt(article.getLikeCount()) - 1) + "人已推荐");
+
+    }
+
+    @Override
+    public void sendSuccess(String msg) {
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+        //articlePresenter.getComment(article.getArticleId());
+    }
+
+    @Override
+    public void getCommentSuccess(ArrayList<ArticleComment> articleComments) {
+        this.articleComments = articleComments;
+        hideLoadingAnim();
+        showSheetDialog();
+        showCommentDialog();
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            bottomSheetDialog.show();
+        }else {
+            CommonUtils.loadinglogin(this);
+        }
+
+    }
+
+    @Override
+    public void getMoreCommentSuccess(ArrayList<ArticleComment> articleComments) {
+        for (int i = 0;i < articleComments.size();i ++){
+            this.articleComments.add(articleComments.get(i));
+        }
+        articleCommentAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -462,4 +578,169 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
             MyToast.getInstance(ArticleActivity.this).show("分享成功！",Toast.LENGTH_SHORT);
         }
     }
+
+
+
+    private ImageView close_article_comment;
+    private RecyclerView article_comment_rv;
+    private TextView article_comment_count;
+    private ArticleCommentAdapter articleCommentAdapter;
+    private BottomSheetDialog bottomSheetDialog;
+    private BottomSheetBehavior mDialogBehavior;
+    private CardView commentInArticle;
+
+    private ArrayList<ArticleComment> articleComments;
+
+
+
+
+    private TextView replyTo;
+    private MaterialEditText editComment;
+    private ImageView sendComment;
+
+    private BottomSheetDialog commentDialog;
+    private BottomSheetBehavior commentDialogBehavior;
+
+
+    private SwipeRefreshLayout swpArticleComment;
+
+
+
+
+    /**
+     * @param view
+     */
+    @OnClick(R.id.to_comment_article)
+    public void toCommentArticle(View view){
+        //TODO 跳转评论页面
+        articlePresenter.getComment(article.getArticleId());
+        showLoadingAnim();
+
+    }
+
+
+
+    private void showSheetDialog() {
+        View view = View.inflate(ArticleActivity.this, R.layout.article_comment_layout, null);
+
+        close_article_comment = (ImageView) view.findViewById(R.id.close_article_comment);
+        article_comment_rv = (RecyclerView) view.findViewById(R.id.article_comment_rv);
+        article_comment_count = (TextView) view.findViewById(R.id.article_comment_count);
+        commentInArticle = (CardView) view.findViewById(R.id.comment_in_article);
+
+        swpArticleComment = (SwipeRefreshLayout) view.findViewById(R.id.swp_article_comment);
+        article_comment_count.setText("共" + article.getCommentCount() + "条留言");
+        articleCommentAdapter = new ArticleCommentAdapter(ArticleActivity.this,articleComments);
+        article_comment_rv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ArticleActivity.this);
+        article_comment_rv.setLayoutManager(linearLayoutManager);
+        article_comment_rv.setItemAnimator(new DefaultItemAnimator());
+        article_comment_rv.setAdapter(articleCommentAdapter);
+        article_comment_rv.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpArticleComment.setRefreshing(true);
+                articlePresenter.getCommentMore(article.getArticleId(),currentPage * 15);
+            }
+        });
+        bottomSheetDialog = new BottomSheetDialog(ArticleActivity.this, R.style.dialog);
+        bottomSheetDialog.setContentView(view);
+        mDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        mDialogBehavior.setPeekHeight(getWindowHeight());
+        mDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetDialog.dismiss();
+                    mDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
+        close_article_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        commentInArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentDialog.show();
+                popupInputMethod();
+
+            }
+        });
+        Window window = bottomSheetDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
+    }
+
+
+    private void showCommentDialog() {
+        View view = View.inflate(ArticleActivity.this, R.layout.dialog_comment, null);
+
+        replyTo = (TextView) view.findViewById(R.id.reply_to_who);
+        editComment = (MaterialEditText) view.findViewById(R.id.edit_comment);
+        sendComment = (ImageView) view.findViewById(R.id.send_comment);
+
+
+
+        replyTo.setText("留言：");
+
+        commentDialog = new BottomSheetDialog(ArticleActivity.this, R.style.dialog);
+        commentDialog.setContentView(view);
+        commentDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        commentDialogBehavior.setPeekHeight(getWindowHeight());
+        commentDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    commentDialog.dismiss();
+                    commentDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
+
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                articlePresenter.sendComment(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId(),editComment.getText().toString());
+                editComment.setText("");
+                commentDialog.dismiss();
+
+            }
+        });
+
+        Window window = commentDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
+    }
+
+
+    private void popupInputMethod(){
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager inputMethodManager=(InputMethodManager) editComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(editComment, 0);
+            }
+        }, 0);
+    }
+
+    private int getWindowHeight() {
+        Resources res = this.getResources();
+        DisplayMetrics displayMetrics = res.getDisplayMetrics();
+        return displayMetrics.heightPixels;
+    }
+
+
 }

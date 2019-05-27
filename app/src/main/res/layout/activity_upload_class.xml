@@ -64,7 +64,7 @@
                 android:id="@+id/title_class_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入课程的标题"
+                android:hint="请输入课程的标题(十个字以内)"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="请输入课程的标题"
                 android:textSize="@dimen/appBarSize"
@@ -74,7 +74,8 @@
                 app:met_textColor="@color/black"
                 app:met_hideUnderline="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true"
+                android:maxLength="10"/>
 
             <View
                 android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -197,7 +198,8 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
 
             @Override
             public void successVideo(String video_url) {
-                showLoadingAnim();
+                //showLoadingAnim();
+                Log.e(TAG, "successVideo: 1" );
                 ClassDetailList classDetailList = new ClassDetailList();
                 classDetailList.setClass_classd_id(bundle.getString("classId"));
                 classDetailList.setClassd_title(titleClassDetail.getText().toString());
@@ -205,14 +207,16 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
                 classDetailList.setClassd_video(video_url);
                 classDetailList.setClassd_duration(duration);
                 classDetailList.setClassd_video_cover(coverUrl);
+                Log.e(TAG, "successVideo: 2" );
                 uploadClassDetailPresenter.sendClassDetail(classDetailList);
+                Log.e(TAG, "successVideo: 3" );
             }
 
             @Override
             public void inProgress(long progress, long allsi) {
-                progressBar.setMax(Integer.parseInt(String.valueOf(progress)));
+                progressBar.setMax(Integer.parseInt(String.valueOf(allsi)));
                 progressBar.incrementProgressBy(1);
-                progressBar.setProgress(Integer.parseInt(String.valueOf(allsi)));
+                progressBar.setProgress(Integer.parseInt(String.valueOf(progress)));
 
             }
         },file.getName(),path);
@@ -243,8 +247,9 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
 
     @Override
     public void sendClassDetailSuccess(String msg) {
-        hideLoadingAnim();
+        //hideLoadingAnim();
 
+        Log.e(TAG, "successVideo: 4" );
         loadSuccessDialog(bundle.getString("classId"),bundle.getString("title"));
     }
 
@@ -266,12 +271,16 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
         uploadClassDetailPresenter.onDestroy();
     }
 
+    /**
+     * @param classId
+     * @param title
+     */
     private void loadSuccessDialog(final String classId, final String title){
         final CommonDialog dialog = new CommonDialog(this);
 
         dialog.setCancelable(false);
 
-        dialog.setMessage("是否继续上传下一节课程？之后您可以在我的课程页面进行更新课程内容，编辑课程等操作")
+        dialog.setMessage("是否继续上传下一节课程？之后可以在课程页面更新课程内容，编辑课程等操作")
                 .setTitle("本节课上传成功！请等待审核")
                 .setSingle(false)
                 .setNegtive("继续上传")
@@ -296,4 +305,6 @@ public class UploadClassDetailActivity extends BaseActivity implements UploadCla
                 })
                 .show();
     }
+
+
 }

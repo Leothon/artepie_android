@@ -294,7 +294,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
 
         dialog.setCancelable(false);
 
-        dialog.setMessage("是否立即上传课程内容？之后您可以在我的课程页面进行更新课程内容，编辑课程等操作")
+        dialog.setMessage("是否立即上传课程内容？您可以在我的课程进行更新课程内容，编辑课程等操作")
                 .setTitle("创建成功")
                 .setSingle(false)
                 .setNegtive("不上传")

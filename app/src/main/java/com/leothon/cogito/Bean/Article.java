@@ -18,6 +18,37 @@ public class Article extends BaseResponse implements Serializable {
 
     private String articleVisionCount;
 
+    private boolean like;
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+
+
+    private String likeCount;
+
+    public String getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(String likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    private String commentCount;
+
+    public String getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
+    }
     public String getArticleVisionCount() {
         return articleVisionCount;
     }

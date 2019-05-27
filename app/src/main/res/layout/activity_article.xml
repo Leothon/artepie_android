@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,12 @@
 
 
 
-
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Mvp.View.Activity.ArticleActivity.ArticleActivity"
+        android:background="@color/white"
+        android:layout_above="@+id/bottom_article">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/article_app_bar"
         android:layout_width="match_parent"
@@ -76,9 +81,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="标题"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:layout_marginEnd="10dp"
+                    android:ellipsize="marquee"
+                    android:maxLength="15"
+                    android:layout_marginEnd="25dp"
                     android:textSize="@dimen/appBarSize"
                     android:textColor="@color/black"
                     />
@@ -202,7 +207,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="本文著作权归作者@坐着所有，转载请联系作者"/>
+                    android:text="本文著作权归作者所有，转载请联系作者"/>
 
                 <TextView
                     android:layout_below="@+id/article_right"
@@ -221,5 +226,63 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    </android.support.design.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:id="@+id/bottom_article"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ripple">
 
-</android.support.design.widget.CoordinatorLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"/>
+        <TextView
+            android:id="@+id/like_article"
+            android:text="推荐"
+            android:textSize="@dimen/contentSize"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btn_article_unlike"/>
+        <TextView
+            android:id="@+id/show_like_article_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0人已推荐"
+            android:textSize="@dimen/contentSize"
+            android:layout_toRightOf="@+id/like_article"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/fontColor"/>
+
+        <RelativeLayout
+            android:id="@+id/to_comment_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp">
+            <TextView
+                android:id="@+id/text_comment_article"
+                android:layout_below="@+id/img_comment_article"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="留言"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/tipsSize" />
+            <ImageView
+                android:id="@+id/img_comment_article"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/comment"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

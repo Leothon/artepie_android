@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bottomsheet_shape">
+
+    <RelativeLayout
+        android:id="@+id/dialog_bottomsheet_rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/close_article_comment"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:src="@drawable/picture_back"
+            android:tint="@color/fontColor"/>
+
+        <TextView
+            android:id="@+id/article_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/close_article_comment"
+            android:text="留言"
+            android:textColor="@color/fontColor"
+            android:textSize="@dimen/littleTitle" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swp_article_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="5dp"
+            android:id="@+id/article_comment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/dialog_bottomsheet_rl_title"
+            android:layout_above="@+id/comment_in_article" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/comment_in_article"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:cardElevation="3dp"
+        app:cardCornerRadius="5dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请留下您的看法"
+            android:textSize="@dimen/contentSize"
+            android:layout_margin="10dp"/>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

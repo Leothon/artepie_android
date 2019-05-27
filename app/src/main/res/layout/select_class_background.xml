@@ -49,6 +49,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="摇滚"
+            android:maxLength="10"
+            android:ellipsize="end"
             android:textColor="@color/white"
             android:textSize="@dimen/largeTitle"
             android:translationY="-20dp"

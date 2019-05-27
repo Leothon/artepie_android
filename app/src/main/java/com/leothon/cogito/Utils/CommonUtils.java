@@ -1162,6 +1162,9 @@ public class CommonUtils {
      * @return
      */
     public static String numToChar(String num){
+        if (num == null){
+            return "0";
+        }
         int length = num.length();
         DecimalFormat df=new DecimalFormat("0.0");
         switch (length){

@@ -41,6 +41,7 @@ import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.VideoDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -200,6 +201,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     private String nowClassDId;
 
     private boolean isLogin;
+    private String teaId;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
@@ -229,6 +231,23 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     }
 
+
+    @OnClick(R.id.video_author_icon)
+    public void toUserIcon(View view){
+        if (isLogin){
+            Bundle bundleto = new Bundle();
+            if (userEntity.getUser_id().equals(teaId)){
+                bundleto.putString("type","individual");
+                IntentUtils.getInstence().intent(this, IndividualActivity.class,bundleto);
+            }else {
+                bundleto.putString("type","other");
+                bundleto.putString("userId",teaId);
+                IntentUtils.getInstence().intent(this, IndividualActivity.class,bundleto);
+            }
+        }else {
+            CommonUtils.loadinglogin(this);
+        }
+    }
     @Override
     public void initView() {
         //切换课程时候，记得这个要重新初始化，以防止数据被覆盖
@@ -320,6 +339,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         if (swpVideoComment.isRefreshing()){
             swpVideoComment.setRefreshing(false);
         }
+
+        teaId = videoDetail.getAuthorId();
         loadAll(videoDetail,ChoosePosition);
 
     }
