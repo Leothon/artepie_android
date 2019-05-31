@@ -37,14 +37,14 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swp_article_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/dialog_bottomsheet_rl_title"
+        android:layout_above="@+id/comment_in_article">
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="5dp"
             android:id="@+id/article_comment_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/dialog_bottomsheet_rl_title"
-            android:layout_above="@+id/comment_in_article" />
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

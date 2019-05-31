@@ -18,6 +18,8 @@ public class ArticleContract {
         void sendComment(String token,String articleId,String articleComment,OnArticleFinishedListener listener);
         void getComment(String articleId,OnArticleFinishedListener listener);
         void getCommentMore(String articleId,int currentPage,OnArticleFinishedListener listener);
+
+        void replyArticleComment(String commentId,String token,String reply,OnArticleFinishedListener listener);
     }
 
     public interface IArticleView{
@@ -59,5 +61,6 @@ public class ArticleContract {
         void sendComment(String token,String articleId,String articleComment);
         void getComment(String articleId);
         void getCommentMore(String articleId,int currentPage);
+        void replyArticleComment(String commentId,String token,String reply);
     }
 }

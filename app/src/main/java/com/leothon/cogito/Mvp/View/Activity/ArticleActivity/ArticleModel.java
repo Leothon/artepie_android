@@ -224,4 +224,32 @@ public class ArticleModel implements ArticleContract.IArticleModel {
                     }
                 });
     }
+
+    @Override
+    public void replyArticleComment(String commentId, String token, String reply, ArticleContract.OnArticleFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .replyArticleComment(commentId,token,reply)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo("失败");
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        listener.showInfo("回复成功");
+                    }
+                });
+    }
 }

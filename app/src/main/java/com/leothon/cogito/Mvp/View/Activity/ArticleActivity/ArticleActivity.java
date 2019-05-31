@@ -39,11 +39,13 @@ import android.widget.Toast;
 
 import com.github.anzewei.parallaxbacklayout.ParallaxBack;
 import com.leothon.cogito.Adapter.ArticleCommentAdapter;
+import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
@@ -57,6 +59,7 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.View.RichEditTextView;
+import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.handle.CustomHtml;
 import com.leothon.cogito.handle.RichEditImageGetter;
 import com.leothon.cogito.wxapi.WXEntryActivity;
@@ -143,6 +146,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     private Article article;
 
+    private UserEntity userEntity;
+
     private CollapsingToolbarLayoutState state;
 
     private View dismissShare;
@@ -177,6 +182,10 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         initSharePopupWindow();
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        }
+
         toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +214,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @Override
     public void loadArticleData(final Article article) {
 
+        this.article = new Article();
         this.article = article;
 
         ImageLoader.loadImageViewThumbnailwitherror(this,article.getArticleImg(),articleImg,R.drawable.default_cover);
@@ -287,6 +297,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
             }
 
         });
+
+        articlePresenter.getComment(article.getArticleId());
 
 
     }
@@ -430,20 +442,20 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     @Override
     public void getCommentSuccess(ArrayList<ArticleComment> articleComments) {
+        this.articleComments = new ArrayList<>();
         this.articleComments = articleComments;
         hideLoadingAnim();
         showSheetDialog();
-        showCommentDialog();
-        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
-            bottomSheetDialog.show();
-        }else {
-            CommonUtils.loadinglogin(this);
-        }
+        articleCommentAdapter.notifyDataSetChanged();
 
     }
 
     @Override
     public void getMoreCommentSuccess(ArrayList<ArticleComment> articleComments) {
+        if (swpArticleComment.isRefreshing()){
+            swpArticleComment.setRefreshing(false);
+        }
+
         for (int i = 0;i < articleComments.size();i ++){
             this.articleComments.add(articleComments.get(i));
         }
@@ -613,8 +625,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @OnClick(R.id.to_comment_article)
     public void toCommentArticle(View view){
         //TODO 跳转评论页面
-        articlePresenter.getComment(article.getArticleId());
-        showLoadingAnim();
+        bottomSheetDialog.show();
+
 
     }
 
@@ -629,6 +641,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         commentInArticle = (CardView) view.findViewById(R.id.comment_in_article);
 
         swpArticleComment = (SwipeRefreshLayout) view.findViewById(R.id.swp_article_comment);
+        swpArticleComment.setRefreshing(false);
         article_comment_count.setText("共" + article.getCommentCount() + "条留言");
         articleCommentAdapter = new ArticleCommentAdapter(ArticleActivity.this,articleComments);
         article_comment_rv.setHasFixedSize(true);
@@ -670,9 +683,37 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         commentInArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                commentDialog.show();
-                popupInputMethod();
+                if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+                    showCommentDialog("0");
+                    commentDialog.show();
+                    popupInputMethod();
+                }else {
+                    CommonUtils.loadinglogin(ArticleActivity.this);
+                }
 
+
+            }
+        });
+        articleCommentAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View v, int position) {
+                if (uuid.equals(article.getArticleAuthorId())){
+                    showCommentDialog(articleComments.get(position).getArticleCommentId());
+                    commentDialog.show();
+                    popupInputMethod();
+                }else {
+                    MyToast.getInstance(ArticleActivity.this).show("非本文作者不可回复留言",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        articleCommentAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View v, int position) {
+                if (uuid.equals(article.getArticleAuthorId()) || articleComments.get(position).getArticleCommentUserId().equals(uuid)){
+                    MyToast.getInstance(ArticleActivity.this).show("删除功能暂缓开通",Toast.LENGTH_SHORT);
+                }else {
+                    MyToast.getInstance(ArticleActivity.this).show("非作者或本人不可删除留言",Toast.LENGTH_SHORT);
+                }
             }
         });
         Window window = bottomSheetDialog.getWindow();
@@ -680,7 +721,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     }
 
 
-    private void showCommentDialog() {
+    private void showCommentDialog(String id) {
         View view = View.inflate(ArticleActivity.this, R.layout.dialog_comment, null);
 
         replyTo = (TextView) view.findViewById(R.id.reply_to_who);
@@ -689,7 +730,6 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
 
 
-        replyTo.setText("留言：");
 
         commentDialog = new BottomSheetDialog(ArticleActivity.this, R.style.dialog);
         commentDialog.setContentView(view);
@@ -712,7 +752,12 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                articlePresenter.sendComment(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId(),editComment.getText().toString());
+                if (id.equals("0")){
+                    articlePresenter.sendComment(activitysharedPreferencesUtils.getParams("token","").toString(),article.getArticleId(),editComment.getText().toString());
+                }else {
+                    articlePresenter.replyArticleComment(id,activitysharedPreferencesUtils.getParams("token","").toString(),editComment.getText().toString());
+                }
+                articlePresenter.loadArticle(article.getArticleId(),activitysharedPreferencesUtils.getParams("token","").toString());
                 editComment.setText("");
                 commentDialog.dismiss();
 
@@ -742,5 +787,28 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         return displayMetrics.heightPixels;
     }
 
+    private void loadDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+        dialog.setMessage("删除该条留言？确认则删除本条留言及回复")
+                .setTitle("提示")
+                .setSingle(false)
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+                .show();
+    }
 
 }

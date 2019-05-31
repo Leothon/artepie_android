@@ -20,9 +20,10 @@ import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.OssUtils;
 import com.leothon.cogito.View.MyToast;
+import com.squareup.leakcanary.LeakCanary;
 import com.wanjian.cockroach.App;
 import com.wanjian.cockroach.Cockroach;
-//import com.squareup.leakcanary.LeakCanary;
+
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class BaseApplication extends Application {
             }
         }).start();
 
+//
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.

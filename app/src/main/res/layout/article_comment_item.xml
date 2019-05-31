@@ -52,39 +52,39 @@
                 android:textColor="@color/fontColor"/>
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/comment_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_more_horiz_black_24"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:padding="8dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/comment_rl">
+        <!--<ImageView-->
+            <!--android:id="@+id/comment_more"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/baseline_more_horiz_black_24"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:padding="8dp"/>-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_below="@+id/comment_rl">-->
 
 
-            <ImageView
-                android:id="@+id/like_img_qa"
-                android:layout_toLeftOf="@+id/comment_like_qa"
-                android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_favorite_border_black_18"
-                android:layout_centerVertical="true"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/like_img_qa"-->
+                <!--android:layout_toLeftOf="@+id/comment_like_qa"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:srcCompat="@drawable/baseline_favorite_border_black_18"-->
+                <!--android:layout_centerVertical="true"/>-->
 
-            <TextView
-                android:id="@+id/comment_like_qa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/comment_like_qa"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="0"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginEnd="20dp"-->
+                <!--android:layout_centerVertical="true"/>-->
+        <!--</RelativeLayout>-->
 
     </RelativeLayout>
 
@@ -130,38 +130,15 @@
                 android:padding="10dp"
                 android:textColor="@color/fontColor"/>
         </RelativeLayout>
-        <ImageView
-            android:id="@+id/reply_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_more_horiz_black_24"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:padding="8dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/reply_rl">
-
-            <ImageView
-                android:id="@+id/like1_img_qa"
-                android:layout_toLeftOf="@+id/like_reply_author"
-                android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_favorite_border_black_18"
-                android:layout_centerVertical="true"/>
-
-            <TextView
-                android:id="@+id/like_reply_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/reply_more"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/baseline_more_horiz_black_24"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:padding="8dp"/>-->
     </RelativeLayout>
 
     <View

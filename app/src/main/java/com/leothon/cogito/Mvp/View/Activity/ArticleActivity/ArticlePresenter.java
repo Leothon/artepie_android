@@ -112,5 +112,10 @@ public class ArticlePresenter implements ArticleContract.IArticlePresenter,Artic
         iArticleModel.getCommentMore(articleId,currentPage,this);
     }
 
+    @Override
+    public void replyArticleComment(String commentId, String token, String reply) {
+        iArticleModel.replyArticleComment(commentId,token,reply,this);
+    }
+
 
 }
