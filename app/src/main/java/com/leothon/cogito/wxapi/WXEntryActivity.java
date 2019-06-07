@@ -307,7 +307,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     public void shareArticleWXSceneTimeline(Article article) {
         WXWebpageObject webpageObject = new WXWebpageObject();
-        webpageObject.webpageUrl = "http://www.artepie.cn";
+        webpageObject.webpageUrl = "https://www.artepie.com/image/" + article.getArticleId() + ".html";
         WXMediaMessage msg = new WXMediaMessage(webpageObject);
         msg.title = article.getArticleTitle();
         msg.description = article.getArticleAuthorName();
@@ -325,7 +325,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     public void shareArticleWXSceneSession(Article article) {
         WXWebpageObject webpageObject = new WXWebpageObject();
-        webpageObject.webpageUrl = "http://www.artepie.cn";
+        webpageObject.webpageUrl = "https://www.artepie.com/image/" + article.getArticleId() + ".html";
         WXMediaMessage msg = new WXMediaMessage(webpageObject);
         msg.title = article.getArticleTitle();
         msg.description = article.getArticleAuthorName();
@@ -335,7 +335,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        req.scene = SendMessageToWX.Req.WXSceneSession;
         wx_api.sendReq(req);
         finish();
     }

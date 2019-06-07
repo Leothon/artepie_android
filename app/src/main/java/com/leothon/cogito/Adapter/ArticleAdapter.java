@@ -118,6 +118,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //articleViewHolder.articleTime.setText(CommonUtils.getTimeRange(article.getArticleTime()));
             articleViewHolder.articleTime.setVisibility(View.GONE);
             articleViewHolder.articleCount.setText("阅读 " + CommonUtils.numToChar(article.getArticleVisionCount()));
+            articleViewHolder.articleLike.setText("推荐" + CommonUtils.numToChar(article.getLikeCount()));
             int role = CommonUtils.isVIP(article.getAuthorRole());
             if (role != 2){
                 articleViewHolder.authorInfo.setVisibility(View.VISIBLE);
@@ -193,6 +194,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @BindView(R.id.article_vision_count)
         TextView articleCount;
+        @BindView(R.id.article_like_count)
+        TextView articleLike;
         @BindView(R.id.article_img)
         RoundedImageView articleImg;
         @BindView(R.id.article_author_icon)

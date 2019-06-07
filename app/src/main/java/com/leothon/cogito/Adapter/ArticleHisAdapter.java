@@ -26,6 +26,7 @@ public class ArticleHisAdapter extends BaseAdapter {
         holder.setText(R.id.article_title,article.getArticleTitle());
         holder.setText(R.id.article_time,CommonUtils.getTimeRange(article.getArticleTime()));
         holder.setText(R.id.article_vision_count,"阅读：" + CommonUtils.numToChar(article.getArticleVisionCount()));
+        holder.setText(R.id.article_like_count,"推荐:" + CommonUtils.numToChar(article.getLikeCount()));
         int role = CommonUtils.isVIP(article.getAuthorRole());
         if (role != 2){
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -292,6 +293,10 @@ public class IndividualActivity extends BaseActivity {
 
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
+        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
         imgEntryView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View paramView) {

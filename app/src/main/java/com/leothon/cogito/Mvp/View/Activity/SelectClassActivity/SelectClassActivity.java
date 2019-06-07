@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.SelectClassActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -11,14 +12,18 @@ import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -106,7 +111,8 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         swpSelect.setProgressViewOffset (false,100,300);
         swpSelect.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         userId = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid();
-        initSharePopupWindow();
+        //initSharePopupWindow();
+        showShareDialog();
     }
     @Override
     public void initView() {
@@ -231,7 +237,8 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         selectClassAdapter.setQquiListener(new SelectClassAdapter.QQUIListener() {
             @Override
             public void setQQUIListener(ClassDetail classDetail) {
-                showShareWindow();
+                //showShareWindow();
+                shareDialog.show();
                 shareClassDetail = classDetail;
                 //shareToQQClass(classDetail);
             }
@@ -324,27 +331,94 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     }
 
 
-    private void initSharePopupWindow(){
-        popUPView = LayoutInflater.from(this).inflate(R.layout.popup_share,null,false);
-        sharePopup = new PopupWindow(popUPView, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-        sharePopup.setBackgroundDrawable(new BitmapDrawable());
-        sharePopup.setTouchable(true);
-        sharePopup.setAnimationStyle(R.style.popupWindow_anim_style);
-        sharePopup.setFocusable(true);
-        sharePopup.setOutsideTouchable(true);
-        sharePopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//    private void initSharePopupWindow(){
+//        popUPView = LayoutInflater.from(this).inflate(R.layout.popup_share,null,false);
+//        sharePopup = new PopupWindow(popUPView, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+//        sharePopup.setBackgroundDrawable(new BitmapDrawable());
+//        sharePopup.setTouchable(true);
+//        sharePopup.setAnimationStyle(R.style.popupWindow_anim_style);
+//        sharePopup.setFocusable(true);
+//        sharePopup.setOutsideTouchable(true);
+//        sharePopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//
+//        dismissShare = (View) popUPView.findViewById(R.id.dismiss_share);
+//        shareToQQ = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_qq);
+//        shareToFriendCircle = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_circle);
+//        shareToWeChat = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_wechat);
+//        shareToMore = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_more);
+//
+//        dismissShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//
+//        shareToQQ.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                shareToQQClass(shareClassDetail);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundleto = new Bundle();
+//                bundleto.putString("flag","1");
+//                bundleto.putSerializable("data",shareClassDetail);
+//                IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundleto = new Bundle();
+//                bundleto.putString("flag","2");
+//                bundleto.putSerializable("data",shareClassDetail);
+//                IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                shareToMoreInfo(shareClassDetail);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//    }
+    private BottomSheetDialog shareDialog;
+    private BottomSheetBehavior shareDialogBehavior;
 
-        dismissShare = (View) popUPView.findViewById(R.id.dismiss_share);
-        shareToQQ = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_qq);
-        shareToFriendCircle = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_circle);
-        shareToWeChat = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_wechat);
-        shareToMore = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_more);
+    private void showShareDialog() {
 
-        dismissShare.setOnClickListener(new View.OnClickListener() {
+        View view = View.inflate(this, R.layout.popup_share, null);
+        shareToQQ = (RelativeLayout)view.findViewById(R.id.share_class_to_qq);
+        shareToFriendCircle = (RelativeLayout)view.findViewById(R.id.share_class_to_circle);
+        shareToWeChat = (RelativeLayout)view.findViewById(R.id.share_class_to_wechat);
+        shareToMore = (RelativeLayout)view.findViewById(R.id.share_class_to_more);
+        shareDialog = new BottomSheetDialog(this, R.style.dialog);
+        shareDialog.setContentView(view);
+        shareDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        shareDialogBehavior.setPeekHeight(getWindowHeight());
+        shareDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onClick(View view) {
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shareDialog.dismiss();
+                    shareDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
 
@@ -352,8 +426,8 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
             @Override
             public void onClick(View view) {
                 shareToQQClass(shareClassDetail);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+                shareDialog.dismiss();
+
             }
         });
         shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
@@ -363,8 +437,8 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putString("flag","1");
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+                shareDialog.dismiss();
+
             }
         });
         shareToWeChat.setOnClickListener(new View.OnClickListener() {
@@ -374,24 +448,32 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putString("flag","2");
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+                shareDialog.dismiss();
+
             }
         });
         shareToMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareToMoreInfo(shareClassDetail);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+                shareDialog.dismiss();
+
             }
         });
+        Window window = shareDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
     }
-    public void showShareWindow(){
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_select_class,null);
-        sharePopup.showAtLocation(rootView, Gravity.BOTTOM,0,0);
-        dismissShare.setBackgroundColor(Color.parseColor("#20b3b3b3"));
+
+    private int getWindowHeight() {
+        Resources res = this.getResources();
+        DisplayMetrics displayMetrics = res.getDisplayMetrics();
+        return displayMetrics.heightPixels;
     }
+//    public void showShareWindow(){
+//        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_select_class,null);
+//        sharePopup.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+//        dismissShare.setBackgroundColor(Color.parseColor("#20b3b3b3"));
+//    }
 
     private void shareToMoreInfo(ClassDetail classDetail) {
         Intent share_intent = new Intent();

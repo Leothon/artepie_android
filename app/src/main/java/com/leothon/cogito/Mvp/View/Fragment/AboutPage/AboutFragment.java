@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -87,12 +88,12 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @BindView(R.id.notice_bot_update)
     View noticeBotUpdate;
 
-    @BindView(R.id.check_in)
-    TextView checkIn;
+//    @BindView(R.id.check_in)
+//    TextView checkIn;
 
     @BindView(R.id.auth_mark_about)
     AuthView authMark;
-    private boolean isCheck = false;
+//    private boolean isCheck = false;
 
     private AboutPresenter aboutPresenter;
     private UserEntity userEntity;
@@ -227,20 +228,20 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             signature.setText(userEntityRe.getUser_signal());
         }
     }
-    @OnClick(R.id.check_in)
-    public void checkIn(View view){
-        //TODO 签到
-        if (isCheck){
-            MyToast.getInstance(getMContext()).show("本日已签到",Toast.LENGTH_SHORT);
-
-        }else {
-            checkIn.setBackgroundResource(R.drawable.checkback);
-            checkIn.setText("已签到");
-            MyToast.getInstance(getMContext()).show("签到成功，赠送艺币10",Toast.LENGTH_SHORT);
-            isCheck = true;
-        }
-
-    }
+//    @OnClick(R.id.check_in)
+//    public void checkIn(View view){
+//        //TODO 签到
+//        if (isCheck){
+//            MyToast.getInstance(getMContext()).show("本日已签到",Toast.LENGTH_SHORT);
+//
+//        }else {
+//            checkIn.setBackgroundResource(R.drawable.checkback);
+//            checkIn.setText("已签到");
+//            MyToast.getInstance(getMContext()).show("签到成功，赠送艺币10",Toast.LENGTH_SHORT);
+//            isCheck = true;
+//        }
+//
+//    }
     @OnClick(R.id.search)
     public void searchAbout(View view){
         IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
@@ -255,6 +256,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         img.setImageResource(R.drawable.aboutbackground);
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
+        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
         // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
         imgEntryView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View paramView) {

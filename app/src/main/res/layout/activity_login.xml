@@ -167,6 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未注册手机号会在验证后登录"
+                    android:textSize="@dimen/tipsSize"
                     android:textColor="@color/fontColor"
                     android:layout_alignParentStart="true"/>
                 <TextView
@@ -174,6 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="使用密码登录"
+                    android:textSize="@dimen/tipsSize"
                     android:textColor="@color/colorPrimary"
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>

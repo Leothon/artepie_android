@@ -117,5 +117,10 @@ public class ArticlePresenter implements ArticleContract.IArticlePresenter,Artic
         iArticleModel.replyArticleComment(commentId,token,reply,this);
     }
 
+    @Override
+    public void deleteComment(String commentId, String token) {
+        iArticleModel.deleteComment(commentId,token,this);
+    }
+
 
 }

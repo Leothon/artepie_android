@@ -150,15 +150,11 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     private CollapsingToolbarLayoutState state;
 
-    private View dismissShare;
     private RelativeLayout shareToQQ;
     private RelativeLayout shareToFriendCircle;
     private RelativeLayout shareToWeChat;
     private RelativeLayout shareToMore;
 
-    private PopupWindow sharePopup;
-
-    private View popUPView;
 
     private boolean isLike = false;
 
@@ -173,13 +169,16 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     }
     @Override
     public void initData() {
+        mTencent = Tencent.createInstance(Constants.APP_ID,ArticleActivity.this.getApplicationContext());
+        qqShareListener = new QQShareListener();
         swpArticle.setProgressViewOffset (false,100,300);
         swpArticle.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         articlePresenter = new ArticlePresenter(this);
         if (toolbar != null){
             setSupportActionBar(toolbar);
         }
-        initSharePopupWindow();
+        //initSharePopupWindow();
+        showShareDialog();
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
         if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
@@ -306,8 +305,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     @OnClick(R.id.share_article)
     public void ShareArticle(View view){
 
-        MyToast.getInstance(this).show("暂不支持分享",Toast.LENGTH_SHORT);
-        //showShareWindow();
+        //MyToast.getInstance(this).show("暂不支持分享",Toast.LENGTH_SHORT);
+        shareDialog.show();
     }
 
 
@@ -444,9 +443,11 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     public void getCommentSuccess(ArrayList<ArticleComment> articleComments) {
         this.articleComments = new ArrayList<>();
         this.articleComments = articleComments;
-        hideLoadingAnim();
+
         showSheetDialog();
         articleCommentAdapter.notifyDataSetChanged();
+
+        hideLoadingAnim();
 
     }
 
@@ -468,81 +469,81 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         articlePresenter.onDestroy();
     }
 
-    private void initSharePopupWindow(){
-        popUPView = LayoutInflater.from(this).inflate(R.layout.popup_share,null,false);
-        sharePopup = new PopupWindow(popUPView, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-        sharePopup.setBackgroundDrawable(new BitmapDrawable());
-        sharePopup.setTouchable(true);
-        sharePopup.setAnimationStyle(R.style.popupWindow_anim_style);
-        sharePopup.setFocusable(true);
-        sharePopup.setOutsideTouchable(true);
-        sharePopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-        dismissShare = (View) popUPView.findViewById(R.id.dismiss_share);
-        shareToQQ = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_qq);
-        shareToFriendCircle = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_circle);
-        shareToWeChat = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_wechat);
-        shareToMore = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_more);
-
-        dismissShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
-            }
-        });
-
-        shareToQQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareToQQClass(article);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
-            }
-        });
-        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundleto = new Bundle();
-                bundleto.putString("flag","3");
-                bundleto.putSerializable("article",article);
-                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
-            }
-        });
-        shareToWeChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundleto = new Bundle();
-                bundleto.putString("flag","4");
-                bundleto.putSerializable("article",article);
-                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
-            }
-        });
-        shareToMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareToMoreInfo(article);
-                sharePopup.dismiss();
-                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
-            }
-        });
-    }
-    public void showShareWindow(){
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_select_class,null);
-        sharePopup.showAtLocation(rootView, Gravity.BOTTOM,0,0);
-        dismissShare.setBackgroundColor(Color.parseColor("#20b3b3b3"));
-    }
+//    private void initSharePopupWindow(){
+//        popUPView = LayoutInflater.from(this).inflate(R.layout.popup_share,null,false);
+//        sharePopup = new PopupWindow(popUPView, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+//        sharePopup.setBackgroundDrawable(new BitmapDrawable());
+//        sharePopup.setTouchable(true);
+//        sharePopup.setAnimationStyle(R.style.popupWindow_anim_style);
+//        sharePopup.setFocusable(true);
+//        sharePopup.setOutsideTouchable(true);
+//        sharePopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//
+//        dismissShare = (View) popUPView.findViewById(R.id.dismiss_share);
+//        shareToQQ = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_qq);
+//        shareToFriendCircle = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_circle);
+//        shareToWeChat = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_wechat);
+//        shareToMore = (RelativeLayout)popUPView.findViewById(R.id.share_class_to_more);
+//
+//        dismissShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//
+//        shareToQQ.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                shareToQQClass(article);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundleto = new Bundle();
+//                bundleto.putString("flag","3");
+//                bundleto.putSerializable("article",article);
+//                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundleto = new Bundle();
+//                bundleto.putString("flag","4");
+//                bundleto.putSerializable("article",article);
+//                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//        shareToMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                shareToMoreInfo(article);
+//                sharePopup.dismiss();
+//                dismissShare.setBackgroundColor(Color.parseColor("#00b3b3b3"));
+//            }
+//        });
+//    }
+//    public void showShareWindow(){
+//        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_article,null);
+//        sharePopup.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+//        dismissShare.setBackgroundColor(Color.parseColor("#20b3b3b3"));
+//    }
 
     private void shareToMoreInfo(Article article) {
         Intent share_intent = new Intent();
         share_intent.setAction(Intent.ACTION_SEND);
         share_intent.setType("text/plain");
         share_intent.putExtra(Intent.EXTRA_SUBJECT, "艺派");
-        //share_intent.putExtra(Intent.EXTRA_TEXT, "我正在艺派APP学习课程" + classDetail.getTeaClasss().getSelectlisttitle() + "\n戳我查看：http://www.artepie.cn");
+        share_intent.putExtra(Intent.EXTRA_TEXT, "我分享了文章" + article.getArticleTitle() + "\n戳我查看：https://www.artepie.com/image/" + article.getArticleId() + ".html");
         share_intent = Intent.createChooser(share_intent, "分享");
         startActivity(share_intent);
     }
@@ -551,7 +552,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     {
         Bundle bundle = new Bundle();
         //这条分享消息被好友点击后的跳转URL。
-        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://www.artepie.cn");
+        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "https://www.artepie.com/image/" + article.getArticleId() + ".html");
         //分享的标题。注：PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
         bundle.putString(QQShare.SHARE_TO_QQ_TITLE,article.getArticleTitle());
         //分享的图片URL
@@ -604,16 +605,15 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     private ArrayList<ArticleComment> articleComments;
 
 
-
-
-    private TextView replyTo;
     private MaterialEditText editComment;
     private ImageView sendComment;
 
     private BottomSheetDialog commentDialog;
     private BottomSheetBehavior commentDialogBehavior;
 
-
+    private TextView replyTo;
+    private BottomSheetDialog shareDialog;
+    private BottomSheetBehavior shareDialogBehavior;
     private SwipeRefreshLayout swpArticleComment;
 
 
@@ -701,6 +701,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                     showCommentDialog(articleComments.get(position).getArticleCommentId());
                     commentDialog.show();
                     popupInputMethod();
+
                 }else {
                     MyToast.getInstance(ArticleActivity.this).show("非本文作者不可回复留言",Toast.LENGTH_SHORT);
                 }
@@ -710,7 +711,8 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
             @Override
             public void onItemLongClickListener(View v, int position) {
                 if (uuid.equals(article.getArticleAuthorId()) || articleComments.get(position).getArticleCommentUserId().equals(uuid)){
-                    MyToast.getInstance(ArticleActivity.this).show("删除功能暂缓开通",Toast.LENGTH_SHORT);
+//                    MyToast.getInstance(ArticleActivity.this).show("删除功能暂缓开通",Toast.LENGTH_SHORT);
+                    loadDialog(articleComments.get(position),position,articleCommentAdapter);
                 }else {
                     MyToast.getInstance(ArticleActivity.this).show("非作者或本人不可删除留言",Toast.LENGTH_SHORT);
                 }
@@ -769,6 +771,73 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
     }
 
 
+    private void showShareDialog() {
+
+        View view = View.inflate(ArticleActivity.this, R.layout.popup_share, null);
+        shareToQQ = (RelativeLayout)view.findViewById(R.id.share_class_to_qq);
+        shareToFriendCircle = (RelativeLayout)view.findViewById(R.id.share_class_to_circle);
+        shareToWeChat = (RelativeLayout)view.findViewById(R.id.share_class_to_wechat);
+        shareToMore = (RelativeLayout)view.findViewById(R.id.share_class_to_more);
+        shareDialog = new BottomSheetDialog(ArticleActivity.this, R.style.dialog);
+        shareDialog.setContentView(view);
+        shareDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        shareDialogBehavior.setPeekHeight(getWindowHeight());
+        shareDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shareDialog.dismiss();
+                    shareDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
+
+        shareToQQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareToQQClass(article);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("flag","3");
+                bundleto.putSerializable("article",article);
+                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("flag","4");
+                bundleto.putSerializable("article",article);
+                IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareToMoreInfo(article);
+                shareDialog.dismiss();
+
+            }
+        });
+        Window window = shareDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
+    }
+
     private void popupInputMethod(){
 
         Handler handler = new Handler();
@@ -787,7 +856,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         return displayMetrics.heightPixels;
     }
 
-    private void loadDialog(){
+    private void loadDialog(ArticleComment articleComment,int position,ArticleCommentAdapter articleCommentAdapter){
         final CommonDialog dialog = new CommonDialog(this);
 
 
@@ -797,6 +866,9 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
+                        articlePresenter.deleteComment(articleComment.getArticleCommentId(),activitysharedPreferencesUtils.getParams("token","").toString());
+                        articleComments.remove(position);
+                        articleCommentAdapter.notifyItemRemoved(position);
                         dialog.dismiss();
 
                     }
