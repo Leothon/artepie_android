@@ -165,7 +165,7 @@ public class CommonDialog extends Dialog {
         messageTv = (TextView) findViewById(R.id.message);
         imageIv = (ImageView) findViewById(R.id.image);
         columnLineView = findViewById(R.id.column_line);
-        messageTv.setTextSize(10);
+        //messageTv.setTextSize(10);
     }
     /**
      *  * 设置确定取消按钮的回调

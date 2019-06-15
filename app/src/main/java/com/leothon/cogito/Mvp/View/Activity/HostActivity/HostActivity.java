@@ -334,7 +334,7 @@ public class HostActivity extends BaseActivity  {
         final UpdateDialog dialog = new UpdateDialog(this);
 
 
-        dialog.setMessage("检查到新版本更新\n当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
+        dialog.setMessage("当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
                 .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
                     @Override
                     public void onMarketClick() {

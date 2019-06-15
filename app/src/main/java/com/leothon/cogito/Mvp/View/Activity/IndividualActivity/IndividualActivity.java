@@ -43,6 +43,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 
 import butterknife.BindView;
@@ -279,31 +280,40 @@ public class IndividualActivity extends BaseActivity {
         IntentUtils.getInstence().intent(this, QAHisActivity.class,bundleto);
     }
 
-    @OnClick(R.id.individual_icon)
-    public void individualIcon(View view){
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        if (!bundle.getString("type").equals("other")){
-            ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),img,R.drawable.defaulticon);
-        }else {
-            ImageLoader.loadImageViewThumbnailwitherror(this,otherUser.getUser_icon(),img,R.drawable.defaulticon);
-        }
-
-        dialog.setView(imgEntryView); // 自定义dialog
-        dialog.show();
-        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
-        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
-        imgEntryView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View paramView) {
-                dialog.cancel();
-            }
-        });
-    }
+//    @OnClick(R.id.individual_icon)
+//    public void individualIcon(View view){
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
+//        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+//        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
+//
+//
+//        //img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(img);
+//        ImageView target = imageViewWeakReference.get();
+//        if (target != null) {
+//            if (!bundle.getString("type").equals("other")){
+//                ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),img,R.drawable.defaulticon);
+//            }else {
+//                ImageLoader.loadImageViewThumbnailwitherror(this,otherUser.getUser_icon(),img,R.drawable.defaulticon);
+//            }
+//        }
+//
+//
+//
+//        dialog.setView(imgEntryView); // 自定义dialog
+//        dialog.show();
+//        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+//        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        dialog.getWindow().setAttributes(layoutParams);
+//        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
+//        imgEntryView.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View paramView) {
+//                dialog.cancel();
+//            }
+//        });
+//    }
 
     @OnClick(R.id.individual_follow_count)
     public void followCount(View view){

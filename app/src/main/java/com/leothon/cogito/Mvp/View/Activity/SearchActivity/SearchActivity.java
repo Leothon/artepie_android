@@ -30,6 +30,9 @@ import com.leothon.cogito.Mvp.View.Fragment.SearchPage.SearchUserFragment;
 import com.leothon.cogito.R;
 import com.leothon.cogito.View.MyToast;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -78,6 +81,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
 
 
         initPage();
+
 
         searchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -223,6 +227,28 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GSYVideoManager.releaseAllVideos();
+        searchPresenter.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
 
 
 
@@ -231,12 +257,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 
-    @Override
-    protected void onDestroy() {
 
-        super.onDestroy();
-        searchPresenter.onDestroy();
-    }
 
 
 }

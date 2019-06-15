@@ -5,6 +5,8 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -129,6 +131,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (null != getToolbar() && isShowBacking()){
             showBack();
         }
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config = res.getConfiguration();
+        config.fontScale = 1.15f; //1 设置正常字体大小的倍数
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
     }
 
 

@@ -80,7 +80,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="叮点科技(北京)有限公司版权所有 ©2019"
+            android:text="叮点科技(北京)有限公司版权所有 ©2018-2019"
             android:textSize="@dimen/littleSize"
             android:textColor="#af646464"
             android:layout_centerHorizontal="true"/>

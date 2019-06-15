@@ -49,6 +49,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -253,7 +255,17 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
         final AlertDialog dialog = new AlertDialog.Builder(getMContext()).create();
         ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-        img.setImageResource(R.drawable.aboutbackground);
+
+
+        //ImageView imageView = new ImageView(context);
+        //img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(img);
+        ImageView target = imageViewWeakReference.get();
+        if (target != null) {
+            img.setImageResource(R.drawable.aboutbackground);
+            //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.defalutimg);
+        }
+
         dialog.setView(imgEntryView); // 自定义dialog
         dialog.show();
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
