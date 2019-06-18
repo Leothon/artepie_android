@@ -21,7 +21,15 @@ public class QAData extends BaseResponse implements Serializable {
 
     private String user_role;
 
+    private String qa_view;
 
+    public String getQa_view() {
+        return qa_view;
+    }
+
+    public void setQa_view(String qa_view) {
+        this.qa_view = qa_view;
+    }
 
     public String getUser_role() {
         return user_role;

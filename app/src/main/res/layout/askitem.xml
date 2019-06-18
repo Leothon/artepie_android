@@ -76,16 +76,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp">
-            <TextView
-                android:id="@+id/content_ask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="张三丰张三丰"
-                android:textColor="@color/black"
-                android:textSize="@dimen/contentSize"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" />
+        <TextView
+            android:id="@+id/content_ask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="张三丰张三丰"
+            android:textColor="@color/black"
+            android:textSize="@dimen/contentSize"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
+        <TextView
+            android:id="@+id/qa_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阅读：0"
+            android:textColor="@color/fontColor"
+            android:textSize="@dimen/tipsSize"
+            android:layout_margin="8dp"/>
 
 
         <RelativeLayout

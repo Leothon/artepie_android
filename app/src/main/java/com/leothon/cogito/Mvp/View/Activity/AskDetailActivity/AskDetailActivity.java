@@ -56,6 +56,8 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     CardView commentIn;
     @BindView(R.id.swp_ask_detail)
     SwipeRefreshLayout swpAskDetail;
+
+
     private QADataDetail qaDataDetail;
     private AskDetailAdapter askDetailAdapter;
 

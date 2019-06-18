@@ -217,7 +217,6 @@ public class HostActivity extends BaseActivity  {
         }
         //dialogLoading("1","2");
 
-
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .getUpdate(activitysharedPreferencesUtils.getParams("token","").toString())
                 .compose(ThreadTransformer.switchSchedulers())
@@ -334,7 +333,7 @@ public class HostActivity extends BaseActivity  {
         final UpdateDialog dialog = new UpdateDialog(this);
 
 
-        dialog.setMessage("当前版本：V" + oldVersion + "    更新版本：V" + newVersion)
+        dialog.setMessage("当前版本：V" + oldVersion + " 更新版本：V" + newVersion)
                 .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
                     @Override
                     public void onMarketClick() {

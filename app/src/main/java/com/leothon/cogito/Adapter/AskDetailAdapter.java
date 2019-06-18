@@ -149,6 +149,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 detailViewHolder.userDes.setText(qaDataDetail.getQaData().getUser_signal());
             }
 
+            detailViewHolder.qaView.setText("阅读：" + qaDataDetail.getQaData().getQa_view());
             detailViewHolder.qaDetailTime.setText(CommonUtils.getTimeRange(qaDataDetail.getQaData().getQa_time()));
             String re = qaDataDetail.getQaData().getQa_content();
             SpannableString spannableString = new SpannableString(re);
@@ -825,6 +826,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @BindView(R.id.auth_mark_ask)
         AuthView authMark;
+        @BindView(R.id.qa_view_detail)
+        TextView qaView;
         public DetailViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

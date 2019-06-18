@@ -82,6 +82,11 @@ public class AskPresenter implements AskFragmentContract.IAskPresenter,AskFragme
     }
 
     @Override
+    public void addView(String token, String qaId) {
+        iAskModel.addView(token,qaId,this);
+    }
+
+    @Override
     public void getInform(String token) {
         iAskModel.getInform(token,this);
     }

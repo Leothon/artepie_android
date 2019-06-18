@@ -72,4 +72,9 @@ public class QAHisPresenter implements QAHisContract.IQAHisPresenter,QAHisContra
     public void deleteQa(String token, String qaId) {
         iQAHisModel.deleteQa(token,qaId,this);
     }
+
+    @Override
+    public void addView(String token, String qaId) {
+        iQAHisModel.addView(token,qaId,this);
+    }
 }

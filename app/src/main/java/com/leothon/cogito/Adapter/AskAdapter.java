@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,13 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         this.addLikeOnClickListener = onClickMyTextView;
     }
 
+
+    public addQaViewOnClickListener addQaViewOnClickListener;
+
+    public void setOnClickaddQaView(addQaViewOnClickListener addQaViewOnClickListener) {
+        this.addQaViewOnClickListener = addQaViewOnClickListener;
+    }
+
     public DeleteQaOnClickListener deleteQaOnClickListener;
 
     public void setDeleteQaOnClickListener(DeleteQaOnClickListener deleteQaOnClickListener) {
@@ -119,6 +127,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
 
             ImageLoader.loadImageViewThumbnailwitherror(context,ask.getUser_icon(),askViewHolder.userIcon,R.drawable.defaulticon);
             askViewHolder.userName.setText(ask.getUser_name());
+            askViewHolder.qaView.setText("阅读：" + ask.getQa_view());
             int role = CommonUtils.isVIP(ask.getUser_role());
             if (role != 2){
                 askViewHolder.authMark.setVisibility(View.VISIBLE);
@@ -354,6 +363,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     if (isLogin){
+                        //Log.e(TAG, "onClick: " + ask.getQa_id());
+                        addQaViewOnClickListener.addQaViewClickListener(ask.getQa_id());
                         Bundle bundleto = new Bundle();
                         bundleto.putString("qaId",ask.getQa_id());
                         IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
@@ -452,6 +463,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                             if (reShowQA.getQa_user_id() == null){
                                 MyToast.getInstance(context).show("内容已被删除",Toast.LENGTH_SHORT);
                             }else {
+
+                                addQaViewOnClickListener.addQaViewClickListener(reShowQA.getQa_id());
                                 bundleto.putString("qaId",reShowQA.getQa_id());
                                 IntentUtils.getInstence().intent(context, AskDetailActivity.class,bundleto);
                             }
@@ -610,6 +623,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.video_item_player)
         EPieVideoPlayer gsyVideoPlayer;
 
+        @BindView(R.id.qa_view)
+        TextView qaView;
         public AskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -631,6 +646,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         void addLikeClickListener(boolean isLike,String qaId);
     }
 
+
+    public interface addQaViewOnClickListener{
+        void addQaViewClickListener(String qaId);
+    }
     class MyClickableSpan extends ClickableSpan {
 
         private QAData qaData;

@@ -439,6 +439,16 @@ public interface HttpService {
     @POST("setpassword")
     Observable<BaseResponse<String>> setPassword(@Query("token") String token,@Query("password") String password);
 
+
+    /**
+     * 增加阅读量
+     * @param token
+     * @param qaId
+     * @return
+     */
+    @POST("addqaview")
+    Observable<BaseResponse<String>> addQaView(@Query("token") String token,@Query("qaid") String qaId);
+
     /**
      * 修改已设置的密码
      * @param token

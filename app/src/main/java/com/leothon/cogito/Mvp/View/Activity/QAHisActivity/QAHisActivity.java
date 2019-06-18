@@ -212,6 +212,13 @@ public class QAHisActivity extends BaseActivity implements QAHisContract.IQAHisV
                 qaHisPresenter.getAskMoreData(currentPage * 15,bundle.getString("userId"));
             }
         });
+
+        uploadAdapter.setOnClickaddQaView(new AskAdapter.addQaViewOnClickListener() {
+            @Override
+            public void addQaViewClickListener(String qaId) {
+                qaHisPresenter.addView(activitysharedPreferencesUtils.getParams("token","").toString(),qaId);
+            }
+        });
     }
 
     public void initMorePopupWindow(){

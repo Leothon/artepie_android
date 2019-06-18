@@ -77,6 +77,14 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/qa_view_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阅读：0"
+            android:textColor="@color/fontColor"
+            android:textSize="@dimen/tipsSize"
+            android:layout_margin="8dp"/>
         <RelativeLayout
             android:id="@+id/re_detail_ll"
             android:layout_width="match_parent"

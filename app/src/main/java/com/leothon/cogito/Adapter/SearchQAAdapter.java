@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class SearchQAAdapter extends BaseAdapter{
     public static final String TAG = "adapter";
     private Context context;
+
     public SearchQAAdapter(Context context, ArrayList<QAData> qaData){
 
         super(context, R.layout.askitem,qaData);
@@ -33,7 +34,7 @@ public class SearchQAAdapter extends BaseAdapter{
         QAData qaData = (QAData)bean;
         holder.setText(R.id.user_name_ask,qaData.getUser_name());
         holder.setImageUrls(R.id.user_icon_ask,qaData.getUser_icon());
-
+        holder.setText(R.id.qa_view,"阅读：" + qaData.getQa_view());
         holder.setText(R.id.qa_list_time,CommonUtils.getTimeRange(qaData.getQa_time()));
         int role = CommonUtils.isVIP(qaData.getUser_role());
         if (role != 2){

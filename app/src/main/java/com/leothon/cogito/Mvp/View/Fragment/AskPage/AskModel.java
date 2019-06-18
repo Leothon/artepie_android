@@ -198,4 +198,32 @@ public class AskModel implements AskFragmentContract.IAskModel {
                     }
                 });
     }
+
+    @Override
+    public void addView(String token, String qaId, AskFragmentContract.OnAskFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .addQaView(token,qaId)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                    }
+                });
+    }
 }

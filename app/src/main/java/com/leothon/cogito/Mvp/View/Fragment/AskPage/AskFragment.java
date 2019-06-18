@@ -371,6 +371,13 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 askPresenter.getAskMoreData(currentPage * 15,fragmentsharedPreferencesUtils.getParams("token","").toString());
             }
         });
+
+        askAdapter.setOnClickaddQaView(new AskAdapter.addQaViewOnClickListener() {
+            @Override
+            public void addQaViewClickListener(String qaId) {
+                askPresenter.addView(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
+            }
+        });
     }
 
     private void animationHide(){

@@ -18,6 +18,8 @@ public class AskFragmentContract {
         void deleteQa(String token,String qaId,OnAskFinishedListener listener);
 
         void getInform(String token,OnAskFinishedListener listener);
+
+        void addView(String token,String qaId,OnAskFinishedListener listener);
     }
 
     public interface IAskView{
@@ -48,6 +50,7 @@ public class AskFragmentContract {
         void removeLiked(String token,String qaId);
         void deleteQa(String token,String qaId);
 
+        void addView(String token,String qaId);
         void getInform(String token);
     }
 }

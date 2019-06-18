@@ -164,6 +164,7 @@ public class SearchQAFragment extends BaseFragment {
 
             }
         });
+
     }
 
     @Override
