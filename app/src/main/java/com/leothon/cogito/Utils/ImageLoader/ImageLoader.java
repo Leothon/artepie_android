@@ -4,8 +4,11 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.leothon.cogito.R;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
 /**
@@ -37,7 +40,7 @@ public class ImageLoader {
     public static void loadImageViewwithError(Context mContext,String path,ImageView mimageView, int errorImageView){
         RequestOptions options = new RequestOptions();
         options.error(errorImageView);
-        options.placeholder(R.drawable.defalutimg);
+        options.placeholder(R.drawable.loading);
         Glide.with(mContext).load(path).apply(options).into(mimageView);
     }
 
@@ -87,6 +90,16 @@ public class ImageLoader {
         options.error(errorImageView);
         options.placeholder(R.drawable.loading);
         Glide.with(mContext).asDrawable().load(path).thumbnail(0.1f).apply(options).into(mImageView);
+    }
+
+    //设置缩略图支持
+    public static void loadImageViewThumbnailwitherrorandbulr(Context mContext, String path, ImageView mImageView) {
+
+        RequestOptions options = new RequestOptions();
+        options.error(R.drawable.default_cover);
+        options.placeholder(R.drawable.loading);
+//        options.centerCrop();
+        Glide.with(mContext).asDrawable().load(path).apply(RequestOptions.bitmapTransform(new MyBlurTransformation(50,mContext))).thumbnail(0.1f).apply(options).into(mImageView);
     }
 
     /**

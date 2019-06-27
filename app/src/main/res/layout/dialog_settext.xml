@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:met_clearButton="true"
+        android:maxLength="20"
+        app:met_maxCharacters="20"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="示例"
         android:hint="示例"
-        android:textSize="@dimen/littleTitle"/>
+        android:textSize="@dimen/contentSize"/>
 
 </LinearLayout>

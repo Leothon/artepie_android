@@ -196,8 +196,13 @@ public class EditInfoModel implements EditInfoContract.IEditInfoModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String info = baseResponse.getMsg();
-                        listener.setPasswordSuccess(info);
+                        if (baseResponse.isSuccess()){
+                            String info = baseResponse.getMsg();
+                            listener.setPasswordSuccess(info);
+                        }else {
+                            listener.setPasswordFailed("密码设置失败");
+                        }
+
                     }
                 });
     }

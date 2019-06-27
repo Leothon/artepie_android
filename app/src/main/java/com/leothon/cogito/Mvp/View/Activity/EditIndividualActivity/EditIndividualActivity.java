@@ -124,6 +124,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
 
     private String nowPassword;
     private String password = "";
+    private boolean isPasswordChange = false;
     private String[] permissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -209,13 +210,20 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
             userInsert.setUser_sex(0);
         }
 
-        if (!password.equals("")){
-            userSend.setUser_password(password);
-            userInsert.setUser_password(password);
+        if (isPasswordChange){
+            if (!password.equals("")){
+                userSend.setUser_password(password);
+                userInsert.setUser_password(password);
+            }else {
+                userSend.setUser_password("");
+                userInsert.setUser_password("");
+            }
         }else {
-            userSend.setUser_password("");
-            userInsert.setUser_password("");
+            userSend.setUser_password(userEntity.getUser_password());
+            userInsert.setUser_password(userEntity.getUser_password());
         }
+
+
 
         userSend.setUser_role(userEntity.getUser_role());
         userInsert.setUser_role(userEntity.getUser_role());
@@ -299,6 +307,7 @@ public class EditIndividualActivity extends BaseActivity implements EditInfoCont
     @Override
     public void setPasswordSuccess(String msg) {
         hideLoadingAnim();
+        isPasswordChange = true;
         password = nowPassword;
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
         isEdit = true;

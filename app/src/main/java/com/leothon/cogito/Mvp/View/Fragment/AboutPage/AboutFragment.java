@@ -155,6 +155,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
     @Override
     protected void initView() {
+        ImageLoader.loadImageViewThumbnailwitherrorandbulr(getMContext(),userEntity.getUser_icon(),backImg);
         ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
         layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
         positionBar.setLayoutParams(layoutParams);
@@ -249,36 +250,36 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
     }
 
-    @OnClick(R.id.backimg_about)
-    public void backImgClick(View v){
-        LayoutInflater inflater = LayoutInflater.from(getMContext());
-        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
-        final AlertDialog dialog = new AlertDialog.Builder(getMContext()).create();
-        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
-
-
-        //ImageView imageView = new ImageView(context);
-        //img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(img);
-        ImageView target = imageViewWeakReference.get();
-        if (target != null) {
-            img.setImageResource(R.drawable.aboutbackground);
-            //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.defalutimg);
-        }
-
-        dialog.setView(imgEntryView); // 自定义dialog
-        dialog.show();
-        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
-        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
-        imgEntryView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View paramView) {
-                dialog.cancel();
-            }
-        });
-    }
+//    @OnClick(R.id.backimg_about)
+//    public void backImgClick(View v){
+//        LayoutInflater inflater = LayoutInflater.from(getMContext());
+//        View imgEntryView = inflater.inflate(R.layout.image, null); // 加载自定义的布局文件
+//        final AlertDialog dialog = new AlertDialog.Builder(getMContext()).create();
+//        ImageView img = (ImageView)imgEntryView.findViewById(R.id.image_big);
+//
+//
+//        //ImageView imageView = new ImageView(context);
+//        //img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(img);
+//        ImageView target = imageViewWeakReference.get();
+//        if (target != null) {
+//            img.setImageResource(R.drawable.aboutbackground);
+//            //ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.defalutimg);
+//        }
+//
+//        dialog.setView(imgEntryView); // 自定义dialog
+//        dialog.show();
+//        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+//        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        dialog.getWindow().setAttributes(layoutParams);
+//        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
+//        imgEntryView.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View paramView) {
+//                dialog.cancel();
+//            }
+//        });
+//    }
     @OnClick(R.id.username_about)
     public void userNameClick(View v){
 

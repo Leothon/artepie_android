@@ -84,7 +84,8 @@
             android:text="阅读：0"
             android:textColor="@color/fontColor"
             android:textSize="@dimen/tipsSize"
-            android:layout_margin="8dp"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"/>
         <RelativeLayout
             android:id="@+id/re_detail_ll"
             android:layout_width="match_parent"
@@ -139,7 +140,7 @@
                 android:layout_height="@dimen/post_media_height"/>
         </RelativeLayout>
         <com.leothon.cogito.View.EPieVideoPlayer
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:id="@+id/detail_video_player"
             android:layout_width="match_parent"
             android:layout_height="200dp"/>

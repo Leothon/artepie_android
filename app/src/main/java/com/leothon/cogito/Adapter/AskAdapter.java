@@ -204,7 +204,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(imageView);
                 ImageView target = imageViewWeakReference.get();
                 if (target != null) {
-                    ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.defalutimg);
+                    ImageLoader.loadImageViewThumbnailwitherror(context, ask.getQa_video_cover(), target, R.drawable.loading);
                 }
 
 

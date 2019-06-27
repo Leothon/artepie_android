@@ -122,5 +122,6 @@ dependencies {
 
     implementation 'com.alibaba:fastjson:1.1.71.android'
 
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'
     //implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC2'
 }
