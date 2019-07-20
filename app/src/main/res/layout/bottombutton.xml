@@ -28,17 +28,18 @@
 
         </com.leothon.cogito.Weight.BottomButton>
         <com.leothon.cogito.Weight.BottomButton
-            android:id="@+id/bottom_btn_ask"
+            android:id="@+id/bottom_btn_add"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ripple">
+            android:background="@drawable/addback"
+            android:layout_margin="10dp">
 
         </com.leothon.cogito.Weight.BottomButton>
 
 
         <com.leothon.cogito.Weight.BottomButton
-            android:id="@+id/bottom_btn_bag"
+            android:id="@+id/bottom_btn_ask"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!--<ImageView-->
+                <!--android:id="@+id/close_add"-->
+                <!--android:layout_width="55dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:src="@drawable/down"-->
+                <!--android:tint="@color/contentColor"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="8dp"/>-->
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <LinearLayout
+                android:id="@+id/btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:padding="8dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <FrameLayout
+                        android:id="@+id/class_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/addclassback"
+                        android:layout_centerInParent="true">
+                    </FrameLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/classimg"
+                        android:tint="@color/white"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="录课程"
+                        android:textSize="@dimen/contentSize"
+                        android:layout_below="@+id/class_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <FrameLayout
+                        android:id="@+id/article_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/addarticleback"
+                        android:layout_centerInParent="true">
+                    </FrameLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/articleimg"
+                        android:tint="@color/white"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发文章"
+                        android:textSize="@dimen/contentSize"
+                        android:layout_below="@+id/article_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <FrameLayout
+                        android:id="@+id/qa_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/addqaback"
+                        android:layout_centerInParent="true">
+                    </FrameLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/videoicon"
+                        android:tint="@color/white"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="秀吧拍"
+                        android:textSize="@dimen/contentSize"
+                        android:layout_below="@+id/qa_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <FrameLayout
+                        android:id="@+id/live_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/addliveback"
+                        android:layout_centerInParent="true">
+                    </FrameLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/liveimg"
+                        android:tint="@color/white"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开直播"
+                        android:textSize="@dimen/contentSize"
+                        android:layout_below="@+id/live_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_above="@+id/btn_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/add_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:riv_oval="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/defaulticon"/>
+
+                <TextView
+                    android:layout_toRightOf="@+id/add_icon"
+                    android:id="@+id/add_info"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今天是你加入艺派的第0天"
+                    android:layout_marginStart="15dp"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/fontColor"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+            <ImageView
+                android:id="@+id/close_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_clear_black_24"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:tint="@color/fontColor"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

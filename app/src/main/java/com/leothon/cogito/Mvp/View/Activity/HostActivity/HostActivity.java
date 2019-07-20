@@ -1,33 +1,39 @@
 package com.leothon.cogito.Mvp.View.Activity.HostActivity;
 
-import android.Manifest;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 
-import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
-import com.leothon.cogito.Bean.Banner;
+import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.Update;
+import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
@@ -36,29 +42,34 @@ import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Message.UpdateMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
+import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
+import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
+import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity;
 import com.leothon.cogito.Mvp.View.Fragment.AboutPage.AboutFragment;
 import com.leothon.cogito.Mvp.View.Fragment.AskPage.AskFragment;
-import com.leothon.cogito.Mvp.View.Fragment.BagPage.BagFragment;
 import com.leothon.cogito.Mvp.View.Fragment.HomePage.HomeFragment;
 import com.leothon.cogito.Mvp.View.Fragment.ArticleListPage.ArticleListFragment;
 import com.leothon.cogito.R;
 
-import com.leothon.cogito.Service.DownloadService;
 import com.leothon.cogito.Utils.CommonUtils;
+import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
+import com.leothon.cogito.Utils.ImageUtils;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
+import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.BottomButton;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.UpdateDialog;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,14 +86,17 @@ public class HostActivity extends BaseActivity  {
     @BindView(R.id.container_all)
     RelativeLayout containerAll;
 
+    @BindView(R.id.blur_view)
+    FrameLayout BlurView;
+
     @BindView(R.id.bottom_btn_home)
     BottomButton bottombtnHome;
     @BindView(R.id.bottom_btn_article)
     BottomButton bottombtnArticle;
     @BindView(R.id.bottom_btn_ask)
     BottomButton bottombtnAsk;
-    @BindView(R.id.bottom_btn_bag)
-    BottomButton bottombtnBag;
+    @BindView(R.id.bottom_btn_add)
+    BottomButton bottombtnAdd;
     @BindView(R.id.bottom_btn_about)
     BottomButton bottombtnAbout;
 
@@ -101,13 +115,14 @@ public class HostActivity extends BaseActivity  {
     private HomeFragment homePage;
     private ArticleListFragment articlePage;
     private AskFragment askPage;
-    private BagFragment bagPage;
+    //private BagFragment bagPage;
     private AboutFragment aboutPage;
 
     private static final String HOMEPAGE = "homePage";
     private static final String ARTICLEPAGE = "articlePage";
     private static final String ASKPAGE = "askPage";
-    private static final String BAGPAGE = "bagPage";
+    //private static final String ADD = "add";
+    //private static final String BAGPAGE = "bagPage";
     private static final String ABOUTPAGE = "aboutPage";
 
     private FragmentTransaction transaction;
@@ -120,7 +135,7 @@ public class HostActivity extends BaseActivity  {
 
     private long exitTime = 0;
     private String info;
-
+    private UserEntity userEntity;
 
 //    private DownloadService.DownloadBinder downloadBinder;
 //
@@ -149,6 +164,11 @@ public class HostActivity extends BaseActivity  {
 
     @Override
     public void initView() {
+
+
+
+
+
         if (CommonUtils.netIsConnected(this) && CommonUtils.getNetworkType(this) != 1){
             MyToast.getInstance(this).show("注意，你现在使用的是4G网络。",Toast.LENGTH_SHORT);
         }else if (!CommonUtils.netIsConnected(this)){
@@ -157,6 +177,7 @@ public class HostActivity extends BaseActivity  {
         initBottomButton();
         disableBack();
         StatusBarUtils.transparencyBar(this);
+        showAddDialog();
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.view_in);
         mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.view_out);
         intent = getIntent();
@@ -202,10 +223,10 @@ public class HostActivity extends BaseActivity  {
                 focusOnAsk();
                 switchFragment(ASKPAGE);
                 break;
-            case "bag":
-                focusOnBag();
-                switchFragment(BAGPAGE);
-                break;
+//            case "bag":
+//                focusOnBag();
+//                switchFragment(BAGPAGE);
+//                break;
             case "about":
                 focusOnAbout();
                 switchFragment(ABOUTPAGE);
@@ -257,28 +278,28 @@ public class HostActivity extends BaseActivity  {
      * 初始化底部按钮
      */
     public void initBottomButton(){
-        bottombtnHome.setTvAndIv("首页",R.drawable.baseline_music_note_black_24);
-        bottombtnArticle.setTvAndIv("艺条",R.drawable.baseline_queue_music_black_24);
-        bottombtnAsk.setTvAndIv("互动",R.drawable.baseline_question_answer_black_24);
-        bottombtnBag.setTvAndIv("小书包",R.drawable.baseline_class_black_24);
-        bottombtnAbout.setTvAndIv("我的",R.drawable.baseline_perm_identity_black_24);
+        bottombtnHome.setTvAndIv("首页",R.drawable.homeicon);
+        bottombtnArticle.setTvAndIv("艺条",R.drawable.articleicon);
+        bottombtnAsk.setTvAndIv("秀吧",R.drawable.videoicon);
+        bottombtnAdd.setTvAndIv("",R.drawable.add);
+        bottombtnAbout.setTvAndIv("我的",R.drawable.individualicon);
         focusOnHome();
     }
 
 
 
 
-    public void hideBottomBtn(){
-        hostBottom.setVisibility(View.GONE);
-        hostBottom.startAnimation(mHiddenAction);
-
-    }
-
-    public void showBottomBtn(){
-        hostBottom.setVisibility(View.VISIBLE);
-        hostBottom.startAnimation(mShowAction);
-
-    }
+//    public void hideBottomBtn(){
+//        hostBottom.setVisibility(View.GONE);
+//        hostBottom.startAnimation(mHiddenAction);
+//
+//    }
+//
+//    public void showBottomBtn(){
+//        hostBottom.setVisibility(View.VISIBLE);
+//        hostBottom.startAnimation(mShowAction);
+//
+//    }
 
     private void disableBack(){
         ParallaxHelper.getInstance().disableParallaxBack(this);
@@ -287,6 +308,14 @@ public class HostActivity extends BaseActivity  {
     @Override
     public void initData() {
 
+        TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
+        String uuid = tokenValid.getUid();
+
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        }else {
+            userEntity = new UserEntity();
+        }
 
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .isHasNotice(activitysharedPreferencesUtils.getParams("token","").toString())
@@ -364,9 +393,242 @@ public class HostActivity extends BaseActivity  {
         return info;
     }
 
+//    private BottomSheetDialog addDialog;
+//    private BottomSheetBehavior addDialogBehavior;
+
+
+    private View view;
+    private PopupWindow popupWindow;
+    private RoundedImageView addIcon;
+    private TextView addInfo;
+    private FrameLayout addClass;
+    private FrameLayout addArticle;
+    private FrameLayout addQa;
+    private FrameLayout addLive;
+    private ImageView closeView;
+
+
+    private void showAddDialog() {
+
+        view =  LayoutInflater.from(this).inflate(R.layout.addpage, null,false);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+
+        view.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setAnimationStyle(R.style.ActionSheetDialogAnimation);
+        popupWindow.setFocusable(false);
+        popupWindow.setOutsideTouchable(true);
+        closeView = (ImageView)view.findViewById(R.id.close_add);
+        addIcon = (RoundedImageView)view.findViewById(R.id.add_icon);
+        addInfo = (TextView)view.findViewById(R.id.add_info);
+        addClass = (FrameLayout)view.findViewById(R.id.class_btn);
+        addArticle = (FrameLayout)view.findViewById(R.id.article_btn);
+        addQa = (FrameLayout)view.findViewById(R.id.qa_btn);
+        addLive = (FrameLayout)view.findViewById(R.id.live_btn);
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    popupWindow.dismiss();
+                    BlurView.setForeground(null);
+                    BlurView.setBackground(null);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+//        addDialog = new BottomSheetDialog(this, R.style.dialog);
+//        addDialog.setContentView(view);
+//        addDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+//        addDialogBehavior.setPeekHeight(getWindowHeight());
+//        addDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+//                    popupWindow.dismiss();
+//                    BlurView.setBackground(null);
+//                    addDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                }
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//            }
+//        });
+
+        addLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyToast.getInstance(HostActivity.this).show("直播功能暂缓开通，敬请期待",Toast.LENGTH_SHORT);
+            }
+        });
+        addClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((boolean)activitysharedPreferencesUtils.getParams("login",false)) {
+
+
+                    if (userEntity.getUser_role().substring(0, 1).equals("1")) {
+
+
+                        createDialog();
+
+                    } else {
+                        MyToast.getInstance(HostActivity.this).show("您尚未认证讲师，请先认证。\n本平台只有认证成为讲师方可制作上传课程", Toast.LENGTH_LONG);
+                    }
+                }else {
+                    CommonUtils.loadinglogin(HostActivity.this);
+                }
+                popupWindow.dismiss();
+                BlurView.setBackground(null);
+                BlurView.setForeground(null);
+            }
+        });
+
+        addArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+                    if (CommonUtils.isVIP(userEntity.getUser_role()) == 1){
+                        toWriteArticle();
+                    }else {
+                        dialogLoading();
+                    }
+                }else {
+                    CommonUtils.loadinglogin(HostActivity.this);
+                }
+                popupWindow.dismiss();
+                BlurView.setBackground(null);
+                BlurView.setForeground(null);
+            }
+        });
+
+        addQa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(boolean)activitysharedPreferencesUtils.getParams("login",false)){
+                    CommonUtils.loadinglogin(HostActivity.this);
+                }else if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type","write");
+                    IntentUtils.getInstence().intent(HostActivity.this, AskActivity.class,bundle);
+                }
+                popupWindow.dismiss();
+                BlurView.setBackground(null);
+                BlurView.setForeground(null);
+            }
+        });
+        ImageLoader.loadImageViewThumbnailwitherror(this,userEntity.getUser_icon(),addIcon,R.drawable.defaulticon);
+        if (userEntity.getUser_register_time() == null){
+            addInfo.setText("请重新登录以获取您加入艺派的时间");
+        }else {
+            addInfo.setText("今天是您加入艺派的第" + CommonUtils.compareDays(CommonUtils.getNowTime(),userEntity.getUser_register_time()) + "天，祝您学习愉快");
+        }
+
+        closeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                BlurView.setBackground(null);
+                BlurView.setForeground(null);
+            }
+        });
+
+//        Window window = addDialog.getWindow();
+//        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
+    }
+
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    public void showPopWindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_host,null);
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+    }
+
+
+    private void toWriteArticle(){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            IntentUtils.getInstence().intent(HostActivity.this, WriteArticleActivity.class);
+        }else {
+            CommonUtils.loadinglogin(this);
+        }
+
+    }
+//    private int getWindowHeight() {
+//        Resources res = this.getResources();
+//        DisplayMetrics displayMetrics = res.getDisplayMetrics();
+//        return displayMetrics.heightPixels;
+//    }
+
+
+    private  void dialogLoading(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+        dialog.setMessage("您未认证讲师，暂不可发表文章")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("取消")
+                .setPositive("去认证")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(HostActivity.this, VSureActivity.class);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+                    }
+
+                })
+                .show();
+
+    }
 
 
 
+
+    private void createDialog(){
+        final CommonDialog dialog = new CommonDialog(this);
+
+
+
+        dialog.setMessage("该选择会创建新的课程\n若已成功创建，请在个人主页上传内容或者编辑")
+                .setTitle("提示")
+                .setSingle(false)
+                .setNegtive("取消")
+                .setPositive("我知道，继续创建")
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        Bundle bundleto = new Bundle();
+                        bundleto.putString("type","create");
+                        IntentUtils.getInstence().intent(HostActivity.this, UploadClassActivity.class,bundleto);
+
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
+
+                    }
+
+                })
+
+                .show();
+    }
     /**
      * 切换相应的fragment
      * @param pageName
@@ -405,16 +667,18 @@ public class HostActivity extends BaseActivity  {
                 getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 StatusBarUtils.setStatusBarColor(this,R.color.white);
                 break;
-            case BAGPAGE:
-                if (bagPage == null){
-                    bagPage = BagFragment.newInstance();
-                    transaction.add(R.id.container_home,bagPage);
-                }else{
-                    transaction.show(bagPage);
-                }
-                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                StatusBarUtils.setStatusBarColor(this,R.color.white);
-                break;
+//            case ADD:
+//                //TODO 打开四个接口
+//
+////                if (bagPage == null){
+////                    bagPage = BagFragment.newInstance();
+////                    transaction.add(R.id.container_home,bagPage);
+////                }else{
+////                    transaction.show(bagPage);
+////                }
+////                getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+////                StatusBarUtils.setStatusBarColor(this,R.color.white);
+//                break;
             case ABOUTPAGE:
                 StatusBarUtils.transparencyBar(this);
                 if (aboutPage == null){
@@ -442,9 +706,9 @@ public class HostActivity extends BaseActivity  {
         if (askPage != null){
             transaction.hide(askPage);
         }
-        if (bagPage != null){
-            transaction.hide(bagPage);
-        }
+//        if (bagPage != null){
+//            transaction.hide(bagPage);
+//        }
         if (aboutPage != null){
             transaction.hide(aboutPage);
         }
@@ -471,12 +735,23 @@ public class HostActivity extends BaseActivity  {
         switchFragment(ASKPAGE);
     }
 
-    @OnClick(R.id.bottom_btn_bag)
-    public void showBag(View v){
-        //跳转小书包
-        focusOnBag();
-        switchFragment(BAGPAGE);
+
+    @OnClick(R.id.bottom_btn_add)
+    public void addContent(View v){
+
+
+        BlurView.setForeground(new ColorDrawable(Color.parseColor("#90FFFFFF")));
+
+        BlurView.setBackground(new BitmapDrawable(getResources(),ImageUtils.blur(this,ImageUtils.saveScreenAsImage(this,true))));
+//        addDialog.show();
+        showPopWindow();
     }
+//    @OnClick(R.id.bottom_btn_bag)
+//    public void showBag(View v){
+//        //跳转小书包
+//        focusOnBag();
+//        switchFragment(BAGPAGE);
+//    }
 
     @OnClick(R.id.bottom_btn_about)
     public void showAbout(View v){
@@ -499,8 +774,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnAsk.resetButton();
-        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
@@ -518,8 +793,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnAsk.resetButton();
-        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
@@ -537,8 +812,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAsk.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.colorPrimary));
         //bottombtnAsk.focusOnButton();
-        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
@@ -556,8 +831,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnAsk.resetButton();
-        bottombtnBag.setTvColor(getResources().getColor(R.color.colorPrimary));
-        bottombtnBag.setIvColor(getResources().getColor(R.color.colorPrimary));
+//        bottombtnBag.setTvColor(getResources().getColor(R.color.colorPrimary));
+//        bottombtnBag.setIvColor(getResources().getColor(R.color.colorPrimary));
         //bottombtnBag.focusOnButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.fontColor));
@@ -575,8 +850,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnAsk.setTvColor(getResources().getColor(R.color.fontColor));
         bottombtnAsk.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnAsk.resetButton();
-        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
-        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setTvColor(getResources().getColor(R.color.fontColor));
+//        bottombtnBag.setIvColor(getResources().getColor(R.color.fontColor));
         //bottombtnBag.resetButton();
         bottombtnAbout.setTvColor(getResources().getColor(R.color.colorPrimary));
         bottombtnAbout.setIvColor(getResources().getColor(R.color.colorPrimary));
@@ -600,25 +875,30 @@ public class HostActivity extends BaseActivity  {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (GSYVideoManager.isFullState(this)){
-            GSYVideoManager.backFromWindowFull(this);
-            //GSYVideoManager.instance().setNeedMute(true);
-        }else {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                // 判断间隔时间 大于2秒就退出应用
-                if ((System.currentTimeMillis() - exitTime) > 2000) {
+        if (!popupWindow.isShowing()) {
 
-                    MyToast.getInstance(this).show("再按一次退出艺派",Toast.LENGTH_SHORT);
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    GSYVideoManager.releaseAllVideos();
-                    Intent home = new Intent(Intent.ACTION_MAIN);
-                    home.addCategory(Intent.CATEGORY_HOME);
-                    startActivity(home);
+
+            if (GSYVideoManager.isFullState(this)) {
+                GSYVideoManager.backFromWindowFull(this);
+                //GSYVideoManager.instance().setNeedMute(true);
+            } else {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                    // 判断间隔时间 大于2秒就退出应用
+                    if ((System.currentTimeMillis() - exitTime) > 2000) {
+
+                        MyToast.getInstance(this).show("再按一次退出艺派", Toast.LENGTH_SHORT);
+                        exitTime = System.currentTimeMillis();
+                    } else {
+                        GSYVideoManager.releaseAllVideos();
+                        Intent home = new Intent(Intent.ACTION_MAIN);
+                        home.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(home);
+                    }
+                    return true;
                 }
-                return true;
+                return super.onKeyDown(keyCode, event);
             }
-            return super.onKeyDown(keyCode, event);
+
         }
 
         return true;

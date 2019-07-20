@@ -57,11 +57,18 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private int HEAD0 = 0;
     private int HEAD1 = 1;
-
+    public interface addShareDetailOnClickListener{
+        void addShareDetailClickListener();
+    }
 
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String userId;
 
+    public addShareDetailOnClickListener addShareDetailOnClickListener;
+
+    public void setOnShareListener(addShareDetailOnClickListener addShareDetailOnClickListener) {
+        this.addShareDetailOnClickListener = addShareDetailOnClickListener;
+    }
     public AddLikeDetailOnClickListener addLikeDetailOnClickListener;
     public void setOnClickAddLikeDetail(AddLikeDetailOnClickListener addLikeDetailOnClickListener) {
         this.addLikeDetailOnClickListener = addLikeDetailOnClickListener;
@@ -336,7 +343,7 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (reShowQA.getQa_comment().equals("") && reShowQA.getQa_comment() == null){
                     detailViewHolder.reComment.setText("评论：0");
                 }else {
-                    detailViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
+                    detailViewHolder.reComment.setText("评论：" + reShowQA.getQa_comment());
                 }
                 if (reShowQA.getQa_video() != null) {
                     detailViewHolder.reVideo.setVisibility(View.VISIBLE);
@@ -417,6 +424,17 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }else {
                 detailViewHolder.reContentLL.setVisibility(View.GONE);
             }
+
+            detailViewHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (qaDataDetail.getQaData().getQa_re_id() == null){
+                        addShareDetailOnClickListener.addShareDetailClickListener();
+                    }else {
+                        MyToast.getInstance(context).show("转发内容暂不支持分享",Toast.LENGTH_SHORT);
+                    }
+                }
+            });
 
             detailViewHolder.reBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -801,7 +819,8 @@ public class AskDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView likeDetail;
         @BindView(R.id.comment_ask_detail)
         TextView commentDetail;
-
+        @BindView(R.id.share_btn_detail)
+        ImageView shareBtn;
         @BindView(R.id.re_btn_detail)
         ImageView reBtn;
         @BindView(R.id.re_detail_ll)

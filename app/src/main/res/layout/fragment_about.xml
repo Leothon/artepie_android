@@ -127,7 +127,7 @@
                         android:gravity="center"/>
                 </RelativeLayout>
                 <RelativeLayout
-                    android:id="@+id/download_about"
+                    android:id="@+id/order_about"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -137,7 +137,7 @@
                         android:id="@+id/download_img"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        app:srcCompat="@drawable/download"
+                        app:srcCompat="@drawable/order"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true" />
 
@@ -146,10 +146,37 @@
                         android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="下载"
+                        android:text="订单"
                         android:textSize="@dimen/tipsSize"
                         android:gravity="center"/>
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/histroy_about"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple">
+
+                    <ImageView
+                        android:id="@+id/history_img"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/buy_about"
+                        android:scaleType="centerCrop"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_below="@+id/history_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="我的订阅"
+                        android:textSize="@dimen/tipsSize"
+                        android:gravity="center"/>
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/my_upload"
                     android:layout_width="0dp"
@@ -171,31 +198,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="我的发布"
-                        android:textSize="@dimen/tipsSize"
-                        android:gravity="center"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/histroy_about"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/ripple">
-
-                    <ImageView
-                        android:id="@+id/history_img"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        app:srcCompat="@drawable/history"
-                        android:scaleType="centerCrop"
-                        android:layout_centerInParent="true" />
-
-                    <TextView
-                        android:layout_below="@+id/history_img"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="播放历史"
                         android:textSize="@dimen/tipsSize"
                         android:gravity="center"/>
                 </RelativeLayout>

@@ -49,15 +49,15 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp"/>
 
-        <ImageView
-            android:id="@+id/ask_add_sound"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ripple"
-            app:srcCompat="@drawable/sound"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/ask_add_img"
-            android:layout_marginLeft="20dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/ask_add_sound"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:background="@drawable/ripple"-->
+            <!--app:srcCompat="@drawable/sound"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_toRightOf="@+id/ask_add_img"-->
+            <!--android:layout_marginLeft="20dp"/>-->
 
         <TextView
             android:id="@+id/ask_char_count"
@@ -86,7 +86,7 @@
                 android:maxLines="30"
                 android:minLines="5"
                 app:met_hideUnderline="true"
-                android:hint="输入问题描述"
+                android:hint="输入视频描述"
                 android:textSize="@dimen/contentSize"
                 android:padding="10dp"
                 android:gravity="start|top"/>

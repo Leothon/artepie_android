@@ -1,6 +1,9 @@
 package com.leothon.cogito.Mvp.View.Activity.PayInfoActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.Constants;
+import com.leothon.cogito.DTO.Merchandise;
+import com.leothon.cogito.DTO.Orders;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
@@ -25,6 +34,9 @@ import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.MDCheckBox;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,6 +91,8 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     private String uuid;
     private UserEntity userEntity;
     private SelectClass selectClass;
+
+    private Orders successOrders;
     @Override
     public int initLayout() {
         return R.layout.activity_pay_info;
@@ -112,6 +126,8 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         }else {
             bindPhoneDialog();
         }
+
+
 
     }
     private void bindPhoneDialog(){
@@ -227,7 +243,6 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     }
     @OnClick(R.id.art_coin_rebate)
     public void showartdetail(View view){
-        //TODO 展示艺币的作用和余额this
         loadDialog(artCoinUseRebate.getText().toString());
     }
 
@@ -236,11 +251,17 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     @OnClick(R.id.pay_info_btn_ensure)
     public void sendTransInfo(View view){
 
-        //TODO 发送信息给后台，创建订单，成功后显示付款
-        MyToast.getInstance(this).show("订单已生成，请选择支付方式并付款",Toast.LENGTH_LONG);
-        payTypeLL.setVisibility(View.VISIBLE);
-        payInfoBtn.setVisibility(View.VISIBLE);
-        payInfoBtnEnsure.setVisibility(View.GONE);
+
+
+        Orders orders = new Orders();
+
+        orders.setOrder_user_id(userEntity.getUser_id());
+        orders.setOrder_class_id(selectClass.getSelectId());
+        orders.setOrder_class_price(selectClass.getSelectprice());
+        orders.setOrder_discount(artCoinUseRebate.getText().toString());
+        orders.setOrder_end_price(calculater(selectClass.getSelectprice(),artCoinUseRebate.getText().toString()));
+        payPresenter.createTransactionInfo(orders);
+
     }
     @OnClick(R.id.pay_info_btn)
     public void payInfoUp(View view){
@@ -252,27 +273,39 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         }else {
             MyToast.getInstance(this).show("请选择一种支付方式进行支付",Toast.LENGTH_SHORT);
         }
-        //TODO payPresenter.sendTransactionInfo(activitysharedPreferencesUtils.getParams("token","").toString(),selectClass.getSelectId());
-//        if (bundle.getString("type").equals("class")){
-//            Bundle bundleto = new Bundle();
-//            bundleto.putString("title",bundle.getString("title"));
-//            bundleto.putString("price",lastPrice);
-//            bundleto.putString("type","class");
-//            bundleto.putString("url",bundle.getString("imgurl"));
-//            IntentUtils.getInstence().intent(PayInfoActivity.this, PayActivity.class,bundleto);
-//            finish();
-//        }else {
-//
-//            Bundle bundleto = new Bundle();
-//            bundleto.putString("title",bundle.getString("title"));
-//            bundleto.putString("price",lastPrice);
-//            bundleto.putString("type","activity");
-//            bundleto.putString("url","");
-//            IntentUtils.getInstence().intent(PayInfoActivity.this, PayActivity.class,bundleto);
-//            finish();
-//        }
+
     }
 
+    @Override
+    public void createOrderSuccess(Orders orders) {
+        this.successOrders = orders;
+        Merchandise merchandise = new Merchandise();
+
+        merchandise.setMe_Id(selectClass.getSelectId());
+        merchandise.setMe_Author(selectClass.getSelectauthor());
+        merchandise.setME_Des(selectClass.getSelectdesc());
+        merchandise.setMe_Name(selectClass.getSelectlisttitle());
+        merchandise.setME_Create_Time(selectClass.getSelecttime());
+
+        successOrders.setLocal_ip(CommonUtils.getLocalIpAddress(this));
+        successOrders.setMerchandise(merchandise);
+        Log.e(TAG, "createOrderSuccess: " + successOrders.toString() );
+        MyToast.getInstance(this).show("订单已生成，请选择支付方式并付款",Toast.LENGTH_LONG);
+        payTypeLL.setVisibility(View.VISIBLE);
+        payInfoBtn.setVisibility(View.VISIBLE);
+        payInfoBtnEnsure.setVisibility(View.GONE);
+    }
+
+    /**
+     * @param orders
+     */
+    @Override
+    public void getTransactionSuccess(Orders orders) {
+        wxTask = new WxTask(this,orders.getPayInfo());
+        wxTask.execute();
+        Log.e(TAG, "订单信息: " + orders.getPayInfo());
+
+    }
 
     @OnClick(R.id.wechat_pay)
     public void wechatPay(View view){
@@ -308,8 +341,8 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
                 break;
             case 2:
                 //TODO 微信支付
-                MyToast.getInstance(this).show("微信支付" + selectClass.getSelectlisttitle(),Toast.LENGTH_SHORT);
-                Log.e(TAG, "startPay: " + "微信支付");
+
+                payPresenter.getTransaction(successOrders);
                 break;
             default:
                 break;
@@ -357,4 +390,66 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     public void showInfo(String msg) {
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
+
+
+    private WxTask wxTask;
+    /**
+     * 微信支付错误检测 提示语
+     */
+    private static final String WX_PAY_ERRMSG_1 = "您没有安装微信...";
+    private static final String WX_PAY_ERRMSG_2 = "当前版本不支持支付功能...";
+    private static final String WX_PAY_ERRMSG_3 = "微信支付失败...";
+
+    private class WxTask extends AsyncTask<String, Integer, Boolean> {
+        private IWXAPI mIWXAPI;
+        private Context mContext;
+        private String payInfo;
+        private boolean canPay;
+
+        public WxTask(Activity context, String payInfo) {
+            this.mContext = context;
+            this.payInfo = payInfo;
+            mIWXAPI = WXAPIFactory.createWXAPI(mContext, Constants.WeChat_APP_ID);
+            //PayUtils.getInstance().setPayResultCallback(payResultCallback);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            canPay = true;
+            if (!mIWXAPI.isWXAppInstalled()) {
+                MyToast.getInstance(PayInfoActivity.this).show(WX_PAY_ERRMSG_1,Toast.LENGTH_SHORT);
+                canPay = false;
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean sendReq = false;
+            if (canPay) {
+
+                JsonParser parse =new JsonParser();
+                JsonObject json=(JsonObject) parse.parse(payInfo);
+                PayReq req = new PayReq();
+                req.appId = json.get("appid").getAsString();
+                req.partnerId = json.get("partnerid").getAsString();
+                req.prepayId = json.get("prepayid").getAsString();
+                req.nonceStr = json.get("noncestr").getAsString();
+                req.timeStamp = json.get("timestamp").getAsString();
+                req.packageValue = json.get("package").getAsString();
+                req.sign = json.get("sign").getAsString();
+//                req.extData = "app data"; // optional
+                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                sendReq = mIWXAPI.sendReq(req);
+            }
+            return sendReq;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (!result) {
+                MyToast.getInstance(PayInfoActivity.this).show(WX_PAY_ERRMSG_3,Toast.LENGTH_SHORT);
+            }
+        }
+    }
+
 }

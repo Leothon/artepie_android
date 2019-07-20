@@ -1,5 +1,6 @@
 package com.leothon.cogito.Utils;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,12 +10,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
+import android.view.View;
+
+import com.leothon.cogito.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -494,6 +503,85 @@ public class ImageUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(bitmap.getByteCount());
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return outputStream.toByteArray();
+    }
+
+
+
+    /**
+     * 截取屏幕(全屏)并保存
+     *
+     * @param isSaveStatusBar 是否保留状态栏
+     */
+    public static Bitmap saveScreenAsImage(Activity mActivity, boolean isSaveStatusBar) {
+        View pView = mActivity.getWindow().getDecorView();
+        pView.setDrawingCacheEnabled(true);
+        pView.buildDrawingCache();
+        Bitmap srcBitmap = pView.getDrawingCache();
+        // 图片大小
+        Point point = new Point();
+        mActivity.getWindowManager().getDefaultDisplay().getSize(point);
+        int width = pView.getWidth();//point.x;
+        int height = pView.getHeight();//point.y;
+        // 标题栏高度
+        int statusBarHeight = 0;
+        if (isSaveStatusBar == false) {
+            Rect frame = new Rect();
+            mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+            statusBarHeight = frame.top;
+            height = height - statusBarHeight;
+        }
+        // 创建存储的bitmap
+        Bitmap bitmap = Bitmap.createBitmap(srcBitmap, 0, statusBarHeight, width, height);
+
+        // 清理掉缓存图片,防止内存溢出
+        pView.destroyDrawingCache();
+        // 保存图片
+
+        return bitmap;
+    }
+
+    /**
+     * 图片缩放比例
+     */
+    private static final float BITMAP_SCALE = 0.2f;
+    /**
+     * 最大模糊度(在0.0到25.0之间)
+     */
+    private static final float BLUR_RADIUS = 25f;
+
+    private static final int BLACK = R.color.black;
+
+    public static Bitmap blur(Context context, Bitmap image) {
+        // 计算图片缩小后的长宽
+        int width = Math.round(image.getWidth() * BITMAP_SCALE);
+        int height = Math.round(image.getHeight() * BITMAP_SCALE);
+
+        // 将缩小后的图片做为预渲染的图片。
+        Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+        // 创建一张渲染后的输出图片。
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+
+        // 创建RenderScript内核对象
+        RenderScript rs = RenderScript.create(context);
+        // 创建一个模糊效果的RenderScript的工具对象
+        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+
+        // 由于RenderScript并没有使用VM来分配内存,所以需要使用Allocation类来创建和分配内存空间。
+        // 创建Allocation对象的时候其实内存是空的,需要使用copyTo()将数据填充进去。
+        Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+
+        // 设置渲染的模糊程度, 25f是最大模糊度
+        blurScript.setRadius(BLUR_RADIUS);
+        // 设置blurScript对象的输入内存
+        blurScript.setInput(tmpIn);
+        // 将输出数据保存到输出内存中
+        blurScript.forEach(tmpOut);
+
+        // 将数据填充到Allocation中
+        tmpOut.copyTo(outputBitmap);
+
+        return outputBitmap;
     }
 
 }

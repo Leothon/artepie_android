@@ -3,21 +3,27 @@ package com.leothon.cogito.Mvp.View.Fragment.AskPage;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,10 +36,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.Article;
+import com.leothon.cogito.Bean.Ask;
 import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseFragment;
+import com.leothon.cogito.Mvp.View.Activity.ArticleActivity.ArticleActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskActivity.AskActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.R;
@@ -42,8 +52,13 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.EPieVideoPlayer;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.wxapi.WXEntryActivity;
 import com.shuyu.gsyvideoplayer.GSYVideoBaseManager;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.tencent.connect.share.QQShare;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,8 +91,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     TextView title;
     @BindView(R.id.toolbar_subtitle)
     TextView subtitle;
-    @BindView(R.id.float_btn)
-    FloatingActionButton floatBtn;
+//    @BindView(R.id.float_btn)
+//    FloatingActionButton floatBtn;
 
     private AskAdapter askAdapter;
     private ArrayList<QAData> asks;
@@ -100,9 +115,25 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     private RelativeLayout dismiss;
     private View popview;
     private PopupWindow popupWindow;
-
+    //private QQShareListener qqShareListener;
     private String informText;
     String uuid;
+    //private Tencent mTencent;
+
+    private class QQShareListener implements IUiListener {
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override public void onError(UiError uiError) {
+        }
+
+        @Override public void onComplete(Object o) {
+
+            MyToast.getInstance(getMContext()).show("分享成功！",Toast.LENGTH_SHORT);
+        }
+    }
     public AskFragment() {}
 
     /**
@@ -127,6 +158,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     @Override
     protected void initData() {
+        //mTencent = Tencent.createInstance(Constants.APP_ID,getMContext().getApplicationContext());
+        //qqShareListener = new QQShareListener();
         if (!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
@@ -149,7 +182,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         askBar.setPadding(0,CommonUtils.getStatusBarHeight(getMContext()),0,0);
 
 
-        title.setText("互动论坛");
+        title.setText("秀吧视频");
         subtitle.setText("");
         asks = new ArrayList<>();
         askPresenter.getAskData(fragmentsharedPreferencesUtils.getParams("token","").toString());
@@ -158,7 +191,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         viewShowAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_show);
         viewHideAnim = AnimationUtils.loadAnimation(getMContext(),R.anim.view_scale_hide);
 
-
+        showShareDialog();
 
     }
 
@@ -301,11 +334,11 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 }
 
                 if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
-                    animationHide();
+                    //animationHide();
                     controlVisible = false;
                     scrollDistance = 0;
                 }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
-                    animationShow();
+                    //animationShow();
                     controlVisible = true;
                     scrollDistance = 0;
                 }
@@ -378,40 +411,171 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 askPresenter.addView(fragmentsharedPreferencesUtils.getParams("token","").toString(),qaId);
             }
         });
+
+
+        askAdapter.setOnShareListener(new AskAdapter.addShareOnClickListener() {
+            @Override
+            public void addShareClickListener(int position) {
+
+                shareDialog.show();
+                setShare(position);
+            }
+        });
     }
 
-    private void animationHide(){
-        hostActivity.hideBottomBtn();
-        floatBtn.hide();
-        floatBtn.startAnimation(viewHideAnim);
+//    private void animationHide(){
+//        hostActivity.hideBottomBtn();
+//        floatBtn.hide();
+//        floatBtn.startAnimation(viewHideAnim);
+//
+//    }
+//
+//    private void animationShow(){
+//        hostActivity.showBottomBtn();
+//        floatBtn.show();
+//        floatBtn.startAnimation(viewShowAnim);
+//
+//    }
+//    @OnClick(R.id.float_btn)
+//    public void addcontent(View view){
+//
+//        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+//            CommonUtils.loadinglogin(getMContext());
+//        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+//            Bundle bundle = new Bundle();
+//            bundle.putString("type","write");
+//            IntentUtils.getInstence().intent(getMContext(), AskActivity.class,bundle);
+//        }
+//
+//
+//    }
 
+
+    private BottomSheetDialog shareDialog;
+    private BottomSheetBehavior shareDialogBehavior;
+    private SwipeRefreshLayout swpArticleComment;
+    private RelativeLayout shareToQQ;
+    private RelativeLayout shareToFriendCircle;
+    private RelativeLayout shareToWeChat;
+    private RelativeLayout shareToMore;
+
+
+
+
+    private void showShareDialog() {
+
+        View view = View.inflate(getMContext(), R.layout.popup_share, null);
+        shareToQQ = (RelativeLayout)view.findViewById(R.id.share_class_to_qq);
+        shareToFriendCircle = (RelativeLayout)view.findViewById(R.id.share_class_to_circle);
+        shareToWeChat = (RelativeLayout)view.findViewById(R.id.share_class_to_wechat);
+        shareToMore = (RelativeLayout)view.findViewById(R.id.share_class_to_more);
+        shareDialog = new BottomSheetDialog(getMContext(), R.style.dialog);
+        shareDialog.setContentView(view);
+        shareDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        shareDialogBehavior.setPeekHeight(getWindowHeight());
+        shareDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shareDialog.dismiss();
+                    shareDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
+
+
+        Window window = shareDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
     }
 
-    private void animationShow(){
-        hostActivity.showBottomBtn();
-        floatBtn.show();
-        floatBtn.startAnimation(viewShowAnim);
+    private void setShare(int position){
+        shareToQQ.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param view
+             */
+            @Override
+            public void onClick(View view) {
+                MyToast.getInstance(getMContext()).show("暂不支持QQ分享",Toast.LENGTH_SHORT);
+                //shareToQQClass(asks.get(position));
+                shareDialog.dismiss();
 
+            }
+        });
+        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (asks.get(position).getQa_video() == null){
+
+                    MyToast.getInstance(getMContext()).show("非视频不能分享到朋友圈",Toast.LENGTH_SHORT);
+                    return;
+                }
+                Bundle bundleto = new Bundle();
+                bundleto.putString("share","1");
+                bundleto.putSerializable("qa",asks.get(position));
+                IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("share","2");
+                bundleto.putSerializable("qa",asks.get(position));
+                IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyToast.getInstance(getMContext()).show("暂不支持分享更多",Toast.LENGTH_SHORT);
+                //shareToMoreInfo(asks.get(position));
+                shareDialog.dismiss();
+
+            }
+        });
     }
-    @OnClick(R.id.float_btn)
-    public void addcontent(View view){
 
-        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            CommonUtils.loadinglogin(getMContext());
-        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            Bundle bundle = new Bundle();
-            bundle.putString("type","write");
-            IntentUtils.getInstence().intent(getMContext(), AskActivity.class,bundle);
-        }
+//    private void shareToQQClass(QAData qaData)
+//    {
+//        Bundle bundle = new Bundle();
+//        //这条分享消息被好友点击后的跳转URL。
+//        bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "https://www.artepie.com/image/" + qaData.getArticleId() + ".html");
+//        //分享的标题。注：PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
+//        bundle.putString(QQShare.SHARE_TO_QQ_TITLE,article.getArticleTitle());
+//        //分享的图片URL
+//        bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, article.getArticleImg());
+//        //分享的消息摘要，最长50个字
+//        bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY, article.getArticleAuthorName());
+//        //手Q客户端顶部，替换“返回”按钮文字，如果为空，用返回代替
+//        //bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "??我在测试");
+//        //标识该消息的来源应用，值为应用名称+AppId。
+//        bundle.putString(QQShare.SHARE_TO_QQ_APP_NAME, "艺派" + Constants.APP_ID);
+//        mTencent.shareToQQ(this, bundle , qqShareListener);
+//    }
 
+//    private void shareToMoreInfo(QAData qaData) {
+//        Intent share_intent = new Intent();
+//        share_intent.setAction(Intent.ACTION_SEND);
+//        share_intent.setType("text/plain");
+//        share_intent.putExtra(Intent.EXTRA_SUBJECT, "艺派");
+//        share_intent.putExtra(Intent.EXTRA_TEXT, "我分享了文章" + article.getArticleTitle() + "\n戳我查看：https://www.artepie.com/image/" + article.getArticleId() + ".html");
+//        share_intent = Intent.createChooser(share_intent, "分享");
+//        startActivity(share_intent);
+//    }
 
+    private int getWindowHeight() {
+        Resources res = this.getResources();
+        DisplayMetrics displayMetrics = res.getDisplayMetrics();
+        return displayMetrics.heightPixels;
     }
-
-
-
-
-
-
     @Override
     public void onRefresh() {
 

@@ -77,8 +77,8 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     @BindView(R.id.swp_article)
     SwipeRefreshLayout swpArticle;
 
-    @BindView(R.id.float_btn_article)
-    FloatingActionButton writeArticle;
+//    @BindView(R.id.float_btn_article)
+//    FloatingActionButton writeArticle;
 
     private ArticleData articleData;
 
@@ -237,11 +237,11 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
                     int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
 
                     if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
-                        animationHide();
+                        //animationHide();
                         controlVisible = false;
                         scrollDistance = 0;
                     }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
-                        animationShow();
+                        //animationShow();
                         controlVisible = true;
                         scrollDistance = 0;
                     }
@@ -262,20 +262,20 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             }
         });
     }
-
-    private void animationHide(){
-        //hostActivity.hideBottomBtn();
-        writeArticle.hide();
-        writeArticle.startAnimation(hideAnimation);
-
-    }
-
-    private void animationShow(){
-        //hostActivity.showBottomBtn();
-        writeArticle.show();
-        writeArticle.startAnimation(showAnimation);
-
-    }
+//
+//    private void animationHide(){
+//        //hostActivity.hideBottomBtn();
+//        writeArticle.hide();
+//        writeArticle.startAnimation(hideAnimation);
+//
+//    }
+//
+//    private void animationShow(){
+//        //hostActivity.showBottomBtn();
+//        writeArticle.show();
+//        writeArticle.startAnimation(showAnimation);
+//
+//    }
 
     @Override
     public void loadArticlePageData(final ArticleData articleData) {
@@ -294,46 +294,46 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
     }
 
-    @OnClick(R.id.float_btn_article)
-    public void writeArticle(View view){
-        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            if (CommonUtils.isVIP(userEntity.getUser_role()) == 1){
-                toWriteArticle();
-            }else {
-                dialogLoading();
-            }
-        }else {
-            CommonUtils.loadinglogin(getContext());
-        }
+//    @OnClick(R.id.float_btn_article)
+//    public void writeArticle(View view){
+//        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+//            if (CommonUtils.isVIP(userEntity.getUser_role()) == 1){
+//                toWriteArticle();
+//            }else {
+//                dialogLoading();
+//            }
+//        }else {
+//            CommonUtils.loadinglogin(getContext());
+//        }
+//
+//
+//    }
 
-
-    }
-
-    private  void dialogLoading(){
-        final CommonDialog dialog = new CommonDialog(getContext());
-
-
-        dialog.setMessage("您未认证讲师，暂不可发表文章")
-                .setTitle("提示")
-                .setSingle(false)
-                .setNegtive("取消")
-                .setPositive("去认证")
-                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
-                    @Override
-                    public void onPositiveClick() {
-                        dialog.dismiss();
-                        IntentUtils.getInstence().intent(getContext(), VSureActivity.class);
-                    }
-
-                    @Override
-                    public void onNegativeClick() {
-                        dialog.dismiss();
-                    }
-
-                })
-                .show();
-
-    }
+//    private  void dialogLoading(){
+//        final CommonDialog dialog = new CommonDialog(getContext());
+//
+//
+//        dialog.setMessage("您未认证讲师，暂不可发表文章")
+//                .setTitle("提示")
+//                .setSingle(false)
+//                .setNegtive("取消")
+//                .setPositive("去认证")
+//                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+//                    @Override
+//                    public void onPositiveClick() {
+//                        dialog.dismiss();
+//                        IntentUtils.getInstence().intent(getContext(), VSureActivity.class);
+//                    }
+//
+//                    @Override
+//                    public void onNegativeClick() {
+//                        dialog.dismiss();
+//                    }
+//
+//                })
+//                .show();
+//
+//    }
 
     @Override
     public void loadMoreArticlePageData(ArrayList<Article> articles) {

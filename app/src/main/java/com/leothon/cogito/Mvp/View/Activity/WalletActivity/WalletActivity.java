@@ -32,8 +32,8 @@ import butterknife.BindView;
 public class WalletActivity extends BaseActivity {
 
 
-    @BindView(R.id.rv_wallet)
-    RecyclerView rvWallet;
+//    @BindView(R.id.rv_wallet)
+//    RecyclerView rvWallet;
     @BindView(R.id.account_balance)
     TextView accountBalance;
     @BindView(R.id.art_coin_balance)
@@ -41,16 +41,16 @@ public class WalletActivity extends BaseActivity {
     @BindView(R.id.art_coin_detail)
     RelativeLayout artCoinDetail;
 
-    @BindView(R.id.divider_title)
-    TextView dividerTitle;
-    @BindView(R.id.recharge_btn)
-    Button rechargeBtn;
-    @BindView(R.id.protocol_recharge)
-    TextView protocolRecharge;
+//    @BindView(R.id.divider_title)
+//    TextView dividerTitle;
+//    @BindView(R.id.recharge_btn)
+//    Button rechargeBtn;
+//    @BindView(R.id.protocol_recharge)
+//    TextView protocolRecharge;
 
-    private WalletAdapter walletAdapter;
-    private ArrayList<String> list;
-    private UserEntity userEntity;
+//    private WalletAdapter walletAdapter;
+//    private ArrayList<String> list;
+    //private UserEntity userEntity;
     @Override
     public int initLayout() {
         return R.layout.activity_wallet;
@@ -60,43 +60,45 @@ public class WalletActivity extends BaseActivity {
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
 
-        userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+        //TODO 请求后台数据获取个人信息，对比本地余额如果不同，则更新本地数据库
+        //TODO 获取该用户的所有付款项
+        //userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
     public void initView() {
         StatusBarUtils.transparencyBar(this);
-        loadPrice();
-        dividerTitle.setText("充值");
-        initAdapter();
+        //loadPrice();
+//        dividerTitle.setText("充值");
+        //initAdapter();
 
-        accountBalance.setText("￥" + userEntity.getUser_balance());
-        artCoin.setText("526");
-        Constants.rechargeCount = "0";
+        accountBalance.setText("￥256");
+        artCoin.setText("0");
+
         artCoinDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadDialog();
             }
         });
-        protocolRecharge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("type","recharge");
-//                IntentUtils.getInstence().intent(WalletActivity.this, ContractActivity.class,bundle);
-            }
-        });
-        rechargeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Constants.rechargeCount.equals("0") || Constants.rechargeCount.equals("")){
-                    MyToast.getInstance(WalletActivity.this).show("请选择充值金额",Toast.LENGTH_SHORT);
-                }else {
-                    MyToast.getInstance(WalletActivity.this).show("向账户充值" + Constants.rechargeCount + "元",Toast.LENGTH_SHORT);
-                }
-
-            }
-        });
+//        protocolRecharge.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Bundle bundle = new Bundle();
+////                bundle.putString("type","recharge");
+////                IntentUtils.getInstence().intent(WalletActivity.this, ContractActivity.class,bundle);
+//            }
+//        });
+//        rechargeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (Constants.rechargeCount.equals("0") || Constants.rechargeCount.equals("")){
+//                    MyToast.getInstance(WalletActivity.this).show("请选择充值金额",Toast.LENGTH_SHORT);
+//                }else {
+//                    MyToast.getInstance(WalletActivity.this).show("向账户充值" + Constants.rechargeCount + "元",Toast.LENGTH_SHORT);
+//                }
+//
+//            }
+//        });
 
     }
 
@@ -124,37 +126,37 @@ public class WalletActivity extends BaseActivity {
                 .show();
     }
 
-    private void initAdapter(){
-        walletAdapter = new WalletAdapter(list,this);
-        rvWallet.setHasFixedSize(true);
-        rvWallet.setLayoutManager(new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false));
-        rvWallet.setAdapter(walletAdapter);
-
-        rvWallet.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return false;
-            }
-        });
-
-        rvWallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-    }
-
-    public void loadPrice() {
-        list = new ArrayList<>();
-        list.add("￥10");
-        list.add("￥20");
-        list.add("￥50");
-        list.add("￥100");
-        list.add("￥200");
-        list.add("￥500");
-    }
+//    private void initAdapter(){
+//        walletAdapter = new WalletAdapter(list,this);
+//        rvWallet.setHasFixedSize(true);
+//        rvWallet.setLayoutManager(new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false));
+//        rvWallet.setAdapter(walletAdapter);
+//
+//        rvWallet.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                return false;
+//            }
+//        });
+//
+//        rvWallet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//
+//    }
+//
+//    public void loadPrice() {
+//        list = new ArrayList<>();
+//        list.add("￥10");
+//        list.add("￥20");
+//        list.add("￥50");
+//        list.add("￥100");
+//        list.add("￥200");
+//        list.add("￥500");
+//    }
 
 
 

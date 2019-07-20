@@ -20,37 +20,24 @@
             android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:visibility="invisible"/>
+            android:visibility="visible"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
 
             <TextView
-                android:layout_toLeftOf="@+id/success_title"
+
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您已成功购买"
+                android:text="您已成功购买本节课程，请前往我的订阅查看"
                 android:textColor="@color/fontColor"
                 android:layout_marginRight="5dp"/>
-            <TextView
-                android:id="@+id/success_title"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="课程的名称"
-                android:textSize="@dimen/littleTitle"
-                android:textColor="@color/fontColor"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="课程"
-                android:textColor="@color/fontColor"
-                android:layout_toRightOf="@+id/success_title"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="5dp"/>
+
+
+
 
 
         </RelativeLayout>
@@ -61,7 +48,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/textviewbackground"
-            android:text="立即学习"
+            android:text="立即前往"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="20dp"/>

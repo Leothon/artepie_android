@@ -3,19 +3,24 @@ package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -35,10 +40,13 @@ import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
+import com.leothon.cogito.wxapi.WXEntryActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.tencent.tauth.Tencent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -61,7 +69,13 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     private QADataDetail qaDataDetail;
     private AskDetailAdapter askDetailAdapter;
 
-
+    private BottomSheetDialog shareDialog;
+    private BottomSheetBehavior shareDialogBehavior;
+    private RelativeLayout shareToQQ;
+    private RelativeLayout shareToFriendCircle;
+    private RelativeLayout shareToWeChat;
+    private RelativeLayout shareToMore;
+    private Tencent mTencent;
 
     public static final int SCROLL_STATE_IDLE = 0;
     public static final int SCROLL_STATE_DRAGGING = 1;
@@ -119,6 +133,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         initReplyPopupWindow();
         initMorePopupWindow();
         initMoreQAPopupWindow();
+        showShareDialog();
     }
 
 
@@ -338,8 +353,103 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
             }
         });
 
+        askDetailAdapter.setOnShareListener(new AskDetailAdapter.addShareDetailOnClickListener() {
+            @Override
+            public void addShareDetailClickListener() {
+                shareDialog.show();
+            }
+        });
+
 
     }
+
+
+    private void showShareDialog() {
+
+        View view = View.inflate(this, R.layout.popup_share, null);
+        shareToQQ = (RelativeLayout)view.findViewById(R.id.share_class_to_qq);
+        shareToFriendCircle = (RelativeLayout)view.findViewById(R.id.share_class_to_circle);
+        shareToWeChat = (RelativeLayout)view.findViewById(R.id.share_class_to_wechat);
+        shareToMore = (RelativeLayout)view.findViewById(R.id.share_class_to_more);
+        shareDialog = new BottomSheetDialog(this, R.style.dialog);
+        shareDialog.setContentView(view);
+        shareDialogBehavior = BottomSheetBehavior.from((View) view.getParent());
+        shareDialogBehavior.setPeekHeight(getWindowHeight());
+        shareDialogBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shareDialog.dismiss();
+                    shareDialogBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
+
+        shareToQQ.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param view
+             */
+            @Override
+            public void onClick(View view) {
+                MyToast.getInstance(AskDetailActivity.this).show("暂不支持QQ分享",Toast.LENGTH_SHORT);
+                //shareToQQClass(asks.get(position));
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToFriendCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (qaDataDetail.getQaData().getQa_video() == null){
+
+                    MyToast.getInstance(AskDetailActivity.this).show("非视频不能分享到朋友圈",Toast.LENGTH_SHORT);
+                    return;
+                }
+                Bundle bundleto = new Bundle();
+                bundleto.putString("share","3");
+                bundleto.putSerializable("qad",qaDataDetail);
+                IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToWeChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundleto = new Bundle();
+                bundleto.putString("share","4");
+                bundleto.putSerializable("qad",qaDataDetail);
+                IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
+                shareDialog.dismiss();
+
+            }
+        });
+        shareToMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyToast.getInstance(AskDetailActivity.this).show("暂不支持分享更多",Toast.LENGTH_SHORT);
+                //shareToMoreInfo(asks.get(position));
+                shareDialog.dismiss();
+
+            }
+        });
+
+
+        Window window = shareDialog.getWindow();
+        window.setWindowAnimations(R.style.ActionSheetDialogAnimation);
+    }
+
+    private int getWindowHeight() {
+        Resources res = this.getResources();
+        DisplayMetrics displayMetrics = res.getDisplayMetrics();
+        return displayMetrics.heightPixels;
+    }
+
+
 
     @Override
     public void loadError(String msg) {

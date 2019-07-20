@@ -220,28 +220,28 @@
                         android:textColor="@color/black"
                         android:layout_centerInParent="true"/>
                 </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/make_upload_class"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/textviewbackground"
-                    android:layout_margin="5dp">
-                    <ImageView
-                        android:layout_toLeftOf="@+id/up"
-                        android:layout_centerInParent="true"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_backup_black_24"/>
-                    <TextView
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/up"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="新建课程"
-                        android:textSize="@dimen/contentSize"
-                        android:textColor="@color/black"
-                        android:layout_centerInParent="true"/>
-                </RelativeLayout>
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/make_upload_class"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:background="@drawable/textviewbackground"-->
+                    <!--android:layout_margin="5dp">-->
+                    <!--<ImageView-->
+                        <!--android:layout_toLeftOf="@+id/up"-->
+                        <!--android:layout_centerInParent="true"-->
+                        <!--android:layout_width="24dp"-->
+                        <!--android:layout_height="24dp"-->
+                        <!--app:srcCompat="@drawable/baseline_backup_black_24"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:id="@+id/up"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="新建课程"-->
+                        <!--android:textSize="@dimen/contentSize"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:layout_centerInParent="true"/>-->
+                <!--</RelativeLayout>-->
 
             </LinearLayout>
         </LinearLayout>

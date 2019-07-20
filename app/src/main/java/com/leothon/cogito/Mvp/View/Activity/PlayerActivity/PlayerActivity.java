@@ -123,8 +123,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
     TextView videoTitle;
     @BindView(R.id.video_description)
     TextView videoDescription;
-    @BindView(R.id.view_count)
-    TextView viewCount;
+//    @BindView(R.id.view_count)
+//    TextView viewCount;
     @BindView(R.id.fav_count)
     TextView favCount;
 
@@ -471,7 +471,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         ImageLoader.loadImageViewThumbnailwitherror(this,videoDetail.getAuthorIcon(),videoAuthorIcon,R.drawable.defalutimg);
         videoTitle.setText(videoDetail.getClassDetailList().getClassd_title());
         videoDescription.setText(videoDetail.getClassDetailList().getClassd_des());
-        viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
+        //viewCount.setText(videoDetail.getClassDetailList().getClassd_view());
         favCount.setText(videoDetail.getClassDetailList().getClassd_like());
         if (videoDetail.getClassDetailList().getClassdStatus() == 0 && !videoDetail.getAuthorId().equals(uuid)){
             Log.e(TAG, "LoadView: 走这里" );
@@ -642,7 +642,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                             comment.setComment_q_like("0");
                             comment.setComment_q_content(editComment.getText().toString());
                             videoDetail.getComments().add(comment);
-                            chooseClassAdapter.notifyDataSetChanged();
+                            videoCommentAdapter.notifyDataSetChanged();
                             editComment.setText("");
                             playerPresenter.getVideoDetail(activitysharedPreferencesUtils.getParams("token","").toString(),videoDetail.getClassDetailList().getClassd_id(),videoDetail.getClassDetailList().getClass_classd_id());
                             popupWindow.dismiss();

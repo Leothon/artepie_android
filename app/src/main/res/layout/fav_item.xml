@@ -49,7 +49,8 @@
                 android:text="声乐的出现过程"
                 android:gravity="center|start"
                 android:textSize="@dimen/tipsSize"
-                android:textColor="@color/fontColor"/>
+                android:textColor="@color/fontColor"
+                android:maxLines="3"/>
         </LinearLayout>
 
         <RelativeLayout

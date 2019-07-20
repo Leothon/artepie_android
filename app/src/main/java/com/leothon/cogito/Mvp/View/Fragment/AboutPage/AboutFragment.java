@@ -135,6 +135,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         }
         if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             userEntity = baseApplication.getDaoSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
+            ImageLoader.loadImageViewThumbnailwitherrorandbulr(getMContext(),userEntity.getUser_icon(),backImg);
         }
 
     }
@@ -155,7 +156,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
     @Override
     protected void initView() {
-        ImageLoader.loadImageViewThumbnailwitherrorandbulr(getMContext(),userEntity.getUser_icon(),backImg);
+        //ImageLoader.loadImageViewThumbnailwitherrorandbulr(getMContext(),userEntity.getUser_icon(),backImg);
         ViewGroup.LayoutParams layoutParams = positionBar.getLayoutParams();
         layoutParams.height = CommonUtils.getStatusBarHeight(getMContext()) - CommonUtils.dip2px(getMContext(),3);
         positionBar.setLayoutParams(layoutParams);
@@ -299,17 +300,22 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     public void favClick(View v){
         toFavPage();
     }
-    @OnClick(R.id.download_about)
-    public void downloadClick(View v){
-       toDownloadPage();
+    @OnClick(R.id.order_about)
+    public void orderClick(View v){
+       toOrderPage();
     }
     @OnClick(R.id.my_upload)
     public void uploadClick(View v){
         toUploadPage();
     }
+
+    /**
+     * 跳转订阅
+     * @param v
+     */
     @OnClick(R.id.histroy_about)
     public void historyClick(View v){
-        toHistoryPage();
+        toBuyPage();
     }
     @OnClick(R.id.wallet_about)
     public void walletClick(View v){
@@ -379,12 +385,15 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         }
     }
 
-    private void toDownloadPage(){
+    /**
+     *
+     */
+    private void toOrderPage(){
 
         if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
         }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            MyToast.getInstance(getMContext()).show("暂不提供下载功能",Toast.LENGTH_SHORT);
+            MyToast.getInstance(getMContext()).show("暂时订单",Toast.LENGTH_SHORT);
             //IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
         }
     }
@@ -398,11 +407,13 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
             IntentUtils.getInstence().intent(getMContext(), QAHisActivity.class,bundle);
         }
     }
-    private void toHistoryPage(){
+    private void toBuyPage(){
         if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
         }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
+            //TODO 跳转订阅的课程页面
+            MyToast.getInstance(getMContext()).show("暂时订阅",Toast.LENGTH_SHORT);
+            //IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
         }
     }
     private void toWalletPage(){

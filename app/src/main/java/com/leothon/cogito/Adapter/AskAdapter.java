@@ -71,6 +71,13 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     }
 
 
+    public addShareOnClickListener addShareOnClickListener;
+
+    public void setOnShareListener(addShareOnClickListener addShareOnClickListener) {
+        this.addShareOnClickListener = addShareOnClickListener;
+    }
+
+
     public addQaViewOnClickListener addQaViewOnClickListener;
 
     public void setOnClickaddQaView(addQaViewOnClickListener addQaViewOnClickListener) {
@@ -260,7 +267,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 @Override
                 public void onClick(View view) {
                     if (isLogin){
-                        deleteQaOnClickListener.deleteQaClickListener(ask.getQa_id(),ask.getQa_user_id(),ask.getQa_content(),position);
+                        deleteQaOnClickListener.deleteQaClickListener(ask.getQa_id(),ask.getQa_user_id(),ask.getQa_content(),realPosition);
                     }else {
                         CommonUtils.loadinglogin(context);
                     }
@@ -390,7 +397,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 if (reShowQA.getQa_comment().equals("") && reShowQA.getQa_comment() == null){
                     askViewHolder.reComment.setText("评论：0");
                 }else {
-                    askViewHolder.reComment.setText("评论：" + reShowQA.getQa_like());
+                    askViewHolder.reComment.setText("评论：" + reShowQA.getQa_comment());
                 }
                 if (reShowQA.getQa_video() != null) {
 //                    if (!GSYVideoManager.instance().isNeedMute()){
@@ -480,6 +487,22 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 askViewHolder.reContentLL.setVisibility(View.GONE);
             }
 
+            askViewHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isLogin){
+
+                        if (ask.getQa_re_id() == null){
+                            addShareOnClickListener.addShareClickListener(realPosition);
+                        }else {
+                            MyToast.getInstance(context).show("转发内容暂不支持分享",Toast.LENGTH_SHORT);
+                        }
+                    }else {
+                        CommonUtils.loadinglogin(context);
+                    }
+                }
+            });
 
             askViewHolder.reBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -603,6 +626,8 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.re_content_ll)
         RelativeLayout reContentLL;
 
+        @BindView(R.id.share_btn)
+        ImageView shareBtn;
         @BindView(R.id.re_user_name)
         TextView reUserName;
 
@@ -646,6 +671,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         void addLikeClickListener(boolean isLike,String qaId);
     }
 
+
+    public interface addShareOnClickListener{
+        void addShareClickListener(int position);
+    }
 
     public interface addQaViewOnClickListener{
         void addQaViewClickListener(String qaId);

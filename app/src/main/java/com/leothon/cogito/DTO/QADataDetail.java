@@ -2,9 +2,10 @@ package com.leothon.cogito.DTO;
 
 import com.leothon.cogito.Bean.Comment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class QADataDetail {
+public class QADataDetail implements Serializable {
 
     private QAData qaData;
 

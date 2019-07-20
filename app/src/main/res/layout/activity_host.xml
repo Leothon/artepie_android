@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <include
-        android:id="@+id/bar_host"
-        android:visibility="gone"
-        layout="@layout/toolbar"/>
 
-
-    <include
-        android:id="@+id/host_bottom"
-        layout="@layout/bottombutton"/>
-
-    <FrameLayout
-        android:id="@+id/container_home"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </FrameLayout>
+
+        <include
+            android:id="@+id/bar_host"
+            android:visibility="gone"
+            layout="@layout/toolbar"/>
+
+
+        <include
+            android:id="@+id/host_bottom"
+            layout="@layout/bottombutton"/>
+
+        <FrameLayout
+            android:id="@+id/container_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/blur_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
 
 
 

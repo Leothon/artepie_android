@@ -21,6 +21,7 @@
     <application
         android:name=".Base.BaseApplication"
         android:allowBackup="true"
+        android:appComponentFactory="leothon"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -28,11 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="leothon">
-
-
-
+        tools:replace="android:appComponentFactory">
         <!-- Required SDK 核心功能 -->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->
         <service
@@ -45,16 +42,12 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-
-        <!-- since 3.0.9 Required SDK 核心功能 -->
+        </service> <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.leothon.cogito.DataProvider"
             android:exported="true"
-            tools:replace="android:exported" />
-
-        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
+            tools:replace="android:exported" /> <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，或把 enabled 设置成 false ；拉起服务被关闭，App 不会通过拉起服务拉起其他的 App，也不会被其他 App 拉起。 -->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -65,15 +58,11 @@
 
                 <category android:name="com.leothon.cogito" />
             </intent-filter>
-        </service>
-
-        <!-- since 3.1.0 Required SDK 核心功能 -->
+        </service> <!-- since 3.1.0 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DownloadProvider"
             android:authorities="com.leothon.cogito.DownloadProvider"
-            android:exported="true" />
-
-        <!-- Required SDK 核心功能 -->
+            android:exported="true" /> <!-- Required SDK 核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true">
@@ -93,9 +82,7 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-
-        <!-- Required SDK 核心功能 -->
+        </receiver> <!-- Required SDK 核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -107,8 +94,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.leothon.cogito" />
             </intent-filter>
-        </activity>
-        <!-- SDK 核心功能 -->
+        </activity> <!-- SDK 核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -118,18 +104,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.leothon.cogito" />
             </intent-filter>
-        </activity>
-
-        <!-- Required SDK 核心功能 -->
+        </activity> <!-- Required SDK 核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" />
-
-        <!-- Required SDK 核心功能 -->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
-
-        <!-- Required since 3.0.7 -->
+            android:exported="false" /> <!-- Required SDK 核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" /> <!-- Required since 3.0.7 -->
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
         <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
         <!-- <receiver -->
@@ -141,10 +121,7 @@
         <!-- <category android:name="com.leothon.cogito" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-
-
         <!-- User defined. 用户自定义的广播接收器 -->
-
         <receiver
             android:name=".Receiver.MyJpushReceiver"
             android:enabled="true"
@@ -164,17 +141,14 @@
 
                 <category android:name="com.leothon.cogito" />
             </intent-filter>
-        </receiver>
-
-        <!-- Required. For publish channel feature -->
+        </receiver> <!-- Required. For publish channel feature -->
         <!-- JPUSH_CHANNEL 是为了方便开发者统计 APK 分发渠道。 -->
         <!-- 例如: -->
         <!-- 发到 Google Play 的 APK 可以设置为 google-play; -->
         <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
-        <!-- Required. AppKey copied from Portal -->
+            android:value="developer-default" /> <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="62293066b1c78ee4811e929f"
@@ -182,12 +156,14 @@
 
         <activity
             android:name=".Mvp.View.Activity.SplashActivity.SplashActivity"
-            android:theme="@style/Theme.Splash"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>>
+            </intent-filter>
+            >
         </activity>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -209,7 +185,7 @@
         <activity
             android:name=".Mvp.View.Activity.HostActivity.HostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".Mvp.View.Activity.LoginActivity.LoginActivity" />
         <activity
             android:name=".Mvp.View.Activity.PlayerActivity.PlayerActivity"
@@ -218,10 +194,7 @@
         <activity android:name=".Mvp.View.Activity.BannerActivity.BannerActivity" />
         <activity android:name=".Mvp.View.Activity.TeacherActivity.TeacherActivity" />
         <activity android:name=".Mvp.View.Activity.TestActivity.TestActivity" />
-
-
         <activity android:name=".Mvp.View.Activity.SelectClassActivity.SelectClassActivity" />
-
         <activity android:name=".Mvp.View.Activity.SettingsActivity.SettingsActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.MessageActivity" />
         <activity android:name=".Mvp.View.Activity.SettingsActivity.AdviceActivity" />
@@ -236,11 +209,10 @@
             android:label="关于我们"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".Mvp.View.Activity.NoticeActivity.NoticeActivity" />
-        <activity android:name=".Mvp.View.Activity.ContractActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".Mvp.View.Activity.ContractActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Mvp.View.Activity.PayInfoActivity.PayInfoActivity" />
-
-
         <activity android:name=".Mvp.View.Activity.SuccessActivity.SuccessActivity" />
         <activity android:name=".Mvp.View.Activity.AskActivity.AskActivity" />
         <activity
@@ -252,7 +224,6 @@
         <activity android:name=".Mvp.View.Activity.IndividualActivity.IndividualActivity" />
         <activity android:name=".Mvp.View.Activity.VSureActivity.VSureActivity" />
         <activity android:name=".Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity" />
-
         <activity
             android:name=".Mvp.View.Activity.UploadClassActivity.UploadClassActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -261,13 +232,16 @@
         <activity android:name=".Mvp.View.Activity.WriteArticleActivity.WriteArticleActivity" />
         <activity android:name=".Mvp.View.Activity.ArticleActivity.ArticleActivity" />
         <activity android:name=".Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity" />
-        <activity android:name=".Mvp.View.Activity.EditClassActivity.EditClassActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.EditClassActivity.EditClassActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:exported="true"
-            android:name="com.leothon.cogito.wxapi.WXEntryActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.NoDisplay"/>
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

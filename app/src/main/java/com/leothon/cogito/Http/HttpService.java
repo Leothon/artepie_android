@@ -16,6 +16,7 @@ import com.leothon.cogito.DTO.ClassDetail;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.HomeData;
 import com.leothon.cogito.DTO.Inform;
+import com.leothon.cogito.DTO.Orders;
 import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SearchResult;
@@ -373,6 +374,23 @@ public interface HttpService {
      */
     @GET("getarticlecommentmore")
     Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleCommentMore(@Query("articleid") String articleId,@Query("currentPage") int currentPage);
+
+
+    /**
+     * 创建订单
+     * @param orders
+     * @return
+     */
+    @POST("createorder")
+    Observable<BaseResponse<Orders>> createOrder(@Body Orders orders);
+
+    /**
+     * 拉取预付单
+     * @param orders
+     * @return
+     */
+    @POST("createtransaction")
+    Observable<BaseResponse<Orders>> createTransaction(@Body Orders orders);
 
     /**
      * 留言

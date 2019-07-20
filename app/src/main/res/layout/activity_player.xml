@@ -154,25 +154,25 @@
                         android:orientation="vertical"
                         android:padding="2dp"
                         android:layout_gravity="top">
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:layout_height="0dp"
-                            android:layout_margin="3dp">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/baseline_remove_red_eye_black_18"
-                                android:tint="@color/fontColor"
-                                android:layout_centerVertical="true"/>
-                            <TextView
-                                android:id="@+id/view_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:layout_centerVertical="true"
-                                android:layout_alignParentEnd="true"/>
-                        </RelativeLayout>
+                        <!--<RelativeLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:layout_height="0dp"-->
+                            <!--android:layout_margin="3dp">-->
+                            <!--<ImageView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--app:srcCompat="@drawable/baseline_remove_red_eye_black_18"-->
+                                <!--android:tint="@color/fontColor"-->
+                                <!--android:layout_centerVertical="true"/>-->
+                            <!--<TextView-->
+                                <!--android:id="@+id/view_count"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="0"-->
+                                <!--android:layout_centerVertical="true"-->
+                                <!--android:layout_alignParentEnd="true"/>-->
+                        <!--</RelativeLayout>-->
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_weight="1"

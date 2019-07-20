@@ -12,6 +12,8 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,23 +49,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.tencent.wxop.stat.common.StatConstants.LOG_TAG;
+
 
 /*
-* created by leothon on 2017.7.23
-* 封装一些常用的工具类
-* */
+ * created by leothon on 2017.7.23
+ * 封装一些常用的工具类
+ * */
 public class CommonUtils {
     public static Toast mToast;
     public static final int SHOW_SNACKBAR = 5001;
@@ -81,7 +90,6 @@ public class CommonUtils {
         GTE_HC = Build.VERSION.SDK_INT >= 11;
         PRE_HC = Build.VERSION.SDK_INT < 11;
     }
-
 
 
     private CommonUtils() {
@@ -144,7 +152,7 @@ public class CommonUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date(System.currentTimeMillis());
         String filename = format.format(date);
-        File file = new File(Environment.getExternalStorageDirectory(),filename+".png");
+        File file = new File(Environment.getExternalStorageDirectory(), filename + ".png");
         try {
             FileOutputStream fos = new FileOutputStream(file);
             try {
@@ -163,11 +171,12 @@ public class CommonUtils {
 
     /**
      * 获取视频第一帧作为封面（本地）
+     *
      * @param path
      * @return
      */
 
-    public  static Bitmap getVideoThumb(String path) {
+    public static Bitmap getVideoThumb(String path) {
 
         MediaMetadataRetriever media = new MediaMetadataRetriever();
 
@@ -177,12 +186,12 @@ public class CommonUtils {
 
     }
 
-    public static String fileType(String filename){
+    public static String fileType(String filename) {
         String fileType = filename.substring(filename.lastIndexOf(".") + 1, filename.length()).toLowerCase();
-        Log.e("fileType: ",fileType );
-        String audio[] = {  "mp3", "wma", "wav", "mod", "ra", "cd", "md", "asf", "aac", "vqf", "ape", "mid", "ogg",
-                "m4a", "vqf" };
-        String video[] = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" };
+        Log.e("fileType: ", fileType);
+        String audio[] = {"mp3", "wma", "wav", "mod", "ra", "cd", "md", "asf", "aac", "vqf", "ape", "mid", "ogg",
+                "m4a", "vqf"};
+        String video[] = {"mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm"};
         for (int i = 0; i < audio.length; i++) {
             if (audio[i].equals(fileType)) {
                 return "audio";
@@ -195,47 +204,49 @@ public class CommonUtils {
     }
 
 
-    public  static String stringto(String rebate){
+    public static String stringto(String rebate) {
         int rebateprice = Integer.parseInt(rebate);
-        int price = rebateprice/100;
+        int price = rebateprice / 100;
         return Integer.toString(price);
     }
 
-    public static void loadinglogin(final Context context){
-            final CommonDialog dialog = new CommonDialog(context);
+    public static void loadinglogin(final Context context) {
+        final CommonDialog dialog = new CommonDialog(context);
 
 
-            dialog.setMessage("您尚未登录，是否登录？")
-                    .setTitle("登录提醒")
-                    .setSingle(false)
-                    .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
-                        @Override
-                        public void onPositiveClick() {
-                            dialog.dismiss();
-                            IntentUtils.getInstence().intent(context, LoginActivity.class);
-                        }
+        dialog.setMessage("您尚未登录，是否登录？")
+                .setTitle("登录提醒")
+                .setSingle(false)
+                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        IntentUtils.getInstence().intent(context, LoginActivity.class);
+                    }
 
-                        @Override
-                        public void onNegativeClick() {
-                            dialog.dismiss();
+                    @Override
+                    public void onNegativeClick() {
+                        dialog.dismiss();
 
-                        }
+                    }
 
-                    })
-                    .show();
+                })
+                .show();
 
     }
+
     /**
      * 将int数值转化为汉字显示
+     *
      * @param index
      * @return
      */
 
-    public static String toCharaNumber(int index){
+    public static String toCharaNumber(int index) {
 
-        String[] num = {"零","一","二","三","四","五","六","七","八","九"};
+        String[] num = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
 
-        String[] unit = {"","十","百","千","万","十","百","千","亿","十","百","千","万亿"};
+        String[] unit = {"", "十", "百", "千", "万", "十", "百", "千", "亿", "十", "百", "千", "万亿"};
 
         String result = String.valueOf(index);
 
@@ -244,13 +255,13 @@ public class CommonUtils {
         String str = "";
         int length = ch.length;
         for (int i = 0; i < length; i++) {
-            int c = (int)ch[i]-48;
-            if(c != 0) {
-                str += num[c]+unit[length-i-1];
+            int c = (int) ch[i] - 48;
+            if (c != 0) {
+                str += num[c] + unit[length - i - 1];
             } else {
-                if(i==length-1){}
-                else{
-                    if(ch[i+1]!='0'){
+                if (i == length - 1) {
+                } else {
+                    if (ch[i + 1] != '0') {
                         str += num[c];
                     }
                 }
@@ -258,7 +269,7 @@ public class CommonUtils {
         }
 
         String first = Character.toString(str.charAt(0));
-        if (str.length() >= 2 && first.equals("一")){
+        if (str.length() >= 2 && first.equals("一")) {
             return str.substring(1);
         }
 
@@ -268,6 +279,7 @@ public class CommonUtils {
 
     /**
      * 验证是否是手机号码
+     *
      * @param number
      * @return
      */
@@ -279,12 +291,13 @@ public class CommonUtils {
     总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
     */
         String telRegex = "[1][35789]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
-        if (number == null || number.length()==0 || number.length()!=11)
+        if (number == null || number.length() == 0 || number.length() != 11)
             return false;
         else
             return number.matches(telRegex);
 
     }
+
     /**
      * dip转pix
      *
@@ -297,17 +310,18 @@ public class CommonUtils {
     }
 
 
-    public static boolean isBeyondVideoSizeLimited(String path){
-        File f= new File(path);
-        if (f.exists() && f.isFile()){
-            if (f.length() <= 524288000){
+    public static boolean isBeyondVideoSizeLimited(String path) {
+        File f = new File(path);
+        if (f.exists() && f.isFile()) {
+            if (f.length() <= 524288000) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
         }
         return true;
     }
+
     /**
      * 获得资源
      */
@@ -512,7 +526,6 @@ public class CommonUtils {
     }
 
 
-
     /**
      * 全屏,并且沉侵式状态栏
      *
@@ -583,18 +596,19 @@ public class CommonUtils {
 
     /**
      * 获取当前系统的时间，以毫秒数展示
-     * */
+     */
 
-    public static long getSystemTime(){
+    public static long getSystemTime() {
         Date dt = new Date();
         Long time = dt.getTime();
 
         return time;
     }
 
-    public static long msTomin(long ms){
-        return (ms/1000)/60;
+    public static long msTomin(long ms) {
+        return (ms / 1000) / 60;
     }
+
     /**
      * 判断是否存在sd卡
      *
@@ -672,6 +686,7 @@ public class CommonUtils {
         }
         return isWifiConnect;
     }
+
     /**
      * 当前是否有网
      *
@@ -714,16 +729,17 @@ public class CommonUtils {
 
     /**
      * 获取上下文
-     * @return
-     * 慎用，该方法直接获取全局的context，如果大量被持有，则会导致持有的对象无法被回收而导致内存溢出
+     *
+     * @return 慎用，该方法直接获取全局的context，如果大量被持有，则会导致持有的对象无法被回收而导致内存溢出
      */
-    public static Context getContext(){
+    public static Context getContext() {
         return BaseApplication.getApplication();
     }
 
 
     /**
      * 获取缓存大小
+     *
      * @param context
      * @return
      * @throws Exception
@@ -731,14 +747,14 @@ public class CommonUtils {
     public static String getTotalCacheSize(Context context) {
 
         long cacheSize = 0;
-        try{
+        try {
             //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
             cacheSize = getFolderSize(context.getCacheDir());
             //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 cacheSize += getFolderSize(context.getExternalCacheDir());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -747,6 +763,7 @@ public class CommonUtils {
 
     /**
      * 清除所有缓存
+     *
      * @param context
      */
     public static void clearAllCache(Context context) {
@@ -795,6 +812,7 @@ public class CommonUtils {
 
     /**
      * 格式化单位
+     *
      * @param size
      */
     public static String getFormatSize(double size) {
@@ -830,18 +848,18 @@ public class CommonUtils {
 
     /**
      * 通过距离今天的差值来获取日期
+     *
      * @param sum
      * @return
      */
-    public static String getTime(int sum){
+    public static String getTime(int sum) {
 
 
-
-        Date date=new Date();//取时间
+        Date date = new Date();//取时间
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE,sum);//把日期往后增加一天.整数往后推,负数往前移动
-        date=calendar.getTime(); //这个时间就是日期往后推一天的结果
+        calendar.add(calendar.DATE, sum);//把日期往后增加一天.整数往后推,负数往前移动
+        date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
         String dateString = formatter.format(date);
 
@@ -861,13 +879,13 @@ public class CommonUtils {
         Log.i(tag, msg);
     }
 
-    public static  Date parse(String strDate) throws ParseException {
+    public static Date parse(String strDate) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.parse(strDate);
     }
 
     //由出生日期获得年龄
-    public static  int getAge(String  birthDay) throws Exception {
+    public static int getAge(String birthDay) throws Exception {
         Calendar cal = Calendar.getInstance();
         if (cal.before(birthDay)) {
             throw new IllegalArgumentException(
@@ -887,7 +905,7 @@ public class CommonUtils {
         if (monthNow <= monthBirth) {
             if (monthNow == monthBirth) {
                 if (dayOfMonthNow < dayOfMonthBirth) age--;
-            }else{
+            } else {
                 age--;
             }
         }
@@ -910,26 +928,24 @@ public class CommonUtils {
 
     private static final int seconds_of_1year = seconds_of_30days * 12;
 
-    public static String getTimeRange(String mTime)
-    {
-
+    public static String getTimeRange(String mTime) {
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         /**获取当前时间*/
-        Date  curDate = new  Date(System.currentTimeMillis());
-        String dataStrNew= sdf.format(curDate);
-        Date startTime=null;
+        Date curDate = new Date(System.currentTimeMillis());
+        String dataStrNew = sdf.format(curDate);
+        Date startTime = null;
         try {
             /**将时间转化成Date*/
-            curDate=sdf.parse(dataStrNew);
+            curDate = sdf.parse(dataStrNew);
             startTime = sdf.parse(mTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         /**除以1000是为了转换成秒*/
-        long   between=(curDate.getTime()- startTime.getTime())/1000;
-        int   elapsedTime= (int) (between);
+        long between = (curDate.getTime() - startTime.getTime()) / 1000;
+        int elapsedTime = (int) (between);
         if (elapsedTime < seconds_of_1minute) {
 
             return "刚刚";
@@ -970,7 +986,7 @@ public class CommonUtils {
     }
 
 
-    public static String getNowTime(){
+    public static String getNowTime() {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(d);
@@ -980,31 +996,31 @@ public class CommonUtils {
     public static String createUUID() {
         int machineId = 1;
         int hashCodeV = UUID.randomUUID().toString().hashCode();
-        if(hashCodeV < 0) {//有可能是负数
-            hashCodeV = - hashCodeV;
+        if (hashCodeV < 0) {//有可能是负数
+            hashCodeV = -hashCodeV;
         }
         return machineId + String.format("%015d", hashCodeV);
     }
 
-    public static boolean isHaveChar(String str){
+    public static boolean isHaveChar(String str) {
         String zhPattern = "[\u4e00-\u9fa5]+";
         Pattern p = Pattern.compile(zhPattern);
         Matcher m = p.matcher(str);
-        if (m.find()){
+        if (m.find()) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
 
-    public static int isVIP(String roleInfo){
-        String role = roleInfo.substring(0,1);
-        if (role.equals("0")){
+    public static int isVIP(String roleInfo) {
+        String role = roleInfo.substring(0, 1);
+        if (role.equals("0")) {
             return 0;
-        }else if(role.equals("1")){
+        } else if (role.equals("1")) {
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }
@@ -1021,37 +1037,37 @@ public class CommonUtils {
     弱：^[0-9A-Za-z]{6,16}$
     中：^(?=.{6,16})[0-9A-Za-z]*[\x00-\x2f\x3A-\x40\x5B-\xFF][0-9A-Za-z]*$
     强：^(?=.{6,16})([0-9A-Za-z]*[\x00-\x2F\x3A-\x40\x5B-\xFF][0-9A-Za-z]*){2,}$*/
-     public static String checkPassword(String passwordStr) {
-         String regexZ = "\\d*";
-         String regexS = "[a-zA-Z]+";
-         String regexT = "\\W+$";
-         String regexZT = "\\D*";
-         String regexST = "[\\d\\W]*";
-         String regexZS = "\\w*";
-         String regexZST = "[\\w\\W]*";
-         if (passwordStr.matches(regexZ)) {
-             return "弱";
-         }
-         if (passwordStr.matches(regexS)) {
-             return "弱";
-         }
-         if (passwordStr.matches(regexT)) {
-             return "弱";
-         }
-         if (passwordStr.matches(regexZT)) {
-             return "中";
-         }
-         if (passwordStr.matches(regexST)) {
-             return "中";
-         }
-         if (passwordStr.matches(regexZS)) {
-             return "中";
-         }
-         if (passwordStr.matches(regexZST)) {
-             return "强";
-         }
-         return passwordStr;
-     }
+    public static String checkPassword(String passwordStr) {
+        String regexZ = "\\d*";
+        String regexS = "[a-zA-Z]+";
+        String regexT = "\\W+$";
+        String regexZT = "\\D*";
+        String regexST = "[\\d\\W]*";
+        String regexZS = "\\w*";
+        String regexZST = "[\\w\\W]*";
+        if (passwordStr.matches(regexZ)) {
+            return "弱";
+        }
+        if (passwordStr.matches(regexS)) {
+            return "弱";
+        }
+        if (passwordStr.matches(regexT)) {
+            return "弱";
+        }
+        if (passwordStr.matches(regexZT)) {
+            return "中";
+        }
+        if (passwordStr.matches(regexST)) {
+            return "中";
+        }
+        if (passwordStr.matches(regexZS)) {
+            return "中";
+        }
+        if (passwordStr.matches(regexZST)) {
+            return "强";
+        }
+        return passwordStr;
+    }
 
 
     /**
@@ -1091,7 +1107,6 @@ public class CommonUtils {
     }
 
 
-
     /**
      * 获取设备的唯一标识，deviceId
      *
@@ -1107,6 +1122,7 @@ public class CommonUtils {
 //            return deviceId;
 //        }
 //    }
+
     /**
      * 获取手机品牌
      *
@@ -1115,6 +1131,7 @@ public class CommonUtils {
     public static String getPhoneBrand() {
         return android.os.Build.BRAND;
     }
+
     /**
      * 获取手机型号
      *
@@ -1123,6 +1140,7 @@ public class CommonUtils {
     public static String getPhoneModel() {
         return android.os.Build.MODEL;
     }
+
     /**
      * 获取手机Android API等级（22、23 ...）
      *
@@ -1131,6 +1149,7 @@ public class CommonUtils {
     public static int getBuildLevel() {
         return android.os.Build.VERSION.SDK_INT;
     }
+
     /**
      * 获取手机Android 版本（4.4、5.0、5.1 ...）
      *
@@ -1141,7 +1160,7 @@ public class CommonUtils {
     }
 
 
-    public static int getVideoDuration(String mUri){
+    public static int getVideoDuration(String mUri) {
         MediaPlayer mediaPlayer = new MediaPlayer();
         int duration = 0;
         try {
@@ -1149,9 +1168,9 @@ public class CommonUtils {
             mediaPlayer.setDataSource(mUri);
             mediaPlayer.prepare();
             duration = mediaPlayer.getDuration();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.fillInStackTrace();
-        }finally {
+        } finally {
             mediaPlayer.release();
         }
         return duration;
@@ -1161,13 +1180,13 @@ public class CommonUtils {
      * @param num
      * @return
      */
-    public static String numToChar(String num){
-        if (num == null){
+    public static String numToChar(String num) {
+        if (num == null) {
             return "0";
         }
         int length = num.length();
-        DecimalFormat df=new DecimalFormat("0.0");
-        switch (length){
+        DecimalFormat df = new DecimalFormat("0.0");
+        switch (length) {
             case 1:
                 return num;
             case 2:
@@ -1177,15 +1196,15 @@ public class CommonUtils {
             case 4:
                 return num;
             case 5:
-                return df.format((float)Integer.parseInt(num)/10000) + "万";
+                return df.format((float) Integer.parseInt(num) / 10000) + "万";
             case 6:
-                return df.format((float)Integer.parseInt(num)/10000) + "万";
+                return df.format((float) Integer.parseInt(num) / 10000) + "万";
             case 7:
-                return df.format((float)Integer.parseInt(num)/100000) + "百万";
+                return df.format((float) Integer.parseInt(num) / 100000) + "百万";
             case 8:
-                return df.format((float)Integer.parseInt(num)/1000000) + "千万";
+                return df.format((float) Integer.parseInt(num) / 1000000) + "千万";
             default:
-                return df.format((float)Integer.parseInt(num)/1000000) + "千万+";
+                return df.format((float) Integer.parseInt(num) / 1000000) + "千万+";
         }
 
     }
@@ -1202,11 +1221,11 @@ public class CommonUtils {
             intent.setPackage(marketPkg);
         }
         try {
-            if (intent.resolveActivity(context.getPackageManager()) != null){
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
                 context.startActivity(intent);
                 return true;
-            }else {
-                MyToast.getInstance(context).show("没有应用市场",Toast.LENGTH_SHORT);
+            } else {
+                MyToast.getInstance(context).show("没有应用市场", Toast.LENGTH_SHORT);
                 return false;
             }
 
@@ -1215,6 +1234,91 @@ public class CommonUtils {
             return false;
         }
     }
+
+    public static int compareDays(String nowTime, String startTime) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = dateFormat.parse(startTime);
+            date2 = dateFormat.parse(nowTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        calendar2.setTime(date2);
+        int day1 = calendar1.get(Calendar.DAY_OF_YEAR);
+        int day2 = calendar2.get(Calendar.DAY_OF_YEAR);
+        int year1 = calendar1.get(Calendar.YEAR);
+        int year2 = calendar2.get(Calendar.YEAR);
+        if (year1 > year2) {
+            int tempYear = year1;
+            int tempDay = day1;
+            day1 = day2;
+            day2 = tempDay;
+            year1 = year2;
+            year2 = tempYear;
+        }
+        if (year1 == year2) {
+            return (day2 - day1);
+        } else {
+            int DayCount = 0;
+            for (int i = year1; i < year2; i++) {
+                if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0) {
+                    DayCount += 366;
+                } else {
+                    DayCount += 365;
+                }
+            }
+            return DayCount + (day2 - day1);
+
+        }
+    }
+
+
+    public static String getLocalIpAddress(Context context) {
+        NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            if (info.getType() == ConnectivityManager.TYPE_MOBILE) {//当前使用2G/3G/4G网络
+                try {
+                    //Enumeration<NetworkInterface> en=NetworkInterface.getNetworkInterfaces();
+                    for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                        NetworkInterface intf = en.nextElement();
+                        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                            InetAddress inetAddress = enumIpAddr.nextElement();
+                            if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                                return inetAddress.getHostAddress();
+                            }
+                        }
+                    }
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else if (info.getType() == ConnectivityManager.TYPE_WIFI) {//当前使用无线网络
+                WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                String ipAddress = intIP2StringIP(wifiInfo.getIpAddress());//得到IPV4地址
+                return ipAddress;
+            }
+        } else {
+            //当前无网络连接,请在设置中打开网络
+            MyToast.getInstance(context).show("当前无网络，请在设置中打开",Toast.LENGTH_SHORT);
+        }
+        return null;
+    }
+
+    public static String intIP2StringIP(int ip) {
+        return  (ip & 0xFF) + "." +
+        ((ip >> 8) & 0xFF) + "." +
+        ((ip >> 16) & 0xFF) + "." +
+        (ip >> 24 & 0xFF);
+}
 
 
 

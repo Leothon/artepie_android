@@ -18,9 +18,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingStart="5dp"
-    android:paddingEnd="5dp">
+    android:paddingTop="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -75,12 +73,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        >
         <TextView
             android:id="@+id/content_ask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="张三丰张三丰"
+            android:text=",,"
             android:textColor="@color/black"
             android:textSize="@dimen/contentSize"
             android:layout_marginLeft="8dp"
@@ -94,7 +92,7 @@
             android:textColor="@color/fontColor"
             android:textSize="@dimen/tipsSize"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="1dp"/>
 
 
         <RelativeLayout
@@ -103,14 +101,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/recontentback"
             android:layout_margin="5dp"
-            android:visibility="gone"
             android:padding="3dp">
 
             <TextView
                 android:id="@+id/re_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#Leothon: "
+                android:text="#artepie: "
                 android:textColor="@color/actionsheet_blue"
                 android:padding="5dp"/>
             <TextView
@@ -146,17 +143,18 @@
                 android:padding="5dp"/>
             <com.leothon.cogito.View.EPieVideoPlayer
                 android:layout_below="@+id/re_like"
-                android:layout_margin="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:id="@+id/re_video_player"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/post_media_height"/>
+                android:layout_height="220dp"/>
         </RelativeLayout>
             <com.leothon.cogito.View.EPieVideoPlayer
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/video_item_player"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/post_media_height"/>
+                android:layout_height="220dp"/>
 
     </LinearLayout>
     <View
@@ -211,6 +209,17 @@
             android:layout_alignParentEnd="true"
             android:text="12:30"
             android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/share_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/share"
+            android:tint="@color/fontColor"
+            android:layout_alignParentEnd="true"
+            android:padding="3dp"
+            android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 </LinearLayout>

@@ -83,8 +83,8 @@ public class IndividualActivity extends BaseActivity {
     @BindView(R.id.visit_other_user_qa)
     RelativeLayout visitOtherQa;
 
-    @BindView(R.id.make_upload_class)
-    RelativeLayout makeUploadClass;
+//    @BindView(R.id.make_upload_class)
+//    RelativeLayout makeUploadClass;
     private Bundle bundle;
     private Intent intent;
 
@@ -121,7 +121,7 @@ public class IndividualActivity extends BaseActivity {
             setToolbarTitle("");
             followBtn.setVisibility(View.VISIBLE);
             vSure.setVisibility(View.GONE);
-            makeUploadClass.setVisibility(View.GONE);
+            //makeUploadClass.setVisibility(View.GONE);
 
             visitOtherQa.setVisibility(View.VISIBLE);
             showLoadingAnim();
@@ -190,7 +190,7 @@ public class IndividualActivity extends BaseActivity {
             visitOtherQa.setVisibility(View.GONE);
             followBtn.setVisibility(View.GONE);
             vSure.setVisibility(View.VISIBLE);
-            makeUploadClass.setVisibility(View.VISIBLE);
+            //makeUploadClass.setVisibility(View.VISIBLE);
             setToolbarSubTitle("编辑个人资料");
             setToolbarTitle("");
             getToolbarSubTitle().setOnClickListener(new View.OnClickListener() {
@@ -241,19 +241,19 @@ public class IndividualActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.make_upload_class)
-    public void makeUploadClass(View view){
-        if (userEntity.getUser_role().substring(0,1).equals("1")){
-
-
-            createDialog();
-
-        }else {
-            MyToast.getInstance(this).show("您尚未认证讲师，请先认证。\n本平台只有认证成为讲师方可制作上传课程",Toast.LENGTH_LONG);
-        }
-
-
-    }
+//    @OnClick(R.id.make_upload_class)
+//    public void makeUploadClass(View view){
+//        if (userEntity.getUser_role().substring(0,1).equals("1")){
+//
+//
+//            createDialog();
+//
+//        }else {
+//            MyToast.getInstance(this).show("您尚未认证讲师，请先认证。\n本平台只有认证成为讲师方可制作上传课程",Toast.LENGTH_LONG);
+//        }
+//
+//
+//    }
 
     @OnClick(R.id.follow_btn)
     public void followBtn(View view){

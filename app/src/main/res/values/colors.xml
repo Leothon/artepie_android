@@ -13,9 +13,10 @@
     <color name="black">#000000</color>
     <color name="dividerColor">#ededed</color>
 
-    <color name="whitealpha">#adffffff</color>
+    <color name="whitealpha">#E6FFFFFF</color>
     <color name="alpha">#00ffffff</color>
 
+    <color name="green">#4CAF50</color>
     <color name="pressColorPrimary">#e5f26402</color>
 
     <color name="pressColorAccent">#e1db4437</color>
@@ -34,6 +35,7 @@
     <color name="rainbow_purple">#8B00FF</color>
 
 
+    <color name="blue">#2196F3</color>
     <color name="dark_gold">#C29803</color>
     <color name="elegance_black">#1c1e21</color>
 </resources>

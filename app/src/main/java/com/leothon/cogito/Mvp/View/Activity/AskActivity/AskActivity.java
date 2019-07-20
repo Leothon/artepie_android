@@ -59,8 +59,8 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
     RoundedImageView send;
     @BindView(R.id.ask_add_img)
     ImageView askAddImg;
-    @BindView(R.id.ask_add_sound)
-    ImageView askAddSound;
+//    @BindView(R.id.ask_add_sound)
+//    ImageView askAddSound;
     @BindView(R.id.ask_char_count)
     TextView askCharCound;
     @BindView(R.id.ask_content)
@@ -124,14 +124,14 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
 
         if (bundle.getString("type").equals("re")){
             askAddImg.setVisibility(View.GONE);
-            askAddSound.setVisibility(View.GONE);
+            //askAddSound.setVisibility(View.GONE);
             setToolbarTitle("转发");
 
             askActivityPresenter.getReInfo(bundle.getString("id"),activitysharedPreferencesUtils.getParams("token","").toString());
 
         }else {
             askAddImg.setVisibility(View.VISIBLE);
-            askAddSound.setVisibility(View.VISIBLE);
+            //askAddSound.setVisibility(View.VISIBLE);
             setToolbarTitle("");
         }
         setToolbarSubTitle("");
@@ -296,10 +296,10 @@ public class AskActivity extends BaseActivity implements AskActivityContract.IAs
         },file.getName(),path);
     }
 
-    @OnClick(R.id.ask_add_sound)
-    public void addSound(View view){
-        MyToast.getInstance(this).show("暂不支持音频",Toast.LENGTH_SHORT);
-    }
+//    @OnClick(R.id.ask_add_sound)
+//    public void addSound(View view){
+//        MyToast.getInstance(this).show("暂不支持音频",Toast.LENGTH_SHORT);
+//    }
 
     @OnClick(R.id.ask_add_img)
     public void addVideo(View view){
