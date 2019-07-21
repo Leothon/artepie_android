@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.leothon.cogito.Bean.AlipayBean;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Constants;
@@ -25,18 +30,24 @@ import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
+import com.leothon.cogito.Mvp.View.Activity.SuccessActivity.SuccessActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.OrderInfoUtil;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.MDCheckBox;
+import com.leothon.cogito.wxapi.WXPayEntryActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.text.DecimalFormat;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -92,6 +103,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     private UserEntity userEntity;
     private SelectClass selectClass;
 
+    private String realDiscount;
     private Orders successOrders;
     @Override
     public int initLayout() {
@@ -176,9 +188,22 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
             artCoinUseRebate.setText(userEntity.getUser_art_coin());
         }
 
-        payInfoRebate.setText("￥" + CommonUtils.stringto(artCoinUseRebate.getText().toString()));
-        payInfoPrice.setText("￥" + calculater(selectClass.getSelectprice(),artCoinUseRebate.getText().toString()));
+        realDiscount = calculaterDiscountArtCoin(selectClass.getSelectprice(),userEntity.getUser_art_coin());
+        payInfoRebate.setText("￥" + realDiscount);
+        payInfoPrice.setText("￥" + calculater(selectClass.getSelectprice(),realDiscount));
 
+    }
+
+    private String calculaterDiscountArtCoin(String classPrice,String artCoin){
+        DecimalFormat df = new DecimalFormat("#.00");
+        float priceCount = Float.valueOf(classPrice);
+        float maxDiscount = Float.valueOf(df.format(priceCount * 0.048));
+        float rebateCount = Float.valueOf(artCoin)/100;
+        if (maxDiscount < rebateCount){
+            return String.valueOf(maxDiscount);
+        }else {
+            return String.valueOf(rebateCount);
+        }
     }
 
     private void loadDialog(String artcoincount){
@@ -236,7 +261,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
      */
     public String calculater(String price,String rebate){
         float priceCount = Float.valueOf(price);
-        float rebateCount = Float.valueOf(rebate)/100;
+        float rebateCount = Float.valueOf(rebate);
         float finalPrice = priceCount - rebateCount;
 
         return String.valueOf(finalPrice);
@@ -258,8 +283,10 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         orders.setOrder_user_id(userEntity.getUser_id());
         orders.setOrder_class_id(selectClass.getSelectId());
         orders.setOrder_class_price(selectClass.getSelectprice());
-        orders.setOrder_discount(artCoinUseRebate.getText().toString());
-        orders.setOrder_end_price(calculater(selectClass.getSelectprice(),artCoinUseRebate.getText().toString()));
+        orders.setOrder_discount(realDiscount);
+        orders.setOrder_name(selectClass.getSelectlisttitle());
+        orders.setOrder_description(selectClass.getSelectdesc());
+        orders.setOrder_end_price(calculater(selectClass.getSelectprice(),realDiscount));
         payPresenter.createTransactionInfo(orders);
 
     }
@@ -307,6 +334,17 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 
     }
 
+    /**
+     *
+     * * @param result
+     */
+    @Override
+    public void verifyResult(String result) {
+        //TODO 验证结果,显示
+
+        IntentUtils.getInstence().intent(PayInfoActivity.this, SuccessActivity.class);
+    }
+
     @OnClick(R.id.wechat_pay)
     public void wechatPay(View view){
         if (weChatPayCheck.isChecked()){
@@ -335,12 +373,16 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     private void startPay(int payMethod){
         switch (payMethod){
             case 1:
-                //TODO 支付宝支付
-                MyToast.getInstance(this).show("支付宝支付" + selectClass.getSelectlisttitle(),Toast.LENGTH_SHORT);
-                Log.e(TAG, "startPay: " + "支付宝支付");
+                AlipayBean alipayBean = new AlipayBean();
+                alipayBean.setBody(successOrders.getOrder_description());
+                alipayBean.setSubject(successOrders.getOrder_name());
+                alipayBean.setOut_trade_no(successOrders.getOrder_number());
+                alipayBean.setTotal_amount(successOrders.getOrder_end_price());
+
+//                "{product_code:QUICK_MSECURITY_PAY,total_amount:0.01,subject:1,body:我是测试数据,out_trade_no:}"
+                startAliPay(alipayBean.toString());
                 break;
             case 2:
-                //TODO 微信支付
 
                 payPresenter.getTransaction(successOrders);
                 break;
@@ -451,5 +493,86 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
             }
         }
     }
+
+
+
+    private static final int SDK_PAY_FLAG = 1001;
+    public static final String APPID = "2019012063113262";
+
+    private Handler mHandler = new Handler() {
+        /**
+         * @param msg
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SDK_PAY_FLAG:
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    //同步获取结果
+                    String resultInfo = payResult.getResult();
+                    Log.i("Pay", "Pay:" + resultInfo);
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+
+                        JsonParser parse = new JsonParser();
+                        JsonObject pay_response = (JsonObject) parse.parse(resultInfo);
+                        String content = pay_response.get("alipay_trade_app_pay_response").getAsString();
+                        JsonObject resultObject = (JsonObject)parse.parse(content);
+
+                        AlipayBean alipayBean = new AlipayBean();
+                        alipayBean.setTotal_amount(resultObject.get("total_amount").getAsString());
+                        alipayBean.setOut_trade_no(resultObject.get("out_trade_no").getAsString());
+                        alipayBean.setSubject(successOrders.getOrder_name());
+                        alipayBean.setBody(successOrders.getOrder_description());
+                        payPresenter.verifyAlipayTransaction(alipayBean);
+                        MyToast.getInstance(PayInfoActivity.this).show("支付成功", Toast.LENGTH_SHORT);
+                    } else {
+                        MyToast.getInstance(PayInfoActivity.this).show("支付失败", Toast.LENGTH_SHORT);
+                        break;
+                    }
+            }
+        }
+
+    };
+
+
+
+    private void startAliPay(String content){
+        //秘钥验证的类型 true:RSA2 false:RSA
+        boolean rsa = true;
+        //构造支付订单参数列表
+
+        Map<String, String> params = OrderInfoUtil.buildOrderParamMap(APPID, rsa,content);
+        //构造支付订单参数信息
+        String orderParam = OrderInfoUtil.buildOrderParam(params);
+        //对支付参数信息进行签名
+        String sign = OrderInfoUtil.getSign(params, Constants.RSA_PRIVATE, rsa);
+        //订单信息
+        final String orderInfo = orderParam + "&" + sign;
+
+        Log.e(TAG, "startAliPay: " + orderInfo);
+        //异步处理
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                //新建任务
+                PayTask alipay = new PayTask(PayInfoActivity.this);
+                //获取支付结果
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+
 
 }

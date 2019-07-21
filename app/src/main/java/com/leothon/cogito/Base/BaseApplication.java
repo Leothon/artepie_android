@@ -112,7 +112,7 @@ public class BaseApplication extends Application {
         mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
     }
-    public DaoSession getDaoSession() {
+    public  DaoSession getDaoSession() {
         return mDaoSession;
     }
     public SQLiteDatabase getDb() {

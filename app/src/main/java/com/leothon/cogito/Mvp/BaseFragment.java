@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 import butterknife.ButterKnife;
@@ -27,6 +29,7 @@ public abstract class BaseFragment extends Fragment {
     private Context mContext;
     private Unbinder unbinder;
     public SharedPreferencesUtils fragmentsharedPreferencesUtils;
+    private BaseApplication baseApplication;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public abstract class BaseFragment extends Fragment {
         unbinder = ButterKnife.bind(this,mContentView);
         mContext = getContext();
         fragmentsharedPreferencesUtils = new SharedPreferencesUtils(getMContext(),"saveToken");
+        if (baseApplication == null){
+            baseApplication = (BaseApplication)getActivity().getApplicationContext();
+        }
         initData();
         initView();
         return mContentView;
@@ -57,6 +63,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        baseApplication = null;
         unbinder.unbind();
+    }
+
+    public DaoSession getDAOSession(){
+        return baseApplication.getDaoSession();
     }
 }

@@ -248,7 +248,7 @@
             android:id="@+id/rebate_pay_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已优惠："
+            android:text="已折扣"
             android:layout_centerInParent="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"

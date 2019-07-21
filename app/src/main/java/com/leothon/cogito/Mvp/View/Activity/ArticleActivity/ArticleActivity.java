@@ -563,6 +563,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
         //bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "??我在测试");
         //标识该消息的来源应用，值为应用名称+AppId。
         bundle.putString(QQShare.SHARE_TO_QQ_APP_NAME, "艺派" + Constants.APP_ID);
+        CommonUtils.addCoinAndUpdateInfo("2",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
         mTencent.shareToQQ(this, bundle , qqShareListener);
     }
 
@@ -811,6 +812,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 bundleto.putString("flag","3");
                 bundleto.putSerializable("article",article);
                 IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("2",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }
@@ -822,6 +824,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 bundleto.putString("flag","4");
                 bundleto.putSerializable("article",article);
                 IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("2",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }

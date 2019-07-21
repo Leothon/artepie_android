@@ -53,7 +53,6 @@ public class WXPayEntryActivity extends Activity  implements IWXAPIEventHandler 
             if (resp.errCode == 0) {
 
                 MyToast.getInstance(this).show("支付成功",Toast.LENGTH_SHORT);
-                Bundle bundle = new Bundle();
 
                 IntentUtils.getInstence().intent(WXPayEntryActivity.this, SuccessActivity.class);
                 finish();

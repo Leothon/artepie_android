@@ -13,6 +13,25 @@ public class Orders {
     private String order_end_price;
     private String order_status;
 
+    private String order_name;
+    private String order_description;
+
+    public String getOrder_description() {
+        return order_description;
+    }
+
+    public void setOrder_description(String order_description) {
+        this.order_description = order_description;
+    }
+
+    public String getOrder_name() {
+        return order_name;
+    }
+
+    public void setOrder_name(String order_name) {
+        this.order_name = order_name;
+    }
+
     private String local_ip;
 
     public String getLocal_ip() {

@@ -517,6 +517,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 bundleto.putString("share","1");
                 bundleto.putSerializable("qa",asks.get(position));
                 IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("1",fragmentsharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }
@@ -528,6 +529,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 bundleto.putString("share","2");
                 bundleto.putSerializable("qa",asks.get(position));
                 IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("1",fragmentsharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }

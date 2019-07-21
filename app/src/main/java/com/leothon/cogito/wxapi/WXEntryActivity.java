@@ -31,6 +31,7 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.WechatUtils;
 import com.leothon.cogito.View.MyToast;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -73,7 +74,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private ClassDetail classDetail;
     private Article article;
     private IWXAPI wx_api;
-
     private String openId = "";
 
     @Override
@@ -99,6 +99,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 
                             shareWXSceneTimeline(classDetail,bitmap);
+
                         }
 
                         /**

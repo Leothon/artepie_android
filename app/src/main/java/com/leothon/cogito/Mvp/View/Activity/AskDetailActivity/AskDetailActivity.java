@@ -40,6 +40,7 @@ import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
@@ -413,6 +414,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 bundleto.putString("share","3");
                 bundleto.putSerializable("qad",qaDataDetail);
                 IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("1",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }
@@ -424,6 +426,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 bundleto.putString("share","4");
                 bundleto.putSerializable("qad",qaDataDetail);
                 IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("1",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }

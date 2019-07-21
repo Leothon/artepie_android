@@ -38,7 +38,18 @@ import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.leothon.cogito.Base.BaseApplication;
+import com.leothon.cogito.Bean.TokenValid;
+import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Constants;
+import com.leothon.cogito.DataBase.DaoSession;
+import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Http.BaseObserver;
+import com.leothon.cogito.Http.BaseResponse;
+import com.leothon.cogito.Http.HttpService;
+import com.leothon.cogito.Http.RetrofitServiceManager;
+import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
+import com.leothon.cogito.Mvp.View.Activity.SuccessActivity.SuccessActivity;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
@@ -65,6 +76,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.reactivex.disposables.Disposable;
 
 import static com.tencent.wxop.stat.common.StatConstants.LOG_TAG;
 
@@ -1314,12 +1327,61 @@ public class CommonUtils {
     }
 
     public static String intIP2StringIP(int ip) {
-        return  (ip & 0xFF) + "." +
-        ((ip >> 8) & 0xFF) + "." +
-        ((ip >> 16) & 0xFF) + "." +
-        (ip >> 24 & 0xFF);
-}
+        return (ip & 0xFF) + "." +
+                ((ip >> 8) & 0xFF) + "." +
+                ((ip >> 16) & 0xFF) + "." +
+                (ip >> 24 & 0xFF);
+
+    }
+
+    public static void addCoinAndUpdateInfo(String artCoin, String token, DaoSession daoSession){
+
+        TokenValid tokenValid = tokenUtils.ValidToken(token);
+        String uuid = tokenValid.getUid();
+
+        UserEntity userEntity = daoSession.queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
 
 
+
+        String lastCoin = addLastCoin(artCoin,userEntity.getUser_art_coin());
+
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .addCoin(token,lastCoin)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        userEntity.setUser_art_coin(lastCoin);
+                        daoSession.update(userEntity);
+
+                    }
+                });
+
+
+
+
+    }
+
+    public static String addLastCoin(String addPrice,String totalCoin){
+        Float addCoinCount = Float.valueOf(addPrice);
+        String endPrice = String.valueOf(Float.valueOf(totalCoin) + addCoinCount);
+
+        return endPrice.substring(0,endPrice.indexOf("."));
+    }
 
 }

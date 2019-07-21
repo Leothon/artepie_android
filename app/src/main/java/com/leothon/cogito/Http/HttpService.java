@@ -1,6 +1,7 @@
 package com.leothon.cogito.Http;
 
 
+import com.leothon.cogito.Bean.AlipayBean;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.AuthInfo;
@@ -384,6 +385,15 @@ public interface HttpService {
     @POST("createorder")
     Observable<BaseResponse<Orders>> createOrder(@Body Orders orders);
 
+
+    /**
+     * 分享得艺币
+     * @param token
+     * @param artcoin
+     * @return
+     */
+    @POST("addcoin")
+    Observable<BaseResponse<String>> addCoin(@Query("token") String token,@Query("artcoin") String artcoin);
     /**
      * 拉取预付单
      * @param orders
@@ -391,6 +401,16 @@ public interface HttpService {
      */
     @POST("createtransaction")
     Observable<BaseResponse<Orders>> createTransaction(@Body Orders orders);
+
+
+
+    /**
+     * 验证支付宝订单
+     * @param alipayBean
+     * @return
+     */
+    @POST("verifyalipaytransaction")
+    Observable<BaseResponse<String>> verifyAlipayTransaction(@Body AlipayBean alipayBean);
 
     /**
      * 留言

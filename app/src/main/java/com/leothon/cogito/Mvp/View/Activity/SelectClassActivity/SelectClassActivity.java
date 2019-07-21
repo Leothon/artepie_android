@@ -437,6 +437,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putString("flag","1");
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("3",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }
@@ -448,6 +449,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putString("flag","2");
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
+                CommonUtils.addCoinAndUpdateInfo("3",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
                 shareDialog.dismiss();
 
             }
@@ -484,5 +486,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         share_intent = Intent.createChooser(share_intent, "分享");
         startActivity(share_intent);
     }
+
+
 
 }
