@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leothon.cogito.Bean.AlipayBean;
@@ -29,18 +28,15 @@ import com.leothon.cogito.DTO.Orders;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
-import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.SuccessActivity.SuccessActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
-import com.leothon.cogito.Utils.OrderInfoUtil;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 import com.leothon.cogito.Weight.MDCheckBox;
-import com.leothon.cogito.wxapi.WXPayEntryActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -341,8 +337,21 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     @Override
     public void verifyResult(String result) {
         //TODO 验证结果,显示
+        Log.e(TAG, "第二个地方: " + result );
+        startAliPay(result);
+//        IntentUtils.getInstence().intent(PayInfoActivity.this, SuccessActivity.class);
+    }
 
+    @Override
+    public void endCheckSuccess(String msg) {
+        MyToast.getInstance(PayInfoActivity.this).show("支付成功", Toast.LENGTH_SHORT);
         IntentUtils.getInstence().intent(PayInfoActivity.this, SuccessActivity.class);
+    }
+
+    @Override
+    public void endCheckFail(String msg) {
+        MyToast.getInstance(PayInfoActivity.this).show(msg, Toast.LENGTH_SHORT);
+
     }
 
     @OnClick(R.id.wechat_pay)
@@ -373,14 +382,21 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
     private void startPay(int payMethod){
         switch (payMethod){
             case 1:
-                AlipayBean alipayBean = new AlipayBean();
-                alipayBean.setBody(successOrders.getOrder_description());
-                alipayBean.setSubject(successOrders.getOrder_name());
-                alipayBean.setOut_trade_no(successOrders.getOrder_number());
-                alipayBean.setTotal_amount(successOrders.getOrder_end_price());
+//                AlipayBean alipayBean = new AlipayBean();
+//                alipayBean.setBody(successOrders.getOrder_description());
+//                alipayBean.setSubject(successOrders.getOrder_name());
+//                alipayBean.setOut_trade_no(successOrders.getOrder_number());
+//                alipayBean.setTotal_amount(successOrders.getOrder_end_price());
+//
+////                "{product_code:QUICK_MSECURITY_PAY,total_amount:0.01,subject:1,body:我是测试数据,out_trade_no:}"
+//                startAliPay(alipayBean.toString());
 
-//                "{product_code:QUICK_MSECURITY_PAY,total_amount:0.01,subject:1,body:我是测试数据,out_trade_no:}"
-                startAliPay(alipayBean.toString());
+                AlipayBean alipayBean = new AlipayBean();
+                alipayBean.setTotal_amount(successOrders.getOrder_end_price());
+                alipayBean.setOut_trade_no(successOrders.getOrder_number());
+                alipayBean.setSubject(successOrders.getOrder_name());
+                alipayBean.setBody(successOrders.getOrder_description());
+                payPresenter.verifyAlipayTransaction(alipayBean);
                 break;
             case 2:
 
@@ -497,7 +513,7 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 
 
     private static final int SDK_PAY_FLAG = 1001;
-    public static final String APPID = "2019012063113262";
+
 
     private Handler mHandler = new Handler() {
         /**
@@ -509,25 +525,27 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
             switch (msg.what) {
                 case SDK_PAY_FLAG:
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    //同步获取结果
+
                     String resultInfo = payResult.getResult();
-                    Log.i("Pay", "Pay:" + resultInfo);
+
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
+
                     if (TextUtils.equals(resultStatus, "9000")) {
 
-                        JsonParser parse = new JsonParser();
-                        JsonObject pay_response = (JsonObject) parse.parse(resultInfo);
-                        String content = pay_response.get("alipay_trade_app_pay_response").getAsString();
-                        JsonObject resultObject = (JsonObject)parse.parse(content);
+//                        JsonParser parse = new JsonParser();
+//                        JsonObject pay_response = (JsonObject) parse.parse(resultInfo);
+//                        String content = pay_response.get("alipay_trade_app_pay_response").toString();
+//                        JsonObject resultObject = (JsonObject)parse.parse(content);
+//
+//                        AlipayBean alipayBean = new AlipayBean();
+//                        alipayBean.setTotal_amount(resultObject.get("total_amount").toString());
+//                        alipayBean.setOut_trade_no(resultObject.get("out_trade_no").toString());
+//
+                        payPresenter.checkAliPayOrder(resultInfo);
 
-                        AlipayBean alipayBean = new AlipayBean();
-                        alipayBean.setTotal_amount(resultObject.get("total_amount").getAsString());
-                        alipayBean.setOut_trade_no(resultObject.get("out_trade_no").getAsString());
-                        alipayBean.setSubject(successOrders.getOrder_name());
-                        alipayBean.setBody(successOrders.getOrder_description());
-                        payPresenter.verifyAlipayTransaction(alipayBean);
-                        MyToast.getInstance(PayInfoActivity.this).show("支付成功", Toast.LENGTH_SHORT);
+
+
                     } else {
                         MyToast.getInstance(PayInfoActivity.this).show("支付失败", Toast.LENGTH_SHORT);
                         break;
@@ -539,21 +557,9 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
 
 
 
-    private void startAliPay(String content){
-        //秘钥验证的类型 true:RSA2 false:RSA
-        boolean rsa = true;
-        //构造支付订单参数列表
+    private void startAliPay(String orderInfo){
 
-        Map<String, String> params = OrderInfoUtil.buildOrderParamMap(APPID, rsa,content);
-        //构造支付订单参数信息
-        String orderParam = OrderInfoUtil.buildOrderParam(params);
-        //对支付参数信息进行签名
-        String sign = OrderInfoUtil.getSign(params, Constants.RSA_PRIVATE, rsa);
-        //订单信息
-        final String orderInfo = orderParam + "&" + sign;
 
-        Log.e(TAG, "startAliPay: " + orderInfo);
-        //异步处理
         Runnable payRunnable = new Runnable() {
 
             @Override

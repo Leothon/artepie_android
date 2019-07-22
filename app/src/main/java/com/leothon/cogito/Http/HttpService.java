@@ -378,6 +378,14 @@ public interface HttpService {
 
 
     /**
+     * 支付宝同步验单
+     * @param orderInfo
+     * @return
+     */
+    @GET("alipaynotifyend")
+    Observable<BaseResponse<String>> alipayEndNotify(@Query("orderinfo") String orderInfo);
+
+    /**
      * 创建订单
      * @param orders
      * @return
@@ -411,6 +419,10 @@ public interface HttpService {
      */
     @POST("verifyalipaytransaction")
     Observable<BaseResponse<String>> verifyAlipayTransaction(@Body AlipayBean alipayBean);
+
+
+
+
 
     /**
      * 留言
