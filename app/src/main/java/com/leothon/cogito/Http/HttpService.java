@@ -5,9 +5,11 @@ import com.leothon.cogito.Bean.AlipayBean;
 import com.leothon.cogito.Bean.Article;
 import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.AuthInfo;
+import com.leothon.cogito.Bean.Bill;
 import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.FeedbackInfo;
 import com.leothon.cogito.Bean.NoticeInfo;
+import com.leothon.cogito.Bean.OrderHis;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
@@ -377,6 +379,30 @@ public interface HttpService {
     Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleCommentMore(@Query("articleid") String articleId,@Query("currentPage") int currentPage);
 
 
+    /**
+     * 获取个人账单
+     * @param token
+     * @return
+     */
+    @GET("getbills")
+    Observable<BaseResponse<ArrayList<Bill>>> getBill(@Query("token") String token);
+
+    /**
+     * 获取个人订单
+     * @param token
+     * @return
+     */
+    @GET("getorderhis")
+    Observable<BaseResponse<ArrayList<OrderHis>>> getOrder(@Query("token") String token);
+
+    /**
+     * 获取购买的课程
+     * @param token
+     * @return
+     */
+
+    @GET("getbuyclass")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getBuyClass(@Query("token") String token);
     /**
      * 支付宝同步验单
      * @param orderInfo

@@ -18,6 +18,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.BuyClassActivity.BuyClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.R;
@@ -65,7 +66,7 @@ public class SuccessActivity extends BaseActivity {
             public void onClick(View view) {
                 //TODO 前往我的订阅
                 updateUserEntity(uuid);
-                //IntentUtils.getInstence().intent(SuccessActivity.this, SelectClassActivity.class);
+                IntentUtils.getInstence().intent(SuccessActivity.this, BuyClassActivity.class);
                 //finish();
             }
         });
@@ -82,7 +83,6 @@ public class SuccessActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //TODO eventbus实现
         updateUserEntity(uuid);
         Bundle bundleto = new Bundle();
         bundleto.putString("type","about");

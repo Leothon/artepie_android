@@ -92,6 +92,12 @@ public  class BaseViewHolder extends RecyclerView.ViewHolder {
         tx.setBackgroundResource(background);
     }
 
+    public void setText(int id,String text,int color){
+        TextView tx = (TextView) convertView.findViewById(id);
+        tx.setText(text);
+        tx.setTextColor(color);
+    }
+
     /**
      * 直接通过加入
      * @param view

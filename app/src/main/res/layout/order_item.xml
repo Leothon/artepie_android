@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bottomsheet_shape"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <ImageView
+            android:id="@+id/order_his_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/order_his_author"
+            android:layout_toRightOf="@+id/order_his_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作者"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/order_his_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单状态"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/green"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/order_his_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            app:riv_corner_radius="8dp"
+            android:src="@drawable/default_cover"
+            android:scaleType="centerCrop"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@+id/order_his_img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="3dp">
+
+            <TextView
+                android:id="@+id/order_his_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/order_his_des"
+                android:layout_below="@+id/order_his_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="描述"
+                android:maxLines="4"
+                android:textColor="@color/fontColor"
+                android:textSize="@dimen/contentSize"
+                android:layout_marginTop="5dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+
+        <TextView
+            android:id="@+id/order_his_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-05-06 05:03:32"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/fontColor"
+            android:textSize="@dimen/contentSize"/>
+        <TextView
+            android:id="@+id/order_his_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20.99"
+            android:textStyle="bold"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/fontColor"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计：￥"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/order_his_count"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

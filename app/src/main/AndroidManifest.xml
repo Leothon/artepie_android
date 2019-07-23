@@ -30,7 +30,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-        <!-- Required SDK 核心功能 -->
+        <activity android:name=".Mvp.View.Activity.OrderActivity.OrderActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.BuyClassActivity.BuyClassActivity" /> <!-- Required SDK 核心功能 -->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -238,23 +239,19 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
-
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
-
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

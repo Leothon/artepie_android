@@ -26,11 +26,13 @@ import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Message.UpdateMessage;
 import com.leothon.cogito.Mvp.BaseFragment;
 import com.leothon.cogito.Mvp.View.Activity.AboutusActivity.AboutusActivity;
+import com.leothon.cogito.Mvp.View.Activity.BuyClassActivity.BuyClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
-import com.leothon.cogito.Mvp.View.Activity.HistoryActivity.HistoryActivity;
+
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
+import com.leothon.cogito.Mvp.View.Activity.OrderActivity.OrderActivity;
 import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
 import com.leothon.cogito.Mvp.View.Activity.SearchActivity.SearchActivity;
 import com.leothon.cogito.Mvp.View.Activity.SettingsActivity.SettingsActivity;
@@ -319,8 +321,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     }
     @OnClick(R.id.wallet_about)
     public void walletClick(View v){
-        MyToast.getInstance(getMContext()).show("暂未开放，敬请期待",Toast.LENGTH_SHORT);
-        //toWalletPage();
+        //MyToast.getInstance(getMContext()).show("暂未开放，敬请期待",Toast.LENGTH_SHORT);
+        toWalletPage();
     }
     @OnClick(R.id.message_about)
     public void messageClick(View v){
@@ -393,8 +395,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
         }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            MyToast.getInstance(getMContext()).show("暂时订单",Toast.LENGTH_SHORT);
-            //IntentUtils.getInstence().intent(getMContext(), DownloadActivity.class);
+            //MyToast.getInstance(getMContext()).show("暂时订单",Toast.LENGTH_SHORT);
+            IntentUtils.getInstence().intent(getMContext(), OrderActivity.class);
         }
     }
 
@@ -411,9 +413,8 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
             CommonUtils.loadinglogin(getMContext());
         }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-            //TODO 跳转订阅的课程页面
-            MyToast.getInstance(getMContext()).show("暂时订阅",Toast.LENGTH_SHORT);
-            //IntentUtils.getInstence().intent(getMContext(), HistoryActivity.class);
+
+            IntentUtils.getInstence().intent(getMContext(), BuyClassActivity.class);
         }
     }
     private void toWalletPage(){

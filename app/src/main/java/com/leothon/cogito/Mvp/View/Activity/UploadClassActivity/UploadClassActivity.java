@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.leothon.cogito.Adapter.UploadClassAdapter;
 import com.leothon.cogito.Adapter.WalletAdapter;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.GreenDao.UserEntity;
@@ -71,7 +72,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
     RecyclerView rvType;
     ZLoadingDialog dialog = new ZLoadingDialog(UploadClassActivity.this);
 
-    private WalletAdapter walletAdapter;
+    private UploadClassAdapter walletAdapter;
     private ArrayList<String> list;
 
     private String chooseType = "";
@@ -338,11 +339,11 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
 
 
     private void initAdapter(){
-        walletAdapter = new WalletAdapter(list,this);
+        walletAdapter = new UploadClassAdapter(list,this);
         rvType.setHasFixedSize(true);
         rvType.setLayoutManager(new GridLayoutManager(this,4,GridLayoutManager.VERTICAL,false));
         rvType.setAdapter(walletAdapter);
-        walletAdapter.setClassTypeOnClickListener(new WalletAdapter.ClassTypeOnClickListener() {
+        walletAdapter.setClassTypeOnClickListener(new UploadClassAdapter.ClassTypeOnClickListener() {
             @Override
             public void classTypeClickListener(String type) {
                 chooseType = type;
