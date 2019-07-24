@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dividerColor"
+    android:paddingBottom="50dp">
+
+
+    <RelativeLayout
+        android:id="@+id/pas_rl"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/close_psd"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_clear_black_24"
+            android:tint="@color/fontColor"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/psd_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/fontColor"
+            android:layout_toRightOf="@+id/close_psd"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"/>
+    </RelativeLayout>
+
+    <com.leothon.cogito.Weight.PsdEditText
+        android:id="@+id/psd_et"
+        android:layout_below="@+id/pas_rl"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true">
+
+    </com.leothon.cogito.Weight.PsdEditText>
+
+
+</RelativeLayout>

@@ -30,7 +30,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".Mvp.View.Activity.OrderActivity.OrderActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.CashActivity.CashActivity"></activity>
+        <activity android:name=".Mvp.View.Activity.OrderActivity.OrderActivity" />
         <activity android:name=".Mvp.View.Activity.BuyClassActivity.BuyClassActivity" /> <!-- Required SDK 核心功能 -->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->
         <service

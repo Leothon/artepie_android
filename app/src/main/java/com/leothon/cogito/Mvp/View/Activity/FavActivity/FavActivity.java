@@ -87,7 +87,9 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     }
 
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        favPresenter.onDestroy();
+    }
 }

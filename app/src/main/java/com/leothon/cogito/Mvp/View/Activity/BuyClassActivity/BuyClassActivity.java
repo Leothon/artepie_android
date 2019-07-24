@@ -98,4 +98,10 @@ public class BuyClassActivity extends BaseActivity implements SwipeRefreshLayout
     public void showMsg(String msg) {
         MyToast.getInstance(this).show(msg, Toast.LENGTH_SHORT);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        buyClassPresenter.onDestroy();
+    }
 }

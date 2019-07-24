@@ -27,6 +27,7 @@ import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
 import com.leothon.cogito.Mvp.BaseActivity;
+import com.leothon.cogito.Mvp.View.Activity.CashActivity.CashActivity;
 import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
@@ -88,7 +89,7 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        MyToast.getInstance(WalletActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
+                        MyToast.getInstance(WalletActivity.this).show("出错",Toast.LENGTH_SHORT);
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -119,7 +120,13 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
 //        dividerTitle.setText("充值");
         //initAdapter();
 
-        accountBalance.setText("￥" + userEntity.getUser_balance());
+        if (userEntity.getUser_balance() == null){
+            accountBalance.setText("￥0");
+        }else {
+            accountBalance.setText("￥" + userEntity.getUser_balance());
+        }
+
+
         artCoin.setText(userEntity.getUser_art_coin());
 
         artCoinDetail.setOnClickListener(new View.OnClickListener() {
@@ -147,14 +154,15 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
         dialog.setCanceledOnTouchOutside(true);
         dialog.setMessage(
                 "1.仅支持提取15个工作日前的交易额\n" +
-                "2.最低提现额度为100元人民币")
+                "2.最低提现额度为100元人民币\n" +
+                "3.仅支持提现到支付宝")
                 .setPositive("继续提现")
                 .setNegtive("取消提现")
                 .setTitle("提款提示")
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
-                        MyToast.getInstance(WalletActivity.this).show("继续提现",Toast.LENGTH_SHORT);
+                        IntentUtils.getInstence().intent(WalletActivity.this, CashActivity.class);
                         dialog.dismiss();
 
                     }
@@ -233,6 +241,40 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
             }
         });
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString())
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        MyToast.getInstance(WalletActivity.this).show("出错",Toast.LENGTH_SHORT);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        User user = (User)baseResponse.getData();
+
+                        userEntity.setUser_art_coin(user.getUser_art_coin());
+                        userEntity.setUser_balance(user.getUser_balance());
+                        getDAOSession().update(userEntity);
+                    }
+                });
     }
 
     @Override

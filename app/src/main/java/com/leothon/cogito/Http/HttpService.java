@@ -395,6 +395,53 @@ public interface HttpService {
     @GET("getorderhis")
     Observable<BaseResponse<ArrayList<OrderHis>>> getOrder(@Query("token") String token);
 
+
+    /**
+     * 获取可提现金额
+     * @param token
+     * @return
+     */
+
+    @GET("getcashtotal")
+    Observable<BaseResponse<String>> getCashTotal(@Query("token") String token);
+
+
+    /**
+     * 是否有支付密码
+     * @param token
+     * @return
+     */
+    @GET("ishaspsd")
+    Observable<BaseResponse<String>> isHasPsd(@Query("token") String token);
+
+
+    /**
+     * 设置提现密码
+     * @param token
+     * @param psd
+     * @return
+     */
+    @POST("setpsd")
+    Observable<BaseResponse<String>> setPsd(@Query("token") String token,@Query("psd") String psd);
+
+
+    /**
+     * 验证提现密码
+     * @param token
+     * @param psd
+     * @return
+     */
+    @POST("verifypsd")
+    Observable<BaseResponse<String>> verifyPsd(@Query("token") String token,@Query("psd") String psd);
+
+
+    /**
+     * 提现
+     * @param info
+     * @return
+     */
+    @GET("getcash")
+    Observable<BaseResponse<String>> getCash(@Query("cashinfo") String info);
     /**
      * 获取购买的课程
      * @param token

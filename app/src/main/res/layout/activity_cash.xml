@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".Mvp.View.Activity.CashActivity.CashActivity">
+
+
+    <include layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/alipay_cash_account"
+            app:met_iconLeft="@drawable/alipay_cash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:hint="输入提现支付宝账号(手机号或者邮箱)"
+            android:textSize="@dimen/littleTitle"
+            android:paddingLeft="8dp"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="输入提现支付宝账号(手机号或者邮箱)"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/alipay_cash_account"
+            app:met_iconLeft="@drawable/name_cash"
+            android:id="@+id/alipay_cash_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:hint="输入支付宝账户实名"
+            android:textSize="@dimen/littleTitle"
+            android:paddingLeft="8dp"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="输入支付宝账户实名"/>
+
+
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@+id/alipay_cash_name"
+            android:id="@+id/alipay_cash_total"
+            android:inputType="number"
+            app:met_iconLeft="@drawable/cash_cash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp"
+            android:hint="输入提现金额"
+            android:textSize="@dimen/littleTitle"
+            android:paddingLeft="8dp"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="输入提现金额"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/psd_get_cash"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/pay_psd_btn"
+        android:textColor="@color/fontColor"
+        android:text="提现"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+
+</LinearLayout>
