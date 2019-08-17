@@ -561,7 +561,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         miniProgramObj.userName = "gh_e3995a920cc1";     // 小程序原始id
         miniProgramObj.path = "pages/video/video?classid=" + qaDataDetail.getQaData().getQa_id();            //小程序页面路径
         WXMediaMessage msg = new WXMediaMessage(miniProgramObj);
-        msg.title = "发布者：" + qaDataDetail.getQaData().getUser_name();                    // 小程序消息title
+        msg.title = qaDataDetail.getQaData().getQa_content();                    // 小程序消息title
         msg.description = qaDataDetail.getQaData().getQa_content();               // 小程序消息desc
 //        msg.thumbData = getThumb();                      // 小程序消息封面图片，小于128k 这个字节数组不能为空 否则无法调起微信页面 调试的时候可以先随便赋值一个new byte[n]
         msg.setThumbImage(bitmap);

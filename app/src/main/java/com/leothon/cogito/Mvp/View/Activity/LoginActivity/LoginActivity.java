@@ -364,6 +364,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         LoginSuccess();
     }
 
+    /**
+     * @param msg
+     */
     @Override
     public void isQQRegisterResult(String msg) {
         if (msg.equals("0")){
@@ -371,6 +374,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             loginPresenter.loginByQQ(mTencent.getOpenId());
 
         }else if (msg.equals("1")){
+
+            //TODO 跳转至短信验证
+
+
             User user = new User();
             JSONObject jsonObject = (JSONObject)loginSuccessResult;
             try {
@@ -384,7 +391,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                     user.setUser_sex(0);
                 }
                 user.setTencent_token(mTencent.getOpenId());
-                loginPresenter.qqUserRegister(user);
+                //loginPresenter.qqUserRegister(user);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user",user);
+                bundle.putString("type","wechat");
+                IntentUtils.getInstence().intent(LoginActivity.this,BindPhoneActivity.class,bundle);
             }catch (JSONException e){
                 e.printStackTrace();
             }
@@ -398,10 +410,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void isWeChatRegisterResult(String msg) {
         if (msg.equals("0")){
 
-//            loginPresenter.loginByQQ(mTencent.getAccessToken());
             loginPresenter.loginByQQ(weChatUserInfo.getAccesstoken());
 
         }else if (msg.equals("1")){
+
+
             User user = new User();
 
 
@@ -411,8 +424,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             user.setTencent_token(weChatUserInfo.getAccesstoken());
             user.setUser_address(weChatUserInfo.getCountry() + weChatUserInfo.getProvince() + weChatUserInfo.getCity());
 
-            loginPresenter.weChatUserRegister(user);
+            //loginPresenter.weChatUserRegister(user);
 
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user",user);
+            bundle.putString("type","qq");
+            IntentUtils.getInstence().intent(LoginActivity.this,BindPhoneActivity.class,bundle);
 
         }else {
             MyToast.getInstance(this).show("未知错误",Toast.LENGTH_SHORT);
@@ -433,6 +450,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         getDAOSession().insert(userEntity);
         hideLoadingAnim();
         LoginSuccess();
+    }
+
+    @Override
+    public void checkNumberResult(String msg) {
+
     }
 
     private void LoginSuccess(){

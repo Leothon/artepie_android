@@ -415,6 +415,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 bundleto.putSerializable("qad",qaDataDetail);
                 IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("1",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(AskDetailActivity.this).show("已获得1个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }
@@ -427,6 +428,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
                 bundleto.putSerializable("qad",qaDataDetail);
                 IntentUtils.getInstence().intent(AskDetailActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("1",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(AskDetailActivity.this).show("已获得1个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }

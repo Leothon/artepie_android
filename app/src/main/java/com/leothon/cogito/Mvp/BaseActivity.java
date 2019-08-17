@@ -80,6 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         //FitUtils.autoFit(this,false);
         FitUtils.serCustomDensity(this,getApplication());
@@ -114,19 +115,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-//    public void addActivity(){
-//        baseApplication.addActivity(context);
-//    }
-//
-//    public void removeAllActivity(){
-//        baseApplication.finishActivity();
-//    }
-
     public DaoSession getDAOSession(){
         return baseApplication.getDaoSession();
     }
     @Override
     protected void onStart() {
+        Log.e(TAG, "onStart: ");
         super.onStart();
         if (null != getToolbar() && isShowBacking()){
             showBack();
@@ -145,11 +139,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.e(TAG, "onResume: ");
         super.onResume();
     }
 
     @Override
     protected void onStop() {
+        Log.e(TAG, "onStop: ");
         super.onStop();
     }
 
@@ -364,6 +360,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.e(TAG, "onDestroy: ");
         super.onDestroy();
         baseApplication = null;
         if (EventBus.getDefault().isRegistered(this)){

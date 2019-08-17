@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -79,6 +80,7 @@ import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
 
+import static com.shuyu.gsyvideoplayer.GSYVideoADManager.TAG;
 import static com.tencent.wxop.stat.common.StatConstants.LOG_TAG;
 
 
@@ -195,7 +197,9 @@ public class CommonUtils {
 
         media.setDataSource(path);
 
-        return media.getFrameAtTime();
+
+
+        return ImageUtils.compressBitmap(media.getFrameAtTime(),120);
 
     }
 
@@ -1090,16 +1094,16 @@ public class CommonUtils {
      * @param context
      * @return
      */
-    public static String getVersionCode(Context context) {
-        String versionCode = "";
+    public static int getVersionCode(Context context) {
+
         try {
             PackageManager packageManager = context.getPackageManager();
             PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            versionCode = String.valueOf(packInfo.versionCode);
+            return packInfo.versionCode;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return versionCode;
+        return 0;
     }
 
     /**
@@ -1383,5 +1387,48 @@ public class CommonUtils {
 
         return endPrice.substring(0,endPrice.indexOf("."));
     }
+
+
+    /**
+     * 根据图片路径压缩图片并返回压缩后图片的路径
+     * @param mCurrentPhotoPath
+     * @param context
+     * @return
+     */
+    public static String compressImage(String mCurrentPhotoPath, Context context) {
+
+        if (mCurrentPhotoPath != null) {
+
+            try {
+                File f = new File(mCurrentPhotoPath);
+                Bitmap bm = ImageUtils.compressBitmap(ImageUtils.getImageBitmap(mCurrentPhotoPath),120);
+
+                //获取文件路径 即：/data/data/***/files目录下的文件
+                String path = context.getFilesDir().getPath();
+//                Log.e(TAG, "compressImage:path== "+path );
+                //获取缓存路径
+                File cacheDir = context.getCacheDir();
+//                Log.e(TAG, "compressImage:cacheDir== "+cacheDir );
+//                File newfile = new File(
+//                getAlbumDir(), "small_" + f.getName());
+                File newfile = new File(
+                        cacheDir, "small_" + f.getName());
+                FileOutputStream fos = new FileOutputStream(newfile);
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                return newfile.getPath();
+
+            } catch (Exception e) {
+                Log.e(TAG, "error", e);
+            }
+
+        } else {
+            Log.e(TAG, "save: 图片路径为空");
+        }
+        return mCurrentPhotoPath;
+    }
+
+
+
 
 }

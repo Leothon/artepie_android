@@ -24,6 +24,7 @@ import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailActivity;
 import com.leothon.cogito.R;
+import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.ImageUtils;
 import com.leothon.cogito.Utils.IntentUtils;
@@ -241,6 +242,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
                 }else {
                     filePath = selectList.get(0).getPath();
                 }
+                filePath = CommonUtils.compressImage(filePath,this);
                 uploadCoverImg.setImageBitmap(ImageUtils.getImageBitmap(filePath));
 
             }

@@ -77,8 +77,8 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
     @BindView(R.id.swp_article)
     SwipeRefreshLayout swpArticle;
 
-//    @BindView(R.id.float_btn_article)
-//    FloatingActionButton writeArticle;
+    @BindView(R.id.float_top_article)
+    FloatingActionButton toTopArticle;
 
     private ArticleData articleData;
 
@@ -160,6 +160,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         hideAnimation = AnimationUtils.loadAnimation(getMContext(),R.anim.top_view_out);
         articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swpArticle.setRefreshing(true);
+        animationHide();
     }
 
     private void initAdapter(){
@@ -196,6 +197,29 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+
+
+
+                //获得recyclerView的线性布局管理器
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //获取到第一个item的显示的下标  不等于0表示第一个item处于不可见状态 说明列表没有滑动到顶部 显示回到顶部按钮
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+                // 当不滚动时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // 判断是否滚动超过一屏
+                    if (firstVisibleItemPosition == 0) {
+                        animationHide();
+                    } else {
+                        //显示回到顶部按钮
+                        animationShow();
+                    }
+                    //获取RecyclerView滑动时候的状态
+                } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {//拖动中
+                    animationHide();
+                }
+
+
                 switch (newState) {
                     case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
                         //当屏幕停止滚动，加载图片
@@ -237,11 +261,11 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
                     int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
 
                     if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
-                        //animationHide();
+//                        animationHide();
                         controlVisible = false;
                         scrollDistance = 0;
                     }else if (!controlVisible && scrollDistance < -THRESHOLD_OFFSET){//手指下滑即Scroll向上滚动的时候，dy为负
-                        //animationShow();
+//                        animationShow();
                         controlVisible = true;
                         scrollDistance = 0;
                     }
@@ -262,20 +286,20 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             }
         });
     }
-//
-//    private void animationHide(){
-//        //hostActivity.hideBottomBtn();
-//        writeArticle.hide();
-//        writeArticle.startAnimation(hideAnimation);
-//
-//    }
-//
-//    private void animationShow(){
-//        //hostActivity.showBottomBtn();
-//        writeArticle.show();
-//        writeArticle.startAnimation(showAnimation);
-//
-//    }
+
+    private void animationHide(){
+        //hostActivity.hideBottomBtn();
+        toTopArticle.hide();
+        toTopArticle.startAnimation(hideAnimation);
+
+    }
+
+    private void animationShow(){
+        //hostActivity.showBottomBtn();
+        toTopArticle.show();
+        toTopArticle.startAnimation(showAnimation);
+
+    }
 
     @Override
     public void loadArticlePageData(final ArticleData articleData) {
@@ -294,20 +318,14 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
     }
 
-//    @OnClick(R.id.float_btn_article)
-//    public void writeArticle(View view){
-//        if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-//            if (CommonUtils.isVIP(userEntity.getUser_role()) == 1){
-//                toWriteArticle();
-//            }else {
-//                dialogLoading();
-//            }
-//        }else {
-//            CommonUtils.loadinglogin(getContext());
-//        }
-//
-//
-//    }
+    @OnClick(R.id.float_top_article)
+    public void toTopArticle(View view){
+
+        articleRv.scrollToPosition(0);
+
+
+        animationHide();
+    }
 
 //    private  void dialogLoading(){
 //        final CommonDialog dialog = new CommonDialog(getContext());

@@ -175,6 +175,7 @@ public class WriteArticleActivity extends BaseActivity implements FontStyleMenu.
 
                 //writeArticleContent.setImg(filePath);
 
+                filePath = CommonUtils.compressImage(filePath,this);
                 Bitmap bitmap = ImageUtils.drawTextToRightBottom(WriteArticleActivity.this,ImageUtils.getImageBitmap(filePath),"艺派 @" + userEntity.getUser_name(),10,Color.WHITE,10,10);
 
                 writeArticlePresenter.uploadSelectImg(CommonUtils.compressImage(bitmap));

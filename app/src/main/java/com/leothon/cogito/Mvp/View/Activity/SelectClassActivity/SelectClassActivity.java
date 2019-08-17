@@ -438,6 +438,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("3",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(SelectClassActivity.this).show("已获得3个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }
@@ -450,6 +451,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
                 bundleto.putSerializable("data",shareClassDetail);
                 IntentUtils.getInstence().intent(SelectClassActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("3",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(SelectClassActivity.this).show("已获得3个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }

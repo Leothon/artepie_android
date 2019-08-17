@@ -15,6 +15,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -261,13 +262,15 @@ public class HostActivity extends BaseActivity  {
                     public void onNext(BaseResponse baseResponse) {
                         Update update = (Update)baseResponse.getData();
                         String updateVersion = update.getUpdateVersion();
-                        if (!updateVersion.equals(CommonUtils.getVerName(HostActivity.this))){
-                            //TODO 检查更新
-                            dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
+                        int updateCode = update.getUpdateCode();
+
+                        if (updateCode > CommonUtils.getVersionCode(HostActivity.this)){
+                            dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion,update.getUpdateContent());
                             UpdateMessage updateMessage = new UpdateMessage();
                             updateMessage.setMessage("show");
                             EventBus.getDefault().post(updateMessage);
                         }
+
                     }
                 });
     }
@@ -289,17 +292,17 @@ public class HostActivity extends BaseActivity  {
 
 
 
-//    public void hideBottomBtn(){
-//        hostBottom.setVisibility(View.GONE);
-//        hostBottom.startAnimation(mHiddenAction);
-//
-//    }
-//
-//    public void showBottomBtn(){
-//        hostBottom.setVisibility(View.VISIBLE);
-//        hostBottom.startAnimation(mShowAction);
-//
-//    }
+    public void hideBottomBtn(){
+        hostBottom.setVisibility(View.GONE);
+        hostBottom.startAnimation(mHiddenAction);
+
+    }
+
+    public void showBottomBtn(){
+        hostBottom.setVisibility(View.VISIBLE);
+        hostBottom.startAnimation(mShowAction);
+
+    }
 
     private void disableBack(){
         ParallaxHelper.getInstance().disableParallaxBack(this);
@@ -358,11 +361,11 @@ public class HostActivity extends BaseActivity  {
      * @param oldVersion
      * @param newVersion
      */
-    private  void dialogLoading(String oldVersion,String newVersion){
+    private  void dialogLoading(String oldVersion,String newVersion,String updateContent){
         final UpdateDialog dialog = new UpdateDialog(this);
 
 
-        dialog.setMessage("当前版本：V" + oldVersion + " 更新版本：V" + newVersion)
+        dialog.setMessage("当前版本：V" + oldVersion + "\n更新版本：V" + newVersion + "\n更新内容:\n" + updateContent)
                 .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
                     @Override
                     public void onMarketClick() {
@@ -929,7 +932,14 @@ public class HostActivity extends BaseActivity  {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart: ");
+    }
+
+    @Override
     protected void onPause() {
+        Log.e(TAG, "onPause: ");
         super.onPause();
         GSYVideoManager.onPause();
     }

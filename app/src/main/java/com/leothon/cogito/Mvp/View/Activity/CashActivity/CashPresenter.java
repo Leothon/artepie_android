@@ -49,6 +49,20 @@ public class CashPresenter implements CashContract.OnCashFinishedListener, CashC
     }
 
     @Override
+    public void verifyPsdFail(String msg) {
+        if (iCashView != null){
+            iCashView.verifyPsdFail(msg);
+        }
+    }
+
+    @Override
+    public void getCashFail(String msg) {
+        if (iCashView != null){
+            iCashView.getCashFail(msg);
+        }
+    }
+
+    @Override
     public void showMsg(String msg) {
         if (iCashView != null){
             iCashView.showMsg(msg);
@@ -76,8 +90,8 @@ public class CashPresenter implements CashContract.OnCashFinishedListener, CashC
     }
 
     @Override
-    public void getCash(String info) {
-        iCashModel.getCash(info,this);
+    public void getCash(String info,String token) {
+        iCashModel.getCash(info,token,this);
     }
 
     @Override

@@ -440,8 +440,8 @@ public interface HttpService {
      * @param info
      * @return
      */
-    @GET("getcash")
-    Observable<BaseResponse<String>> getCash(@Query("cashinfo") String info);
+    @POST("getcash")
+    Observable<BaseResponse<String>> getCash(@Query("cashinfo") String info,@Query("token") String token);
     /**
      * 获取购买的课程
      * @param token

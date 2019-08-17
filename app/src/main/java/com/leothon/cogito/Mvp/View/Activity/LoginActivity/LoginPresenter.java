@@ -63,6 +63,13 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
         }
     }
 
+    @Override
+    public void checkNumberResult(String msg) {
+        if (iLoginView != null){
+            iLoginView.checkNumberResult(msg);
+        }
+    }
+
 
     @Override
     public void login(String phoneNumber, String password) {
@@ -112,6 +119,11 @@ public class LoginPresenter implements LoginContract.ILoginPresenter,LoginContra
     @Override
     public void loginByWeChat(String accessToken) {
         iLoginModel.loginByWeChat(accessToken,this);
+    }
+
+    @Override
+    public void checkPhoneNumberIsExits(String number) {
+        iLoginModel.checkPhoneNumberIsExits(number, this);
     }
 
 }

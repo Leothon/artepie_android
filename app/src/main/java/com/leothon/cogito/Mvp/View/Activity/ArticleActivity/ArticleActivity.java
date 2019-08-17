@@ -813,6 +813,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 bundleto.putSerializable("article",article);
                 IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("2",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(ArticleActivity.this).show("已获得2个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }
@@ -825,6 +826,7 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
                 bundleto.putSerializable("article",article);
                 IntentUtils.getInstence().intent(ArticleActivity.this, WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("2",activitysharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(ArticleActivity.this).show("已获得2个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }

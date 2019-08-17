@@ -51,36 +51,38 @@
                         android:translationY="-20dp"
                         android:layout_gravity="center">
                         <FrameLayout
-                            android:layout_width="250dp"
-                            android:layout_height="120dp"
+                            android:layout_width="300dp"
+                            android:layout_height="130dp"
                             android:background="@drawable/textviewbackground"
                             android:layout_gravity="center">
 
                         </FrameLayout>
                         <FrameLayout
-                            android:layout_width="260dp"
-                            android:layout_height="120dp"
+                            android:layout_width="310dp"
+                            android:layout_height="130dp"
                             android:background="@drawable/textviewbackground"
                             android:layout_gravity="center"
                             android:translationY="5dp">
 
                         </FrameLayout>
-                        <FrameLayout
-                            android:layout_width="270dp"
-                            android:layout_height="120dp"
+                        <RelativeLayout
+                            android:layout_width="320dp"
+                            android:layout_height="130dp"
                             android:background="@drawable/textviewbackground"
                             android:layout_gravity="center"
                             android:translationY="10dp"
                             android:elevation="3dp">
                             <TextView
+                                android:id="@+id/wallet_txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="账户余额:"
                                 android:textSize="@dimen/littleTitle"
                                 android:textColor="@color/black"
-                                android:layout_gravity="center|start"
+                                android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"/>
                             <TextView
+                                android:layout_toRightOf="@+id/wallet_txt"
                                 android:id="@+id/account_balance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -88,9 +90,9 @@
                                 android:textSize="@dimen/hugeTitle"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
-                                android:layout_gravity="center"
+                                android:layout_centerVertical="true"
                                 android:layout_marginLeft="5dp"/>
-                        </FrameLayout>
+                        </RelativeLayout>
 
                     </FrameLayout>
                     </LinearLayout>

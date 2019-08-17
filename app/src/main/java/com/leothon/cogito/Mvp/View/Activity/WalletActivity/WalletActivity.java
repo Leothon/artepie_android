@@ -108,6 +108,19 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
                         userEntity.setUser_art_coin(user.getUser_art_coin());
                         userEntity.setUser_balance(user.getUser_balance());
                         getDAOSession().update(userEntity);
+
+                        if (userEntity.getUser_balance() == null){
+                            accountBalance.setText("￥0");
+                        }else {
+                            accountBalance.setText("￥" + userEntity.getUser_balance());
+                        }
+
+
+                        if (userEntity.getUser_art_coin() == null){
+                            artCoin.setText("0");
+                        }else {
+                            artCoin.setText(userEntity.getUser_art_coin());
+                        }
                     }
                 });
 
@@ -120,14 +133,7 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
 //        dividerTitle.setText("充值");
         //initAdapter();
 
-        if (userEntity.getUser_balance() == null){
-            accountBalance.setText("￥0");
-        }else {
-            accountBalance.setText("￥" + userEntity.getUser_balance());
-        }
 
-
-        artCoin.setText(userEntity.getUser_art_coin());
 
         artCoinDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,14 +199,13 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
                 "4.对外分享平台课程+3艺币.\n" +
                 "5.更多获取方式,请咨询客服!\n" +
                 "如何使用艺币?\n" +
-                "1.在艺派客户端购买商品(专栏,课程,直播)时,可用您账户上的艺币抵扣部分金额.\n" +
-                "2.艺币不可与其他优惠(平台促销,代金券)等叠加使用.\n" +
+                "在艺派客户端购买商品(专栏,课程,直播)时,可用您账户上的艺币抵扣部分金额.\n" +
                 "抵扣规则\n" +
                 "1.100艺币等价1元人民币.\n" +
                 "2.每单最高可抵扣订单金额的4.8%.\n" +
                 "艺币可以提现吗?\n" +
-                "艺币不支持体现,仅限于艺派APP内支付抵扣使用.\n" +
-                "艺币的发放及使用最终解释权归艺派平台所有.\n")
+                "不支持提现,仅限于艺派APP内支付抵扣.\n" +
+                "艺币的发放及使用最终解释权归本平台所有.\n" )
                 .setTitle("")
                 .setSingle(true)
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
@@ -273,6 +278,20 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
                         userEntity.setUser_art_coin(user.getUser_art_coin());
                         userEntity.setUser_balance(user.getUser_balance());
                         getDAOSession().update(userEntity);
+
+                        if (userEntity.getUser_balance() == null){
+                            accountBalance.setText("￥0");
+                        }else {
+                            accountBalance.setText("￥" + userEntity.getUser_balance());
+                        }
+
+                        if (userEntity.getUser_art_coin() == null){
+                            artCoin.setText("0");
+                        }else {
+                            artCoin.setText(userEntity.getUser_art_coin());
+                        }
+
+
                     }
                 });
     }

@@ -25,7 +25,10 @@
                 android:id="@+id/contract_content"
                 android:background="@null"
                 android:layout_margin="10dp"
-                android:lineSpacingMultiplier="1.1"/>
+                android:textSize="@dimen/littleTitle"
+                android:lineSpacingMultiplier="1"
+                android:lineSpacingExtra="10dp"
+                />
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 

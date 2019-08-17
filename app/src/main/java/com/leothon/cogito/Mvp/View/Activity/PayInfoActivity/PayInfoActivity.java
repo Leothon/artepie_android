@@ -180,11 +180,13 @@ public class PayInfoActivity extends BaseActivity implements PayContract.IPayVie
         showPrice.setText("￥" + selectClass.getSelectprice());
         if (userEntity.getUser_art_coin() == null){
             artCoinUseRebate.setText("0");
+            realDiscount = calculaterDiscountArtCoin(selectClass.getSelectprice(),"0");
         }else {
             artCoinUseRebate.setText(userEntity.getUser_art_coin());
+            realDiscount = calculaterDiscountArtCoin(selectClass.getSelectprice(),userEntity.getUser_art_coin());
         }
 
-        realDiscount = calculaterDiscountArtCoin(selectClass.getSelectprice(),userEntity.getUser_art_coin());
+
         payInfoRebate.setText("￥" + realDiscount);
         payInfoPrice.setText("￥" + calculater(selectClass.getSelectprice(),realDiscount));
 

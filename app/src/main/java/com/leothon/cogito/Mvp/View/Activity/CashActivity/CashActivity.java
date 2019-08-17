@@ -11,6 +11,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -137,13 +139,18 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
     @OnClick(R.id.psd_get_cash)
     public void getCash(View view){
 
-        loadWarnDialog();
+        if (cashAccount.getText().toString().equals("") || cashName.getText().toString().equals("") || cashTotal.getText().toString().equals("")){
+            MyToast.getInstance(this).show("请填写完整信息",Toast.LENGTH_SHORT);
+        }else {
+            loadWarnDialog();
+        }
+
 
     }
 
 
     private void startGetCash(){
-        if (Float.valueOf(cashMax) >= Float.valueOf(cashTotal.getText().toString())){
+        if ((Float.valueOf(cashMax) >= Float.valueOf(cashTotal.getText().toString())) && Float.valueOf(cashTotal.getText().toString()) >=100){
 
             if (isHasPsd){
                 getCash(cashAccount.getText().toString(),cashName.getText().toString(),cashTotal.getText().toString());
@@ -151,7 +158,7 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
                 setPsd();
             }
         }else {
-            MyToast.getInstance(this).show("您最多可提现：￥" + cashMax,Toast.LENGTH_SHORT);
+            MyToast.getInstance(this).show("您最多可提现：￥" + cashMax + "最少提现金额为￥100",Toast.LENGTH_SHORT);
         }
     }
     private int getWindowHeight() {
@@ -170,7 +177,7 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
                 //监听输入完成
                 showLoadingAnim();
                 cashPresenter.verifyPsd(activitysharedPreferencesUtils.getParams("token","").toString(),MD5Utils.encrypt(str));
-                info = "\"payee_type\":\"ALIPAY_LOGONID\",\"payee_account\":\"" + account + "\",\"amount\":\"" + count + "\",\"payer_show_name\":\"账户余额提现\",\"payee_real_name\":\""  + name + "\"}";
+                info = "\"payee_type\":\"ALIPAY_LOGONID\",\"payee_account\":\"" + account + "\",\"amount\":\"" + count + "\",\"payer_show_name\":\"我的艺派账户余额提现\",\"payee_real_name\":\""  + name + "\"}";
 
 
 
@@ -202,7 +209,7 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
 
         dialog.setCanceledOnTouchOutside(true);
         dialog.setMessage(
-                "请确认好支付宝账户和实名是您本人的信息")
+                "请确认好支付宝账户和实名")
                 .setPositive("继续提现")
                 .setNegtive("重新填写")
                 .setTitle("提现提示")
@@ -235,21 +242,34 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
     @Override
     public void maxCashResult(String msg) {
         hideLoadingAnim();
+        this.cashMax = msg;
         cashTotal.setHelperText("输入提现金额，最大可提现金额为：￥" + msg);
     }
 
     @Override
     public void setPsdSuccess(String msg) {
         hideLoadingAnim();
+        isHasPsd = true;
+
+
         MyToast.getInstance(this).show("密码设置成功",Toast.LENGTH_SHORT);
         bottomSheetDialog.dismiss();
+        showSheetDialog();
     }
 
     @Override
     public void verifyPsdSuccess(String msg) {
 
-        cashPresenter.getCash(info);
+        cashPresenter.getCash(info,activitysharedPreferencesUtils.getParams("token","").toString());
 
+    }
+
+    @Override
+    public void verifyPsdFail(String msg) {
+        hideLoadingAnim();
+        bottomSheetDialog.dismiss();
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+        showSheetDialog();
     }
 
     /**
@@ -261,6 +281,14 @@ public class CashActivity extends BaseActivity implements CashContract.ICashView
         MyToast.getInstance(this).show("提现成功,请前往支付宝查看账单",Toast.LENGTH_SHORT);
         bottomSheetDialog.dismiss();
         onBackPressed();
+    }
+
+    @Override
+    public void getCashFail(String msg) {
+        hideLoadingAnim();
+        bottomSheetDialog.dismiss();
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+        showSheetDialog();
     }
 
     @Override

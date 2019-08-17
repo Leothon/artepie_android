@@ -215,7 +215,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="他的问题"
+                        android:text="他的视频"
                         android:textSize="@dimen/contentSize"
                         android:textColor="@color/black"
                         android:layout_centerInParent="true"/>

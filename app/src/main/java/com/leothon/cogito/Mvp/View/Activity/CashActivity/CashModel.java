@@ -129,7 +129,7 @@ public class CashModel implements CashContract.ICashModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showMsg("出错");
+                        listener.showMsg("密码出错");
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -147,6 +147,8 @@ public class CashModel implements CashContract.ICashModel {
 
                             listener.verifyPsdSuccess(msg);
 
+                        }else {
+                            listener.verifyPsdFail("密码错误");
                         }
 
 
@@ -155,16 +157,16 @@ public class CashModel implements CashContract.ICashModel {
     }
 
     @Override
-    public void getCash(String info, CashContract.OnCashFinishedListener listener) {
+    public void getCash(String info, String token,CashContract.OnCashFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getCash(info)
+                .getCash(info,token)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showMsg("出错");
+                        listener.getCashFail("提现出错，请检查账户信息");
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -182,6 +184,8 @@ public class CashModel implements CashContract.ICashModel {
 
                             listener.getCashSuccess(msg);
 
+                        }else{
+                            listener.getCashFail("提现出错，请检查账户信息");
                         }
 
 

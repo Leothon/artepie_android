@@ -5,7 +5,25 @@ public class Update {
     private String updateId;
     private String updateVersion;
     private String updateTime;
+    private int updateCode;
 
+    private String updateContent;
+
+    public String getUpdateContent() {
+        return updateContent;
+    }
+
+    public void setUpdateContent(String updateContent) {
+        this.updateContent = updateContent;
+    }
+
+    public int getUpdateCode() {
+        return updateCode;
+    }
+
+    public void setUpdateCode(int updateCode) {
+        this.updateCode = updateCode;
+    }
     public String getUpdateId() {
         return updateId;
     }

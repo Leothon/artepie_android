@@ -25,6 +25,9 @@ public class LoginContract {
 
         void loginByQQ(String accessToken,OnLoginFinishedListener listener);
         void loginByWeChat(String accessToken,OnLoginFinishedListener listener);
+
+
+        void checkPhoneNumberIsExits(String number,OnLoginFinishedListener listener);
     }
 
     public interface ILoginView{
@@ -40,6 +43,8 @@ public class LoginContract {
         void qqUserRegisterSuccess(User user);
         void weChatUserRegisterSuccess(User user);
 
+        void checkNumberResult(String msg);
+
     }
 
     public interface OnLoginFinishedListener {
@@ -53,6 +58,8 @@ public class LoginContract {
         void qqUserRegisterSuccess(User user);
         void weChatUserRegisterSuccess(User user);
         void isWeChatRegisterResult(String msg);
+
+        void checkNumberResult(String msg);
     }
 
     public interface ILoginPresenter{
@@ -65,5 +72,7 @@ public class LoginContract {
         void weChatUserRegister(User user);
         void loginByQQ(String accessToken);
         void loginByWeChat(String accessToken);
+
+        void checkPhoneNumberIsExits(String number);
     }
 }

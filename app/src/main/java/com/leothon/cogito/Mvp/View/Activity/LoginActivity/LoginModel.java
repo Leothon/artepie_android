@@ -288,4 +288,35 @@ public class LoginModel implements LoginContract.ILoginModel {
                     }
                 });
     }
+
+    @Override
+    public void checkPhoneNumberIsExits(String number, LoginContract.OnLoginFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .isPhoneExits(number)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showFailInfo(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+
+                        String phoneInfo = baseResponse.getMsg();
+
+                        listener.checkNumberResult(phoneInfo);
+                    }
+                });
+    }
 }

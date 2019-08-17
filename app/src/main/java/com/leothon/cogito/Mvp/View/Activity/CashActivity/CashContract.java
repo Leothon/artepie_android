@@ -8,7 +8,7 @@ public class CashContract {
         void getMaxCash(String token,OnCashFinishedListener listener);
         void setPsd(String token,String psd,OnCashFinishedListener listener);
         void verifyPsd(String token,String psd,OnCashFinishedListener listener);
-        void getCash(String info,OnCashFinishedListener listener);
+        void getCash(String info,String token,OnCashFinishedListener listener);
 
     }
 
@@ -18,7 +18,9 @@ public class CashContract {
         void maxCashResult(String msg);
         void setPsdSuccess(String msg);
         void verifyPsdSuccess(String msg);
+        void verifyPsdFail(String msg);
         void getCashSuccess(String msg);
+        void getCashFail(String msg);
         void showMsg(String msg);
 
 
@@ -31,7 +33,8 @@ public class CashContract {
         void setPsdSuccess(String msg);
         void verifyPsdSuccess(String msg);
         void getCashSuccess(String msg);
-
+        void verifyPsdFail(String msg);
+        void getCashFail(String msg);
         void showMsg(String msg);
 
 
@@ -43,7 +46,7 @@ public class CashContract {
         void getMaxCash(String token);
         void setPsd(String token,String psd);
         void verifyPsd(String token,String psd);
-        void getCash(String info);
+        void getCash(String info,String token);
         void onDestroy();
 
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Mvp.View.Activity.LoginActivity.BindPhoneActivity"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/bind_bar"
+        layout="@layout/toolbar"/>
+
+
+    <TextView
+        android:layout_below="@+id/bind_bar"
+        android:id="@+id/text_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="60dp"
+        android:paddingBottom="60dp"
+        android:text="根据国家法律法规，请绑定您的手机号码"
+        android:textSize="@dimen/littleTitle"
+        android:gravity="center"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_below="@+id/text_register"
+        android:id="@+id/phone_bind_re"
+        app:met_floatingLabel="normal"
+        app:met_floatingLabelText="输入手机号"
+        android:hint="输入手机号"
+        android:inputType="number"
+        android:textSize="@dimen/contentSize"
+        app:met_clearButton="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        app:met_iconLeft="@drawable/baseline_phone_black_18"
+        android:maxLength="11"/>
+
+
+    <RelativeLayout
+        android:id="@+id/ver_layout"
+        android:layout_below="@+id/phone_bind_re"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="20dp">
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/verify_code_bind_re"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="验证码"
+            android:hint="验证码"
+            android:textSize="@dimen/contentSize"
+            app:met_clearButton="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:met_iconLeft="@drawable/baseline_verified_user_black_18"
+            android:inputType="number"/>
+        <Button
+            android:layout_alignParentEnd="true"
+            android:id="@+id/get_verify_code_bind_re"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnenableback"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            android:padding="5dp" />
+    </RelativeLayout>
+    <Button
+        android:layout_below="@+id/ver_layout"
+        android:id="@+id/bind_number_re"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="验证"
+        android:textColor="@color/white"
+        android:background="@drawable/btnbackground"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>

@@ -76,6 +76,7 @@ public class SettingsActivity extends BaseActivity {
 
     private String updateVersion;
 
+    private String updateContent;
     @Override
     public int initLayout() {
         return R.layout.activity_settings;
@@ -134,18 +135,22 @@ public class SettingsActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
+
                         Update update = (Update)baseResponse.getData();
                         updateVersion = update.getUpdateVersion();
-                        if (!updateVersion.equals(CommonUtils.getVerName(SettingsActivity.this))){
-                            //TODO 检查更新
-                            //dialogLoading(CommonUtils.getVerName(HostActivity.this),updateVersion);
+                        int updateCode = update.getUpdateCode();
+
+                        if (updateCode > CommonUtils.getVersionCode(SettingsActivity.this)){
                             updateShow.setText("有更新，请点击下载");
                             isNewVersion = false;
                             noticeBot.setVisibility(View.VISIBLE);
+                            updateContent = update.getUpdateContent();
                         }else {
                             updateShow.setText("已是最新版本");
                             isNewVersion = true;
                         }
+
+
                     }
                 });
 
@@ -189,7 +194,8 @@ public class SettingsActivity extends BaseActivity {
 //            intent.setAction(Intent.ACTION_VIEW);
 //            startActivity(intent); //启动浏览器
 
-            dialogLoading(CommonUtils.getVerName(SettingsActivity.this),updateVersion);
+            dialogLoading(CommonUtils.getVerName(SettingsActivity.this),updateVersion,updateContent);
+
 
             //downloadBinder.startDownload();
         }
@@ -198,11 +204,11 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    private  void dialogLoading(String oldVersion,String newVersion){
+    private  void dialogLoading(String oldVersion,String newVersion,String updateContent){
         final UpdateDialog dialog = new UpdateDialog(this);
 
 
-        dialog.setMessage("当前版本：V" + oldVersion + " 更新版本：V" + newVersion)
+        dialog.setMessage("当前版本：V" + oldVersion + "\n更新版本：V" + newVersion + "\n更新内容:\n" + updateContent)
                 .setOnClickBottomListener(new UpdateDialog.OnClickBottomListener() {
                     @Override
                     public void onMarketClick() {

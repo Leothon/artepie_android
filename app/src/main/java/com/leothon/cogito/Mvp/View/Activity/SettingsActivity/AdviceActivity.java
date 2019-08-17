@@ -89,7 +89,7 @@ public class AdviceActivity extends BaseActivity {
         feedbackInfo.setBuildApi(String.valueOf(CommonUtils.getBuildLevel()));
         feedbackInfo.setDeviceBrand(CommonUtils.getPhoneBrand());
         feedbackInfo.setDeviceModel(CommonUtils.getPhoneModel());
-        feedbackInfo.setVersionCode(CommonUtils.getVersionCode(this));
+        feedbackInfo.setVersionCode(String.valueOf(CommonUtils.getVersionCode(this)));
 
     }
 

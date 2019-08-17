@@ -29,17 +29,19 @@
             </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/float_btn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right|bottom"-->
-            <!--android:layout_marginEnd="20dp"-->
-            <!--android:layout_marginBottom="70dp"-->
-            <!--app:fabSize="mini"-->
-            <!--android:src="@drawable/ask"-->
-            <!--app:rippleColor="@color/contentColor"-->
-            <!--app:elevation="6dp" />-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_btn_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="70dp"
+            app:fabSize="mini"
+            android:src="@drawable/totop"
+            android:tint="@color/fontColor"
+            app:backgroundTint="@color/white"
+            app:rippleColor="@color/contentColor"
+            app:elevation="6dp" />
         </android.support.design.widget.CoordinatorLayout>
 
 

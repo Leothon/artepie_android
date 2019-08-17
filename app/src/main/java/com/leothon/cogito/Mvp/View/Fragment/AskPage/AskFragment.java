@@ -91,8 +91,8 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
     TextView title;
     @BindView(R.id.toolbar_subtitle)
     TextView subtitle;
-//    @BindView(R.id.float_btn)
-//    FloatingActionButton floatBtn;
+    @BindView(R.id.float_btn_top)
+    FloatingActionButton floatBtnTop;
 
     private AskAdapter askAdapter;
     private ArrayList<QAData> asks;
@@ -193,6 +193,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
         showShareDialog();
 
+        animationHide();
     }
 
 
@@ -290,6 +291,27 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+
+                //获得recyclerView的线性布局管理器
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //获取到第一个item的显示的下标  不等于0表示第一个item处于不可见状态 说明列表没有滑动到顶部 显示回到顶部按钮
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+                // 当不滚动时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // 判断是否滚动超过一屏
+                    if (firstVisibleItemPosition == 0) {
+                        animationHide();
+                    } else {
+                        //显示回到顶部按钮
+                        animationShow();
+                    }
+                    //获取RecyclerView滑动时候的状态
+                } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {//拖动中
+                    animationHide();
+                }
+
+
 
                 switch (newState) {
                     case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
@@ -423,32 +445,27 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
         });
     }
 
-//    private void animationHide(){
-//        hostActivity.hideBottomBtn();
-//        floatBtn.hide();
-//        floatBtn.startAnimation(viewHideAnim);
-//
-//    }
-//
-//    private void animationShow(){
-//        hostActivity.showBottomBtn();
-//        floatBtn.show();
-//        floatBtn.startAnimation(viewShowAnim);
-//
-//    }
-//    @OnClick(R.id.float_btn)
-//    public void addcontent(View view){
-//
-//        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-//            CommonUtils.loadinglogin(getMContext());
-//        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
-//            Bundle bundle = new Bundle();
-//            bundle.putString("type","write");
-//            IntentUtils.getInstence().intent(getMContext(), AskActivity.class,bundle);
-//        }
-//
-//
-//    }
+    private void animationHide(){
+        //hostActivity.hideBottomBtn();
+        floatBtnTop.hide();
+        floatBtnTop.startAnimation(viewHideAnim);
+
+    }
+
+    private void animationShow(){
+        //hostActivity.showBottomBtn();
+        floatBtnTop.show();
+        floatBtnTop.startAnimation(viewShowAnim);
+
+    }
+    @OnClick(R.id.float_btn_top)
+    public void toTopVideo(View view){
+
+        rvAsk.scrollToPosition(0);
+
+        animationHide();
+
+    }
 
 
     private BottomSheetDialog shareDialog;
@@ -518,6 +535,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 bundleto.putSerializable("qa",asks.get(position));
                 IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("1",fragmentsharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(getMContext()).show("已获得1个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }
@@ -530,6 +548,7 @@ public class AskFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
                 bundleto.putSerializable("qa",asks.get(position));
                 IntentUtils.getInstence().intent(getMContext(), WXEntryActivity.class,bundleto);
                 CommonUtils.addCoinAndUpdateInfo("1",fragmentsharedPreferencesUtils.getParams("token","").toString(),getDAOSession());
+                MyToast.getInstance(getMContext()).show("已获得1个艺币",Toast.LENGTH_SHORT);
                 shareDialog.dismiss();
 
             }
