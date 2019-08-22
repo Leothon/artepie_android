@@ -26,5 +26,7 @@ public class Constants {
 
 
 
+    public static final String JPushAppKey = "62293066b1c78ee4811e929f";
+
 
 }

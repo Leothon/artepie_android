@@ -31,6 +31,7 @@ import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.leothon.cogito.Weight.MDCheckBox;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -71,6 +72,10 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
     MaterialEditText uploadClassPrice;
     @BindView(R.id.rv_type_upload_class)
     RecyclerView rvType;
+
+
+    @BindView(R.id.serialize_class_choice)
+    MDCheckBox serializeClassChoice;
     ZLoadingDialog dialog = new ZLoadingDialog(UploadClassActivity.this);
 
     private UploadClassAdapter walletAdapter;
@@ -95,6 +100,8 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
 
     @Override
     public void initView() {
+
+        serializeClassChoice.setChecked(false);
         if (bundle.get("type").equals("create")){
             setToolbarTitle("新建课程");
             setToolbarSubTitle("创建完成");
@@ -143,6 +150,9 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
                             selectClass.setSelectdesc(descClassUpload.getText().toString());
                             selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
                             selectClass.setSelectprice(uploadClassPrice.getText().toString());
+
+                            selectClass.setSerialize(!serializeClassChoice.isChecked());
+
                             if (chooseType.equals("")){
                                 selectClass.setType(editSelectClass.getType());
                             }else {
@@ -169,6 +179,21 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
                 }else {
                     addPriceRl.setVisibility(View.GONE);
                     uploadClassPrice.setText("");
+                }
+            }
+        });
+
+
+        serializeClassChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (serializeClassChoice.isChecked()){
+                    serializeClassChoice.setChecked(false);
+
+
+                }else {
+                    serializeClassChoice.setChecked(true);
+
                 }
             }
         });
@@ -373,13 +398,13 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
         if (bundle.get("type").equals("create")){
             SelectClass selectClass = new SelectClass();
             selectClass.setSelectauthor(userEntity.getUser_name());
-            selectClass.setSelectauthordes(userEntity.getUser_role().substring(1));
             selectClass.setSelectauthorid(userEntity.getUser_id());
             selectClass.setSelectbackimg(url);
             selectClass.setSelectdesc(descClassUpload.getText().toString());
             selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
             selectClass.setSelectprice(uploadClassPrice.getText().toString());
             selectClass.setType(chooseType);
+            selectClass.setSerialize(!serializeClassChoice.isChecked());
             uploadClassPresenter.createClass(selectClass);
         }else {
             SelectClass selectClass = new SelectClass();
@@ -388,6 +413,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
             selectClass.setSelectdesc(descClassUpload.getText().toString());
             selectClass.setSelectlisttitle(titleClassUpload.getText().toString());
             selectClass.setSelectprice(uploadClassPrice.getText().toString());
+            selectClass.setSerialize(!serializeClassChoice.isChecked());
             if (chooseType.equals("")){
                 selectClass.setType(editSelectClass.getType());
             }else {
@@ -420,6 +446,7 @@ public class UploadClassActivity extends BaseActivity implements UploadClassCont
             addPriceRl.setVisibility(View.VISIBLE);
             uploadClassPrice.setText(selectClass.getSelectprice());
         }
+        serializeClassChoice.setChecked(!selectClass.isSerialize());
 
     }
 

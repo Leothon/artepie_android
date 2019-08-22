@@ -313,7 +313,12 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @OnClick(R.id.search)
     public void toSearch(View v) {
-        IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
+
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            CommonUtils.loadinglogin(getMContext());
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
+        }
     }
 
     @Override

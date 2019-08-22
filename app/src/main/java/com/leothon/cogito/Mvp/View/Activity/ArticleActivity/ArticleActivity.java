@@ -304,9 +304,14 @@ public class ArticleActivity extends BaseActivity implements ArticleContract.IAr
 
     @OnClick(R.id.share_article)
     public void ShareArticle(View view){
+        if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
+            shareDialog.show();
+        }else {
+            CommonUtils.loadinglogin(this);
+        }
 
         //MyToast.getInstance(this).show("暂不支持分享",Toast.LENGTH_SHORT);
-        shareDialog.show();
+
     }
 
 

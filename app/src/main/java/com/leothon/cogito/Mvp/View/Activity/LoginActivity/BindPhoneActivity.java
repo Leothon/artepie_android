@@ -159,7 +159,7 @@ public class BindPhoneActivity extends BaseActivity implements  LoginContract.IL
                 // 验证码验证成功，code 为验证码信息。
                 showLoadingAnim();
                 MyToast.getInstance(BindPhoneActivity.this).show("验证成功",Toast.LENGTH_SHORT);
-                User user = bundle.getParcelable("user");
+                User user = (User)bundle.getSerializable("user");
                 user.setUser_phone(phoneBind.getText().toString() + "");
                 if (qqOrWechat == 1){
 

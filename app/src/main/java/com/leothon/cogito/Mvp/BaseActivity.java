@@ -64,6 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private String[] permissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.RECORD_AUDIO,
     };
     protected final String TAG = this.getClass().getSimpleName();
 

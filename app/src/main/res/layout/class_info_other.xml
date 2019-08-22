@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/serialize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/serializebtn"
+        android:text="已完结"
+        android:textSize="@dimen/tipsSize"
+        android:textColor="@color/colorAccent"
+        android:padding="3dp"
+        />
+    <TextView
+        android:id="@+id/authorize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/authorize"
+        android:layout_toRightOf="@+id/serialize"
+        android:text="官方课程"
+        android:textColor="@color/white"
+        android:textSize="@dimen/tipsSize"
+        android:padding="3dp"
+        android:layout_marginLeft="8dp"/>
+
+
+</RelativeLayout>

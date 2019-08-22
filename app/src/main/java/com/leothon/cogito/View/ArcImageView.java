@@ -3,6 +3,8 @@ package com.leothon.cogito.View;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
 
 import android.support.annotation.Nullable;
@@ -42,6 +44,7 @@ public class ArcImageView extends AppCompatImageView {
         path.lineTo(getWidth(), 0);
         path.close();
         canvas.clipPath(path);
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
         super.onDraw(canvas);
     }
 }

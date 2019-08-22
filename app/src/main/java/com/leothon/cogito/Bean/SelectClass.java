@@ -30,6 +30,26 @@ public class SelectClass  extends BaseResponse implements Serializable {
 
     private String type;
 
+    private boolean serialize;
+
+    public boolean isSerialize() {
+        return serialize;
+    }
+
+    public void setSerialize(boolean serialize) {
+        this.serialize = serialize;
+    }
+
+    private boolean authorize;
+
+    public boolean isAuthorize() {
+        return authorize;
+    }
+
+    public void setAuthorize(boolean authorize) {
+        this.authorize = authorize;
+    }
+
     public String getType() {
         return type;
     }

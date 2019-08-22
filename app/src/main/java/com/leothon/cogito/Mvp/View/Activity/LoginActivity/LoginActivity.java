@@ -23,9 +23,12 @@ import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
+import com.leothon.cogito.Mvp.View.Activity.IMActivity.IMActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharePreferenceManager;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -44,6 +47,9 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.options.RegisterOptionalUserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.jpush.sms.SMSSDK;
 import cn.jpush.sms.listener.SmscheckListener;
 import cn.jpush.sms.listener.SmscodeListener;
@@ -194,6 +200,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 }
             }
         });
+
+
 
 
 
@@ -355,13 +363,30 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     @Override
     public void registerORloginSuccess(User user) {
-        hideLoadingAnim();
+
         MyToast.getInstance(this).show("成功!",Toast.LENGTH_SHORT);
 
 
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
         getDAOSession().insert(userEntity);
-        LoginSuccess();
+        RegisterOptionalUserInfo optionalUserInfo = new RegisterOptionalUserInfo();
+        optionalUserInfo.setNickname(userEntity.getUser_name());
+        optionalUserInfo.setAvatar(userEntity.getUser_icon());
+        optionalUserInfo.setSignature(userEntity.getUser_signal());
+        JMessageClient.register(userEntity.getUser_id(), userEntity.getUser_id(), optionalUserInfo, new BasicCallback() {
+            @Override
+            public void gotResult(int code, String s) {
+
+                Log.e(TAG, "gotResult: " + code);
+                if (code == 0) {
+                    //注册成功，可进行相应的逻辑操作
+
+                    LoginSuccess(user);
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -440,16 +465,48 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     public void qqUserRegisterSuccess(User user) {
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
         getDAOSession().insert(userEntity);
-        hideLoadingAnim();
-        LoginSuccess();
+        RegisterOptionalUserInfo optionalUserInfo = new RegisterOptionalUserInfo();
+        optionalUserInfo.setNickname(userEntity.getUser_name());
+        optionalUserInfo.setAvatar(userEntity.getUser_icon());
+        optionalUserInfo.setSignature(userEntity.getUser_signal());
+        JMessageClient.register(userEntity.getUser_id(), userEntity.getUser_id(), optionalUserInfo, new BasicCallback() {
+            @Override
+            public void gotResult(int code, String s) {
+
+                Log.e(TAG, "gotResult: " + code);
+                if (code == 0 || code == 898001) {
+                    //注册成功，可进行相应的逻辑操作
+
+                    LoginSuccess(user);
+                }
+            }
+        });
+
+
     }
 
     @Override
     public void weChatUserRegisterSuccess(User user) {
         UserEntity userEntity = new UserEntity(user.getUser_id(),user.getUser_name(),user.getUser_icon(),user.getUser_birth(),user.getUser_sex(),user.getUser_signal(),user.getUser_address(),user.getUser_password(),user.getUser_token(),user.getUser_status(),user.getUser_register_time(),user.getUser_register_ip(),user.getUser_lastlogin_time(),user.getUser_phone(),user.getUser_role(),user.getUser_balance(),user.getUser_art_coin());
         getDAOSession().insert(userEntity);
-        hideLoadingAnim();
-        LoginSuccess();
+        RegisterOptionalUserInfo optionalUserInfo = new RegisterOptionalUserInfo();
+        optionalUserInfo.setNickname(userEntity.getUser_name());
+        optionalUserInfo.setAvatar(userEntity.getUser_icon());
+        optionalUserInfo.setSignature(userEntity.getUser_signal());
+        JMessageClient.register(userEntity.getUser_id(), userEntity.getUser_id(), optionalUserInfo, new BasicCallback() {
+            @Override
+            public void gotResult(int code, String s) {
+
+                Log.e(TAG, "gotResult: " + code);
+                if (code == 0 || code == 898001) {
+                    //注册成功，可进行相应的逻辑操作
+
+                    LoginSuccess(user);
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -457,7 +514,25 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
     }
 
-    private void LoginSuccess(){
+    private void LoginSuccess(User user){
+
+        JMessageClient.login(user.getUser_id(), user.getUser_id(), new BasicCallback() {
+            @Override
+            public void gotResult(final int status, final String desc) {
+
+                Log.e(TAG, "gotResult: 执行" + status + "  " + desc);
+                if (status == 0) {
+                    String username = JMessageClient.getMyInfo().getUserName();
+                    SharePreferenceManager.setCachedUsername(username);
+                    String appKey = JMessageClient.getMyInfo().getAppKey();
+
+                } else {
+                    Log.e("LoginActivity", "status = " + status);
+                }
+            }
+        });
+        hideLoadingAnim();
+
         Bundle bundle = new Bundle();
         bundle.putString("type","home");
         IntentUtils.getInstence().intent(LoginActivity.this,HostActivity.class,bundle);

@@ -81,6 +81,16 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }else {
                 classItemHolder.classPrice.setText("￥" + typeClass.getTypeClass().get(realposition).getSelectprice());
             }
+            if (typeClass.getTypeClass().get(realposition).isAuthorize()){
+                classItemHolder.authorize.setVisibility(View.VISIBLE);
+            }else {
+                classItemHolder.authorize.setVisibility(View.GONE);
+            }
+            if (typeClass.getTypeClass().get(realposition).isSerialize()){
+                classItemHolder.serialize.setText(" 连载中... ");
+            }else {
+                classItemHolder.serialize.setText(" 已完结 ");
+            }
 
             classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -241,6 +251,10 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView classPrice;
         @BindView(R.id.class_count)
         TextView classCount;
+        @BindView(R.id.serialize)
+        TextView serialize;
+        @BindView(R.id.authorize)
+        TextView authorize;
         public ClassItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

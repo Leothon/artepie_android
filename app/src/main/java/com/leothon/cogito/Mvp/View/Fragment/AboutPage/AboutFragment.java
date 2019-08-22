@@ -78,7 +78,7 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     TextView searchTitle;
 
     @BindView(R.id.backimg_about)
-    ArcImageView backImg;
+    ImageView backImg;
     @BindView(R.id.usericon_about)
     RoundedImageView userIcon;
     @BindView(R.id.username_about)
@@ -98,6 +98,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
     @BindView(R.id.auth_mark_about)
     AuthView authMark;
 //    private boolean isCheck = false;
+
+    @BindView(R.id.tv_to_individual)
+    RelativeLayout tvToIndividual;
 
     private AboutPresenter aboutPresenter;
     private UserEntity userEntity;
@@ -250,7 +253,13 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
 //    }
     @OnClick(R.id.search)
     public void searchAbout(View view){
-        IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
+
+        if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            CommonUtils.loadinglogin(getMContext());
+        }else if ((boolean)fragmentsharedPreferencesUtils.getParams("login",false)){
+            IntentUtils.getInstence().intent(getMContext(), SearchActivity.class);
+        }
+
     }
 
 //    @OnClick(R.id.backimg_about)
@@ -311,6 +320,10 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         toUploadPage();
     }
 
+    @OnClick(R.id.tv_to_individual)
+    public void tvToIndividual(View v){
+        toPersonPage();
+    }
     /**
      * 跳转订阅
      * @param v

@@ -17,8 +17,8 @@ android {
         applicationId "com.leothon.cogito"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 8
-        versionName "2.1.5"
+        versionCode 10
+        versionName "2.3.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -65,8 +65,6 @@ greendao {
     daoPackage 'com.leothon.cogito.DataBase' // 一般为app包名+生成文件的文件夹名
     targetGenDir 'src/main/java' //生成文件路径
 }
-
-
 
 
 dependencies {
@@ -132,4 +130,11 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
     //implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC2'
 
+    implementation 'cn.jiguang.imui:messagelist:0.4.3'
+
+    implementation 'cn.jiguang.imui:chatinput:0.4.3'
+
+
+    implementation 'cn.jiguang.sdk:jmessage:2.9.0'  // 此处以JMessage 2.9.0 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:2.0.0'  // 此处以JCore 2.0.0 版本为例。
 }

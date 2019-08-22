@@ -1,4 +1,5 @@
 package com.leothon.cogito.Mvp.View.Activity.IndividualActivity;
+import	java.util.function.Predicate;
 
 import android.content.Intent;
 
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.Bean.User;
+import com.leothon.cogito.Constants;
 import com.leothon.cogito.GreenDao.UserEntity;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
@@ -27,6 +29,7 @@ import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditClassActivity.EditClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.EditIndividualActivity.EditIndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.FollowAFansActivity.FollowAFansActivity;
+import com.leothon.cogito.Mvp.View.Activity.IMActivity.IMActivity;
 import com.leothon.cogito.Mvp.View.Activity.QAHisActivity.QAHisActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.VSureActivity.VSureActivity;
@@ -34,9 +37,11 @@ import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.IntentUtils;
+import com.leothon.cogito.Utils.SharePreferenceManager;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.luck.picture.lib.tools.Constant;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +53,11 @@ import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.android.api.options.RegisterOptionalUserInfo;
+import cn.jpush.im.api.BasicCallback;
 import io.reactivex.disposables.Disposable;
 
 public class IndividualActivity extends BaseActivity {
@@ -83,8 +93,9 @@ public class IndividualActivity extends BaseActivity {
     @BindView(R.id.visit_other_user_qa)
     RelativeLayout visitOtherQa;
 
-//    @BindView(R.id.make_upload_class)
-//    RelativeLayout makeUploadClass;
+    @BindView(R.id.message_to)
+    RelativeLayout messageTo;
+
     private Bundle bundle;
     private Intent intent;
 
@@ -122,7 +133,7 @@ public class IndividualActivity extends BaseActivity {
             followBtn.setVisibility(View.VISIBLE);
             vSure.setVisibility(View.GONE);
             //makeUploadClass.setVisibility(View.GONE);
-
+            messageTo.setVisibility(View.VISIBLE);
             visitOtherQa.setVisibility(View.VISIBLE);
             showLoadingAnim();
             RetrofitServiceManager.getInstance().create(HttpService.class)
@@ -190,6 +201,7 @@ public class IndividualActivity extends BaseActivity {
             visitOtherQa.setVisibility(View.GONE);
             followBtn.setVisibility(View.GONE);
             vSure.setVisibility(View.VISIBLE);
+            messageTo.setVisibility(View.GONE);
             //makeUploadClass.setVisibility(View.VISIBLE);
             setToolbarSubTitle("编辑个人资料");
             setToolbarTitle("");
@@ -254,6 +266,21 @@ public class IndividualActivity extends BaseActivity {
 //
 //
 //    }
+
+
+
+    @OnClick(R.id.message_to)
+    public void messageTo(View v) {
+
+        Intent intent = new Intent(IndividualActivity.this, IMActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("targetAppKey", JMessageClient.getMyInfo().getAppKey());
+        intent.putExtra("targetId", otherUser.getUser_id());
+        IndividualActivity.this.startActivity(intent);
+
+    }
+
+
 
     @OnClick(R.id.follow_btn)
     public void followBtn(View view){

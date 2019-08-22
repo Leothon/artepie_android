@@ -102,6 +102,17 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }else {
                 selectHeadHolder.selectClassPrice.setText("￥ " + classDetail.getTeaClasss().getSelectprice());
             }
+
+            if (classDetail.getTeaClasss().isAuthorize()){
+                selectHeadHolder.authorize.setVisibility(View.VISIBLE);
+            }else {
+                selectHeadHolder.authorize.setVisibility(View.GONE);
+            }
+            if (classDetail.getTeaClasss().isSerialize()){
+                selectHeadHolder.serialize.setText(" 连载中... ");
+            }else {
+                selectHeadHolder.serialize.setText(" 已完结 ");
+            }
             selectHeadHolder.selectClassFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -259,6 +270,11 @@ public class SelectClassAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView selectClassFav;
         @BindView(R.id.select_class_share)
         ImageView selectClassShare;
+
+        @BindView(R.id.serialize)
+        TextView serialize;
+        @BindView(R.id.authorize)
+        TextView authorize;
         public SelectHeadHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

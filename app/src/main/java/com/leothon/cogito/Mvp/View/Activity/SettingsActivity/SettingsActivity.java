@@ -44,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -243,7 +244,7 @@ public class SettingsActivity extends BaseActivity {
         bundleto.putString("wechat","");
         IntentUtils.getInstence().intent(SettingsActivity.this, LoginActivity.class,bundleto);
         mTencent.logout(this);
-
+        JMessageClient.logout();
         finish();
     }
 

@@ -22,6 +22,8 @@ import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.Weight.CommonDialog;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -178,6 +180,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             foryouholder.foryouAuthor.setText(selectClasses.get(videoPosition).getSelectauthor());
             foryouholder.foryouCount.setText(selectClasses.get(videoPosition).getSelectstucount() + "人次已学习");
             String price = selectClasses.get(videoPosition).getSelectprice();
+            if (selectClasses.get(videoPosition).isAuthorize()){
+                foryouholder.authorize.setVisibility(View.VISIBLE);
+            }else {
+                foryouholder.authorize.setVisibility(View.INVISIBLE);
+            }
+            if (selectClasses.get(videoPosition).isSerialize()){
+                foryouholder.serialize.setText(" 连载中... ");
+            }else {
+                foryouholder.serialize.setText(" 已完结 ");
+            }
+
             if (selectClasses.get(videoPosition).isIsbuy()){
                 foryouholder.foryouPrice.setText("已购买");
             }else if (price.equals("0.00")){
@@ -360,6 +373,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
+    /**
+     *
+     */
     class foryouHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.foryou_iv)
         ImageView foryouIV;
@@ -371,6 +387,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView foryouAuthor;
         @BindView(R.id.foryou_count)
         TextView foryouCount;
+        @BindView(R.id.serialize)
+        TextView serialize;
+        @BindView(R.id.authorize)
+        TextView authorize;
         public foryouHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);

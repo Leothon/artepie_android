@@ -19,6 +19,7 @@ import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.OssUtils;
+import com.leothon.cogito.Utils.SharePreferenceManager;
 import com.leothon.cogito.View.MyToast;
 import com.squareup.leakcanary.LeakCanary;
 import com.wanjian.cockroach.App;
@@ -28,11 +29,16 @@ import com.wanjian.cockroach.Cockroach;
 import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.sms.SMSSDK;
 
 public class BaseApplication extends Application {
     private static BaseApplication application;
     public static WindowManager mWdm;
+
+    private static String SAMPLE_CONFIGS = "sample_configs";
+    public static String PICTURE_DIR = "sdcard/JChatDemo/pictures/";
+    public static String FILE_DIR = "sdcard/JChatDemo/recvFiles/";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,6 +62,11 @@ public class BaseApplication extends Application {
 
             }
         }).start();
+
+        JMessageClient.init(this,true);
+        SharePreferenceManager.init(this, SAMPLE_CONFIGS);
+        JMessageClient.setNotificationMode(JMessageClient.NOTI_MODE_DEFAULT);
+        JMessageClient.setDebugMode(true);
 
 
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
