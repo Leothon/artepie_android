@@ -1,6 +1,8 @@
 package com.leothon.cogito.Utils;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -17,6 +19,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -49,8 +52,10 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Mvp.View.Activity.IMActivity.IMActivity;
 import com.leothon.cogito.Mvp.View.Activity.LoginActivity.LoginActivity;
 import com.leothon.cogito.Mvp.View.Activity.SuccessActivity.SuccessActivity;
+import com.leothon.cogito.R;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
 
@@ -78,6 +83,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.jpush.im.android.api.JMessageClient;
 import io.reactivex.disposables.Disposable;
 
 import static com.shuyu.gsyvideoplayer.GSYVideoADManager.TAG;
@@ -220,6 +226,26 @@ public class CommonUtils {
         return null;
     }
 
+
+    public static void showMessageIcon(Context context,String name,String content,String fromId) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        Intent intent = new Intent(context, IMActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("targetAppKey", JMessageClient.getMyInfo().getAppKey());
+        intent.putExtra("targetId", fromId);
+        context.startActivity(intent);
+        builder.setAutoCancel(true);//点击后消失
+        builder.setSmallIcon(R.drawable.icon);//设置通知栏消息标题的头像
+        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+        builder.setTicker("收到@" + name + "的私信");
+        builder.setContentTitle("私信");
+        builder.setContentText(content);
+        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
+        PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(intentPend);
+        NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
 
     public static String stringto(String rebate) {
         int rebateprice = Integer.parseInt(rebate);

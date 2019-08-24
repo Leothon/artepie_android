@@ -7,6 +7,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
@@ -19,6 +20,7 @@ public class MyJpushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("sdsdsdsdsdsdsdsds", "onReceive: " + intent.getAction());
         if(intent.getAction().equals(JPushInterface.ACTION_MESSAGE_RECEIVED)){
 
             SharedPreferencesUtils sharedPreferencesUtils = new SharedPreferencesUtils(context,"artSettings");

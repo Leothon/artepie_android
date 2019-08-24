@@ -335,6 +335,10 @@ public interface HttpService {
     @GET("getnoticeinfo")
     Observable<BaseResponse<ArrayList<NoticeInfo>>> getNoticeInfo(@Query("token") String token);
 
+
+    @GET("getmorenoticeinfo")
+    Observable<BaseResponse<ArrayList<NoticeInfo>>> getMoreNoticeInfo(@Query("current") int page,@Query("token") String token);
+
     /**
      * 获取该用户的认证信息
      * @param token

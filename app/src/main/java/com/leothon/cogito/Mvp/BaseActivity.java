@@ -2,11 +2,17 @@ package com.leothon.cogito.Mvp;
 
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +22,7 @@ import android.provider.Settings;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +37,8 @@ import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.github.anzewei.parallaxbacklayout.widget.ParallaxBackLayout;
 import com.leothon.cogito.Base.BaseApplication;
 import com.leothon.cogito.DataBase.DaoSession;
+import com.leothon.cogito.Mvp.View.Activity.IMActivity.IMActivity;
+import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.FitUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
@@ -49,6 +58,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 
 import static com.github.anzewei.parallaxbacklayout.widget.ParallaxBackLayout.EDGE_MODE_FULL;
 
@@ -83,6 +93,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@NonNull Bundle savedInstanceState) {
         Log.e(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
+
+        JMessageClient.registerEventReceiver(this);
         //FitUtils.autoFit(this,false);
         FitUtils.serCustomDensity(this,getApplication());
         if (!EventBus.getDefault().isRegistered(this)){
@@ -364,8 +376,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.e(TAG, "onDestroy: ");
         super.onDestroy();
         baseApplication = null;
+
+        JMessageClient.unRegisterEventReceiver(this);
         if (EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().unregister(this);
         }
     }
+
+
+
+
+
 }

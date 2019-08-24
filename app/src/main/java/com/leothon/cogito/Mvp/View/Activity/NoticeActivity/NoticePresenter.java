@@ -23,6 +23,13 @@ public class NoticePresenter implements NoticeContract.INoticePresenter,NoticeCo
     }
 
     @Override
+    public void loadMoreNoticeInfo(ArrayList<NoticeInfo> noticeInfos) {
+        if (iNoticeView != null){
+            iNoticeView.loadMoreNoticeInfo(noticeInfos);
+        }
+    }
+
+    @Override
     public void setNoticeVisibleSuccess(String msg) {
         if (iNoticeView != null){
             iNoticeView.setNoticeVisibleSuccess(msg);
@@ -48,6 +55,11 @@ public class NoticePresenter implements NoticeContract.INoticePresenter,NoticeCo
     @Override
     public void getNoticeInfo(String token) {
         iNoticeModel.getNoticeInfo(token,this);
+    }
+
+    @Override
+    public void getMoreNoticeInfo(int page, String token) {
+        iNoticeModel.getMoreNoticeInfo(page,token,this);
     }
 
     @Override

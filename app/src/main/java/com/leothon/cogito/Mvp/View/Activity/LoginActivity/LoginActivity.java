@@ -378,7 +378,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
             public void gotResult(int code, String s) {
 
                 Log.e(TAG, "gotResult: " + code);
-                if (code == 0) {
+                if (code == 0 || code == 898001) {
                     //注册成功，可进行相应的逻辑操作
 
                     LoginSuccess(user);
@@ -400,7 +400,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
         }else if (msg.equals("1")){
 
-            //TODO 跳转至短信验证
 
 
             User user = new User();

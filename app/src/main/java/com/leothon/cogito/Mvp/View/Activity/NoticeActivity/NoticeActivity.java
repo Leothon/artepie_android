@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.NoticeAdapter;
 import com.leothon.cogito.Bean.NoticeInfo;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Message.NoticeMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.AskDetailActivity.AskDetailActivity;
@@ -97,6 +98,29 @@ public class NoticeActivity extends BaseActivity implements NoticeContract.INoti
     }
 
     @Override
+    public void loadMoreNoticeInfo(ArrayList<NoticeInfo> noticeInfos) {
+
+//        boolean isHasUnRead = false;
+//        for (int i = 0;i < noticeInfos.size();i ++){
+//            if (noticeInfos.get(i).getNoticeStatus() == 0){
+//                isHasUnRead = true;
+//                break;
+//            }
+//        }
+//        if (isHasUnRead){
+//            getToolbarSubTitle().setTextColor(Color.parseColor("#f26402"));
+//        }
+        if (swpNotice.isRefreshing()){
+            swpNotice.setRefreshing(false);
+        }
+        for (int i = 0;i < noticeInfos.size(); i++){
+            this.noticeInfos.add(noticeInfos.get(i));
+
+        }
+        noticeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setNoticeVisibleSuccess(String msg) {
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
@@ -123,8 +147,18 @@ public class NoticeActivity extends BaseActivity implements NoticeContract.INoti
     private void initAdapter(){
         swpNotice.setOnRefreshListener(this);
         noticeAdapter = new NoticeAdapter(this,noticeInfos);
-        rvNotice.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rvNotice.setLayoutManager(mlinearLayoutManager);
         rvNotice.setAdapter(noticeAdapter);
+
+
+        rvNotice.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpNotice.setRefreshing(true);
+                noticePresenter.getMoreNoticeInfo(currentPage * 15,activitysharedPreferencesUtils.getParams("token","").toString());
+            }
+        });
         noticeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {

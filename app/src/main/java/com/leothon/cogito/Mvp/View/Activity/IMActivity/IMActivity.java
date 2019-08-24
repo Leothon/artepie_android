@@ -23,9 +23,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+
 import com.leothon.cogito.Bean.JMUserInfo;
 import com.leothon.cogito.Message.JMUIMessage;
-
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.HostActivity.HostActivity;
 import com.leothon.cogito.R;
@@ -82,7 +83,7 @@ public class IMActivity extends BaseActivity implements ChatView.OnKeyboardChang
     public void initView() {
         setToolbarSubTitle("");
         mChatView = (ChatView) findViewById(R.id.chat_view);
-        JMessageClient.registerEventReceiver(this);
+//        JMessageClient.registerEventReceiver(this);
         mContext = this;
         mMyInfo = JMessageClient.getMyInfo();
         try {

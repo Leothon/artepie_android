@@ -43,6 +43,35 @@ public class NoticeModel implements NoticeContract.INoticeModel {
     }
 
     @Override
+    public void getMoreNoticeInfo(int page,String token, NoticeContract.OnNoticeFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getMoreNoticeInfo(page,token)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        ArrayList<NoticeInfo> noticeInfos = (ArrayList<NoticeInfo>)baseResponse.getData();
+                        listener.loadMoreNoticeInfo(noticeInfos);
+                    }
+                });
+    }
+
+    @Override
     public void setNoticeVisible(String token, String noticeId, final NoticeContract.OnNoticeFinishedListener listener) {
 
         RetrofitServiceManager.getInstance().create(HttpService.class)

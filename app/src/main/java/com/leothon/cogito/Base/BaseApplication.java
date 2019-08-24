@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.github.anzewei.parallaxbacklayout.ParallaxHelper;
 import com.leothon.cogito.DataBase.DaoMaster;
 import com.leothon.cogito.DataBase.DaoSession;
+import com.leothon.cogito.Message.JMUIMessage;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.OssUtils;
 import com.leothon.cogito.Utils.SharePreferenceManager;
@@ -69,6 +70,9 @@ public class BaseApplication extends Application {
         JMessageClient.setDebugMode(true);
 
 
+
+
+
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.
@@ -77,6 +81,8 @@ public class BaseApplication extends Application {
 //        LeakCanary.install(this);
 
     }
+
+
 
     public static Context getApplication(){
         return application;
@@ -182,6 +188,8 @@ public class BaseApplication extends Application {
 //        });
 //
 //    }
+
+
 }
 
 
