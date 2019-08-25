@@ -1,72 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="3dp"
-    app:cardCornerRadius="5dp"
-    android:layout_marginStart="5dp"
+    android:layout_marginStart="15dp"
     android:layout_marginTop="10dp"
-    android:layout_marginEnd="5dp"
-    app:cardBackgroundColor="@color/white"
-    android:foreground="?attr/selectableItemBackground">
+    android:layout_marginEnd="15dp"
+    android:background="@drawable/gradient_all">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/foryou_iv"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:riv_corner_radius="5dp"
+                    app:riv_corner_radius="15dp" />
 
-                    android:foreground="@drawable/gradient_background"/>
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" >
 
-                        <include
-                            android:layout_below="@+id/class_all_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            layout="@layout/class_info_other"/>
+
+
                         <RelativeLayout
                             android:id="@+id/class_all_info"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="5dp">
+                            android:layout_margin="10dp"
+                            android:layout_gravity="center_vertical">
                                 <TextView
                                     android:id="@+id/foryou_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="这个地方显示视频的标题"
                                     android:textSize="@dimen/littleTitle"
+                                    android:textStyle="bold"
                                     android:maxLines="1"
                                     android:textColor="@color/black" />
 
                                 <TextView
                                     android:layout_below="@+id/foryou_tv"
-                                    android:layout_marginLeft="8dp"
                                     android:layout_marginTop="5dp"
                                     android:id="@+id/foryou_author"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="刘慈欣"
                                     android:textSize="@dimen/contentSize"
-                                    android:textColor="@color/fontColor"
+                                    android:textColor="@color/black"
                                     />
+
                                 <TextView
+                                    android:id="@+id/foryou_desc"
                                     android:layout_below="@+id/foryou_author"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="简介"
+                                    android:maxLines="2"
                                     android:layout_marginTop="5dp"
+                                    android:ellipsize="end"
+                                    android:textSize="@dimen/tipsSize"
+                                    android:textColor="@color/fontColor"/>
+
+
+                                <TextView
+                                    android:id="@+id/for_serialize"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_below="@+id/foryou_desc"
+                                    android:background="@drawable/serializebtn"
+                                    android:text="已完结"
+                                    android:textSize="@dimen/littleSize"
+                                    android:textColor="@color/white"
+                                    android:padding="3dp"
+                                    />
+
+                                <TextView
+                                    android:layout_below="@+id/for_serialize"
+                                    android:layout_marginTop="10dp"
                                     android:id="@+id/foryou_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -75,22 +91,33 @@
                                     android:textColor="@color/fontColor"
                                     />
                                 <TextView
-                                    android:layout_below="@+id/foryou_author"
+                                    android:layout_below="@+id/for_serialize"
                                     android:layout_alignParentEnd="true"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="10dp"
                                     android:id="@+id/foryou_price"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="免费"
-                                    android:textSize="@dimen/tipsSize"
+                                    android:textSize="@dimen/littleTitle"
                                     android:textColor="@color/orange"
                                     />
 
-                        </RelativeLayout>
+
                 </RelativeLayout>
 
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/for_authorize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/authorize_btn"
+            android:text="官方课程"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tipsSize"
+            android:textStyle="bold"
+            android:padding="8dp"/>
 
-</android.support.v7.widget.CardView>
+
+</RelativeLayout>

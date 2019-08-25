@@ -429,25 +429,39 @@ public class IMActivity extends BaseActivity implements ChatView.OnKeyboardChang
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
-                if (string.contains("R.drawable")) {
-                    Integer resId = getResources().getIdentifier(string.replace("R.drawable.", ""),
-                            "drawable", getPackageName());
 
-                    avatarImageView.setImageResource(resId);
-                } else {
 
-                    RequestOptions options = new RequestOptions();
+                    if (string.contains("R.drawable")) {
+                        Integer resId = getResources().getIdentifier(string.replace("R.drawable.", ""),
+                                "drawable", getPackageName());
 
-                    options.placeholder(R.drawable.defaulticon);
-                    Glide.with(getApplicationContext())
-                            .load(string)
-                            .into(avatarImageView);
-                }
+                        avatarImageView.setImageResource(resId);
+                    } else {
+
+                        RequestOptions options = new RequestOptions();
+
+                        options.placeholder(R.drawable.defaulticon);
+                        options.error(R.drawable.defaulticon);
+                        Glide.with(mContext)
+                                .load(string)
+                                .apply(options)
+                                .into(avatarImageView);
+                    }
+
+
             }
 
             @Override
             public void loadImage(ImageView imageView, String url) {
-                Glide.with(mContext).load(url).into(imageView);
+
+
+                    RequestOptions options = new RequestOptions();
+
+                    options.placeholder(R.drawable.defaulticon);
+                    options.error(R.drawable.defaulticon);
+                    Glide.with(mContext).load(url).apply(options).into(imageView);
+
+
             }
         };
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
@@ -482,6 +496,7 @@ public class IMActivity extends BaseActivity implements ChatView.OnKeyboardChang
                 JMUserInfo userInfo = message.getFromUser();
 
                 // Do something
+                Log.e(TAG, "onAvatarClick: " + userInfo.getAvatar());
             }
         });
 

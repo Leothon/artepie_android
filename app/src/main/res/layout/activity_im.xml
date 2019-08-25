@@ -4,7 +4,7 @@
     android:id="@+id/chat_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f3f3f3"
+    android:background="@color/dividerColor"
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
@@ -32,12 +32,14 @@
             app:dateTextSize="14sp"
             app:receiveBubblePaddingLeft="20dp"
             app:receiveBubblePaddingRight="10dp"
-            app:receiveTextColor="#ffffff"
-            app:receiveTextSize="18sp"
+            app:receiveBubbleColor="@color/blue"
+            app:receiveTextColor="@color/white"
+            app:receiveTextSize="@dimen/littleTitle"
             app:sendBubblePaddingLeft="10dp"
             app:sendBubblePaddingRight="20dp"
-            app:sendTextColor="#7587A8"
-            app:sendTextSize="18sp" />
+            app:sendBubbleColor="@color/pressColorAccent"
+            app:sendTextColor="@color/white"
+            app:sendTextSize="@dimen/littleTitle" />
 
     </LinearLayout>
 
@@ -48,9 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cameraBtnIcon="@drawable/aurora_menuitem_camera"
-        app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"
+        app:inputCursorDrawable="@drawable/btnbackground"
         app:inputEditTextBg="@drawable/aurora_edittext_bg"
         app:inputHint="在此输入"
+        app:inputHintColor="@color/fontColor"
+        app:inputTextSize="@dimen/littleTitle"
         app:photoBtnIcon="@drawable/aurora_menuitem_photo"
         app:sendBtnIcon="@drawable/aurora_menuitem_send"
         app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />

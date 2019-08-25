@@ -96,8 +96,10 @@ public class HostActivity extends BaseActivity  {
     BottomButton bottombtnArticle;
     @BindView(R.id.bottom_btn_ask)
     BottomButton bottombtnAsk;
-    @BindView(R.id.bottom_btn_add)
-    BottomButton bottombtnAdd;
+//    @BindView(R.id.bottom_btn_add)
+//    BottomButton bottombtnAdd;
+
+
     @BindView(R.id.bottom_btn_about)
     BottomButton bottombtnAbout;
 
@@ -284,7 +286,8 @@ public class HostActivity extends BaseActivity  {
         bottombtnHome.setTvAndIv("首页",R.drawable.homeicon);
         bottombtnArticle.setTvAndIv("艺条",R.drawable.articleicon);
         bottombtnAsk.setTvAndIv("秀吧",R.drawable.videoicon);
-        bottombtnAdd.setTvAndIv("",R.drawable.add);
+//        bottombtnAdd.setTvAndIv("",R.drawable.add);
+
         bottombtnAbout.setTvAndIv("我的",R.drawable.individualicon);
         focusOnHome();
     }

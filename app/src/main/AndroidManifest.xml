@@ -215,6 +215,9 @@
                 <category android:name="com.leothon.cogito" />
             </intent-filter>
         </receiver>
+
+
+
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -252,6 +255,7 @@
             android:name="cn.jpush.im.android.helpers.IMReceiver"
             android:enabled="true"
             android:exported="false">
+
         </receiver>
 
         <service android:name=".Service.IMService"

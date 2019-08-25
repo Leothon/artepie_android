@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Fragment.AboutPage;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 
@@ -167,6 +168,9 @@ public class AboutFragment extends BaseFragment implements AboutFragmentContract
         positionBar.setLayoutParams(layoutParams);
         positionBar.setVisibility(View.INVISIBLE);
         search.setBackgroundColor(getResources().getColor(R.color.alpha));
+        int bgID = getResources().getIdentifier("search_background", "drawable", "com.leothon.cogito");
+        Drawable bg = getResources().getDrawable(bgID);
+        searchAbout.setBackground(bg);
         searchTitle.setText("搜索相关内容");
         //TODO 根据登录信息来设定用户的各种信息
         if (!(boolean)fragmentsharedPreferencesUtils.getParams("login",false)){

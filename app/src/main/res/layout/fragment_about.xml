@@ -16,7 +16,7 @@
         layout="@layout/search"
         android:layout_below="@+id/position_bar_about"
         android:layout_width="match_parent"
-        android:layout_height="45dp"/>
+        android:layout_height="50dp"/>
 
     <ScrollView
 

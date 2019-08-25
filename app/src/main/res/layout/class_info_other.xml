@@ -11,7 +11,7 @@
         android:background="@drawable/serializebtn"
         android:text="已完结"
         android:textSize="@dimen/tipsSize"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:padding="3dp"
         />
     <TextView

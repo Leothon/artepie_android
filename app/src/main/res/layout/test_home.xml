@@ -3,18 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
+    android:layout_margin="15dp"
+    android:orientation="vertical"
     android:background="@drawable/gradient_all">
 
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="5dp"-->
-        <!--android:background="@color/dividerColor"/>-->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:paddingBottom="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,10 +36,11 @@
                     android:id="@+id/test_title1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center"/>
             </RelativeLayout>
             <RelativeLayout
@@ -60,10 +59,11 @@
                     android:id="@+id/test_title2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
             <RelativeLayout
@@ -82,10 +82,11 @@
                     android:id="@+id/test_title3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
             <RelativeLayout
@@ -104,10 +105,11 @@
                     android:id="@+id/test_title4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
         </LinearLayout>
@@ -132,10 +134,11 @@
                     android:id="@+id/test_title5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
             <RelativeLayout
@@ -154,10 +157,11 @@
                     android:id="@+id/test_title6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
             <RelativeLayout
@@ -176,10 +180,11 @@
                     android:id="@+id/test_title7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
             <RelativeLayout
@@ -199,20 +204,17 @@
                     android:id="@+id/test_title8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
+                    android:layout_alignParentBottom="true"
                     android:text="美声"
+                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
-                    android:textSize="@dimen/littleSize"
+                    android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
             </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>
 
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="5dp"-->
-        <!--android:background="@color/dividerColor"-->
-        <!--android:layout_gravity="bottom"/>-->
+
 
 </LinearLayout>

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="已经到底了"
+        android:text="人家也是有底线的!"
         android:textSize="@dimen/tipsSize"
         android:textColor="@color/fontColor"
         android:layout_centerInParent="true"

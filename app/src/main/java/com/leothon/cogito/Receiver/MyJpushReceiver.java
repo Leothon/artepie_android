@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.leothon.cogito.Message.NoticeMessage;
+import com.leothon.cogito.Mvp.View.Activity.NoticeActivity.NoticeActivity;
+import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.SharedPreferencesUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +42,8 @@ public class MyJpushReceiver extends BroadcastReceiver {
                 EventBus.getDefault().post(noticeMessage);
             }
 
+        }else if (intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_OPENED)){
+            IntentUtils.getInstence().intent(context, NoticeActivity.class);
         }
 
     }

@@ -5,6 +5,8 @@
     android:layout_height="53dp"
     android:layout_alignParentBottom="true"
     app:cardElevation="3dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:animateLayoutChanges="true">
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,15 +29,49 @@
             android:background="@drawable/ripple">
 
         </com.leothon.cogito.Weight.BottomButton>
-        <com.leothon.cogito.Weight.BottomButton
+<!--        <com.leothon.cogito.Weight.BottomButton-->
+<!--            android:id="@+id/bottom_btn_add"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/addback"-->
+<!--            android:layout_margin="10dp">-->
+
+<!--        </com.leothon.cogito.Weight.BottomButton>-->
+
+
+
+
+
+
+
+        <RelativeLayout
             android:id="@+id/bottom_btn_add"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/addback"
-            android:layout_margin="10dp">
+            android:layout_weight="1">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:riv_oval="true"
+                android:src="@drawable/addback"
+                android:layout_centerInParent="true"/>
 
-        </com.leothon.cogito.Weight.BottomButton>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/add"
+                android:layout_centerInParent="true"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+
 
 
         <com.leothon.cogito.Weight.BottomButton

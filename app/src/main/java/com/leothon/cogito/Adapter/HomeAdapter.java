@@ -180,13 +180,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             foryouholder.foryouAuthor.setText(selectClasses.get(videoPosition).getSelectauthor());
             foryouholder.foryouCount.setText(selectClasses.get(videoPosition).getSelectstucount() + "人次已学习");
             String price = selectClasses.get(videoPosition).getSelectprice();
+            foryouholder.classDesc.setText(selectClasses.get(videoPosition).getSelectdesc());
             if (selectClasses.get(videoPosition).isAuthorize()){
                 foryouholder.authorize.setVisibility(View.VISIBLE);
             }else {
                 foryouholder.authorize.setVisibility(View.INVISIBLE);
             }
             if (selectClasses.get(videoPosition).isSerialize()){
-                foryouholder.serialize.setText(" 连载中... ");
+                foryouholder.serialize.setText(" 连载中");
             }else {
                 foryouholder.serialize.setText(" 已完结 ");
             }
@@ -387,10 +388,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView foryouAuthor;
         @BindView(R.id.foryou_count)
         TextView foryouCount;
-        @BindView(R.id.serialize)
+        @BindView(R.id.for_serialize)
         TextView serialize;
-        @BindView(R.id.authorize)
+        @BindView(R.id.for_authorize)
         TextView authorize;
+        @BindView(R.id.foryou_desc)
+        TextView classDesc;
         public foryouHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
