@@ -12,6 +12,7 @@ import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.BuyClassAdapter;
 import com.leothon.cogito.Adapter.FavAdapter;
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavActivity;
 import com.leothon.cogito.Mvp.View.Activity.FavActivity.FavPresenter;
@@ -66,8 +67,16 @@ public class BuyClassActivity extends BaseActivity implements SwipeRefreshLayout
     private void initAdapter(){
         swpBuyClass.setOnRefreshListener(this);
         buyClassAdapter = new BuyClassAdapter(BuyClassActivity.this,selectClasses);
-        rvBuyClass.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rvBuyClass.setLayoutManager(linearLayoutManager);
         rvBuyClass.setAdapter(buyClassAdapter);
+        rvBuyClass.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpBuyClass.setRefreshing(true);
+                buyClassPresenter.getMoreBuyClass(activitysharedPreferencesUtils.getParams("token","").toString(),currentPage * 20);
+            }
+        });
         buyClassAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
@@ -92,6 +101,18 @@ public class BuyClassActivity extends BaseActivity implements SwipeRefreshLayout
         }
         this.selectClasses = selectClasses;
         initAdapter();
+    }
+
+    @Override
+    public void loadMoreBuyClass(ArrayList<SelectClass> selectClasses) {
+        if (swpBuyClass.isRefreshing()){
+            swpBuyClass.setRefreshing(false);
+        }
+        for (int i = 0;i < selectClasses.size(); i++){
+            this.selectClasses.add(selectClasses.get(i));
+
+        }
+        buyClassAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -32,8 +32,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.SelectClassAdapter;
+import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Constants;
 import com.leothon.cogito.DTO.ClassDetail;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadClassActivity.UploadClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.UploadDetailClassActivity.UploadClassDetailActivity;
@@ -49,6 +51,8 @@ import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -84,6 +88,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
     private static int THRESHOLD_OFFSET = 10;
     private String userId;
 
+    private ArrayList<ClassDetailList> classDetailLists;
     private QQShareListener qqShareListener;
     private Tencent mTencent;
 
@@ -112,6 +117,7 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         swpSelect.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         userId = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString()).getUid();
         //initSharePopupWindow();
+        classDetailLists = new ArrayList<>();
         showShareDialog();
     }
     @Override
@@ -137,9 +143,22 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         }
         setToolbarTitle(classDetail.getTeaClasss().getSelectlisttitle());
         this.classDetail = classDetail;
+        this.classDetailLists = classDetail.getClassDetailLists();
         initAdapter();
     }
 
+    @Override
+    public void getMoreClassDetailInfo(ArrayList<ClassDetailList> classDetailLists) {
+
+        if (swpSelect.isRefreshing()){
+            swpSelect.setRefreshing(false);
+        }
+        for (int i = 0;i < classDetailLists.size(); i++){
+            this.classDetailLists.add(classDetailLists.get(i));
+
+        }
+        selectClassAdapter.notifyDataSetChanged();
+    }
 
 
     @OnClick(R.id.edit_my_class)
@@ -176,6 +195,13 @@ public class SelectClassActivity extends BaseActivity implements SwipeRefreshLay
         linearLayoutManager = new LinearLayoutManager(this,LinearLayout.VERTICAL,false);
         rvSelect.setLayoutManager(linearLayoutManager);
         rvSelect.setAdapter(selectClassAdapter);
+        rvSelect.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpSelect.setRefreshing(true);
+                selectClassPresenter.loadMoreClassDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classId"),currentPage * 20);
+            }
+        });
         rvSelect.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 

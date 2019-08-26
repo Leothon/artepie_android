@@ -7,9 +7,11 @@ import com.leothon.cogito.Bean.ArticleComment;
 import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.Bill;
 import com.leothon.cogito.Bean.ClassDetailList;
+import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.FeedbackInfo;
 import com.leothon.cogito.Bean.NoticeInfo;
 import com.leothon.cogito.Bean.OrderHis;
+import com.leothon.cogito.Bean.Reply;
 import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.Bean.TokenInfo;
 import com.leothon.cogito.Bean.User;
@@ -162,6 +164,16 @@ public interface HttpService {
     @GET("getqadetail")
     Observable<BaseResponse<QADataDetail>> getQADetail(@Query("token") String token,@Query("qaid") String qaId);
 
+
+    /**
+     * 获取问题更多评论
+     * @param token
+     * @param qaId
+     * @return
+     */
+    @GET("getmoreqadetail")
+    Observable<BaseResponse<QADataDetail>> getMoreQADetail(@Query("token") String token,@Query("qaid") String qaId,@Query("currentpage") int currentPage);
+
     /**
      * 根据问题ID获取问题数据
      * @param token
@@ -180,6 +192,18 @@ public interface HttpService {
     @GET("getcommentdetail")
     Observable<BaseResponse<CommentDetail>> getCommentDetail(@Query("commentid") String commentId,@Query("token") String token);
 
+
+    /**
+     * 通过评论ID获取更多评论详细数据
+     * @param commentId
+     * @param token
+     * @return
+     */
+    @GET("getmorecommentdetail")
+    Observable<BaseResponse<ArrayList<Reply>>> getMoreCommentDetail(@Query("commentid") String commentId, @Query("token") String token,@Query("currentpage") int currentPage);
+
+
+
     /**
      * 获取课程详细数据
      * @param token
@@ -188,6 +212,17 @@ public interface HttpService {
      */
     @GET("getclassdetail")
     Observable<BaseResponse<ClassDetail>> getClassDetail(@Query("token") String token,@Query("classid") String classId);
+
+
+    /**
+     * 获取更多课程数据
+     * @param token
+     * @param classId
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreclassdetail")
+    Observable<BaseResponse<ClassDetail>> getMoreClassDetail(@Query("token") String token,@Query("classid") String classId,@Query("currentpage") int currentPage);
 
 
     /**
@@ -209,6 +244,17 @@ public interface HttpService {
     Observable<BaseResponse<VideoDetail>> getClassVideo(@Query("token") String token,@Query("classdid") String classdId,@Query("classid") String classId);
 
 
+    /**
+     * 获取视频更多评论
+     * @param token
+     * @param classdId
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreclassvideo")
+    Observable<BaseResponse<ArrayList<Comment>>> getMoreClassVideo(@Query("token") String token, @Query("classdid") String classdId, @Query("currentpage") int currentPage);
+
+
 
     /**
      * 通过讲师ID获取讲师信息及课程数据
@@ -220,6 +266,16 @@ public interface HttpService {
     Observable<BaseResponse<TeaClass>> getTeaClass(@Query("token") String token,@Query("teaid") String teaId);
 
     /**
+     * 通过讲师ID获取更多课程
+     * @param token
+     * @param teaId
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreteaclass")
+    Observable<BaseResponse<TeaClass>> getMoreTeaClass(@Query("token") String token,@Query("teaid") String teaId,@Query("currentpage") int currentPage);
+
+    /**
      * 通过课程类型获取课程数据
      * @param token
      * @param type
@@ -227,6 +283,17 @@ public interface HttpService {
      */
     @GET("getclassbytype")
     Observable<BaseResponse<TypeClass>> getTypeClass(@Query("token") String token, @Query("type") String type);
+
+
+    /**
+     * 通过课程类型获取更多课程数据
+     * @param token
+     * @param type
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreclassbytype")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreTypeClass(@Query("token") String token, @Query("type") String type,@Query("currentpage") int currentPage);
 
     /**
      * 获取购买课程的数据
@@ -259,6 +326,16 @@ public interface HttpService {
      */
     @GET("getfavclassbyuid")
     Observable<BaseResponse<ArrayList<SelectClass>>> getFavClassByUid(@Query("token") String token);
+
+
+    /**
+     * 获取某用户更多收藏课程信息
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GET("getmorefavclassbyuid")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreFavClassByUid(@Query("token") String token,@Query("currentpage") int currentPage);
 
     /**
      * 获取某用户观看记录
@@ -356,6 +433,15 @@ public interface HttpService {
     Observable<BaseResponse<ArrayList<SelectClass>>> getClassByUserId(@Query("userid") String userId);
 
     /**
+     * 获取更多用户发布的课程
+     * @param userId
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreclassbyuserid")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreClassByUserId(@Query("userid") String userId,@Query("currentpage") int currentPage);
+
+    /**
      * 获取关键词搜索的结果
      * @param keyword
      * @param token
@@ -391,6 +477,16 @@ public interface HttpService {
     @GET("getbills")
     Observable<BaseResponse<ArrayList<Bill>>> getBill(@Query("token") String token);
 
+
+    /**
+     * 获取更多个人账单
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GET("getmorebills")
+    Observable<BaseResponse<ArrayList<Bill>>> getMoreBill(@Query("token") String token,@Query("currentPage") int currentPage);
+
     /**
      * 获取个人订单
      * @param token
@@ -398,6 +494,16 @@ public interface HttpService {
      */
     @GET("getorderhis")
     Observable<BaseResponse<ArrayList<OrderHis>>> getOrder(@Query("token") String token);
+
+
+    /**
+     * 获取更多个人订单
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GET("getmoreorderhis")
+    Observable<BaseResponse<ArrayList<OrderHis>>> getMoreOrder(@Query("token") String token,@Query("currentPage") int currentPage);
 
 
     /**
@@ -446,14 +552,23 @@ public interface HttpService {
      */
     @POST("getcash")
     Observable<BaseResponse<String>> getCash(@Query("cashinfo") String info,@Query("token") String token);
+
     /**
      * 获取购买的课程
      * @param token
      * @return
      */
-
     @GET("getbuyclass")
     Observable<BaseResponse<ArrayList<SelectClass>>> getBuyClass(@Query("token") String token);
+
+    /**
+     * 获取更多购买课程
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GET("getmorebuyclass")
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreBuyClass(@Query("token") String token,@Query("currentPage") int currentPage);
     /**
      * 支付宝同步验单
      * @param orderInfo

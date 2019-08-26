@@ -19,6 +19,7 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.BuyClassActivity.BuyClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
-public class OrderActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class OrderActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,OrderContract.IOrderView{
     @BindView(R.id.rv_order_his)
     RecyclerView rvOrderHis;
     @BindView(R.id.swp_order_his)
@@ -41,6 +42,8 @@ public class OrderActivity extends BaseActivity implements SwipeRefreshLayout.On
 
     private ArrayList<OrderHis> orderHis;
     private OrderHisAdapter orderHisAdapter;
+
+    private OrderPresenter orderPresenter;
 
     @Override
     public int initLayout() {
@@ -51,17 +54,26 @@ public class OrderActivity extends BaseActivity implements SwipeRefreshLayout.On
 
     @Override
     public void initData() {
+        orderPresenter = new OrderPresenter(this);
         swpOrderHis.setProgressViewOffset (false,100,300);
         swpOrderHis.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
-
+        orderHis = new ArrayList<>();
     }
 
 
-    private void initAdapter(ArrayList<OrderHis> orderHis){
+    private void initAdapter(){
         swpOrderHis.setOnRefreshListener(this);
         orderHisAdapter = new OrderHisAdapter(OrderActivity.this,orderHis);
-        rvOrderHis.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rvOrderHis.setLayoutManager(linearLayoutManager);
         rvOrderHis.setAdapter(orderHisAdapter);
+        rvOrderHis.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpOrderHis.setRefreshing(true);
+                orderPresenter.getMoreOrders(activitysharedPreferencesUtils.getParams("token","").toString(),currentPage * 20);
+            }
+        });
         orderHisAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
@@ -84,46 +96,46 @@ public class OrderActivity extends BaseActivity implements SwipeRefreshLayout.On
         setToolbarTitle("我的订单");
         setToolbarSubTitle("");
         swpOrderHis.setRefreshing(true);
-        getNewOrders();
+        orderPresenter.getOrders(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
-    private void getNewOrders(){
-
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getOrder(activitysharedPreferencesUtils.getParams("token","").toString())
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        MyToast.getInstance(OrderActivity.this).show(errorMsg, Toast.LENGTH_SHORT);
-
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
-
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        ArrayList<OrderHis> orderHis = (ArrayList<OrderHis>)baseResponse.getData();
-                        if (swpOrderHis.isRefreshing()){
-                            swpOrderHis.setRefreshing(false);
-                        }
-                        initAdapter(orderHis);
-                    }
-                });
-
-    }
 
     @Override
     public void onRefresh() {
+        orderPresenter.getOrders(activitysharedPreferencesUtils.getParams("token","").toString());
+    }
 
-        getNewOrders();
+    @Override
+    public void loadOrders(ArrayList<OrderHis> orderHis) {
+
+        if (swpOrderHis.isRefreshing()){
+            swpOrderHis.setRefreshing(false);
+        }
+        this.orderHis = orderHis;
+        initAdapter();
+    }
+
+    @Override
+    protected void onDestroy() {
+        orderPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void loadMoreOrders(ArrayList<OrderHis> orderHis) {
+        if (swpOrderHis.isRefreshing()){
+            swpOrderHis.setRefreshing(false);
+        }
+
+        for (int i = 0;i < orderHis.size(); i++){
+            this.orderHis.add(orderHis.get(i));
+
+        }
+        orderHisAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
 }

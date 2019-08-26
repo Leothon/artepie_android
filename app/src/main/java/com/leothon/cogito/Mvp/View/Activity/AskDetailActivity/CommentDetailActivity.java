@@ -32,6 +32,7 @@ import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -78,6 +79,8 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
 
     private String uuid;
     private UserEntity userEntity;
+
+    private ArrayList<Reply> replies;
     @Override
     public int initLayout() {
         return R.layout.activity_comment_detail;
@@ -90,7 +93,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         swpCommentDetail.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
-
+        replies = new ArrayList<>();
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
     }
     @Override
@@ -114,6 +117,15 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
 
         commentDetailRv.setLayoutManager(mlinearLayoutManager);
         commentDetailRv.setAdapter(commentDetailAdapter);
+
+        commentDetailRv.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpCommentDetail.setRefreshing(true);
+                askDetailPresenter.loadMoreCommentDetail(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("commentId"),currentPage * 15);
+
+            }
+        });
 //        commentDetailRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
 //            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -252,6 +264,7 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
     @Override
     public void getComment(final CommentDetail commentDetail) {
         this.commentDetail = commentDetail;
+        this.replies = commentDetail.getReplies();
         if (swpCommentDetail.isRefreshing()){
             swpCommentDetail.setRefreshing(false);
         }
@@ -270,6 +283,19 @@ public class CommentDetailActivity extends BaseActivity implements AskDetailCont
         }
         initAdapter();
 
+    }
+
+    @Override
+    public void getMoreComment(ArrayList<Reply> replies) {
+
+        if (swpCommentDetail.isRefreshing()){
+            swpCommentDetail.setRefreshing(false);
+        }
+        for (int i = 0;i < replies.size(); i++){
+            this.replies.add(replies.get(i));
+
+        }
+        commentDetailAdapter.notifyDataSetChanged();
     }
 
     @Override

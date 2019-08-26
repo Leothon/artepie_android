@@ -1,33 +1,32 @@
-package com.leothon.cogito.Mvp.View.Activity.EditClassActivity;
+package com.leothon.cogito.Mvp.View.Activity.WalletActivity;
 
-import android.util.Log;
+import android.widget.Toast;
 
-import com.leothon.cogito.Bean.SelectClass;
-import com.leothon.cogito.Http.Api;
+import com.leothon.cogito.Bean.Bill;
+import com.leothon.cogito.Bean.User;
 import com.leothon.cogito.Http.BaseObserver;
 import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.View.MyToast;
 
 import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
 
-public class EditClassModel implements EditClassContract.IEditClassModel {
+public class WalletModel implements WalletContract.IWalletModel {
     @Override
-    public void getSelectClassInfo(String userId, final EditClassContract.OnEditClassFinishedListener listener) {
-
+    public void getUserInfo(String token, WalletContract.OnWalletFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getClassByUserId(userId)
+                .getUserInfo(token)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showMsg(errorMsg);
-
+                        listener.showMsg("出错");
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -40,23 +39,25 @@ public class EditClassModel implements EditClassContract.IEditClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        ArrayList<SelectClass> selectClasses = (ArrayList<SelectClass>)baseResponse.getData();
-                        listener.loadClassSuccess(selectClasses);
+
+                        User user = (User)baseResponse.getData();
+
+                        listener.loadUserInfo(user);
                     }
                 });
     }
 
     @Override
-    public void getMoreSelectClassInfo(String userId, int currentPage, EditClassContract.OnEditClassFinishedListener listener) {
+    public void getBills(String token, WalletContract.OnWalletFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getMoreClassByUserId(userId,currentPage)
+                .getBill(token)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showMsg(errorMsg);
+                        listener.showMsg("出错");
 
                     }
                     @Override
@@ -70,23 +71,24 @@ public class EditClassModel implements EditClassContract.IEditClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        ArrayList<SelectClass> selectClasses = (ArrayList<SelectClass>)baseResponse.getData();
-                        listener.loadMoreClassSuccess(selectClasses);
+                        ArrayList<Bill> bills = (ArrayList<Bill>)baseResponse.getData();
+
+                        listener.loadBills(bills);
                     }
                 });
     }
 
     @Override
-    public void deleteClass(String token, String classId, final EditClassContract.OnEditClassFinishedListener listener) {
+    public void getMoreBills(String token, int currentPage, WalletContract.OnWalletFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .deleteClass(classId,token)
+                .getMoreBill(token,currentPage)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showMsg(errorMsg);
+                        listener.showMsg("出错");
 
                     }
                     @Override
@@ -100,8 +102,9 @@ public class EditClassModel implements EditClassContract.IEditClassModel {
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-                        String msg = baseResponse.getMsg();
-                        listener.deleteClassSuccess(msg);
+                        ArrayList<Bill> bills = (ArrayList<Bill>)baseResponse.getData();
+
+                        listener.loadMoreBills(bills);
                     }
                 });
     }

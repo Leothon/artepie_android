@@ -40,6 +40,7 @@ import com.leothon.cogito.Bean.Comment;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.VideoDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.IndividualActivity.IndividualActivity;
 import com.leothon.cogito.Mvp.View.Activity.PayInfoActivity.PayInfoActivity;
@@ -202,6 +203,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private boolean isLogin;
     private String teaId;
+
+    private ArrayList<Comment> comments;
     @Override
     public int initLayout() {
         return R.layout.activity_player;
@@ -228,6 +231,8 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         if ((boolean)activitysharedPreferencesUtils.getParams("login",false)){
             userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         }
+
+        comments = new ArrayList<>();
 
     }
 
@@ -340,11 +345,25 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
             swpVideoComment.setRefreshing(false);
         }
 
+
+        this.comments = videoDetail.getComments();
         teaId = videoDetail.getAuthorId();
         loadAll(videoDetail,ChoosePosition);
 
     }
 
+    @Override
+    public void getMoreComment(ArrayList<Comment> comments) {
+
+        if (swpVideoComment.isRefreshing()){
+            swpVideoComment.setRefreshing(false);
+        }
+        for (int i = 0;i < comments.size(); i++){
+            this.comments.add(comments.get(i));
+
+        }
+        videoCommentAdapter.notifyDataSetChanged();
+    }
 
 
     @Override
@@ -742,9 +761,17 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         }
         videoCommentAdapter = new VideoCommentAdapter(comments,this,isLogin);
 
-        videoCommentList.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
+        LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL,false);
+        videoCommentList.setLayoutManager(mlinearLayoutManager);
         videoCommentList.setAdapter(videoCommentAdapter);
 
+        videoCommentList.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpVideoComment.setRefreshing(true);
+                playerPresenter.loadMoreComment(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("classdid"),currentPage * 15);
+            }
+        });
 
         videoCommentAdapter.setOnClickAddVideoLikeComment(new VideoCommentAdapter.AddVideoLikeCommentOnClickListener() {
             @Override

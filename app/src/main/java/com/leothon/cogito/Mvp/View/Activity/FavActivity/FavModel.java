@@ -44,6 +44,36 @@ public class FavModel implements FavContract.IFavModel {
     }
 
     @Override
+    public void getMoreFavClass(String token, int currentPage, FavContract.OnFavFinishedListener listener) {
+        RetrofitServiceManager.getInstance().create(HttpService.class)
+                .getMoreFavClassByUid(token,currentPage)
+                .compose(ThreadTransformer.switchSchedulers())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    public void doOnSubscribe(Disposable d) { }
+                    @Override
+                    public void doOnError(String errorMsg) {
+                        listener.showMsg(errorMsg);
+
+                    }
+                    @Override
+                    public void doOnNext(BaseResponse baseResponse) {
+
+                    }
+                    @Override
+                    public void doOnCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        ArrayList<SelectClass> selectClasses = (ArrayList<SelectClass>)baseResponse.getData();
+                        listener.loadMoreFavClass(selectClasses);
+                    }
+                });
+    }
+
+    @Override
     public void removeFavClass(String classId, String token, final FavContract.OnFavFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
                 .unFavClass(token,classId)

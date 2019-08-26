@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.Reply;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 
@@ -11,10 +12,11 @@ public class AskDetailContract {
     public interface IAskDetailModel{
 
         void getQADetail(String token,String qaId,OnAskDetailFinishedListener listener);
-        void getMoreComment(String qaId,String currentPage,OnAskDetailFinishedListener listener);
+        void getMoreComment(String token,String qaId,int currentPage,OnAskDetailFinishedListener listener);
         //TODO 发送评论
 
         void getCommentDetail(String commentId,String token,OnAskDetailFinishedListener listener);
+        void getMoreCommentDetail(String commentId,String token,int currentPage,OnAskDetailFinishedListener listener);
 
         void addLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
         void removeLikeDetail(String token,String qaId,OnAskDetailFinishedListener listener);
@@ -44,6 +46,7 @@ public class AskDetailContract {
         void showInfo(String msg);
 
         void getComment(CommentDetail commentDetail);
+        void getMoreComment(ArrayList<Reply> replies);
         void deleteSuccess(String msg);
     }
 
@@ -54,14 +57,18 @@ public class AskDetailContract {
         void showInfo(String msg);
         void loadError(String msg);
         void getComment(CommentDetail commentDetail);
+        void getMoreComment(ArrayList<Reply> replies);
         void deleteSuccess(String msg);
     }
 
     public interface IAskDetailPresenter{
         void onDestroy();
         void getQADetailData(String token,String qaId);
-        void getMoreComment(String qaId,String currentPage);
+        void getMoreComment(String token,String qaId,int currentPage);
         void loadCommentDetail(String commentId,String token);
+
+        void loadMoreCommentDetail(String commentId,String token,int currentPage);
+
         void addLikeDetail(String token,String qaId);
         void removeLikeDetail(String token,String qaId);
         void addLikeComment(String token,String commentId);

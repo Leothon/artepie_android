@@ -21,6 +21,13 @@ public class EditClassPresenter implements EditClassContract.OnEditClassFinished
     }
 
     @Override
+    public void loadMoreClassSuccess(ArrayList<SelectClass> selectClasses) {
+        if (iEditClassView != null){
+            iEditClassView.loadMoreClassSuccess(selectClasses);
+        }
+    }
+
+    @Override
     public void showMsg(String msg) {
         if (iEditClassView != null){
             iEditClassView.showMsg(msg);
@@ -44,6 +51,11 @@ public class EditClassPresenter implements EditClassContract.OnEditClassFinished
     @Override
     public void getSelectClassInfo(String userId) {
         iEditClassModel.getSelectClassInfo(userId,this);
+    }
+
+    @Override
+    public void getMoreSelectClassInfo(String userId, int currentPage) {
+        iEditClassModel.getMoreSelectClassInfo(userId,currentPage,this);
     }
 
     @Override

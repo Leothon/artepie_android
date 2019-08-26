@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.FavAdapter;
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.View.MyToast;
@@ -54,9 +55,16 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     private void initAdapter(){
         swpFav.setOnRefreshListener(this);
         favAdapter = new FavAdapter(FavActivity.this,selectClasses);
-        rvFav.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rvFav.setLayoutManager(linearLayoutManager);
         rvFav.setAdapter(favAdapter);
-
+        rvFav.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpFav.setRefreshing(true);
+                favPresenter.getMoreFavClass(activitysharedPreferencesUtils.getParams("token","").toString(),currentPage * 15);
+            }
+        });
         favAdapter.setRemoveFavClick(new FavAdapter.removeFavOnClickListener() {
             @Override
             public void removeFavClickListener(String classId) {
@@ -73,6 +81,18 @@ public class FavActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
         }
         this.selectClasses = selectClasses;
         initAdapter();
+    }
+
+    @Override
+    public void loadMoreFavClass(ArrayList<SelectClass> selectClasses) {
+        if (swpFav.isRefreshing()){
+            swpFav.setRefreshing(false);
+        }
+        for (int i = 0;i < selectClasses.size(); i++){
+            this.selectClasses.add(selectClasses.get(i));
+
+        }
+        favAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.leothon.cogito.Adapter.BaseAdapter;
 import com.leothon.cogito.Adapter.EditClassAdapter;
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Message.UploadMessage;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
@@ -70,10 +71,18 @@ public class EditClassActivity extends BaseActivity implements EditClassContract
     private void initAdapter(){
         swpEdit.setOnRefreshListener(this);
         editClassAdapter = new EditClassAdapter(this,selectClasses);
-        rvEdit.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rvEdit.setLayoutManager(linearLayoutManager);
         rvEdit.setAdapter(editClassAdapter);
 
 
+        rvEdit.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpEdit.setRefreshing(true);
+                editClassPresenter.getMoreSelectClassInfo(bundle.getString("userId"),currentPage * 20);
+            }
+        });
         editClassAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
@@ -164,6 +173,18 @@ public class EditClassActivity extends BaseActivity implements EditClassContract
         }
         this.selectClasses = selectClasses;
         initAdapter();
+    }
+
+    @Override
+    public void loadMoreClassSuccess(ArrayList<SelectClass> selectClasses) {
+        if (swpEdit.isRefreshing()){
+            swpEdit.setRefreshing(false);
+        }
+        for (int i = 0;i < selectClasses.size(); i++){
+            this.selectClasses.add(selectClasses.get(i));
+
+        }
+        editClassAdapter.notifyDataSetChanged();
     }
 
     @Override

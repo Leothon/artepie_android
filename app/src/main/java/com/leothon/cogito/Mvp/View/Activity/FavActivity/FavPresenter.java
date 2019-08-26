@@ -21,6 +21,13 @@ public class FavPresenter implements FavContract.IFavPresenter,FavContract.OnFav
     }
 
     @Override
+    public void loadMoreFavClass(ArrayList<SelectClass> selectClasses) {
+        if (iFavView != null){
+            iFavView.loadMoreFavClass(selectClasses);
+        }
+    }
+
+    @Override
     public void showMsg(String msg) {
 
         if (iFavView != null){
@@ -31,6 +38,11 @@ public class FavPresenter implements FavContract.IFavPresenter,FavContract.OnFav
     @Override
     public void getFavClass(String token) {
         iFavModel.getFavClass(token,this);
+    }
+
+    @Override
+    public void getMoreFavClass(String token, int currentPage) {
+        iFavModel.getMoreFavClass(token,currentPage,this);
     }
 
     @Override

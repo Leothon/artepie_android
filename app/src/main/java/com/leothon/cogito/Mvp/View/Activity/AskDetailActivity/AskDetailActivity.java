@@ -34,10 +34,12 @@ import com.bumptech.glide.Glide;
 import com.leothon.cogito.Adapter.AskAdapter;
 import com.leothon.cogito.Adapter.AskDetailAdapter;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.Reply;
 import com.leothon.cogito.Bean.TokenValid;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.GreenDao.UserEntity;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -107,6 +109,8 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
     private View popviewQa;
     private PopupWindow popupWindowQa;
 
+    private ArrayList<Comment> comments;
+
     private AskDetailPresenter askDetailPresenter;
     @Override
     public int initLayout() {
@@ -117,7 +121,7 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
         askDetailPresenter = new AskDetailPresenter(this);
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         uuid = tokenValid.getUid();
-
+        comments = new ArrayList<>();
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
         swpAskDetail.setProgressViewOffset (false,100,300);
         swpAskDetail.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
@@ -150,6 +154,14 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
         rvAskDetail.setLayoutManager(mlinearLayoutManager);
         rvAskDetail.setAdapter(askDetailAdapter);
+
+        rvAskDetail.addOnScrollListener(new loadMoreDataListener(mlinearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpAskDetail.setRefreshing(true);
+                askDetailPresenter.getMoreComment(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("qaId"),currentPage * 15);
+            }
+        });
         rvAskDetail.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -468,12 +480,21 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
             swpAskDetail.setRefreshing(false);
         }
         this.qaDataDetail = qaDataDetail;
+        this.comments = qaDataDetail.getComments();
         initAdapter();
     }
 
     @Override
     public void loadMoreComment(ArrayList<Comment> userComments) {
 
+        if (swpAskDetail.isRefreshing()){
+            swpAskDetail.setRefreshing(false);
+        }
+        for (int i = 0;i < userComments.size(); i++){
+            this.comments.add(userComments.get(i));
+
+        }
+        askDetailAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -483,6 +504,11 @@ public class AskDetailActivity extends BaseActivity implements AskDetailContract
 
     @Override
     public void getComment(CommentDetail commentDetail) {
+
+    }
+
+    @Override
+    public void getMoreComment(ArrayList<Reply> replies) {
 
     }
 

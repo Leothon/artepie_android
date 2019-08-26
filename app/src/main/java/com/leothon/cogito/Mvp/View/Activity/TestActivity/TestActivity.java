@@ -16,12 +16,16 @@ import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.TestSelfAdapter;
 
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.TypeClass;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -46,6 +50,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private TypeClass typeClass;
     private LinearLayoutManager linearLayoutManager;
     private TestPresenter testPresenter;
+    private ArrayList<SelectClass> selectClasses;
     @Override
     public int initLayout() {
         return R.layout.activity_test;
@@ -62,7 +67,7 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void initView() {
         StatusBarUtils.transparencyBar(this);
-
+        selectClasses = new ArrayList<>();
         intent = getIntent();
         bundle = intent.getExtras();
         //LoadFalseData();
@@ -93,6 +98,18 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    public void getMoreTypeClass(ArrayList<SelectClass> selectClasses) {
+        if (swpTest.isRefreshing()){
+            swpTest.setRefreshing(false);
+        }
+        for (int i = 0;i < selectClasses.size(); i++){
+            this.selectClasses.add(selectClasses.get(i));
+
+        }
+        testSelfAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void showInfo(String msg) {
         MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
     }
@@ -109,6 +126,13 @@ public class TestActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
             rvTest.setLayoutManager(linearLayoutManager);
             rvTest.setAdapter(testSelfAdapter);
+            rvTest.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+                @Override
+                public void onLoadMoreData(int currentPage) {
+                    swpTest.setRefreshing(true);
+                    testPresenter.loadMoreClassByType(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("type"),currentPage * 20);
+                }
+            });
             rvTest.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

@@ -26,9 +26,11 @@ import com.leothon.cogito.Http.BaseResponse;
 import com.leothon.cogito.Http.HttpService;
 import com.leothon.cogito.Http.RetrofitServiceManager;
 import com.leothon.cogito.Http.ThreadTransformer;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.Mvp.View.Activity.CashActivity.CashActivity;
 import com.leothon.cogito.Mvp.View.Activity.ContractActivity;
+import com.leothon.cogito.Mvp.View.Activity.WriteArticleActivity.WriteArticleContract;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.IntentUtils;
 import com.leothon.cogito.Utils.StatusBarUtils;
@@ -45,7 +47,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * created by leothon on 2018.8.12
  */
-public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, WalletContract.IWalletView {
 
 
     @BindView(R.id.account_balance)
@@ -66,6 +68,10 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private WalletAdapter walletAdapter;
 
+    private ArrayList<Bill> bills;
+
+    private WalletPresenter walletPresenter;
+
 
     private UserEntity userEntity;
     @Override
@@ -74,6 +80,8 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
     @Override
     public void initData() {
+
+        walletPresenter = new WalletPresenter(this);
         TokenValid tokenValid = tokenUtils.ValidToken(activitysharedPreferencesUtils.getParams("token","").toString());
         String uuid = tokenValid.getUid();
         userEntity = getDAOSession().queryRaw(UserEntity.class,"where user_id = ?",uuid).get(0);
@@ -81,48 +89,8 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
         swpBill.setProgressViewOffset (false,100,300);
         swpBill.setColorSchemeResources(R.color.rainbow_orange,R.color.rainbow_green,R.color.rainbow_blue,R.color.rainbow_purple,R.color.rainbow_yellow,R.color.rainbow_cyanogen);
 
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString())
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        MyToast.getInstance(WalletActivity.this).show("出错",Toast.LENGTH_SHORT);
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
-
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-
-                        User user = (User)baseResponse.getData();
-
-                        userEntity.setUser_art_coin(user.getUser_art_coin());
-                        userEntity.setUser_balance(user.getUser_balance());
-                        getDAOSession().update(userEntity);
-
-                        if (userEntity.getUser_balance() == null){
-                            accountBalance.setText("￥0");
-                        }else {
-                            accountBalance.setText("￥" + userEntity.getUser_balance());
-                        }
-
-
-                        if (userEntity.getUser_art_coin() == null){
-                            artCoin.setText("0");
-                        }else {
-                            artCoin.setText(userEntity.getUser_art_coin());
-                        }
-                    }
-                });
+        showLoadingAnim();
+        walletPresenter.getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString());
 
 
     }
@@ -135,14 +103,13 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
 
 
 
+        bills = new ArrayList<>();
         artCoinDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadDialog();
             }
         });
-        swpBill.setRefreshing(true);
-        getNewBills();
 
 
     }
@@ -225,13 +192,20 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
                 .show();
     }
 
-    private void initAdapter(ArrayList<Bill> bills){
+    private void initAdapter(){
         swpBill.setOnRefreshListener(this);
         walletAdapter = new WalletAdapter(this,bills);
-
-        rvBill.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL,false);
+        rvBill.setLayoutManager(linearLayoutManager);
         rvBill.setAdapter(walletAdapter);
 
+        rvBill.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpBill.setRefreshing(true);
+                walletPresenter.getMoreBills(activitysharedPreferencesUtils.getParams("token","").toString(),currentPage * 20);
+            }
+        });
         walletAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
@@ -251,90 +225,68 @@ public class WalletActivity extends BaseActivity implements SwipeRefreshLayout.O
     @Override
     protected void onRestart() {
         super.onRestart();
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString())
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        MyToast.getInstance(WalletActivity.this).show("出错",Toast.LENGTH_SHORT);
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
-
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-
-                        User user = (User)baseResponse.getData();
-
-                        userEntity.setUser_art_coin(user.getUser_art_coin());
-                        userEntity.setUser_balance(user.getUser_balance());
-                        getDAOSession().update(userEntity);
-
-                        if (userEntity.getUser_balance() == null){
-                            accountBalance.setText("￥0");
-                        }else {
-                            accountBalance.setText("￥" + userEntity.getUser_balance());
-                        }
-
-                        if (userEntity.getUser_art_coin() == null){
-                            artCoin.setText("0");
-                        }else {
-                            artCoin.setText(userEntity.getUser_art_coin());
-                        }
-
-
-                    }
-                });
+        walletPresenter.getUserInfo(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
     @Override
     public void onRefresh() {
-        getNewBills();
+        walletPresenter.getBills(activitysharedPreferencesUtils.getParams("token","").toString());
     }
 
-    private void getNewBills(){
 
-        RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getBill(activitysharedPreferencesUtils.getParams("token","").toString())
-                .compose(ThreadTransformer.switchSchedulers())
-                .subscribe(new BaseObserver() {
-                    @Override
-                    public void doOnSubscribe(Disposable d) { }
-                    @Override
-                    public void doOnError(String errorMsg) {
-                        MyToast.getInstance(WalletActivity.this).show(errorMsg,Toast.LENGTH_SHORT);
-
-                    }
-                    @Override
-                    public void doOnNext(BaseResponse baseResponse) {
-
-                    }
-                    @Override
-                    public void doOnCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        ArrayList<Bill> bills = (ArrayList<Bill>)baseResponse.getData();
-
-
-                        if (swpBill.isRefreshing()){
-                            swpBill.setRefreshing(false);
-                        }
-                        initAdapter(bills);
-                    }
-                });
+    @Override
+    protected void onDestroy() {
+        walletPresenter.onDestroy();
+        super.onDestroy();
 
     }
 
+    @Override
+    public void loadUserInfo(User user) {
+        hideLoadingAnim();
+        userEntity.setUser_art_coin(user.getUser_art_coin());
+        userEntity.setUser_balance(user.getUser_balance());
+        getDAOSession().update(userEntity);
+
+        if (userEntity.getUser_balance() == null){
+            accountBalance.setText("￥0");
+        }else {
+            accountBalance.setText("￥" + userEntity.getUser_balance());
+        }
+
+        if (userEntity.getUser_art_coin() == null){
+            artCoin.setText("0");
+        }else {
+            artCoin.setText(userEntity.getUser_art_coin());
+        }
+        swpBill.setRefreshing(true);
+        walletPresenter.getBills(activitysharedPreferencesUtils.getParams("token","").toString());
+    }
+
+    @Override
+    public void loadBills(ArrayList<Bill> bills) {
+        if (swpBill.isRefreshing()){
+            swpBill.setRefreshing(false);
+        }
+        this.bills = bills;
+        initAdapter();
+    }
+
+    @Override
+    public void loadMoreBills(ArrayList<Bill> bills) {
+        if (swpBill.isRefreshing()){
+            swpBill.setRefreshing(false);
+        }
+
+        for (int i = 0;i < bills.size(); i++){
+            this.bills.add(bills.get(i));
+
+        }
+        walletAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        MyToast.getInstance(this).show(msg,Toast.LENGTH_SHORT);
+    }
 }

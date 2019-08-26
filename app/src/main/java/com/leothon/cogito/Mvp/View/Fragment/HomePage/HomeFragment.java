@@ -171,8 +171,9 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
         for (int i = 0;i < selectClassS.size(); i++){
             selectClasses.add(selectClassS.get(i));
-            homeAdapter.notifyDataSetChanged();
+
         }
+        homeAdapter.notifyDataSetChanged();
     }
 
     @Override

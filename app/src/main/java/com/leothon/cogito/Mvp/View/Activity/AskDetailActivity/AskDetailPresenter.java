@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp.View.Activity.AskDetailActivity;
 
 import com.leothon.cogito.Bean.AskDetail;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.Reply;
 import com.leothon.cogito.DTO.CommentDetail;
 import com.leothon.cogito.DTO.QADataDetail;
 
@@ -52,6 +53,13 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
+    public void getMoreComment(ArrayList<Reply> replies) {
+        if (iAskDetailView != null){
+            iAskDetailView.getMoreComment(replies);
+        }
+    }
+
+    @Override
     public void deleteSuccess(String msg) {
         if (iAskDetailView != null){
             iAskDetailView.deleteSuccess(msg);
@@ -70,13 +78,18 @@ public class AskDetailPresenter implements AskDetailContract.IAskDetailPresenter
     }
 
     @Override
-    public void getMoreComment(String qaId, String currentPage) {
-        iAskDetailModel.getMoreComment(qaId,currentPage,this);
+    public void getMoreComment(String token,String qaId, int currentPage) {
+        iAskDetailModel.getMoreComment(token,qaId,currentPage,this);
     }
 
     @Override
     public void loadCommentDetail(String commentId,String token) {
         iAskDetailModel.getCommentDetail(commentId,token,this);
+    }
+
+    @Override
+    public void loadMoreCommentDetail(String commentId, String token, int currentPage) {
+        iAskDetailModel.getMoreCommentDetail(commentId,token,currentPage,this);
     }
 
     @Override

@@ -8,12 +8,14 @@ public class BuyClassContract {
     public interface IBuyClassModel{
 
         void getBuyClass(String token,OnBuyClassFinishedListener listener);
+        void getMoreBuyClass(String token,int currentPage,OnBuyClassFinishedListener listener);
 
     }
 
     public interface IBuyClassView{
 
         void loadBuyClass(ArrayList<SelectClass> selectClasses);
+        void loadMoreBuyClass(ArrayList<SelectClass> selectClasses);
         void showMsg(String msg);
 
 
@@ -23,6 +25,7 @@ public class BuyClassContract {
 
 
         void loadBuyClass(ArrayList<SelectClass> selectClasses);
+        void loadMoreBuyClass(ArrayList<SelectClass> selectClasses);
         void showMsg(String msg);
 
 
@@ -31,6 +34,7 @@ public class BuyClassContract {
     public interface IBuyClassPresenter{
 
         void getBuyClass(String token);
+        void getMoreBuyClass(String token,int currentPage);
         void onDestroy();
 
 

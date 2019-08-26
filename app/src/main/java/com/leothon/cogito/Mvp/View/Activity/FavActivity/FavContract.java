@@ -8,12 +8,15 @@ public class FavContract {
     public interface IFavModel{
 
         void getFavClass(String token,OnFavFinishedListener listener);
+        void getMoreFavClass(String token,int currentPage,OnFavFinishedListener listener);
         void removeFavClass(String classId,String token,OnFavFinishedListener listener);
     }
 
     public interface IFavView{
 
         void loadFavClass(ArrayList<SelectClass> selectClasses);
+        void loadMoreFavClass(ArrayList<SelectClass> selectClasses);
+
         void showMsg(String msg);
 
 
@@ -23,6 +26,7 @@ public class FavContract {
 
 
         void loadFavClass(ArrayList<SelectClass> selectClasses);
+        void loadMoreFavClass(ArrayList<SelectClass> selectClasses);
         void showMsg(String msg);
 
 
@@ -31,6 +35,7 @@ public class FavContract {
     public interface IFavPresenter{
 
         void getFavClass(String token);
+        void getMoreFavClass(String token,int currentPage);
         void removeFavClass(String classId,String token);
         void onDestroy();
 

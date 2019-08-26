@@ -272,12 +272,8 @@ public class IndividualActivity extends BaseActivity {
     @OnClick(R.id.message_to)
     public void messageTo(View v) {
 
-        Intent intent = new Intent(IndividualActivity.this, IMActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("targetAppKey", JMessageClient.getMyInfo().getAppKey());
-        intent.putExtra("targetId", otherUser.getUser_id());
-        IndividualActivity.this.startActivity(intent);
 
+        messageToDialog();
     }
 
 
@@ -399,23 +395,25 @@ public class IndividualActivity extends BaseActivity {
     }
 
 
-    private void createDialog(){
+
+        private void messageToDialog(){
         final CommonDialog dialog = new CommonDialog(this);
 
 
 
-        dialog.setMessage("该选择会创建新的课程\n若您已创建成功课程，请在我制作的课程页面上传内容或者编辑")
+        dialog.setMessage("私信目前为实验性功能,若出现问题,请重新登录或者清楚本APP所有数据并登录")
                 .setTitle("提示")
                 .setSingle(false)
                 .setNegtive("取消")
-                .setPositive("我知道，继续创建")
+                .setPositive("仍然进入")
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
-                        dialog.dismiss();
-                        Bundle bundleto = new Bundle();
-                        bundleto.putString("type","create");
-                        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class,bundleto);
+                        Intent intent = new Intent(IndividualActivity.this, IMActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("targetAppKey", JMessageClient.getMyInfo().getAppKey());
+                        intent.putExtra("targetId", otherUser.getUser_id());
+                        IndividualActivity.this.startActivity(intent);
 
                     }
 
@@ -429,6 +427,37 @@ public class IndividualActivity extends BaseActivity {
 
                 .show();
     }
+
+//    private void createDialog(){
+//        final CommonDialog dialog = new CommonDialog(this);
+//
+//
+//
+//        dialog.setMessage("该选择会创建新的课程\n若您已创建成功课程，请在我制作的课程页面上传内容或者编辑")
+//                .setTitle("提示")
+//                .setSingle(false)
+//                .setNegtive("取消")
+//                .setPositive("我知道，继续创建")
+//                .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+//                    @Override
+//                    public void onPositiveClick() {
+//                        dialog.dismiss();
+//                        Bundle bundleto = new Bundle();
+//                        bundleto.putString("type","create");
+//                        IntentUtils.getInstence().intent(IndividualActivity.this, UploadClassActivity.class,bundleto);
+//
+//                    }
+//
+//                    @Override
+//                    public void onNegativeClick() {
+//                        dialog.dismiss();
+//
+//                    }
+//
+//                })
+//
+//                .show();
+//    }
 
 
     private void VsureDialog(){

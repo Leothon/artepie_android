@@ -22,6 +22,13 @@ public class BuyClassPresenter implements BuyClassContract.IBuyClassPresenter, B
     }
 
     @Override
+    public void loadMoreBuyClass(ArrayList<SelectClass> selectClasses) {
+        if (iBuyClassView != null){
+            iBuyClassView.loadMoreBuyClass(selectClasses);
+        }
+    }
+
+    @Override
     public void showMsg(String msg) {
         if (iBuyClassView != null){
             iBuyClassView.showMsg(msg);
@@ -31,6 +38,11 @@ public class BuyClassPresenter implements BuyClassContract.IBuyClassPresenter, B
     @Override
     public void getBuyClass(String token) {
         iBuyClassModel.getBuyClass(token,this);
+    }
+
+    @Override
+    public void getMoreBuyClass(String token, int currentPage) {
+        iBuyClassModel.getMoreBuyClass(token,currentPage,this);
     }
 
     @Override

@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.leothon.cogito.Adapter.TeacherSelfAdapter;
+import com.leothon.cogito.Bean.SelectClass;
 import com.leothon.cogito.DTO.TeaClass;
+import com.leothon.cogito.Listener.loadMoreDataListener;
 import com.leothon.cogito.Mvp.BaseActivity;
 import com.leothon.cogito.R;
 import com.leothon.cogito.Utils.CommonUtils;
@@ -22,6 +24,8 @@ import com.leothon.cogito.Utils.ImageLoader.ImageLoader;
 import com.leothon.cogito.Utils.StatusBarUtils;
 import com.leothon.cogito.View.MyToast;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -48,6 +52,8 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
 
 
     private LinearLayoutManager linearLayoutManager;
+
+    private ArrayList<SelectClass> selectClasses;
     @Override
     public int initLayout() {
         return R.layout.activity_teacher;
@@ -62,6 +68,7 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     @Override
     public void initView() {
         StatusBarUtils.transparencyBar(this);
+        selectClasses = new ArrayList<>();
         intent = getIntent();
         bundle = intent.getExtras();
         teacherPresenter.loadTeaClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("teacherId"));
@@ -84,6 +91,14 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvTea.setLayoutManager(linearLayoutManager);
         rvTea.setAdapter(teacherSelfAdapter);
+
+        rvTea.addOnScrollListener(new loadMoreDataListener(linearLayoutManager) {
+            @Override
+            public void onLoadMoreData(int currentPage) {
+                swpTea.setRefreshing(true);
+                teacherPresenter.loadMoreClassByTeacher(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("teacherId"),currentPage * 20);
+            }
+        });
         rvTea.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -122,7 +137,20 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
             swpTea.setRefreshing(false);
         }
         this.teaClass = teaClass;
+        this.selectClasses = teaClass.getTeaClassses();
         initAdapter();
+    }
+
+    @Override
+    public void getMoreTeacherClass(ArrayList<SelectClass> selectClasses) {
+        if (swpTea.isRefreshing()){
+            swpTea.setRefreshing(false);
+        }
+        for (int i = 0;i < selectClasses.size(); i++){
+            this.selectClasses.add(selectClasses.get(i));
+
+        }
+        teacherSelfAdapter.notifyDataSetChanged();
     }
 
     @Override
