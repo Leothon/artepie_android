@@ -116,7 +116,7 @@ public class AskDetailModel implements AskDetailContract.IAskDetailModel {
     @Override
     public void getMoreCommentDetail(String commentId, String token, int currentPage, AskDetailContract.OnAskDetailFinishedListener listener) {
         RetrofitServiceManager.getInstance().create(HttpService.class)
-                .getCommentDetail(commentId,token)
+                .getMoreCommentDetail(commentId,token,currentPage)
                 .compose(ThreadTransformer.switchSchedulers())
                 .subscribe(new BaseObserver() {
                     @Override

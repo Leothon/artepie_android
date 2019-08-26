@@ -172,7 +172,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmoreqadetail")
-    Observable<BaseResponse<QADataDetail>> getMoreQADetail(@Query("token") String token,@Query("qaid") String qaId,@Query("currentpage") int currentPage);
+    Observable<BaseResponse<ArrayList<Comment>>> getMoreQADetail(@Query("token") String token,@Query("qaid") String qaId,@Query("currentpage") int currentPage);
 
     /**
      * 根据问题ID获取问题数据
@@ -222,7 +222,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmoreclassdetail")
-    Observable<BaseResponse<ClassDetail>> getMoreClassDetail(@Query("token") String token,@Query("classid") String classId,@Query("currentpage") int currentPage);
+    Observable<BaseResponse<ArrayList<ClassDetailList>>> getMoreClassDetail(@Query("token") String token,@Query("classid") String classId,@Query("currentpage") int currentPage);
 
 
     /**
@@ -273,7 +273,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmoreteaclass")
-    Observable<BaseResponse<TeaClass>> getMoreTeaClass(@Query("token") String token,@Query("teaid") String teaId,@Query("currentpage") int currentPage);
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreTeaClass(@Query("token") String token,@Query("teaid") String teaId,@Query("currentpage") int currentPage);
 
     /**
      * 通过课程类型获取课程数据
@@ -466,7 +466,7 @@ public interface HttpService {
      * @return
      */
     @GET("getarticlecommentmore")
-    Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleCommentMore(@Query("articleid") String articleId,@Query("currentPage") int currentPage);
+    Observable<BaseResponse<ArrayList<ArticleComment>>> getArticleCommentMore(@Query("articleid") String articleId,@Query("currentpage") int currentPage);
 
 
     /**
@@ -485,7 +485,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmorebills")
-    Observable<BaseResponse<ArrayList<Bill>>> getMoreBill(@Query("token") String token,@Query("currentPage") int currentPage);
+    Observable<BaseResponse<ArrayList<Bill>>> getMoreBill(@Query("token") String token,@Query("currentpage") int currentPage);
 
     /**
      * 获取个人订单
@@ -503,7 +503,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmoreorderhis")
-    Observable<BaseResponse<ArrayList<OrderHis>>> getMoreOrder(@Query("token") String token,@Query("currentPage") int currentPage);
+    Observable<BaseResponse<ArrayList<OrderHis>>> getMoreOrder(@Query("token") String token,@Query("currentpage") int currentPage);
 
 
     /**
@@ -568,7 +568,7 @@ public interface HttpService {
      * @return
      */
     @GET("getmorebuyclass")
-    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreBuyClass(@Query("token") String token,@Query("currentPage") int currentPage);
+    Observable<BaseResponse<ArrayList<SelectClass>>> getMoreBuyClass(@Query("token") String token,@Query("currentpage") int currentPage);
     /**
      * 支付宝同步验单
      * @param orderInfo
