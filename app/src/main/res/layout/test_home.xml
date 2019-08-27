@@ -38,7 +38,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center"/>
@@ -61,7 +60,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -84,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -107,7 +104,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -136,7 +132,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -159,7 +154,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -182,7 +176,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />
@@ -206,7 +199,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="美声"
-                    android:textStyle="bold"
                     android:textColor="@color/fontColor"
                     android:textSize="@dimen/tipsSize"
                     android:gravity="center" />

@@ -132,7 +132,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
         searchArticleFragment = SearchArticleFragment.newInstance(searchResult.getArticles());
 
         searchTab.getTabAt(0).setText("课程(" + searchResult.getSelectClasses().size() + ")");
-        searchTab.getTabAt(1).setText("问题(" + searchResult.getQaData().size() + ")");
+        searchTab.getTabAt(1).setText("视频(" + searchResult.getQaData().size() + ")");
         searchTab.getTabAt(2).setText("用户(" + searchResult.getUsers().size() + ")");
         searchTab.getTabAt(3).setText("文章(" + searchResult.getArticles().size() + ")");
 

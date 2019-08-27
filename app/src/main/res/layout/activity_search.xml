@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/white"
+    android:background="@color/dividerColor"
     android:orientation="vertical">
 
     <include
@@ -64,10 +64,11 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/search_tab"
         app:tabIndicatorColor="@color/colorPrimary"
+        app:tabBackground="@color/white"
         app:tabIndicatorHeight="2dp"
         app:tabIndicatorFullWidth="false"
         app:tabTextColor="@color/fontColor"
-        app:tabSelectedTextColor="@color/black"
+        app:tabSelectedTextColor="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="35dp">
     </android.support.design.widget.TabLayout>

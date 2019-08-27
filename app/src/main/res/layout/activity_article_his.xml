@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".Mvp.View.Activity.ArticleHisActivity.ArticleHisActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/white">
+    android:background="@color/dividerColor">
 
     <include layout="@layout/toolbar"/>
 

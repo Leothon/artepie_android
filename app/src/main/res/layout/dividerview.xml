@@ -19,7 +19,8 @@
         android:layout_weight="1"
         android:text="热门课程"
         android:textSize="@dimen/appBarSize"
-        android:textColor="@color/black"
+        android:textColor="@color/fontColor"
+        android:textStyle="bold"
         android:gravity="left|center_vertical"
         android:layout_gravity="center"
         android:paddingStart="15dp"/>

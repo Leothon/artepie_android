@@ -4,6 +4,8 @@
     <dimen name="littleSize">8sp</dimen>
 
     <dimen name="tipsSize">10sp</dimen>
+    <dimen name="_15dp">15dp</dimen>
+    <dimen name="_5dp">5dp</dimen>
     <dimen name="contentSize">12sp</dimen>
     <dimen name="littleTitle">14sp</dimen>
     <dimen name="appBarSize">18sp</dimen>

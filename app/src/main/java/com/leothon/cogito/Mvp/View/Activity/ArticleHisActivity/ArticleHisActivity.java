@@ -3,6 +3,7 @@ package com.leothon.cogito.Mvp.View.Activity.ArticleHisActivity;
 import android.content.Intent;
 
 
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -85,7 +86,9 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2, LinearLayout.VERTICAL,false);
         rvArticleHis.setLayoutManager(gridLayoutManager);
         rvArticleHis.setAdapter(articleHisAdapter);
-
+        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
+        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
+        rvArticleHis.addItemDecoration(new SpaceItemDecoration(space,divider));
         rvArticleHis.addOnScrollListener(new loadMoreDataArticleListener(gridLayoutManager) {
             @Override
             public void onLoadMoreArticleData(int currentPage) {
@@ -147,5 +150,31 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
     @Override
     public void onRefresh() {
         articleHisPresenter.getArticleHisData(bundle.getString("userId"));
+    }
+
+    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+        private int divider;
+
+        public SpaceItemDecoration(int space,int divider) {
+            this.space = space;
+            this.divider = divider;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+            if (parent.getChildLayoutPosition(view) % 2 != 0) {
+                outRect.left = divider;
+                outRect.right = space;
+            }else {
+                outRect.left = space;
+                outRect.right = divider;
+            }
+        }
+
+
     }
 }

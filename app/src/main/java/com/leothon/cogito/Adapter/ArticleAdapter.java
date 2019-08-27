@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -36,6 +37,9 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
+import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
@@ -90,23 +94,56 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 urls.add(articleData.getBanners().get(i).getBanner_img());
             }
             ImageLoader.loadImageViewThumbnailwitherror(context,articleData.getUser_icon(),articleHeadViewHolder.articleTitleIcon,R.drawable.defaulticon);
-            articleHeadViewHolder.articleBanner.setImageUrl(urls);
-            articleHeadViewHolder.articleBanner.setPointPosition(2);//位置点为右边
 
-            articleHeadViewHolder.articleBanner.setOnItemClickListener(new com.leothon.cogito.View.Banner.OnItemClickListener() {
+            articleHeadViewHolder.articleBanner.setPages(urls, new MZHolderCreator() {
                 @Override
-                public void onItemClick(int position) {
+                public MZViewHolder createViewHolder() {
+                    return new BannerViewHolder();
+                }
+            });
+
+            articleHeadViewHolder.articleBanner.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
+                @Override
+                public void onPageClick(View view, int i) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("articleId",articleData.getBanners().get(position).getBanner_id());
+                    bundle.putString("articleId",articleData.getBanners().get(i).getBanner_id());
                     IntentUtils.getInstence().intent(context,ArticleActivity.class,bundle);
                 }
             });
-            articleHeadViewHolder.articleBanner.setOnPositionListener(new com.leothon.cogito.View.Banner.OnPositionListener() {
+
+            articleHeadViewHolder.articleBanner.addPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPositionChange(int position) {
-                    articleHeadViewHolder.bannerTitle.setText("" + articleData.getBanners().get(position).getBanner_url());
+                public void onPageScrolled(int i, float v, int i1) {
+                    articleHeadViewHolder.bannerTitle.setText("" + articleData.getBanners().get(i).getBanner_url());
+                }
+
+                @Override
+                public void onPageSelected(int i) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int i) {
+
                 }
             });
+//            articleHeadViewHolder.articleBanner.setImageUrl(urls);
+//            articleHeadViewHolder.articleBanner.setPointPosition(2);//位置点为右边
+//
+//            articleHeadViewHolder.articleBanner.setOnItemClickListener(new com.leothon.cogito.View.Banner.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(int position) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("articleId",articleData.getBanners().get(position).getBanner_id());
+//                    IntentUtils.getInstence().intent(context,ArticleActivity.class,bundle);
+//                }
+//            });
+//            articleHeadViewHolder.articleBanner.setOnPositionListener(new com.leothon.cogito.View.Banner.OnPositionListener() {
+//                @Override
+//                public void onPositionChange(int position) {
+//                    articleHeadViewHolder.bannerTitle.setText("" + articleData.getBanners().get(position).getBanner_url());
+//                }
+//            });
         }else if (viewType == HEAD1) {
             int pos = position - 1;
             ArticleViewHolder articleViewHolder = (ArticleViewHolder)holder;
@@ -176,8 +213,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class ArticleHeadViewHolder extends RecyclerView.ViewHolder{
 
+//        @BindView(R.id.article_banner)
+//        Banner articleBanner;
+
         @BindView(R.id.article_banner)
-        Banner articleBanner;
+        MZBannerView articleBanner;
         @BindView(R.id.banner_title_article)
         TextView bannerTitle;
         @BindView(R.id.article_icon_title)
@@ -219,6 +259,28 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
 
+    public static class BannerViewHolder implements MZViewHolder<String> {
+        private ImageView mImageView;
+
+        /**
+         * @param context
+         * @return
+         */
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.mz_banner_item,null);
+            mImageView = (ImageView) view.findViewById(R.id.mz_banner_img);
+            return view;
+        }
+
+        @Override
+        public void onBind(Context context, int position, String data) {
+            // 数据绑定
+//            mImageView.setImageResource(data);
+            ImageLoader.loadImageViewThumbnailwitherror(context,data,mImageView,R.drawable.default_cover);
+        }
+    }
 
 
 

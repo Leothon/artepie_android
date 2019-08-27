@@ -1,5 +1,6 @@
 package com.leothon.cogito.Mvp.View.Fragment.ArticleListPage;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 
 
@@ -43,6 +44,7 @@ import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.Banner;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.CommonDialog;
+import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -169,6 +171,14 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         swpArticle.setOnRefreshListener(this);
         articleAdapter = new ArticleAdapter(articleData,getMContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getMContext(),2,LinearLayout.VERTICAL,false);
+
+
+
+        articleRv.setLayoutManager(gridLayoutManager);
+        articleRv.setAdapter(articleAdapter);
+        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
+        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
+        articleRv.addItemDecoration(new SpaceItemDecoration(space,divider));
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -177,12 +187,15 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
                     return 1;
                 }else{
                     return 2;
+
                 }
             }
         });
 
-        articleRv.setLayoutManager(gridLayoutManager);
-        articleRv.setAdapter(articleAdapter);
+//        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+
+
+
 
         articleRv.addOnScrollListener(new loadMoreDataArticleListener(gridLayoutManager) {
             @Override
@@ -257,7 +270,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (gridLayoutManager != null){
 
-                    int lastVisibleItem = gridLayoutManager.findLastVisibleItemPosition();
+                    int lastVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
                     int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
 
                     if (controlVisible && scrollDistance > THRESHOLD_OFFSET){//手指上滑即Scroll向下滚动的时候，dy为正
@@ -399,5 +412,33 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+
+
+    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+        private int divider;
+
+        public SpaceItemDecoration(int space,int divider) {
+            this.space = space;
+            this.divider = divider;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+            if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                outRect.left = divider;
+                outRect.right = space;
+            }else {
+                outRect.left = space;
+                outRect.right = divider;
+            }
+        }
+
+
     }
 }

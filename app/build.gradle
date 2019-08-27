@@ -17,8 +17,8 @@ android {
         applicationId "com.leothon.cogito"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 10
-        versionName "2.3.4"
+        versionCode 11
+        versionName "3.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -137,4 +137,6 @@ dependencies {
 
     implementation 'cn.jiguang.sdk:jmessage:2.9.0'  // 此处以JMessage 2.9.0 版本为例。
     implementation 'cn.jiguang.sdk:jcore:2.0.0'  // 此处以JCore 2.0.0 版本为例。
+
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 }

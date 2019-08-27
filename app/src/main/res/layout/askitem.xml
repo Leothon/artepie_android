@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,10 +9,11 @@
     <View
         android:id="@+id/divider_ask"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:background="@color/dividerColor"/>
+        android:layout_height="@dimen/_15dp"
+        android:background="@color/dividerColor"
+        android:layout_below="@+id/content_ask_ll"/>
 <LinearLayout
-    android:layout_below="@+id/divider_ask"
+    android:id="@+id/content_ask_ll"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,7 +21,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/user_icon_ask"
             android:layout_width="36dp"
@@ -73,7 +74,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
         <TextView
             android:id="@+id/content_ask"
             android:layout_width="match_parent"
@@ -152,15 +154,14 @@
             <com.leothon.cogito.View.EPieVideoPlayer
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:id="@+id/video_item_player"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"/>
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dividerColor"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="35dp">
@@ -219,7 +220,7 @@
             android:tint="@color/fontColor"
             android:layout_alignParentEnd="true"
             android:padding="3dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="20dp"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 </LinearLayout>

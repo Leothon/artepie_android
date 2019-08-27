@@ -414,7 +414,7 @@ public class IndividualActivity extends BaseActivity {
                         intent.putExtra("targetAppKey", JMessageClient.getMyInfo().getAppKey());
                         intent.putExtra("targetId", otherUser.getUser_id());
                         IndividualActivity.this.startActivity(intent);
-
+                        dialog.dismiss();
                     }
 
                     @Override

@@ -40,5 +40,6 @@ public abstract class loadMoreDataArticleListener extends RecyclerView.OnScrollL
 
     }
 
+
     public abstract void onLoadMoreArticleData(int currentPage);
 }
