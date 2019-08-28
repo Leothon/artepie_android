@@ -54,6 +54,9 @@ public class SearchArticleFragment extends BaseFragment {
     protected void initView() {
 
         initAdapter();
+        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
+        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
+        rvSearchArticle.addItemDecoration(new SpaceItemDecoration(space,divider));
 
     }
 
@@ -69,9 +72,7 @@ public class SearchArticleFragment extends BaseFragment {
         rvSearchArticle.setLayoutManager(gridLayoutManager);
         rvSearchArticle.setAdapter(articleHisAdapter);
 
-        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
-        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
-        rvSearchArticle.addItemDecoration(new SpaceItemDecoration(space,divider));
+
         articleHisAdapter.setOnItemLongClickListener(new BaseAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClickListener(View v, int position) {

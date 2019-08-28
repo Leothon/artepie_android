@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/home_class_detail_level"
                 android:text="9.7"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:textSize="@dimen/appBarSize"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥ 9.9"
-                android:textColor="@color/orange"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="@dimen/appBarSize" />
             <RelativeLayout
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="作者名字"
                     android:textSize="@dimen/appBarSize"
-                    android:textColor="@color/askImg"/>
+                    android:textColor="@color/fontColor"/>
                 <TextView
                     android:id="@+id/home_class_detail_time"
                     android:layout_below="@+id/home_class_detail_author"
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:text="45分钟"
                     android:textSize="@dimen/contentSize"
-                    android:textColor="@color/fontColor"
+                    android:textColor="@color/lowfontColor"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"/>
             </RelativeLayout>
@@ -152,7 +152,7 @@
                     android:text="课程简介"
                     android:textSize="@dimen/littleTitle"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/fontColor"
                     android:padding="10dp"
                     android:layout_centerVertical="true"/>
 
@@ -174,7 +174,7 @@
                 android:paddingBottom="15dp"
                 android:text="@string/content"
                 android:textSize="@dimen/contentSize"
-                android:textColor="@color/fontColor"/>
+                android:textColor="@color/lowfontColor"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
@@ -187,7 +187,7 @@
                 android:text="讲师简介"
                 android:textSize="@dimen/littleTitle"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/fontColor"
                 android:padding="10dp"/>
 
 
@@ -200,7 +200,7 @@
                 android:paddingBottom="15dp"
                 android:text="讲师简介"
                 android:textSize="@dimen/contentSize"
-                android:textColor="@color/fontColor"/>
+                android:textColor="@color/lowfontColor"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

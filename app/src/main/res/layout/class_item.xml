@@ -1,112 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:background="@color/white">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/dividerColor"
-        />
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ripple"
-        android:paddingEnd="8dp">
+        android:layout_height="match_parent">
+
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/class_img"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
-            android:src="@drawable/defalutimg"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_centerVertical="true"
-            android:foreground="@drawable/gradient_background"/>
+            app:riv_corner_radius="15dp"
+            android:layout_margin="10dp"/>
+
         <RelativeLayout
-            android:layout_toRightOf="@id/class_img"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@+id/price_tag"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
-
-
-
-
-            <TextView
-                android:layout_centerVertical="true"
-                android:id="@+id/class_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="声乐的出现过程"
-                android:maxLines="2"
-                android:textSize="@dimen/tipsSize"
-                android:layout_margin="3dp"
-                android:ellipsize="end"
-                android:textColor="@color/fontColor"/>
-
+            android:id="@+id/class_all_info"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical">
             <TextView
                 android:id="@+id/class_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="声乐的历史"
+                android:text="这个地方显示视频的标题"
                 android:textSize="@dimen/littleTitle"
+                android:textStyle="bold"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:layout_alignParentTop="true"/>
+                android:textColor="@color/black" />
+
+
             <TextView
+                android:id="@+id/class_description"
+                android:layout_below="@+id/class_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简介"
+                android:maxLines="2"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:textSize="@dimen/tipsSize"
+                android:textColor="@color/fontColor"/>
+
+
+            <TextView
+                android:id="@+id/class_serialize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/class_description"
+                android:background="@drawable/serializebtn"
+                android:text="已完结"
+                android:textSize="@dimen/littleSize"
+                android:textColor="@color/white"
+                android:padding="3dp"
+                />
+
+            <TextView
+                android:layout_below="@+id/class_serialize"
+                android:layout_marginTop="10dp"
                 android:id="@+id/class_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0人次已观看"
                 android:textSize="@dimen/tipsSize"
                 android:textColor="@color/fontColor"
-                android:layout_alignParentBottom="true"
                 />
-        </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/price_tag"
-            android:layout_alignParentEnd="true"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="3dp"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="10dp">
+
             <TextView
+                android:layout_below="@+id/class_serialize"
+                android:layout_marginTop="10dp"
                 android:id="@+id/class_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="免费"
-                android:textSize="@dimen/contentSize"
-                android:textColor="@color/white"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
-        </android.support.v7.widget.CardView>
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/littleTitle"
+                android:textColor="@color/colorPrimary"
+                />
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/class_info_other"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="10dp"/>
-    </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/class_authorize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/authorize_btn"
+        android:text="官方课程"
+        android:textColor="@color/white"
+        android:textSize="@dimen/tipsSize"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+
 
     <View
+        android:id="@+id/class_bottom_line"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:background="@color/dividerColor"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
 
-</LinearLayout>
+</RelativeLayout>
+
+
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:orientation="vertical"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content">-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="5dp"-->
+<!--        android:background="@color/dividerColor"-->
+<!--        />-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/ripple"-->
+<!--        android:paddingEnd="8dp">-->
+<!--        <com.makeramen.roundedimageview.RoundedImageView-->
+<!--            android:id="@+id/class_img"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="90dp"-->
+<!--            android:src="@drawable/defalutimg"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:foreground="@drawable/gradient_background"/>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_toRightOf="@id/class_img"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_toLeftOf="@+id/price_tag"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:paddingTop="8dp"-->
+<!--            android:paddingBottom="8dp">-->
+
+
+
+
+<!--            <TextView-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:id="@+id/class_description"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="声乐的出现过程"-->
+<!--                android:maxLines="2"-->
+<!--                android:textSize="@dimen/tipsSize"-->
+<!--                android:layout_margin="3dp"-->
+<!--                android:ellipsize="end"-->
+<!--                android:textColor="@color/fontColor"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/class_title"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="声乐的历史"-->
+<!--                android:textSize="@dimen/littleTitle"-->
+<!--                android:maxLines="1"-->
+<!--                android:ellipsize="end"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_alignParentTop="true"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/class_count"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="0人次已观看"-->
+<!--                android:textSize="@dimen/tipsSize"-->
+<!--                android:textColor="@color/fontColor"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                />-->
+<!--        </RelativeLayout>-->
+
+<!--        <android.support.v7.widget.CardView-->
+<!--            android:id="@+id/price_tag"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:visibility="visible"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cardBackgroundColor="@color/colorPrimary"-->
+<!--            app:cardCornerRadius="3dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_marginEnd="10dp">-->
+<!--            <TextView-->
+<!--                android:id="@+id/class_price"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="免费"-->
+<!--                android:textSize="@dimen/contentSize"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingRight="20dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"/>-->
+<!--        </android.support.v7.widget.CardView>-->
+
+<!--        <include-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            layout="@layout/class_info_other"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:layout_marginEnd="10dp"/>-->
+<!--    </RelativeLayout>-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="3dp"-->
+<!--        android:background="@color/dividerColor"-->
+<!--        />-->
+
+<!--</LinearLayout>-->

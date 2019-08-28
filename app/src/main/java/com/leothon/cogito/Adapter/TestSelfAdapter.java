@@ -111,24 +111,41 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 classItemHolder.serialize.setText(" 已完结 ");
             }
 
-            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00") && !typeClass.getTypeClass().get(realposition).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
 
-                        if (isLogin){
-                            loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
-                        }else {
-                            CommonUtils.loadinglogin(context);
-                        }
-
-                    }else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
-                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
-                    }
+            if (typeClass.getTypeClass().size() == 1){
+                classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.gradient_all));
+                classItemHolder.bottomLine.setVisibility(View.GONE);
+            }else {
+                if (realposition == 0){
+                    classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.class_item_bg_top));
+                    classItemHolder.bottomLine.setVisibility(View.VISIBLE);
+                }else if (realposition == typeClass.getTypeClass().size() - 1){
+                    classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.class_item_bg_bottom));
+                    classItemHolder.bottomLine.setVisibility(View.GONE);
+                }else {
+                    classItemHolder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
+                    classItemHolder.bottomLine.setVisibility(View.VISIBLE);
                 }
-            });
+            }
+
+//            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (!typeClass.getTypeClass().get(realposition).isIsbuy() && !typeClass.getTypeClass().get(realposition).getSelectprice().equals("0.00") && !typeClass.getTypeClass().get(realposition).getSelectauthorid().equals(tokenUtils.ValidToken(sharedPreferencesUtils.getParams("token","").toString()).getUid())){
+//
+//                        if (isLogin){
+//                            loadPayDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+//                        }else {
+//                            CommonUtils.loadinglogin(context);
+//                        }
+//
+//                    }else {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
+//                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+//                    }
+//                }
+//            });
             classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -139,7 +156,14 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         bundle.putString("classId",typeClass.getTypeClass().get(realposition).getSelectId());
                         IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
                     }else {
-                        loadDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+
+                        if (isLogin){
+                            loadDialog(typeClass.getTypeClass().get(realposition).getSelectId());
+                        }else {
+                            CommonUtils.loadinglogin(context);
+                        }
+
+
                     }
 
                 }
@@ -270,10 +294,12 @@ public class TestSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView classPrice;
         @BindView(R.id.class_count)
         TextView classCount;
-        @BindView(R.id.serialize)
+        @BindView(R.id.class_serialize)
         TextView serialize;
-        @BindView(R.id.authorize)
+        @BindView(R.id.class_authorize)
         TextView authorize;
+        @BindView(R.id.class_bottom_line)
+        View bottomLine;
         public ClassItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

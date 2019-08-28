@@ -163,6 +163,10 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         articleListPresenter.loadArticleData(fragmentsharedPreferencesUtils.getParams("token","").toString());
         swpArticle.setRefreshing(true);
         animationHide();
+
+        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
+        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
+        articleRv.addItemDecoration(new SpaceItemDecoration(space,divider));
     }
 
     private void initAdapter(){
@@ -176,9 +180,7 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
 
         articleRv.setLayoutManager(gridLayoutManager);
         articleRv.setAdapter(articleAdapter);
-        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
-        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
-        articleRv.addItemDecoration(new SpaceItemDecoration(space,divider));
+
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -429,14 +431,18 @@ public class ArticleListFragment extends BaseFragment implements SwipeRefreshLay
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-            //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
-            if (parent.getChildLayoutPosition(view) % 2 == 0) {
-                outRect.left = divider;
-                outRect.right = space;
-            }else {
-                outRect.left = space;
-                outRect.right = divider;
+
+            if (parent.getChildLayoutPosition(view) != 0){
+                //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+                if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                    outRect.left = divider;
+                    outRect.right = space;
+                }else {
+                    outRect.left = space;
+                    outRect.right = divider;
+                }
             }
+
         }
 
 

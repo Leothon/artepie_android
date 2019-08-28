@@ -64,7 +64,9 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
         swpArticleHis.setRefreshing(true);
         articleHisPresenter.getArticleHisData(bundle.getString("userId"));
 
-
+        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
+        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
+        rvArticleHis.addItemDecoration(new SpaceItemDecoration(space,divider));
 
     }
 
@@ -86,9 +88,7 @@ public class ArticleHisActivity extends BaseActivity implements ArticleHisContra
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2, LinearLayout.VERTICAL,false);
         rvArticleHis.setLayoutManager(gridLayoutManager);
         rvArticleHis.setAdapter(articleHisAdapter);
-        int space = getResources().getDimensionPixelSize(R.dimen._15dp);
-        int divider = getResources().getDimensionPixelOffset(R.dimen._5dp);
-        rvArticleHis.addItemDecoration(new SpaceItemDecoration(space,divider));
+
         rvArticleHis.addOnScrollListener(new loadMoreDataArticleListener(gridLayoutManager) {
             @Override
             public void onLoadMoreArticleData(int currentPage) {

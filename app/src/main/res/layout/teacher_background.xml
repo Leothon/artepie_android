@@ -7,7 +7,8 @@
     android:orientation="vertical">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="160dp"
+        android:background="@color/white">
 
         <com.leothon.cogito.View.ArcImageView
             android:layout_width="match_parent"

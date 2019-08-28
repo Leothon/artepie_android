@@ -8,6 +8,7 @@
     <color name="white">#ffffff</color>
     <color name="lowwhite">#f1f1f1</color>
     <color name="fontColor">#333333</color>
+    <color name="lowfontColor">#666666</color>
     <color name="contentColor">#d2d2d2</color>
     <color name="tintColor">#a7a7a7</color>
     <color name="black">#000000</color>

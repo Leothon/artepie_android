@@ -56,6 +56,10 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    /**
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         int viewType = getItemViewType(position);
@@ -93,27 +97,44 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 classItemHolder.serialize.setText(" 已完结 ");
             }
 
-            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+//            classItemHolder.classPrice.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    if (!teaClass.getTeaClassses().get(realposition).isIsbuy() && !teaClass.getTeaClassses().get(realposition).getSelectprice().equals("0.00")){
+//
+//                        if (isLogin){
+//                            loadPayDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
+//                        }else {
+//                            CommonUtils.loadinglogin(context);
+//                        }
+//
+//                    }else {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("classId",teaClass.getTeaClassses().get(realposition).getSelectId());
+//                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
+//                    }
+//
+//
+//                }
+//            });
 
-                    if (!teaClass.getTeaClassses().get(realposition).isIsbuy() && !teaClass.getTeaClassses().get(realposition).getSelectprice().equals("0.00")){
-
-                        if (isLogin){
-                            loadPayDialog(teaClass.getTeaClassses().get(realposition).getSelectId());
-                        }else {
-                            CommonUtils.loadinglogin(context);
-                        }
-
-                    }else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("classId",teaClass.getTeaClassses().get(realposition).getSelectId());
-                        IntentUtils.getInstence().intent(context, SelectClassActivity.class,bundle);
-                    }
-
-
+            if (teaClass.getTeaClassses().size() == 1){
+                classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.gradient_all));
+                classItemHolder.bottomLine.setVisibility(View.GONE);
+            }else {
+                if (realposition == 0){
+                    classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.class_item_bg_top));
+                    classItemHolder.bottomLine.setVisibility(View.VISIBLE);
+                }else if (realposition == teaClass.getTeaClassses().size() - 1){
+                    classItemHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.class_item_bg_bottom));
+                    classItemHolder.bottomLine.setVisibility(View.GONE);
+                }else {
+                    classItemHolder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
+                    classItemHolder.bottomLine.setVisibility(View.VISIBLE);
                 }
-            });
+            }
+
             classItemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -256,10 +277,12 @@ public class TeacherSelfAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView classPrice;
         @BindView(R.id.class_count)
         TextView classCount;
-        @BindView(R.id.serialize)
+        @BindView(R.id.class_serialize)
         TextView serialize;
-        @BindView(R.id.authorize)
+        @BindView(R.id.class_authorize)
         TextView authorize;
+        @BindView(R.id.class_bottom_line)
+        View bottomLine;
         public ClassItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

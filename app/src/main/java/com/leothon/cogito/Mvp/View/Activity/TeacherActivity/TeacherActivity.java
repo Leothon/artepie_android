@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.TeacherActivity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 
 import android.os.Bundle;
@@ -176,6 +177,29 @@ public class TeacherActivity extends BaseActivity implements SwipeRefreshLayout.
     @Override
     public void onRefresh() {
         teacherPresenter.loadTeaClass(activitysharedPreferencesUtils.getParams("token","").toString(),bundle.getString("teacherId"));
+    }
+
+    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+        private int length;
+
+        public SpaceItemDecoration(int space,int length) {
+            this.space = space;
+            this.length = length;
+
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+            if (parent.getChildLayoutPosition(view) == (length - 1)) {
+                outRect.bottom = space;
+            }
+        }
+
+
     }
 
 
