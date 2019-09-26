@@ -35,8 +35,14 @@
     <color name="rainbow_blue">#0000FF</color>
     <color name="rainbow_purple">#8B00FF</color>
 
-
+    <color name="card_tap">#FDEBCE</color>
+    <color name="card_tap_line">#FDFBFA</color>
+    <color name="card_text">#c3944c</color>
+    <color name="card_tap_to">#be9458</color>
     <color name="blue">#2196F3</color>
     <color name="dark_gold">#C29803</color>
     <color name="elegance_black">#1c1e21</color>
+
+    <color name="material_orange">#FF9800</color>
+    <color name="purple">#673AB7</color>
 </resources>

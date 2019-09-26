@@ -8,7 +8,7 @@ android {
         config {
             keyAlias 'key1'
             keyPassword 'hyq20071125'
-            storeFile file('D:/signal.jks')
+            storeFile file('D:\\signal.jks')
             storePassword 'hyq20071125'
         }
     }
@@ -17,8 +17,8 @@ android {
         applicationId "com.leothon.cogito"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 11
-        versionName "3.0.1"
+        versionCode 12
+        versionName "3.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -139,4 +139,7 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:2.0.0'  // 此处以JCore 2.0.0 版本为例。
 
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.zhy:base-adapter:2.0.1'
 }

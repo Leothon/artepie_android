@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/gradient_all"
+    android:layout_marginStart="@dimen/_15dp"
+    android:layout_marginEnd="@dimen/_15dp"
+    android:layout_marginTop="@dimen/_15dp">
+    <com.leothon.cogito.View.EPieVideoPlayer
+        android:id="@+id/custom_player"
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
+
+    </com.leothon.cogito.View.EPieVideoPlayer>
+
+    <TextView
+        android:id="@+id/custom_video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标题"
+        android:textSize="@dimen/littleTitle"
+        android:textColor="@color/fontColor"
+        android:padding="10dp"/>
+
+</LinearLayout>

@@ -8,7 +8,7 @@
         <com.leothon.cogito.View.Banner
             android:id="@+id/banner_home"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="220dp"
             Banner:points_position="CENTER">
 
         </com.leothon.cogito.View.Banner>

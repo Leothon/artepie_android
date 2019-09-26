@@ -1,18 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="15dp"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_all">
+    android:layout_marginStart="@dimen/_15dp"
+    android:layout_marginEnd="@dimen/_15dp"
+    android:layout_marginBottom="@dimen/_15dp"
+    android:layout_marginTop="10dp">
 
+    <RelativeLayout
+        android:id="@+id/tap_to_custom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/tap_back">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/tap_back_icon"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:tint="@color/white"/>
+
+
+        <ImageView
+            android:id="@+id/tap_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/tap_icon"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:layout_toRightOf="@+id/tap_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AIS商业音乐定制"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/card_tap_to"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:scaleType="centerCrop"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/tap_img"/>
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tap_to_custom"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:background="@drawable/gradient_all">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -209,4 +257,6 @@
 
 
 
-</LinearLayout>
+
+
+</RelativeLayout>

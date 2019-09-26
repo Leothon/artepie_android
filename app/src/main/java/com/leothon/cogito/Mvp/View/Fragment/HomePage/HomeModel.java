@@ -27,7 +27,7 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        listener.showInfo("出错，请重试");
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {
@@ -58,7 +58,7 @@ public class HomeModel implements HomeFragmentContract.IHomeModel {
                     public void doOnSubscribe(Disposable d) { }
                     @Override
                     public void doOnError(String errorMsg) {
-                        listener.showInfo(errorMsg);
+                        listener.showInfo("出错，请重试");
                     }
                     @Override
                     public void doOnNext(BaseResponse baseResponse) {

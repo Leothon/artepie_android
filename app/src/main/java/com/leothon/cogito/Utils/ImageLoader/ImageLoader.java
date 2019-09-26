@@ -92,6 +92,14 @@ public class ImageLoader {
         Glide.with(mContext).asDrawable().load(path).thumbnail(0.1f).apply(options).into(mImageView);
     }
 
+    public static void loadImageViewThumbnailSplashwitherror(Context mContext, String path, ImageView mImageView,int errorImageView) {
+
+        RequestOptions options = new RequestOptions();
+        options.error(errorImageView);
+        options.placeholder(R.drawable.splash_img);
+        Glide.with(mContext).asDrawable().load(path).thumbnail(0.1f).apply(options).into(mImageView);
+    }
+
     //设置缩略图支持
     public static void loadImageViewThumbnailwitherrorandbulr(Context mContext, String path, ImageView mImageView) {
 

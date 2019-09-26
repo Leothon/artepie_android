@@ -6,32 +6,63 @@
     android:layout_marginTop="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
+
+        <RelativeLayout
+            android:id="@+id/teacher_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tea_title"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="名师专栏"
+                    android:textColor="@color/fontColor"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/appBarSize"
+                    android:layout_gravity="center|top"
+                    android:paddingStart="15dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_below="@+id/tea_title"
+                    android:id="@+id/teacher_rv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+
+        </RelativeLayout>
+
+
         <!--<View-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="5dp"-->
-            <!--android:background="@color/dividerColor"/>-->
-        <TextView
-            android:id="@+id/tea_title"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="名师专栏"
-            android:textColor="@color/fontColor"
-            android:textStyle="bold"
-            android:textSize="@dimen/appBarSize"
-            android:layout_gravity="center|top"
-            android:paddingStart="15dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
-        <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/tea_title"
-            android:id="@+id/teacher_rv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp">
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/dividerColor"-->
+            <!--android:layout_above="@+id/tap_to_custom"/>-->
+        <!--<com.makeramen.roundedimageview.RoundedImageView-->
+            <!--android:id="@+id/tap_to_custom"-->
+            <!--android:layout_below="@+id/teacher_rl"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/default_cover"-->
+            <!--app:riv_corner_radius="8dp"-->
+            <!--android:layout_marginStart="30dp"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginTop="10dp"/>-->
 
-        </android.support.v7.widget.RecyclerView>
+
+
+
 
 </RelativeLayout>

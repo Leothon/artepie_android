@@ -401,7 +401,7 @@ public class IndividualActivity extends BaseActivity {
 
 
 
-        dialog.setMessage("私信目前为实验性功能,若出现问题,请重新登录或者清楚本APP所有数据并登录")
+        dialog.setMessage("私信目前为实验性功能,若出现问题,请重新登录或者清除APP所有数据并登录")
                 .setTitle("提示")
                 .setSingle(false)
                 .setNegtive("取消")

@@ -8,6 +8,7 @@ import com.leothon.cogito.Bean.AuthInfo;
 import com.leothon.cogito.Bean.Bill;
 import com.leothon.cogito.Bean.ClassDetailList;
 import com.leothon.cogito.Bean.Comment;
+import com.leothon.cogito.Bean.CustomShow;
 import com.leothon.cogito.Bean.FeedbackInfo;
 import com.leothon.cogito.Bean.NoticeInfo;
 import com.leothon.cogito.Bean.OrderHis;
@@ -26,6 +27,7 @@ import com.leothon.cogito.DTO.QAData;
 import com.leothon.cogito.DTO.QADataDetail;
 import com.leothon.cogito.DTO.SearchResult;
 import com.leothon.cogito.DTO.SendQAData;
+import com.leothon.cogito.DTO.SplashInfo;
 import com.leothon.cogito.DTO.TeaClass;
 import com.leothon.cogito.DTO.TypeClass;
 import com.leothon.cogito.DTO.Update;
@@ -526,6 +528,23 @@ public interface HttpService {
 
 
     /**
+     * 获取定制化样例
+     * @param currentPage
+     * @return
+     */
+    @GET("getcustomshow")
+    Observable<BaseResponse<ArrayList<CustomShow>>> getCustomShow(@Query("currentpage") int currentPage);
+
+
+    /**
+     * 上传定制化信息
+     * @param token
+     * @param info
+     * @return
+     */
+    @POST("uploadcustominfo")
+    Observable<BaseResponse<String>> uploadCustomInfo(@Query("token") String token,@Query("info") String info);
+    /**
      * 设置提现密码
      * @param token
      * @param psd
@@ -576,6 +595,15 @@ public interface HttpService {
      */
     @GET("alipaynotifyend")
     Observable<BaseResponse<String>> alipayEndNotify(@Query("orderinfo") String orderInfo);
+
+
+    /**
+     * 获取封面图信息
+     * @param type
+     * @return
+     */
+    @GET("getsplash")
+    Observable<BaseResponse<SplashInfo>> getSplash(@Query("type") String type);
 
     /**
      * 创建订单

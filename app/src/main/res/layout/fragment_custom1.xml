@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Mvp.View.Activity.CustomActivity.CustomFragment.Custom1Fragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/enterprise_bg"
+            android:layout_marginTop="45dp"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/enterpriseicon"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加企业信息"
+                    android:textSize="@dimen/largeTitle"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:padding="15dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细信息便于我们提供更好的定制业务"
+                    android:textSize="@dimen/littleTitle"
+                    android:textColor="@color/white"
+                    android:paddingStart="@dimen/_15dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <TextView
+                android:id="@+id/enterprise_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="企业全称"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edit_enterprise_name"
+                android:layout_below="@+id/enterprise_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_hideUnderline="true"
+                android:hint="填写企业全称"
+                android:textSize="@dimen/contentSize"/>
+
+            <View
+                android:layout_below="@+id/edit_enterprise_name"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@color/dividerColor"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <TextView
+                android:id="@+id/enterprise_address_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="企业所在地"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"/>
+
+            <RelativeLayout
+                android:id="@+id/choose_enterprise_address"
+                android:layout_below="@+id/enterprise_address_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+                <TextView
+                    android:id="@+id/show_enterprise_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择所在地"
+                    android:textSize="@dimen/contentSize"
+                    android:textColor="@color/contentColor"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/baseline_keyboard_arrow_right_black_36"
+                    android:layout_alignParentEnd="true"
+                    android:tint="@color/contentColor" />
+            </RelativeLayout>
+            <View
+                android:layout_below="@+id/choose_enterprise_address"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@color/dividerColor"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <TextView
+                android:id="@+id/enterprise_industry_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="从属行业"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"/>
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edit_enterprise_industry"
+                android:layout_below="@+id/enterprise_industry_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_hideUnderline="true"
+                android:hint="填写企业从属行业"
+                android:textSize="@dimen/contentSize"/>
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/choose_enterprise_industry"-->
+                <!--android:layout_below="@+id/enterprise_industry_title"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingTop="8dp"-->
+                <!--android:paddingBottom="8dp">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/show_enterprise_industry"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="选择企业从属的行业"-->
+                    <!--android:textSize="@dimen/contentSize"-->
+                    <!--android:textColor="@color/contentColor"-->
+                    <!--android:layout_centerVertical="true"/>-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="24dp"-->
+                    <!--android:layout_height="24dp"-->
+                    <!--android:src="@drawable/baseline_keyboard_arrow_right_black_36"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:tint="@color/contentColor" />-->
+            <!--</RelativeLayout>-->
+            <View
+                android:layout_below="@+id/edit_enterprise_industry"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@color/dividerColor"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <TextView
+                android:id="@+id/enterprise_work_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主营业务"
+                android:textSize="@dimen/contentSize"
+                android:textColor="@color/fontColor"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edit_enterprise_work"
+                android:layout_below="@+id/enterprise_work_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_hideUnderline="true"
+                android:hint="填写企业主营的业务"
+                android:textSize="@dimen/contentSize"/>
+
+            <View
+                android:layout_below="@+id/edit_enterprise_work"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@color/dividerColor"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="企业规模"
+            android:textSize="@dimen/contentSize"
+            android:textColor="@color/fontColor"
+            android:layout_margin="@dimen/_15dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/enterprise_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

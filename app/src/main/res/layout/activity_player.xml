@@ -85,75 +85,144 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
+
+
             <LinearLayout
                 android:id="@+id/content_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:background="@drawable/ripple"
-                android:clickable="true"
-                android:padding="3dp">
+                android:clickable="true">
+                <TextView
+                    android:id="@+id/video_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="艺派课程"
+                    android:textSize="@dimen/appBarSize"
+                    android:layout_gravity="top"
+                    android:layout_margin="8dp"
+                    android:textColor="@color/fontColor"/>
+
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/video_author_icon"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginTop="3dp"
                         android:scaleType="centerCrop"
                         app:riv_oval="true"
                         android:src="@drawable/defaulticon" />
 
                     <TextView
+                        android:layout_toRightOf="@+id/video_author_icon"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
                         android:id="@+id/video_author_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:text="艺派"
-                        android:textSize="@dimen/tipsSize"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="3dp"
-                        android:layout_below="@+id/video_author_icon"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:padding="2dp">
-                    <TextView
-                        android:id="@+id/video_title"
+                        android:textSize="@dimen/littleTitle"
+                        android:textColor="@color/fontColor" />
+
+
+                    <RelativeLayout
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="艺派课程"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/littleTitle"
-                        android:layout_gravity="top"
-                        android:layout_marginTop="3dp"
-                        android:textColor="@color/black"/>
+                        android:visibility="gone">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/baseline_favorite_black_18"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/fontColor"/>
+                        <TextView
+                            android:id="@+id/fav_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/dividerColor"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        android:id="@+id/des_text_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="课程简介"
+                        android:textStyle="bold"
+                        android:textColor="@color/fontColor"
+                        android:textSize="@dimen/littleTitle"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/dividerColor"
+                        android:layout_marginTop="8dp"/>
+                    <TextView
+                        android:layout_below="@+id/des_text_player"
                         android:id="@+id/video_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="艺派课程"
+                        android:textColor="@color/fontColor"
                         android:textSize="@dimen/contentSize"
                         android:layout_gravity="center|start"
-                        android:layout_below="@+id/video_title"
-                        android:layout_marginTop="2dp"/>
-                </RelativeLayout>
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="2dp"
-                        android:layout_gravity="top">
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/dividerColor"/>
+
+                <!--<FrameLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="2dp"-->
+                        <!--android:layout_gravity="top">-->
+                        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_margin="3dp">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:srcCompat="@drawable/baseline_remove_red_eye_black_18"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:tint="@color/fontColor"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_centerVertical="true"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:id="@+id/view_count"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:text="0"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_alignParentEnd="true"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
                         <!--<RelativeLayout-->
                             <!--android:layout_width="match_parent"-->
                             <!--android:layout_weight="1"-->
@@ -162,49 +231,53 @@
                             <!--<ImageView-->
                                 <!--android:layout_width="wrap_content"-->
                                 <!--android:layout_height="wrap_content"-->
-                                <!--app:srcCompat="@drawable/baseline_remove_red_eye_black_18"-->
-                                <!--android:tint="@color/fontColor"-->
-                                <!--android:layout_centerVertical="true"/>-->
+                                <!--app:srcCompat="@drawable/baseline_favorite_black_18"-->
+                                <!--android:layout_centerVertical="true"-->
+                                <!--android:tint="@color/fontColor"/>-->
                             <!--<TextView-->
-                                <!--android:id="@+id/view_count"-->
+                                <!--android:id="@+id/fav_count"-->
                                 <!--android:layout_width="wrap_content"-->
                                 <!--android:layout_height="wrap_content"-->
                                 <!--android:text="0"-->
                                 <!--android:layout_centerVertical="true"-->
                                 <!--android:layout_alignParentEnd="true"/>-->
                         <!--</RelativeLayout>-->
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:layout_height="0dp"
-                            android:layout_margin="3dp">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/baseline_favorite_black_18"
-                                android:layout_centerVertical="true"
-                                android:tint="@color/fontColor"/>
-                            <TextView
-                                android:id="@+id/fav_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:layout_centerVertical="true"
-                                android:layout_alignParentEnd="true"/>
-                        </RelativeLayout>
-                    </LinearLayout>
+                    <!--</LinearLayout>-->
 
 
-                </FrameLayout>
+                <!--</FrameLayout>-->
 
             </LinearLayout>
+
+
+
+
 
             <RelativeLayout
                 android:id="@+id/choose_class"
                 android:layout_below="@+id/content_video"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/choose_text_player"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择课程"
+                    android:textStyle="bold"
+                    android:textColor="@color/fontColor"
+                    android:textSize="@dimen/littleTitle"
+                    android:padding="10dp"/>
+                <View
+                    android:layout_below="@+id/choose_text_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dividerColor"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
                 <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/choose_text_player"
                     android:id="@+id/rv_choose_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

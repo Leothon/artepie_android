@@ -2,6 +2,7 @@ package com.leothon.cogito.Mvp;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,10 +25,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -461,7 +464,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-
     public void onEvent(NotificationClickEvent event){
 
 
@@ -471,6 +473,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.putExtra("targetId", event.getMessage().getTargetID());
         this.startActivity(intent);
     }
+
 
 
 }

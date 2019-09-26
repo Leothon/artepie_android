@@ -7,11 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothon.cogito.Bean.SelectClass;
+import com.leothon.cogito.Mvp.View.Activity.CustomActivity.CustomActivity;
+import com.leothon.cogito.Mvp.View.Activity.CustomShowActivity.CustomShowActivity;
 import com.leothon.cogito.Mvp.View.Activity.SelectClassActivity.SelectClassActivity;
 import com.leothon.cogito.Mvp.View.Activity.TestActivity.TestActivity;
 import com.leothon.cogito.R;
@@ -95,6 +98,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }else if(viewType == HEAD2) {
             testHolder testholder = (testHolder) holder;
 
+
+            testholder.tapToCustom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    IntentUtils.getInstence().intent(context, CustomShowActivity.class);
+                }
+            });
             testholder.test1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -358,6 +368,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView test_title8;
 
 
+        @BindView(R.id.tap_to_custom)
+        RelativeLayout tapToCustom;
 
         public testHolder(View itemView){
             super(itemView);
