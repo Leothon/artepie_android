@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.leothon.cogito.Mvp.BaseActivity;
@@ -17,8 +19,11 @@ import butterknife.BindView;
  */
 public class BannerActivity extends BaseActivity {
 
-    @BindView(R.id.content_banner)
-    ImageView contentBanner;
+//    @BindView(R.id.content_banner)
+//    ImageView contentBanner;
+
+    @BindView(R.id.web)
+    WebView webView;
     @BindView(R.id.banner_title)
     CardView bannerTitle;
 
@@ -53,7 +58,15 @@ public class BannerActivity extends BaseActivity {
     }
 
     public void loadImg(String url){
-        ImageLoader.loadImageViewThumbnailwitherror(this,url,contentBanner,R.drawable.defalutimg);
+
+        webView.getSettings().setSupportZoom(true);//缩放
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);//不显示控制器
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.loadUrl(url);
+//        ImageLoader.loadImageViewThumbnailwitherror(this,url,contentBanner,R.drawable.defalutimg);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.leothon.cogito.Mvp.View.Activity.SplashActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,7 @@ public class SplashActivity extends AppCompatActivity {
     TextView skipToHost;
     TokenValid tokenValid = null;
 
+    private MyCountDownTimer mCountDownTimer;
     boolean login;
 
     private SharedPreferencesUtils sharedPreferencesUtilsSettings;
@@ -126,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                             login = false;
                         }
 
-                        Handler handler = new Handler();
+                        Handler mHandler = new Handler();
                         Runnable runnable = new Runnable() {
                             @Override
                             public void run() {
@@ -137,13 +139,16 @@ public class SplashActivity extends AppCompatActivity {
                                 }
                             }
                         };
-                        handler.postDelayed(runnable,2500);
 
+                        skipToHost.setText("5s 跳过");
+                        mCountDownTimer = new MyCountDownTimer(5000, 1000);
+                        mCountDownTimer.start();
+                        mHandler.postDelayed(runnable, 5000);
                         skipToHost.setVisibility(View.VISIBLE);
                         skipToHost.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                handler.removeCallbacks(runnable);
+                                mHandler.removeCallbacks(runnable);
                                 if (login){
 
                                     toMainPage();
@@ -173,5 +178,31 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+        super.onDestroy();
+    }
 
+
+
+    class MyCountDownTimer extends CountDownTimer {
+
+
+        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+
+        public void onFinish() {
+            skipToHost.setText("跳过");
+        }
+
+        public void onTick(long millisUntilFinished) {
+            skipToHost.setText( millisUntilFinished / 1000 + "s 跳过");
+        }
+
+    }
 }

@@ -13,16 +13,23 @@
         layout="@layout/toolbar"/>
 
 
-    <com.leothon.cogito.View.ObserveScrollView
-        android:layout_below="@id/banner_title"
+    <WebView
+        android:layout_below="@+id/banner_title"
+        android:id="@+id/web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/content_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="center"/>
+        android:layout_height="match_parent" />
 
-    </com.leothon.cogito.View.ObserveScrollView>
+
+    <!--<com.leothon.cogito.View.ObserveScrollView-->
+        <!--android:layout_below="@id/banner_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/content_banner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="center"/>-->
+
+    <!--</com.leothon.cogito.View.ObserveScrollView>-->
 
 </RelativeLayout>
