@@ -53,12 +53,22 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/littleTitle"
                 android:text="张三丰" />
-            <TextView
+            <!--<TextView-->
+                <!--android:id="@+id/user_des_ask"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="佛教创始人"-->
+                <!--android:textSize=""/>-->
+            <com.leothon.cogito.View.LinearGradientTextView
                 android:id="@+id/user_des_ask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="佛教创始人"
-                android:textSize="@dimen/tipsSize"/>
+                android:text="给生活以艺术"
+                android:textSize="@dimen/tipsSize"
+                app:lineNumber="1"
+                app:showStyle="UNIDIRECTION"
+                app:showTime="110"
+                app:textColor="@color/fontColor"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/more_ask"

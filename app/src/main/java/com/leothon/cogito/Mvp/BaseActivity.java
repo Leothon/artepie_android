@@ -136,7 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
         initView();
         ParallaxBackLayout layout = ParallaxHelper.getParallaxBackLayout(this, true);
-        layout.setEdgeMode(ParallaxBackLayout.EDGE_MODE_DEFAULT);//全屏滑动
+        layout.setEdgeMode(ParallaxBackLayout.EDGE_MODE_DEFAULT);
 
     }
 

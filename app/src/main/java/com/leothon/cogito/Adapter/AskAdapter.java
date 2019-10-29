@@ -33,6 +33,7 @@ import com.leothon.cogito.Utils.SharedPreferencesUtils;
 import com.leothon.cogito.Utils.tokenUtils;
 import com.leothon.cogito.View.AuthView;
 import com.leothon.cogito.View.EPieVideoPlayer;
+import com.leothon.cogito.View.LinearGradientTextView;
 import com.leothon.cogito.View.MyToast;
 import com.leothon.cogito.Weight.MarqueeTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -64,11 +65,19 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     private String text;
 
     private SharedPreferencesUtils sharedPreferencesUtils;
+
+
     public addLikeOnClickListener addLikeOnClickListener;
+
+
+    public interface addLikeOnClickListener{
+        void addLikeClickListener(boolean isLike,String qaId);
+    }
 
     public void setOnClickaddLike(addLikeOnClickListener onClickMyTextView) {
         this.addLikeOnClickListener = onClickMyTextView;
     }
+
 
 
     public addShareOnClickListener addShareOnClickListener;
@@ -89,6 +98,9 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     public void setDeleteQaOnClickListener(DeleteQaOnClickListener deleteQaOnClickListener) {
         this.deleteQaOnClickListener = deleteQaOnClickListener;
     }
+
+
+
 
     private int HEAD0 = 0;
     private int HEAD1 = 1;
@@ -145,8 +157,10 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
                 }else {
                     askViewHolder.authMark.setVisibility(View.GONE);
                     askViewHolder.userDes.setText(ask.getUser_signal());
+                    askViewHolder.userDes.setGradient(false);
                 }
                 askViewHolder.userDes.setText("认证：" + ask.getUser_role().substring(1));
+                askViewHolder.userDes.setGradient(true);
 
             }else {
                 askViewHolder.authMark.setVisibility(View.GONE);
@@ -607,7 +621,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
         @BindView(R.id.user_name_ask)
         TextView userName;
         @BindView(R.id.user_des_ask)
-        TextView userDes;
+        LinearGradientTextView userDes;
         @BindView(R.id.content_ask)
         TextView contentAsk;
         @BindView(R.id.like_ask)
@@ -667,9 +681,7 @@ public class AskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> im
     }
 
 
-    public interface addLikeOnClickListener{
-        void addLikeClickListener(boolean isLike,String qaId);
-    }
+
 
 
     public interface addShareOnClickListener{

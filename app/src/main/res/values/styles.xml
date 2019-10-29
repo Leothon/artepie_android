@@ -118,6 +118,11 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="Theme.Player" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 
 
     <style name="NumberProgressBar_Twinkle_Night">

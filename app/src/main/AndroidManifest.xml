@@ -98,6 +98,7 @@
             android:screenOrientation="portrait" /> <!-- SDK 核心功能 -->
         <activity android:name=".Mvp.View.Activity.LoginActivity.LoginActivity" /> <!-- Required SDK 核心功能 -->
         <activity
+            android:theme="@style/Theme.Player"
             android:name=".Mvp.View.Activity.PlayerActivity.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" /> <!-- Required SDK 核心功能 -->

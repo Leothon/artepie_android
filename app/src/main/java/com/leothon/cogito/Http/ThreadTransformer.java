@@ -1,7 +1,6 @@
 package com.leothon.cogito.Http;
 
 
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -18,9 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 public class ThreadTransformer {
     /**
      * @param <T> 泛型
-     * @return
-     * 返回Observable
-     * */
+     * @return 返回Observable
+     */
     public static <T> ObservableTransformer<T, T> switchSchedulers() {
         return new ObservableTransformer<T, T>() {
             @Override

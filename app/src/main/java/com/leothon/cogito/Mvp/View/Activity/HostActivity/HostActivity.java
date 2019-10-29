@@ -889,7 +889,7 @@ public class HostActivity extends BaseActivity  {
                 //GSYVideoManager.instance().setNeedMute(true);
             } else {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                    // 判断间隔时间 大于2秒就退出应用
+                    // 判断间隔时间 小于2秒就退出应用
                     if ((System.currentTimeMillis() - exitTime) > 2000) {
 
                         MyToast.getInstance(this).show("再按一次退出艺派", Toast.LENGTH_SHORT);

@@ -547,6 +547,12 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
                 }
             }).build(videoPlayer);
 
+            videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PlayerActivity.super.onBackPressed();
+                }
+            });
 
             videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -583,7 +589,7 @@ public class PlayerActivity extends BaseActivity implements SwipeRefreshLayout.O
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                PlayerActivity.super.onBackPressed();
             }
         });
         orientationUtils = new OrientationUtils(this,videoPlayer);
